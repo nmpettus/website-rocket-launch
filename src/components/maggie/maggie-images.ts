@@ -76,6 +76,32 @@ export const maggie_images = [
     alt: "Maggie and friend sitting together on couch"
   },
 
+  // New uploaded images
+  {
+    src: "/lovable-uploads/3ee6ed53-27c6-4ce7-8a58-f7c581ddf74c.png",
+    alt: "Maggie with owner on patio"
+  },
+  {
+    src: "/lovable-uploads/4efc0bd1-bff2-4ab1-ba33-a834271fbde3.png",
+    alt: "Maggie and owner outdoor portrait"
+  },
+  {
+    src: "/lovable-uploads/e318e838-5b07-4cb8-bec7-25b2c12f9a63.png",
+    alt: "Maggie sleeping on porch with blanket"
+  },
+  {
+    src: "/lovable-uploads/ac460d4d-151b-4493-9a48-554de2601886.png",
+    alt: "Maggie with owner in golf cart"
+  },
+  {
+    src: "/lovable-uploads/96a9a6da-13dd-4162-beb9-67cb4e143f49.png",
+    alt: "Maggie in pink sweater on pavement"
+  },
+  {
+    src: "/lovable-uploads/bc242c38-1cc0-426e-87be-66b4ae5ae9f8.png",
+    alt: "Maggie getting cuddles indoors"
+  },
+
 ];
 
 // Book/cartoon illustrations (for Maggie from Her Books)
