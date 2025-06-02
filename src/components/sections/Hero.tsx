@@ -1,41 +1,13 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { PartyPopper } from "lucide-react";
 
 const Hero = () => {
-  const scrollToLetterSection = () => {
-    const letterSection = document.getElementById('write-to-maggie');
-    if (letterSection) {
-      letterSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start' // Changed from 'center' to 'start' to prevent cutoff
-      });
-    } else {
-      // Fallback to activities section if specific element not found
-      document.getElementById('activities')?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section id="home" className="py-16 md:py-24 bg-gradient-to-r from-indigo-600 to-emerald-500 text-white">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="space-y-6 max-w-lg relative">
-            {/* Moved button to the very top of the container by using a larger negative top value */}
-            <div className="absolute -top-8 left-0 animate-bounce">
-              <Button 
-                className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300"
-                onClick={scrollToLetterSection}
-              >
-                <div className="flex items-center gap-2">
-                  <PartyPopper className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                  <span className="group-hover:underline">Send Maggie a Letter!</span>
-                </div>
-                <div className="absolute -top-2 -right-2 w-5 h-5 bg-pink-500 rounded-full animate-pulse"></div>
-              </Button>
-            </div>
-            
+          <div className="space-y-6 max-w-lg">
             <h1 className="text-4xl md:text-5xl font-bold font-canva leading-tight">
               Delightful Bible Stories <br />Narrated By Maggie
             </h1>
@@ -59,7 +31,6 @@ const Hero = () => {
             </div>
           </div>
           <div className="flex justify-center relative">
-            {/* Move the image up further by increasing the negative margin */}
             <img 
               src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" 
               alt="Maggie with books" 
