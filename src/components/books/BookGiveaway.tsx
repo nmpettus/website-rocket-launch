@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 
@@ -7,7 +6,7 @@ const BookGiveaway = () => {
     <div className="mt-16 bg-gradient-to-r from-amber-500 to-emerald-500 rounded-xl p-8 text-white">
       <div className="flex flex-col md:flex-row items-center">
         <div className="flex-1 md:pr-6">
-          <h3 className="text-2xl font-bold mb-4 font-['Comic_Neue']">Free Book Giveaway!</h3>
+          <h3 className="text-2xl font-bold mb-4 font-['Comic_Neue']">Help Give Maggie's Books to Others!</h3>
           <p className="mb-6">Through our GiveSendGo campaign, we're able to provide free books to children in need. Help us spread the joy of reading!</p>
           <Button 
             className="bg-white hover:bg-gray-100 text-indigo-600 font-bold rounded-full"
