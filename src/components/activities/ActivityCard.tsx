@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CardProps } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, Maximize2, Printer, ChevronDown, ChevronUp } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
@@ -26,7 +26,7 @@ interface ActivityCardProps {
   viewedActivities: string[];
   onView: (activityId: string) => void;
   onPrint: (imagePath: string) => void;
-  className?: CardProps["className"];
+  className?: string;
 }
 
 const ActivityCard: React.FC<ActivityCardProps> = ({ 
