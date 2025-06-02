@@ -1,12 +1,36 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React from "react";
+import Navigation from "@/components/Navigation";
+import Hero from "@/components/sections/Hero";
+import Books from "@/components/sections/Books";
+import MeetMaggie from "@/components/sections/MeetMaggie";
+import MaggieImagesSection from "@/components/sections/MaggieImagesSection";
+import Activities from "@/components/sections/Activities";
+import FutureProjects from "@/components/sections/FutureProjects";
+import Newsletter from "@/components/sections/NewsLetter";
+import Contact from "@/components/sections/Contact";
+import Footer from "@/components/sections/Footer";
+import BackToTopButton from "@/components/BackToTopButton";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="font-sans min-h-screen">
+      <Navigation />
+      <Hero />
+      <div id="books">
+        <Books />
       </div>
+      <MeetMaggie />
+      <MaggieImagesSection />
+      <div id="activities">
+        <Activities />
+      </div>
+      <FutureProjects />
+      <div id="newsletter">
+        <Newsletter />
+      </div>
+      <Contact />
+      <Footer />
+      <BackToTopButton />
     </div>
   );
 };
