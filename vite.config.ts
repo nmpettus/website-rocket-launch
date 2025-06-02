@@ -28,7 +28,4 @@ export default defineConfig(({ mode }) => ({
     sourcemap: false,
     minify: true,
   },
-  define: {
-    __WS_TOKEN__: JSON.stringify(""),
-  },
 }));
