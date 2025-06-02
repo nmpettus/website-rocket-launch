@@ -138,6 +138,24 @@ export const maggie_illustrations = [
   {
     src: "/illustrations/stars2.jpg",
     alt: "Maggie looking at stars"
+  },
+  
+  // New illustrations
+  {
+    src: "/lovable-uploads/0d625ec4-62bb-4472-a4db-e229fdb5047a.png",
+    alt: "Maggie with technology devices"
+  },
+  {
+    src: "/lovable-uploads/1bcf0c12-2e6c-4b18-828f-0570a7a19bf9.png",
+    alt: "Maggie learning with thought bubbles"
+  },
+  {
+    src: "/lovable-uploads/d00d299e-c0ab-4a09-b21b-b420928858df.png",
+    alt: "Maggie happy and playful"
+  },
+  {
+    src: "/lovable-uploads/2bb063a8-6edf-46ca-a3e5-cd04628b9c5f.png",
+    alt: "Maggie with a stick in mouth"
   }
  
   // ...add more book illustration objects here...
