@@ -29,6 +29,6 @@ export default defineConfig(({ mode }) => ({
     minify: true,
   },
   define: {
-    __WS_TOKEN__: JSON.stringify(process.env.WS_TOKEN || ""),
+    __WS_TOKEN__: JSON.stringify(""),
   },
 }));
