@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { PartyPopper, Send } from "lucide-react"
+import { Send } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -87,9 +87,6 @@ const LetterToMaggie = () => {
 
       <Card id="write-to-maggie" className="transition-all duration-300 hover:shadow-lg overflow-hidden scroll-mt-24">
         <CardHeader className="flex items-center bg-gradient-to-r from-purple-100 to-pink-100">
-          <div className="p-3 rounded-full bg-purple-200 mb-4">
-            <PartyPopper className="h-10 w-10 text-purple-600" />
-          </div>
           <CardTitle className="text-3xl font-['Comic_Neue'] text-center">Write to Maggie</CardTitle>
           <CardDescription className="text-lg text-center">
             Send a special letter to Maggie and she might write back!
@@ -181,4 +178,3 @@ const LetterToMaggie = () => {
 }
 
 export default LetterToMaggie
-
