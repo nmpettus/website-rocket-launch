@@ -33,7 +33,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center space-x-2">
             <img src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" alt="Maggie the dog logo" className="h-12 w-12 rounded-full object-cover" />
-            <span className="text-2xl font-bold text-indigo-600 font-['Comic_Neue']">Maggie's Books</span>
+            <span className="text-2xl font-bold text-indigo-600 font-comic">Books By Maggie</span>
           </div>
           <Button variant="ghost" onClick={onClose}>
             <X className="h-6 w-6" />
