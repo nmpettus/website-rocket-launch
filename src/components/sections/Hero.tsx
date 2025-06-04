@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { PartyPopper } from "lucide-react";
@@ -18,10 +17,10 @@ const Hero = () => {
   };
 
   return (
-    <section id="home" className="py-16 md:py-24 bg-gradient-to-r from-indigo-600 to-emerald-500 text-white">
+    <section id="home" className="pt-24 pb-16 md:py-24 bg-gradient-to-r from-indigo-600 to-emerald-500 text-white">
       <div className="container mx-auto px-6">
         {/* Mobile bouncing button - positioned at top for mobile */}
-        <div className="md:hidden flex justify-center mb-6">
+        <div className="md:hidden flex justify-center mb-8">
           <Button 
             className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300 animate-bounce"
             onClick={scrollToLetterSection}
