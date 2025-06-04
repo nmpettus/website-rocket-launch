@@ -93,9 +93,9 @@ const FutureProjects = () => {
               <Dialog>
                 <DialogTrigger className="relative group">
                   <img 
-                    src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" 
-                    alt="God's Miracle Cure for Cancer book cover placeholder" 
-                    className="w-full h-48 object-cover mb-4 cursor-pointer transition-all group-hover:opacity-90" 
+                    src="/lovable-uploads/ef212f53-b76f-4faf-a907-e22eefffaaac.png" 
+                    alt="God's Miracle Cure for Cancer book cover" 
+                    className="w-full h-48 object-contain mb-4 cursor-pointer transition-all group-hover:opacity-90" 
                   />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="bg-black bg-opacity-40 p-2 rounded-full">
@@ -106,8 +106,8 @@ const FutureProjects = () => {
                 <DialogContent className="max-w-2xl p-2">
                   <DialogTitle>God's Miracle Cure for Cancer</DialogTitle>
                   <img 
-                    src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" 
-                    alt="God's Miracle Cure for Cancer book cover placeholder" 
+                    src="/lovable-uploads/ef212f53-b76f-4faf-a907-e22eefffaaac.png" 
+                    alt="God's Miracle Cure for Cancer book cover" 
                     className="w-full object-contain max-h-[80vh]" 
                   />
                 </DialogContent>
