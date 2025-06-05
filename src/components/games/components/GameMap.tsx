@@ -39,7 +39,7 @@ const GameMap: React.FC<GameMapProps> = ({
         cellStyle += ' border-2 border-purple-500';
       }
       if (x === player.x && y === player.y) {
-        cellStyle += ' border-2 border-black';
+        cellStyle += ' border-2 border-black bg-white';
       }
       
       const adjacent = isAdjacent(x, y);
