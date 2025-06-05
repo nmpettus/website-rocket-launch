@@ -107,5 +107,96 @@ export const TREASURES = [
     verse: '"Let us run with perseverance the race marked out for us." (Hebrews 12:1)', 
     firstMention: 'First mentioned: "And let us not be weary in well doing: for in due season we shall reap, if we faint not." (Galatians 6:9)',
     emoji: '🏃‍♂️' 
+  },
+  // New treasures added
+  { 
+    trait: 'Obedience', 
+    verse: '"Children, obey your parents in the Lord, for this is right." (Ephesians 6:1)', 
+    firstMention: 'First mentioned: "And Noah did according unto all that the Lord commanded him." (Genesis 7:5)',
+    emoji: '🙇' 
+  },
+  { 
+    trait: 'Honesty', 
+    verse: '"The Lord detests lying lips, but he delights in people who are trustworthy." (Proverbs 12:22)', 
+    firstMention: 'First mentioned: "Thou shalt not steal." (Exodus 20:15)',
+    emoji: '⚖️' 
+  },
+  { 
+    trait: 'Righteousness', 
+    verse: '"But seek first his kingdom and his righteousness, and all these things will be given to you as well." (Matthew 6:33)', 
+    firstMention: 'First mentioned: "And he believed in the Lord; and he counted it to him for righteousness." (Genesis 15:6)',
+    emoji: '✨' 
+  },
+  { 
+    trait: 'Faithfulness', 
+    verse: '"Well done, good and faithful servant!" (Matthew 25:21)', 
+    firstMention: 'First mentioned: "Know therefore that the Lord thy God, he is God, the faithful God." (Deuteronomy 7:9)',
+    emoji: '🤝' 
+  },
+  { 
+    trait: 'Integrity', 
+    verse: '"The integrity of the upright guides them, but the unfaithful are destroyed by their duplicity." (Proverbs 11:3)', 
+    firstMention: 'First mentioned: "Let integrity and uprightness preserve me; for I wait on thee." (Psalm 25:21)',
+    emoji: '🏛️' 
+  },
+  { 
+    trait: 'Mercy', 
+    verse: '"Be merciful, just as your Father is merciful." (Luke 6:36)', 
+    firstMention: 'First mentioned: "And shewing mercy unto thousands of them that love me, and keep my commandments." (Exodus 20:6)',
+    emoji: '🤲' 
+  },
+  { 
+    trait: 'Contentment', 
+    verse: '"I have learned to be content whatever the circumstances." (Philippians 4:11)', 
+    firstMention: 'First mentioned: "And having food and raiment let us be therewith content." (1 Timothy 6:8)',
+    emoji: '😌' 
+  },
+  { 
+    trait: 'Diligence', 
+    verse: '"Whatever you do, work at it with all your heart, as working for the Lord." (Colossians 3:23)', 
+    firstMention: 'First mentioned: "The hand of the diligent shall bear rule: but the slothful shall be under tribute." (Proverbs 12:24)',
+    emoji: '🔨' 
+  },
+  { 
+    trait: 'Prudence', 
+    verse: '"The simple believe anything, but the prudent give thought to their steps." (Proverbs 14:15)', 
+    firstMention: 'First mentioned: "A prudent man foreseeth the evil, and hideth himself: but the simple pass on, and are punished." (Proverbs 22:3)',
+    emoji: '🎯' 
+  },
+  { 
+    trait: 'Temperance', 
+    verse: '"But the fruit of the Spirit is love, joy, peace, forbearance, kindness, goodness, faithfulness, gentleness and self-control." (Galatians 5:22-23)', 
+    firstMention: 'First mentioned: "And every man that striveth for the mastery is temperate in all things." (1 Corinthians 9:25)',
+    emoji: '⚖️' 
+  },
+  { 
+    trait: 'Meekness', 
+    verse: '"Blessed are the meek, for they will inherit the earth." (Matthew 5:5)', 
+    firstMention: 'First mentioned: "Now the man Moses was very meek, above all the men which were upon the face of the earth." (Numbers 12:3)',
+    emoji: '🕊️' 
+  },
+  { 
+    trait: 'Zeal', 
+    verse: '"Never be lacking in zeal, but keep your spiritual fervor, serving the Lord." (Romans 12:11)', 
+    firstMention: 'First mentioned: "And Phinehas the son of Eleazar, the son of Aaron the priest, saw it, he rose up from among the congregation, and took a javelin in his hand." (Numbers 25:7)',
+    emoji: '🔥' 
+  },
+  { 
+    trait: 'Steadfastness', 
+    verse: '"Therefore, my dear brothers and sisters, stand firm. Let nothing move you." (1 Corinthians 15:58)', 
+    firstMention: 'First mentioned: "But his bow abode in strength, and the arms of his hands were made strong by the hands of the mighty God of Jacob." (Genesis 49:24)',
+    emoji: '🗿' 
+  },
+  { 
+    trait: 'Reverence', 
+    verse: '"The fear of the Lord is the beginning of knowledge." (Proverbs 1:7)', 
+    firstMention: 'First mentioned: "And unto man he said, Behold, the fear of the Lord, that is wisdom; and to depart from evil is understanding." (Job 28:28)',
+    emoji: '🙏' 
+  },
+  { 
+    trait: 'Sanctification', 
+    verse: '"It is God\'s will that you should be sanctified." (1 Thessalonians 4:3)', 
+    firstMention: 'First mentioned: "And the very God of peace sanctify you wholly; and I pray God your whole spirit and soul and body be preserved blameless unto the coming of our Lord Jesus Christ." (1 Thessalonians 5:23)',
+    emoji: '✨' 
   }
 ];
