@@ -4,7 +4,7 @@ import MaggiesBibleAdventure from "@/components/games/MaggiesBibleAdventure";
 
 const Games = () => {
   return (
-    <section id="games" className="py-16 bg-white">
+    <section id="games" className="py-8 bg-white">
       <div className="container mx-auto px-6">
         <h2 className="text-4xl font-extrabold text-center mb-2 text-gray-800 font-['Comic_Neue']">
           Games & Adventures
