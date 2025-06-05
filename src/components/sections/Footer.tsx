@@ -82,7 +82,7 @@ const Footer = () => {
         <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 mb-4 md:mb-0">© 2023 Maggie's Books. All rights reserved.</p>
           <div className="flex space-x-6">
-            <a href="#" className="text-gray-400 hover:text-white transition duration-300">
+            <a href="https://www.facebook.com/profile.php?id=61577214954344" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">
               <span className="sr-only">Facebook</span>
               <Facebook className="h-6 w-6" />
             </a>
