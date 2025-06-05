@@ -37,6 +37,7 @@ const Navigation = () => {
               <a href="#books" onClick={(e) => handleNavClick(e, 'books')} className="text-gray-700 hover:text-indigo-600 transition duration-300">Books</a>
               <a href="#maggie" onClick={(e) => handleNavClick(e, 'maggie')} className="text-gray-700 hover:text-indigo-600 transition duration-300">Meet Maggie</a>
               <a href="#activities" onClick={(e) => handleNavClick(e, 'activities')} className="text-gray-700 hover:text-indigo-600 transition duration-300">Activities</a>
+              <a href="#games" onClick={(e) => handleNavClick(e, 'games')} className="text-gray-700 hover:text-indigo-600 transition duration-300">Games</a>
               <a href="#projects" onClick={(e) => handleNavClick(e, 'projects')} className="text-gray-700 hover:text-indigo-600 transition duration-300">Future Projects</a>
               <a href="#newsletter" onClick={(e) => handleNavClick(e, 'newsletter')} className="text-gray-700 hover:text-indigo-600 transition duration-300">Join</a>
               <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="text-gray-700 hover:text-indigo-600 transition duration-300">Contact</a>
