@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 
 const MAP_WIDTH = 30;
@@ -154,6 +153,23 @@ export default function MaggiesBibleAdventure() {
   const [showJournal, setShowJournal] = useState(false);
   const gameRef = useRef<HTMLDivElement>(null);
 
+  // Check if a position is adjacent to the player (one box away)
+  const isAdjacent = (x: number, y: number) => {
+    const dx = Math.abs(x - player.x);
+    const dy = Math.abs(y - player.y);
+    return (dx === 1 && dy === 0) || (dx === 0 && dy === 1);
+  };
+
+  // Handle cell click for movement
+  const handleCellClick = (x: number, y: number) => {
+    if (foundIndex !== null || showJournal) return;
+    
+    // Only allow movement to adjacent walkable tiles
+    if (isAdjacent(x, y) && canWalkOn(map[y][x])) {
+      setPlayer({ x, y });
+    }
+  };
+
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (foundIndex !== null || showJournal) return;
@@ -200,11 +216,23 @@ export default function MaggiesBibleAdventure() {
       let cellStyle = `w-8 h-8 inline-block align-top text-center text-sm ${terrain.bg}`;
       const tIdx = treasureSpots.findIndex(t => t.x === x && t.y === y && !t.found);
       if (tIdx !== -1) {
-        cellStyle += ' border-2 border-purple-500'; // Highlight treasure spots
+        cellStyle += ' border-2 border-purple-500';
       }
       if (x === player.x && y === player.y) {
         cellStyle += ' border-2 border-black';
       }
+      
+      // Add visual indicator for clickable adjacent cells
+      const adjacent = isAdjacent(x, y);
+      const walkable = canWalkOn(map[y][x]);
+      if (adjacent && walkable && foundIndex === null && !showJournal) {
+        cellStyle += ' cursor-pointer hover:border-2 hover:border-blue-400';
+      } else if (!walkable) {
+        cellStyle += ' cursor-not-allowed';
+      } else {
+        cellStyle += ' cursor-default';
+      }
+
       let content = '';
       if (x === player.x && y === player.y) {
         content = '🐕';
@@ -214,7 +242,12 @@ export default function MaggiesBibleAdventure() {
         content = terrain.emoji;
       }
       cells.push(
-        <div key={x} className={cellStyle} style={{lineHeight:'2rem', fontSize:'12px'}}>
+        <div 
+          key={x} 
+          className={cellStyle} 
+          style={{lineHeight:'2rem', fontSize:'12px'}}
+          onClick={() => handleCellClick(x, y)}
+        >
           {content}
         </div>
       );
@@ -314,7 +347,7 @@ export default function MaggiesBibleAdventure() {
         {rows}
       </div>
       <div className="mt-2 text-gray-700 text-center">
-        <div>Use arrow keys to move 🐕. Find all the treasures!</div>
+        <div>Use arrow keys or click adjacent boxes to move 🐕. Find all the treasures!</div>
         <div className="text-sm">Press 'J' to open your journal 📖</div>
       </div>
       <div className="mt-1 flex gap-4 text-sm text-gray-600">
