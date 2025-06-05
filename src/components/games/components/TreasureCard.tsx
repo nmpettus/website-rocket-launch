@@ -12,7 +12,8 @@ const TreasureCard: React.FC<TreasureCardProps> = ({ treasure, onAddToJournal })
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-md text-center border-4 border-yellow-400">
         <div className="text-4xl mb-2">{treasure.emoji}</div>
         <div className="text-2xl font-bold mb-1 text-purple-700">{treasure.trait}</div>
-        <div className="italic text-gray-700 mb-4 text-sm">{treasure.verse}</div>
+        <div className="italic text-gray-700 mb-3 text-sm">{treasure.verse}</div>
+        <div className="italic text-gray-600 mb-4 text-xs border-t pt-2">{treasure.firstMention}</div>
         <button
           className="mt-2 px-4 py-2 bg-yellow-300 rounded shadow hover:bg-yellow-400 font-semibold"
           onClick={onAddToJournal}

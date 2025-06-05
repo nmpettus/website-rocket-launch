@@ -21,7 +21,8 @@ const Journal: React.FC<JournalProps> = ({ collected, onClose }) => {
                   <span className="text-xl">{treasure.emoji}</span>
                   <span className="font-bold text-purple-700">{treasure.trait}</span>
                 </div>
-                <div className="text-sm italic text-gray-600">{treasure.verse}</div>
+                <div className="text-sm italic text-gray-600 mb-2">{treasure.verse}</div>
+                <div className="text-xs italic text-gray-500 border-t pt-1">{treasure.firstMention}</div>
               </div>
             ))}
           </div>
