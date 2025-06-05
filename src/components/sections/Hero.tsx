@@ -1,4 +1,5 @@
 
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { PartyPopper } from "lucide-react";
@@ -76,7 +77,7 @@ const Hero = () => {
             <img 
               src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" 
               alt="Maggie with books" 
-              className="rounded-xl shadow-2xl max-w-full h-auto -mt-8" 
+              className="rounded-xl shadow-2xl max-w-full h-auto -mt-4" 
             />
           </div>
         </div>
@@ -86,3 +87,4 @@ const Hero = () => {
 };
 
 export default Hero;
+
