@@ -79,7 +79,11 @@ export default function MaggiesBibleAdventure() {
   return (
     <div className="flex flex-col items-center mt-6">
       <h2 className="mb-2 text-xl font-bold text-purple-700">🐕 Maggie's Bible Adventure</h2>
-      <div ref={gameRef}>
+      
+      {/* Legend moved above the game */}
+      <GameLegend />
+      
+      <div ref={gameRef} className="mt-4">
         <GameMap
           map={map}
           player={player}
@@ -102,7 +106,6 @@ export default function MaggiesBibleAdventure() {
           📖 Journal
         </button>
       </div>
-      <GameLegend />
       {foundIndex !== null && (
         <TreasureCard
           treasure={treasureSpots[foundIndex]}
