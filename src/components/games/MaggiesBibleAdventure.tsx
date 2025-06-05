@@ -78,7 +78,7 @@ export default function MaggiesBibleAdventure() {
 
   return (
     <div className="flex flex-col items-center mt-6">
-      <h2 className="mb-2 text-xl font-bold text-purple-700">🐕 Maggie's Bible Adventure</h2>
+      <h2 className="mb-2 text-xl font-bold text-purple-700">🐕 Maggie's Bible Treasure Hunt</h2>
       
       {/* Legend moved above the game */}
       <GameLegend />
@@ -94,7 +94,7 @@ export default function MaggiesBibleAdventure() {
         />
       </div>
       <div className="mt-2 text-gray-700 text-center">
-        <div>Use arrow keys or click adjacent boxes to move 🐕. Find all the treasures!</div>
+        <div>Use arrow keys or click adjacent boxes to move 🐕. Find all the treasures! They are in the purple boxes.</div>
         <div className="text-sm">Press 'J' to open your journal 📖</div>
       </div>
       <div className="mt-1 flex gap-4 text-sm text-gray-600">
