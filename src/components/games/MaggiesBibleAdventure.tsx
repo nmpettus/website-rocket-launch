@@ -12,7 +12,7 @@ const TREASURES = [
   { trait: 'Forgiveness', verse: '"Be kind and compassionate to one another, forgiving each other, just as in Christ God forgave you." (Ephesians 4:32)', emoji: '🧰' },
   { trait: 'Love', verse: '"Let all that you do be done in love." (1 Corinthians 16:14)', emoji: '💖' },
   { trait: 'Compassion', verse: '"Finally, all of you, be like-minded, be sympathetic, love one another, be compassionate and humble." (1 Peter 3:8)', emoji: '🫶' },
-  { trait: 'Kindness', verse: '"Therefore, as God's chosen people, holy and dearly loved, clothe yourselves with compassion, kindness, humility, gentleness and patience." (Colossians 3:12)', emoji: '🌷' },
+  { trait: 'Kindness', verse: '"Therefore, as God\'s chosen people, holy and dearly loved, clothe yourselves with compassion, kindness, humility, gentleness and patience." (Colossians 3:12)', emoji: '🌷' },
   { trait: 'Patience', verse: '"Be completely humble and gentle; be patient, bearing with one another in love." (Ephesians 4:2)', emoji: '🕰️' },
   { trait: 'Peace', verse: '"And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus." (Philippians 4:7)', emoji: '🕊️' },
   { trait: 'Joy', verse: '"The joy of the Lord is your strength." (Nehemiah 8:10)', emoji: '😄' },
