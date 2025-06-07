@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import LetterToMaggie from "@/components/activities/LetterToMaggie";
@@ -78,34 +77,36 @@ const Activities = () => {
                       </Button>
                     </div>
                   </DialogContent>
-                </Dialog>
 
-                <div className="flex flex-col gap-3">
-                  <Button
-                    className={`w-full flex items-center justify-center gap-2 ${viewedActivities.includes(activity.id) ? 'bg-green-600 hover:bg-green-700' : ''}`}
-                    onClick={() => handleViewActivity(activity.id)}
-                  >
-                    {viewedActivities.includes(activity.id) ? (
-                      <>
-                        <Check size={16} />
-                        Viewed
-                      </>
-                    ) : (
-                      <>
-                        <Maximize2 size={16} />
-                        {activity.viewText}
-                      </>
-                    )}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full flex items-center justify-center gap-2"
-                    onClick={() => printImage(activity.imagePath)}
-                  >
-                    <Printer size={16} />
-                    Print Activity
-                  </Button>
-                </div>
+                  <div className="flex flex-col gap-3">
+                    <DialogTrigger asChild>
+                      <Button
+                        className={`w-full flex items-center justify-center gap-2 ${viewedActivities.includes(activity.id) ? 'bg-green-600 hover:bg-green-700' : ''}`}
+                        onClick={() => handleViewActivity(activity.id)}
+                      >
+                        {viewedActivities.includes(activity.id) ? (
+                          <>
+                            <Check size={16} />
+                            Viewed
+                          </>
+                        ) : (
+                          <>
+                            <Maximize2 size={16} />
+                            {activity.viewText}
+                          </>
+                        )}
+                      </Button>
+                    </DialogTrigger>
+                    <Button
+                      variant="outline"
+                      className="w-full flex items-center justify-center gap-2"
+                      onClick={() => printImage(activity.imagePath)}
+                    >
+                      <Printer size={16} />
+                      Print Activity
+                    </Button>
+                  </div>
+                </Dialog>
               </div>
             </div>
           ))}
