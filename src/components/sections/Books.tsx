@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import BookCard from "@/components/books/BookCard";
 import BookGiveaway from "@/components/books/BookGiveaway";
@@ -17,6 +18,9 @@ const bookLanguageLinks = {
   ],
   jonah: [
     { language: "English", url: "https://a.co/d/1NfnyaE" }
+  ],
+  "gods-love": [
+    { language: "English", url: "https://a.co/d/a1KplpW" }
   ]
 };
 
@@ -54,7 +58,8 @@ const Books = () => {
               languages={book.languages}
               languageLinks={book.id === "creation" ? bookLanguageLinks.creation : 
                             book.id === "noah" ? bookLanguageLinks.noah : 
-                            book.id === "jonah" ? bookLanguageLinks.jonah : undefined}
+                            book.id === "jonah" ? bookLanguageLinks.jonah :
+                            book.id === "gods-love" ? bookLanguageLinks["gods-love"] : undefined}
               description={book.description}
               reviewCount={book.reviewCount}
               amazonLink={book.amazonLink}
