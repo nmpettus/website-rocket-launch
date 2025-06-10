@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Globe, Book } from "lucide-react";
 
 interface LanguageLink {
@@ -19,6 +20,7 @@ interface BookCardProps {
   reviewCount: number;
   amazonLink: string;
   bookId: string;
+  isNew?: boolean;
   onOpenReviews: (bookId: string, title: string) => void;
   onImageClick: (imageSrc: string) => void;
 }
@@ -32,6 +34,7 @@ const BookCard = ({
   reviewCount,
   amazonLink,
   bookId,
+  isNew = false,
   onOpenReviews,
   onImageClick,
 }: BookCardProps) => {
@@ -54,7 +57,12 @@ const BookCard = ({
   };
 
   return (
-    <Card className="overflow-hidden hover:shadow-xl transition duration-300 flex flex-col h-full">
+    <Card className="overflow-hidden hover:shadow-xl transition duration-300 flex flex-col h-full relative">
+      {isNew && (
+        <Badge className="absolute top-3 right-3 z-10 bg-red-500 hover:bg-red-600 text-white">
+          New
+        </Badge>
+      )}
       <div className="p-3">
         <AspectRatio ratio={3/4}>
           <img 

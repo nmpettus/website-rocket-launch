@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import BookCard from "@/components/books/BookCard";
 import BookGiveaway from "@/components/books/BookGiveaway";
@@ -8,6 +7,9 @@ import bookReviews, { booksData } from "@/data/bookReviews";
 
 // Define language links for each book
 const bookLanguageLinks = {
+  "gods-love": [
+    { language: "English", url: "https://a.co/d/a1KplpW" }
+  ],
   creation: [
     { language: "English", url: "https://a.co/d/8DoEE31" },
     { language: "Spanish", url: "https://a.co/d/ccsCmGT" },
@@ -18,9 +20,6 @@ const bookLanguageLinks = {
   ],
   jonah: [
     { language: "English", url: "https://a.co/d/1NfnyaE" }
-  ],
-  "gods-love": [
-    { language: "English", url: "https://a.co/d/a1KplpW" }
   ]
 };
 
@@ -56,14 +55,15 @@ const Books = () => {
               coverImage={book.coverImage}
               title={book.title}
               languages={book.languages}
-              languageLinks={book.id === "creation" ? bookLanguageLinks.creation : 
+              languageLinks={book.id === "gods-love" ? bookLanguageLinks["gods-love"] :
+                            book.id === "creation" ? bookLanguageLinks.creation : 
                             book.id === "noah" ? bookLanguageLinks.noah : 
-                            book.id === "jonah" ? bookLanguageLinks.jonah :
-                            book.id === "gods-love" ? bookLanguageLinks["gods-love"] : undefined}
+                            book.id === "jonah" ? bookLanguageLinks.jonah : undefined}
               description={book.description}
               reviewCount={book.reviewCount}
               amazonLink={book.amazonLink}
               bookId={book.id}
+              isNew={book.isNew}
               onOpenReviews={handleOpenReviews}
               onImageClick={handleImageClick}
             />

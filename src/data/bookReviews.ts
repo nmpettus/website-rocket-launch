@@ -1,8 +1,36 @@
-
 import { Review } from "@/components/ReviewsModal";
 
 // Book reviews data
 const bookReviews: Record<string, Review[]> = {
+  "gods-love": [
+    {
+      id: "1",
+      author: "Maria S.",
+      date: "May 20, 2025",
+      rating: 5,
+      title: "Heartwarming and beautiful",
+      content: "This book touched my heart! The way Maggie explains God's love is so gentle and perfect for children of all ages. The illustrations are absolutely stunning and my kids keep asking to read it again and again. A wonderful addition to our family library!",
+      verified: true
+    },
+    {
+      id: "2",
+      author: "Pastor John",
+      date: "May 15, 2025",
+      rating: 5,
+      title: "Perfect for teaching about God's love",
+      content: "I use this book in our children's ministry and it's been incredibly effective in helping kids understand the depth of God's love. Maggie's storytelling approach makes complex concepts accessible to young minds. Highly recommend for Sunday school!",
+      verified: true
+    },
+    {
+      id: "3",
+      author: "Catherine L.",
+      date: "April 28, 2025",
+      rating: 5,
+      title: "A treasured bedtime story",
+      content: "This has become our go-to bedtime story. My daughter loves Maggie and the way she explains how much God loves us. The book brings comfort and joy to our evening routine. Beautiful illustrations and meaningful message!",
+      verified: true
+    }
+  ],
   "creation": [
     {
       id: "1",
@@ -98,35 +126,6 @@ const bookReviews: Record<string, Review[]> = {
       content: "I use this in my Sunday School class and the children absolutely love it! The way Maggie explains Jonah's journey makes it relatable for young minds. The illustrations are engaging and the interactive questions throughout keep the children participating in the story. Highly recommend!",
       verified: true
     }
-  ],
-  "gods-love": [
-    {
-      id: "1",
-      author: "Maria S.",
-      date: "May 20, 2025",
-      rating: 5,
-      title: "Heartwarming and beautiful",
-      content: "This book touched my heart! The way Maggie explains God's love is so gentle and perfect for children of all ages. The illustrations are absolutely stunning and my kids keep asking to read it again and again. A wonderful addition to our family library!",
-      verified: true
-    },
-    {
-      id: "2",
-      author: "Pastor John",
-      date: "May 15, 2025",
-      rating: 5,
-      title: "Perfect for teaching about God's love",
-      content: "I use this book in our children's ministry and it's been incredibly effective in helping kids understand the depth of God's love. Maggie's storytelling approach makes complex concepts accessible to young minds. Highly recommend for Sunday school!",
-      verified: true
-    },
-    {
-      id: "3",
-      author: "Catherine L.",
-      date: "April 28, 2025",
-      rating: 5,
-      title: "A treasured bedtime story",
-      content: "This has become our go-to bedtime story. My daughter loves Maggie and the way she explains how much God loves us. The book brings comfort and joy to our evening routine. Beautiful illustrations and meaningful message!",
-      verified: true
-    }
   ]
 };
 
@@ -138,9 +137,20 @@ export interface BookData {
   description: string;
   reviewCount: number;
   amazonLink: string;
+  isNew?: boolean;
 }
 
 export const booksData: BookData[] = [
+  {
+    id: "gods-love",
+    title: "God's Love as told by MAGGIE",
+    coverImage: "/lovable-uploads/9915a45c-d79b-4a00-8e51-2d7c4ca0afd8.png",
+    languages: ["English"],
+    description: "An AI-Enhanced Biblical Story for Everyone about God's unconditional love, narrated by Maggie.",
+    reviewCount: 18,
+    amazonLink: "https://a.co/d/a1KplpW",
+    isNew: true
+  },
   {
     id: "creation",
     title: "Creation as told by MAGGIE",
@@ -167,15 +177,6 @@ export const booksData: BookData[] = [
     description: "An AI-Enhanced Biblical Story for Children about Jonah and the great fish, narrated by Maggie.",
     reviewCount: 15,
     amazonLink: "https://a.co/d/1NfnyaE"
-  },
-  {
-    id: "gods-love",
-    title: "God's Love as told by MAGGIE",
-    coverImage: "/lovable-uploads/9915a45c-d79b-4a00-8e51-2d7c4ca0afd8.png",
-    languages: ["English"],
-    description: "An AI-Enhanced Biblical Story for Everyone about God's unconditional love, narrated by Maggie.",
-    reviewCount: 18,
-    amazonLink: "https://a.co/d/a1KplpW"
   }
 ];
 
