@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import { booksData } from "@/data/bookReviews";
@@ -86,7 +85,7 @@ const Footer = () => {
               <span className="sr-only">Facebook</span>
               <Facebook className="h-6 w-6" />
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition duration-300">
+            <a href="https://www.instagram.com/nmpettus" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">
               <span className="sr-only">Instagram</span>
               <Instagram className="h-6 w-6" />
             </a>
