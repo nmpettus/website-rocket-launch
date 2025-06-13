@@ -79,6 +79,7 @@ export default function MaggiesBibleAdventure() {
   return (
     <div className="flex flex-col items-center mt-6">
       <h2 className="mb-2 text-xl font-bold text-purple-700">🐕 Maggie's Bible Treasure Hunt</h2>
+      <p className="mb-4 text-lg font-medium text-center text-purple-600">Find all the Fruits of the Spirit (Jesus' Ways)</p>
       
       {/* Legend moved above the game */}
       <GameLegend />
