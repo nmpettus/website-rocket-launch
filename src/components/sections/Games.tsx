@@ -9,11 +9,8 @@ const Games = () => {
         <h2 className="text-4xl font-extrabold text-center mb-2 text-gray-800 font-['Comic_Neue']">
           Games & Adventures
         </h2>
-        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-2">
-          Join Maggie on interactive adventures that teach valuable Bible lessons through fun gameplay!
-        </p>
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-6">
-          Find all the Fruits of the Spirit (Jesus Ways)
+          Join Maggie on interactive adventures that teach valuable Bible lessons through fun gameplay!
         </p>
         <div className="flex justify-center">
           <MaggiesBibleAdventure />
