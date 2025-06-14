@@ -71,15 +71,17 @@ const Navigation = () => {
             <span className="text-2xl font-bold text-indigo-600 font-comic">Books By Maggie</span>
           </div>
           
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-2">
             {NAV_LINKS.map(link => (
               <a 
                 key={link.id}
                 href={`#${link.id}`} 
                 onClick={(e) => handleNavClick(e, link.id)} 
                 className={cn(
-                  "px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200",
-                  { "bg-indigo-100 text-indigo-700 font-semibold": activeSection === link.id }
+                  "px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-in-out",
+                  activeSection === link.id
+                    ? "bg-indigo-600 text-white shadow-md"
+                    : "text-gray-600 hover:text-indigo-600 hover:bg-indigo-50"
                 )}
               >
                 {link.label}
@@ -110,8 +112,10 @@ const Navigation = () => {
                           href={`#${link.id}`} 
                           onClick={(e) => handleNavClick(e, link.id)}
                           className={cn(
-                            "text-lg py-3 px-4 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-200",
-                            { "bg-indigo-100 text-indigo-700": activeSection === link.id }
+                            "block text-lg py-3 px-4 rounded-lg transition-all duration-200",
+                            activeSection === link.id
+                              ? "bg-indigo-600 text-white"
+                              : "text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                           )}
                         >
                           {link.label}
