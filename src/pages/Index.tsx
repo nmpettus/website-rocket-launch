@@ -29,6 +29,7 @@ const Index = () => {
       <div id="games">
         <Games />
       </div>
+      {/* Only keep this instance below Games; ensure NO other WriteToMaggie above Games */}
       <div id="write-to-maggie">
         <WriteToMaggie />
       </div>
