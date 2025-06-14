@@ -12,8 +12,7 @@ import Newsletter from "@/components/sections/NewsLetter";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
-// import WriteToMaggie from "@/components/sections/WriteToMaggie"; // TEMPORARILY REMOVE
-
+import WriteToMaggie from "@/components/sections/WriteToMaggie"; // RESTORE THIS LINE
 
 const Index = () => {
   return (
@@ -31,10 +30,10 @@ const Index = () => {
       <div id="games">
         <Games />
       </div>
-      {/* WriteToMaggie section deliberately OMITTED for test */}
-      {/* <div id="write-to-maggie">
+      {/* Restore WriteToMaggie section BELOW Games */}
+      <div id="write-to-maggie">
         <WriteToMaggie />
-      </div> */}
+      </div>
       <FutureProjects />
       <div id="newsletter">
         <Newsletter />
