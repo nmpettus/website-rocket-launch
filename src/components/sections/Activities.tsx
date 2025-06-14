@@ -11,8 +11,8 @@ const Activities = () => {
   const handleView = (activityId: string) => {
     if (!viewedActivities.includes(activityId)) {
       setViewedActivities((prev) => [...prev, activityId]);
-      toast({
-        title: "Activity Viewed",
+      // Corrected toast call for sonner
+      toast("Activity Viewed", {
         description: "Great job exploring this activity!",
       });
     }
@@ -20,8 +20,8 @@ const Activities = () => {
 
   const handlePrint = (imagePath: string) => {
     printImage(imagePath);
-    toast({
-      title: "Printing...",
+    // Corrected toast call for sonner
+    toast("Printing...", {
       description: "Your activity page is preparing to print.",
     });
   };
