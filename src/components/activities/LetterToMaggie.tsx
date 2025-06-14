@@ -12,10 +12,10 @@ import { Send } from "lucide-react"
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
+  DialogDescription as DialogDescriptionComponent, // Renamed to avoid conflict
   DialogFooter,
   DialogHeader,
-  DialogTitle,
+  DialogTitle as DialogTitleComponent, // Renamed to avoid conflict
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
 import { sendEmail, EMAIL_TEMPLATES } from "@/utils/titanEmailUtils"
@@ -88,12 +88,10 @@ const LetterToMaggie = () => {
       </div>
 
       {/* Card margin and padding reduced */}
-      <Card id="write-to-maggie" className="transition-all duration-300 hover:shadow-lg overflow-hidden scroll-mt-20 my-0">
-        <CardHeader className="flex items-center bg-gradient-to-r from-purple-100 to-pink-100 py-2 px-2">
-          <CardTitle className="text-xl font-['Comic_Neue'] text-center">Write to Maggie</CardTitle>
-          <CardDescription className="text-base text-center">
-            Send a special letter to Maggie and she might write back!
-          </CardDescription>
+      <Card id="write-to-maggie-card" className="transition-all duration-300 hover:shadow-lg overflow-hidden scroll-mt-20 my-0">
+        {/* The CardTitle and CardDescription have been removed from this CardHeader */}
+        <CardHeader className="flex items-center bg-gradient-to-r from-purple-100 to-pink-100 py-2 px-2 h-[10px]">
+          {/* Intentionally empty or can be adjusted for spacing if needed */}
         </CardHeader>
         <CardContent className="pt-2 pb-0 px-2">
           <form onSubmit={handleSubmit} className="space-y-2">
@@ -156,12 +154,12 @@ const LetterToMaggie = () => {
       <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
         <DialogContent className="bg-purple-50 border-purple-200 px-3 py-2">
           <DialogHeader>
-            <DialogTitle className="font-['Comic_Neue'] text-xl text-purple-800">
+            <DialogTitleComponent className="font-['Comic_Neue'] text-xl text-purple-800">
               Your Letter is on its way!
-            </DialogTitle>
-            <DialogDescription className="text-base">
+            </DialogTitleComponent>
+            <DialogDescriptionComponent className="text-base">
               Thanks for writing to Maggie! She loves getting mail from her friends.
-            </DialogDescription>
+            </DialogDescriptionComponent>
           </DialogHeader>
           <div className="flex justify-center py-2">
             <img
