@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/sections/Hero";
@@ -12,6 +11,7 @@ import Newsletter from "@/components/sections/NewsLetter";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
+import WriteToMaggie from "@/components/sections/WriteToMaggie";
 
 const Index = () => {
   return (
@@ -28,6 +28,9 @@ const Index = () => {
       </div>
       <div id="games">
         <Games />
+      </div>
+      <div id="write-to-maggie">
+        <WriteToMaggie />
       </div>
       <FutureProjects />
       <div id="newsletter">
