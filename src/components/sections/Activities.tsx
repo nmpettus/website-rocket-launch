@@ -37,7 +37,8 @@ const Activities = () => {
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-6">
           Engage in fun and educational activities that bring the Bible to life!
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Updated grid classes for responsiveness and gap */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 lg:gap-4">
           {categories.map((category) => (
             <ActivityCard
               key={category.id}
@@ -54,4 +55,3 @@ const Activities = () => {
 };
 
 export default Activities;
-

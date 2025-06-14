@@ -46,7 +46,8 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
         <div className="p-3 rounded-full bg-gray-100 mb-4">
           {category.icon}
         </div>
-        <CardTitle className="text-xl font-['Comic_Neue'] text-center">{category.title}</CardTitle>
+        {/* Changed text-xl to text-lg for CardTitle */}
+        <CardTitle className="text-lg font-['Comic_Neue'] text-center">{category.title}</CardTitle>
         <CardDescription className="text-center">{category.description}</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow px-4 pb-4 pt-0"> {/* Adjusted padding */}
@@ -87,7 +88,8 @@ const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed,
       <CardContent className="p-3 pt-0">
         <Dialog>
           <DialogTrigger asChild>
-            <div className="h-32 bg-gray-200 rounded-md flex items-center justify-center mb-3 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity">
+            {/* Changed h-32 to h-28 for the image container */}
+            <div className="h-28 bg-gray-200 rounded-md flex items-center justify-center mb-3 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity">
               <img 
                 src={activity.imagePath} 
                 alt={`${activity.title} preview`}
