@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
@@ -71,14 +70,14 @@ const Navigation = () => {
             <span className="text-2xl font-bold text-indigo-600 font-comic">Books By Maggie</span>
           </div>
           
-          <div className="hidden md:flex items-center space-x-2">
+          <div className="hidden md:flex items-center space-x-1">
             {NAV_LINKS.map(link => (
               <a 
                 key={link.id}
                 href={`#${link.id}`} 
                 onClick={(e) => handleNavClick(e, link.id)} 
                 className={cn(
-                  "px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-in-out",
+                  "px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-in-out",
                   activeSection === link.id
                     ? "bg-indigo-600 text-white shadow-md"
                     : "text-gray-600 hover:text-indigo-600 hover:bg-indigo-50"
