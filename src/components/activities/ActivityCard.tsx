@@ -1,7 +1,8 @@
+
 import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, Maximize2, Printer, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, Maximize2, Printer } from "lucide-react"; // Removed ChevronDown, ChevronUp
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
@@ -14,7 +15,7 @@ export interface ActivityItem {
 }
 
 export interface ActivityCategory {
-  id: string;
+  id:string;
   title: string;
   description: string;
   icon: React.ReactNode;
@@ -36,15 +37,11 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   onPrint,
   className 
 }) => {
-  const [expanded, setExpanded] = React.useState(false);
   const items = category?.items || [];
-
-  const toggleExpanded = () => {
-    setExpanded(!expanded);
-  };
+  const firstActivityItem = items.length > 0 ? items[0] : null;
 
   return (
-    <Card className={`transition-all duration-300 hover:shadow-lg ${className}`}>
+    <Card className={`transition-all duration-300 hover:shadow-lg flex flex-col ${className}`}>
       <CardHeader className="flex items-center">
         <div className="p-3 rounded-full bg-gray-100 mb-4">
           {category.icon}
@@ -52,31 +49,23 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
         <CardTitle className="text-xl font-['Comic_Neue'] text-center">{category.title}</CardTitle>
         <CardDescription className="text-center">{category.description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-grow px-4 pb-0">
-        <Button 
-          variant="outline" 
-          className="w-full flex items-center justify-between mb-4"
-          onClick={toggleExpanded}
-        >
-          <span>View {items.length} Activities</span>
-          {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-        </Button>
-        
-        {expanded && items.length > 0 && (
-          <div className="space-y-4 mt-4">
-            {items.map((activity) => (
-              <ActivityItemCard 
-                key={activity.id}
-                activity={activity}
-                isViewed={viewedActivities.includes(activity.id)}
-                onView={() => onView(activity.id)}
-                onPrint={() => onPrint(activity.imagePath)}
-              />
-            ))}
+      <CardContent className="flex-grow px-4 pb-4 pt-0"> {/* Adjusted padding */}
+        {firstActivityItem && (
+          <div className="mt-2"> {/* Adjusted margin */}
+            <ActivityItemCard 
+              key={firstActivityItem.id}
+              activity={firstActivityItem}
+              isViewed={viewedActivities.includes(firstActivityItem.id)}
+              onView={() => onView(firstActivityItem.id)}
+              onPrint={() => onPrint(firstActivityItem.imagePath)}
+            />
           </div>
         )}
       </CardContent>
-      <CardFooter className="pt-2 pb-4"></CardFooter>
+      {/* CardFooter can be removed if not needed or kept for consistent spacing */}
+      <CardFooter className="pt-0 pb-4"> 
+        {/* Intentionally empty or can be used for other elements if needed in future */}
+      </CardFooter>
     </Card>
   );
 };
@@ -90,7 +79,7 @@ interface ActivityItemCardProps {
 
 const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed, onView, onPrint }) => {
   return (
-    <Card className="overflow-hidden border border-gray-200">
+    <Card className="overflow-hidden border border-gray-200 bg-white"> {/* Added bg-white for better contrast if card itself has a bg */}
       <CardHeader className="p-3">
         <CardTitle className="text-base font-medium">{activity.title}</CardTitle>
         <CardDescription className="text-xs">{activity.description}</CardDescription>
@@ -134,7 +123,7 @@ const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed,
       <CardFooter className="flex flex-col gap-2 p-3 pt-0">
         <Button 
           size="sm"
-          className={`w-full flex items-center justify-center gap-2 ${isViewed ? 'bg-green-600 hover:bg-green-700' : ''}`}
+          className={`w-full flex items-center justify-center gap-2 ${isViewed ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-indigo-500 hover:bg-indigo-600 text-white'}`} // Updated default colors for View button
           onClick={onView}
         >
           {isViewed ? (
