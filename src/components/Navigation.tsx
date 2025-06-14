@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
@@ -12,6 +11,9 @@ const Navigation = () => {
     const section = document.getElementById(sectionId);
     if (section) {
       const navbarHeight = 80; // Approximate height of navbar
+      // For the footer, we want to scroll to the very bottom, or slightly above it.
+      // An offset might not be needed if the footer is tall enough, or if we want the very top of the footer to align.
+      // Let's keep the standard offset logic for now, which aligns the top of the section below the navbar.
       const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
       
       window.scrollTo({
@@ -41,6 +43,7 @@ const Navigation = () => {
               <a href="#projects" onClick={(e) => handleNavClick(e, 'projects')} className="text-gray-700 hover:text-indigo-600 transition duration-300">Future Projects</a>
               <a href="#newsletter" onClick={(e) => handleNavClick(e, 'newsletter')} className="text-gray-700 hover:text-indigo-600 transition duration-300">Join</a>
               <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="text-gray-700 hover:text-indigo-600 transition duration-300">Contact</a>
+              <a href="#footer" onClick={(e) => handleNavClick(e, 'footer')} className="text-gray-700 hover:text-indigo-600 transition duration-300">Footer</a> {/* Added Footer link */}
             </div>
             
             {/* Mobile Menu Button */}

@@ -23,7 +23,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         behavior: 'smooth'
       });
       
-      onClose();
+      onClose(); // Close the mobile menu after clicking a link
     }
   };
 
@@ -97,6 +97,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           >
             Contact
           </a>
+          <a 
+            href="#footer" 
+            onClick={(e) => handleNavClick(e, 'footer')}
+            className="text-xl py-2 border-b border-gray-200 text-gray-800 hover:text-indigo-600" // Added Footer link
+          >
+            Footer
+          </a>
         </nav>
       </div>
     </div>
@@ -104,3 +111,4 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
 };
 
 export default MobileMenu;
+

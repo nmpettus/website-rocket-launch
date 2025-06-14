@@ -39,10 +39,13 @@ const Index = () => {
         <Newsletter />
       </div>
       <Contact />
-      <Footer />
+      <div id="footer"> {/* Added id="footer" here */}
+        <Footer />
+      </div>
       <BackToTopButton />
     </div>
   );
 };
 
 export default Index;
+
