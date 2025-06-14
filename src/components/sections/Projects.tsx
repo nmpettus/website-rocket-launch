@@ -77,7 +77,7 @@ const Projects = () => {
               </Dialog>
               <h3 className="text-xl font-bold mb-3 text-gray-800 text-center">The Divine Protocol</h3>
             </div>
-            <p className="text-gray-600 mb-4">How God Used Doctors, Medicine, and My Own Body to Heal Me. Expected release: Spring 2024.</p>
+            <p className="text-gray-600 mb-4">How God Used Doctors, Medicine, and My Own Body to Heal Me. Expected release: October 2025.</p>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div className="bg-emerald-500 h-2.5 rounded-full" style={{width: "15%"}}></div>
             </div>
