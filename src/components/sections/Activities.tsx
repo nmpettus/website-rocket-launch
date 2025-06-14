@@ -1,7 +1,7 @@
+
 import React from "react";
-import BibleStudy from "@/components/activities/BibleStudy";
-import ColoringPage from "@/components/activities/ColoringPage";
-import MemoryVerse from "@/components/activities/MemoryVerse";
+
+// Remove broken imports and temporary children.
 
 const Activities = () => {
   return (
@@ -14,9 +14,10 @@ const Activities = () => {
           Engage in fun and educational activities that bring the Bible to life!
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <BibleStudy />
-          <ColoringPage />
-          <MemoryVerse />
+          {/* Activities removed due to missing files */}
+          <div className="col-span-3 text-center text-gray-400 italic py-8">
+            More activities coming soon!
+          </div>
         </div>
       </div>
     </section>
