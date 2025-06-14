@@ -1,6 +1,6 @@
 
 import React from "react";
-import { getActivities } from "@/data/activitiesData";
+import { getActivities } from "@/data/activitiesData.tsx"; // Ensure correct import!
 import ActivityCard from "@/components/activities/ActivityCard";
 import { toast } from "@/components/ui/use-toast";
 import { printImage } from "@/utils/printUtils";
@@ -26,7 +26,7 @@ const Activities = () => {
     });
   };
 
-  const activities = getActivities();
+  const categories = getActivities();
 
   return (
     <section id="activities" className="py-8 bg-white">
@@ -38,7 +38,7 @@ const Activities = () => {
           Engage in fun and educational activities that bring the Bible to life!
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {activities.map((category) => (
+          {categories.map((category) => (
             <ActivityCard
               key={category.id}
               category={category}
