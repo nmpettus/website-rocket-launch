@@ -1,6 +1,7 @@
 import React from "react";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import { booksData } from "@/data/bookReviews";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   // Find the Creation book (first book)
@@ -71,7 +72,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold mb-4">Legal</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
+              <li><Link to="/privacy-policy" className="text-gray-400 hover:text-white transition duration-300">Privacy Policy</Link></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition duration-300">Terms of Service</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition duration-300">Cookie Policy</a></li>
             </ul>
