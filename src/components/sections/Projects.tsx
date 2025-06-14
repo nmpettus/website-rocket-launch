@@ -40,7 +40,7 @@ const Projects = () => {
               </Dialog>
               <h3 className="text-xl font-bold text-gray-800 text-center">AI Adventures with Maggie</h3>
             </div>
-            <p className="text-gray-600 mb-4">A fun, simple introduction to artificial intelligence for kids, explained by Maggie! Expected release: Fall 2025.</p>
+            <p className="text-gray-600 mb-4">A fun, simple introduction to artificial intelligence for kids, explained by Maggie! Expected release: September 2025.</p>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div className="bg-blue-500 h-2.5 rounded-full" style={{width: "40%"}}></div>
             </div>
