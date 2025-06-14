@@ -1,6 +1,6 @@
 
 import React from "react";
-import { getActivities } from "@/data/activitiesData.tsx"; // Ensure correct import!
+import { getActivities } from "@/data/activitiesData.tsx";
 import ActivityCard from "@/components/activities/ActivityCard";
 import { toast } from "@/components/ui/use-toast";
 import { printImage } from "@/utils/printUtils";
@@ -54,3 +54,4 @@ const Activities = () => {
 };
 
 export default Activities;
+
