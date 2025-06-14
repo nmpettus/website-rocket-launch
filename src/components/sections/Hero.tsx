@@ -1,17 +1,19 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { PartyPopper } from "lucide-react";
 
 const Hero = () => {
+  // Scroll so #write-to-maggie is at the very top of the viewport — no offset.
   const scrollToLetterSection = () => {
     const letterSection = document.getElementById('write-to-maggie');
     if (letterSection) {
       letterSection.scrollIntoView({
         behavior: 'smooth',
-        block: 'start'
+        block: 'start',
       });
     } else {
-      // Fallback to activities section if specific element not found
+      // Fallback to activities section if not found
       document.getElementById('activities')?.scrollIntoView({ behavior: 'smooth' });
     }
   };
