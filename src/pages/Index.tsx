@@ -7,7 +7,7 @@ import MeetMaggie from "@/components/sections/MeetMaggie";
 import MaggieImagesSection from "@/components/sections/MaggieImagesSection";
 import Activities from "@/components/sections/Activities";
 import Games from "@/components/sections/Games";
-import FutureProjects from "@/components/sections/FutureProjects";
+import Projects from "@/components/sections/Projects";
 import Newsletter from "@/components/sections/NewsLetter";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
@@ -34,7 +34,7 @@ const Index = () => {
       <div id="write-to-maggie" className="scroll-mt-20">
         <WriteToMaggie />
       </div>
-      <FutureProjects />
+      <Projects />
       <div id="newsletter">
         <Newsletter />
       </div>
@@ -48,4 +48,3 @@ const Index = () => {
 };
 
 export default Index;
-

@@ -11,7 +11,7 @@ const NAV_LINKS = [
   { id: 'maggie', label: 'Meet Maggie' },
   { id: 'activities', label: 'Activities' },
   { id: 'games', label: 'Games' },
-  { id: 'projects', label: 'Future Projects' },
+  { id: 'projects', label: 'Projects' },
   { id: 'newsletter', label: 'Join' },
   { id: 'contact', label: 'Contact' },
   { id: 'footer', label: 'More' },
