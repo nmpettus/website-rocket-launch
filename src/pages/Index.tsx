@@ -1,3 +1,4 @@
+
 import React from "react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/sections/Hero";
@@ -11,7 +12,8 @@ import Newsletter from "@/components/sections/NewsLetter";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
-import WriteToMaggie from "@/components/sections/WriteToMaggie";
+// import WriteToMaggie from "@/components/sections/WriteToMaggie"; // TEMPORARILY REMOVE
+
 
 const Index = () => {
   return (
@@ -29,10 +31,10 @@ const Index = () => {
       <div id="games">
         <Games />
       </div>
-      {/* Only keep this instance below Games; ensure NO other WriteToMaggie above Games */}
-      <div id="write-to-maggie">
+      {/* WriteToMaggie section deliberately OMITTED for test */}
+      {/* <div id="write-to-maggie">
         <WriteToMaggie />
-      </div>
+      </div> */}
       <FutureProjects />
       <div id="newsletter">
         <Newsletter />
@@ -45,3 +47,4 @@ const Index = () => {
 };
 
 export default Index;
+
