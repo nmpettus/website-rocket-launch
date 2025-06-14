@@ -1,9 +1,13 @@
+
 import React from "react";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import { booksData } from "@/data/bookReviews";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  // Find the God's Love book
+  const godsLoveBook = booksData.find(book => book.id === "gods-love");
+
   // Find the Creation book (first book)
   const creationBook = booksData.find(book => book.id === "creation");
   
@@ -61,6 +65,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold mb-4">Our Books</h3>
             <ul className="space-y-2">
+              <li><a href={godsLoveBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">God's Love as told by Maggie</a></li>
               <li><a href={creationBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">Creation as told by Maggie</a></li>
               <li><a href={noahBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">Noah's Ark as told by Maggie</a></li>
               <li><a href={jonahBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">Jonah as told by Maggie</a></li>
