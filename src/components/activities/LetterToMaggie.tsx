@@ -1,3 +1,4 @@
+
 "use client"
 
 import type React from "react"
@@ -77,25 +78,27 @@ const LetterToMaggie = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center mb-6">
+      {/* Make logo and container much tighter */}
+      <div className="flex flex-col items-center mb-1">
         <img
           src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png"
           alt="Maggie Logo"
-          className="w-32 h-32 object-contain rounded-full border-4 border-purple-200 shadow-lg mb-4"
+          className="w-20 h-20 object-contain rounded-full border-2 border-purple-200 shadow mb-1"
         />
       </div>
 
-      <Card id="write-to-maggie" className="transition-all duration-300 hover:shadow-lg overflow-hidden scroll-mt-24">
-        <CardHeader className="flex items-center bg-gradient-to-r from-purple-100 to-pink-100">
-          <CardTitle className="text-3xl font-['Comic_Neue'] text-center">Write to Maggie</CardTitle>
-          <CardDescription className="text-lg text-center">
+      {/* Card margin and padding reduced */}
+      <Card id="write-to-maggie" className="transition-all duration-300 hover:shadow-lg overflow-hidden scroll-mt-20 my-0">
+        <CardHeader className="flex items-center bg-gradient-to-r from-purple-100 to-pink-100 py-2 px-2">
+          <CardTitle className="text-xl font-['Comic_Neue'] text-center">Write to Maggie</CardTitle>
+          <CardDescription className="text-base text-center">
             Send a special letter to Maggie and she might write back!
           </CardDescription>
         </CardHeader>
-        <CardContent className="pt-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-lg">
+        <CardContent className="pt-2 pb-0 px-2">
+          <form onSubmit={handleSubmit} className="space-y-2">
+            <div className="space-y-1">
+              <Label htmlFor="name" className="text-base">
                 Your Name
               </Label>
               <Input
@@ -104,12 +107,12 @@ const LetterToMaggie = () => {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="What should Maggie call you?"
                 required
-                className="border-2 border-purple-200 focus:border-purple-400 text-lg"
+                className="border-2 border-purple-200 focus:border-purple-400 text-base"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-lg">
+            <div className="space-y-1">
+              <Label htmlFor="email" className="text-base">
                 Parent's Email (optional)
               </Label>
               <Input
@@ -118,12 +121,12 @@ const LetterToMaggie = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="If you want Maggie to write back"
-                className="border-2 border-purple-200 focus:border-purple-400 text-lg"
+                className="border-2 border-purple-200 focus:border-purple-400 text-base"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="message" className="text-lg">
+            <div className="space-y-1">
+              <Label htmlFor="message" className="text-base">
                 Your Message to Maggie
               </Label>
               <Textarea
@@ -132,42 +135,43 @@ const LetterToMaggie = () => {
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="What would you like to tell Maggie?"
                 required
-                className="min-h-[120px] border-2 border-purple-200 focus:border-purple-400 text-lg"
+                className="min-h-[80px] border-2 border-purple-200 focus:border-purple-400 text-base"
               />
             </div>
           </form>
         </CardContent>
-        <CardFooter className="flex justify-center pb-6 bg-gradient-to-r from-purple-100 to-pink-100">
+        <CardFooter className="flex justify-center pb-2 pt-2 bg-gradient-to-r from-purple-100 to-pink-100">
           <Button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-lg py-6"
+            className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-base py-4"
           >
-            <Send size={20} />
+            <Send size={18} />
             {isSubmitting ? "Sending letter..." : "Send Letter to Maggie"}
           </Button>
         </CardFooter>
       </Card>
 
+      {/* Dialog: padding and margins tightened */}
       <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
-        <DialogContent className="bg-purple-50 border-purple-200">
+        <DialogContent className="bg-purple-50 border-purple-200 px-3 py-2">
           <DialogHeader>
-            <DialogTitle className="font-['Comic_Neue'] text-2xl text-purple-800">
+            <DialogTitle className="font-['Comic_Neue'] text-xl text-purple-800">
               Your Letter is on its way!
             </DialogTitle>
-            <DialogDescription className="text-lg">
+            <DialogDescription className="text-base">
               Thanks for writing to Maggie! She loves getting mail from her friends.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex justify-center py-4">
+          <div className="flex justify-center py-2">
             <img
               src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png"
               alt="Maggie with a letter"
-              className="w-1/2 rounded-lg shadow-md"
+              className="w-1/2 rounded-lg shadow"
             />
           </div>
           <DialogFooter>
-            <Button onClick={() => setShowSuccess(false)} className="bg-purple-600 hover:bg-purple-700 text-lg">
+            <Button onClick={() => setShowSuccess(false)} className="bg-purple-600 hover:bg-purple-700 text-base py-2">
               Close
             </Button>
           </DialogFooter>
