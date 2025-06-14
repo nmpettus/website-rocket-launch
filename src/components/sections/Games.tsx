@@ -1,6 +1,7 @@
 
 import React from "react";
 import MaggiesBibleAdventure from "@/components/games/MaggiesBibleAdventure";
+import LetterToMaggie from "@/components/activities/LetterToMaggie";
 
 const Games = () => {
   return (
@@ -12,8 +13,13 @@ const Games = () => {
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-6">
           Join Maggie on interactive adventures that teach valuable Bible lessons through fun gameplay!
         </p>
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-16">
           <MaggiesBibleAdventure />
+        </div>
+        
+        {/* Write to Maggie section moved here */}
+        <div className="mt-16 max-w-2xl mx-auto">
+          <LetterToMaggie />
         </div>
       </div>
     </section>

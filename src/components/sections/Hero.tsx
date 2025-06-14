@@ -1,14 +1,15 @@
 
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { PartyPopper } from "lucide-react";
 
 const Hero = () => {
   const scrollToLetterSection = () => {
-    const letterSection = document.getElementById('write-to-maggie');
-    if (letterSection) {
-      letterSection.scrollIntoView({ 
+    // Since we're moving the section below Games, we should now target the Games section 
+    // and the Letter component will be inside/below it
+    const gamesSection = document.getElementById('games');
+    if (gamesSection) {
+      gamesSection.scrollIntoView({ 
         behavior: 'smooth',
         block: 'start'
       });
@@ -87,4 +88,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
