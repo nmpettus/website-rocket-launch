@@ -12,7 +12,7 @@ import Newsletter from "@/components/sections/NewsLetter";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
-import WriteToMaggie from "@/components/sections/WriteToMaggie"; // RESTORE THIS LINE
+import WriteToMaggie from "@/components/sections/WriteToMaggie";
 
 const Index = () => {
   return (
@@ -30,8 +30,8 @@ const Index = () => {
       <div id="games">
         <Games />
       </div>
-      {/* Restore WriteToMaggie section BELOW Games */}
-      <div id="write-to-maggie">
+      {/* Restore WriteToMaggie section BELOW Games and add scroll-mt-20 for navbar offset */}
+      <div id="write-to-maggie" className="scroll-mt-20">
         <WriteToMaggie />
       </div>
       <FutureProjects />
@@ -46,4 +46,3 @@ const Index = () => {
 };
 
 export default Index;
-
