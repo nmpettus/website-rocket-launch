@@ -57,7 +57,7 @@ const Hero = () => {
             <p className="text-xl">
               Whimsical children's books that spark imagination and joy through the eyes of our beloved Maggie. And others that tell amazing stories of the future and of God's hand in our lives.
             </p>
-            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="flex flex-wrap gap-4">
               <Button 
                 className="bg-amber-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full"
                 onClick={() => document.getElementById('books')?.scrollIntoView({ behavior: 'smooth' })}
@@ -70,6 +70,12 @@ const Hero = () => {
                 onClick={() => document.getElementById('newsletter')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
               >
                 Join Our List
+              </Button>
+              <Button 
+                className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full"
+                onClick={() => window.open('https://velvety-lamington-6fd815.netlify.app', '_blank')}
+              >
+                Ask Maggie a Bible Question
               </Button>
             </div>
           </div>
