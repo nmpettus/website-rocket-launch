@@ -40,7 +40,7 @@ const Projects = () => {
               </Dialog>
               <h3 className="text-xl font-bold text-gray-800 text-center">AI Adventures with Maggie</h3>
             </div>
-            <p className="text-gray-600 mb-4">A fun, simple introduction to artificial intelligence for kids, explained by Maggie! Expected release: September 2025.</p>
+            <p className="text-gray-600 mb-4">A fun, simple introduction to artificial intelligence for kids, explained by Maggie! Expected release: November 2025.</p>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div className="bg-blue-500 h-2.5 rounded-full" style={{width: "40%"}}></div>
             </div>
@@ -82,6 +82,43 @@ const Projects = () => {
               <div className="bg-emerald-500 h-2.5 rounded-full" style={{width: "15%"}}></div>
             </div>
             <p className="text-sm text-gray-500 mt-2">15% complete</p>
+          </div>
+
+          {/* Project 3 - Bible Heroes */}
+          <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+            <div className="bg-amber-500 bg-opacity-10 text-amber-500 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+              <span className="text-xl">3</span>
+            </div>
+            <div className="flex flex-col items-center mb-4">
+              <Dialog>
+                <DialogTrigger className="relative group">
+                  <img 
+                    src="/lovable-uploads/a30b516d-17c3-44e1-bd65-120f84bc64a2.png" 
+                    alt="Bible Heroes and Heroines book cover" 
+                    className="w-full h-48 object-contain mb-4 cursor-pointer transition-all group-hover:opacity-90" 
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="bg-black bg-opacity-40 p-2 rounded-full">
+                      <Image className="w-6 h-6 text-white" />
+                    </div>
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl p-2">
+                  <DialogTitle>Bible Heroes and Heroines</DialogTitle>
+                  <img 
+                    src="/lovable-uploads/a30b516d-17c3-44e1-bd65-120f84bc64a2.png" 
+                    alt="Bible Heroes and Heroines book cover" 
+                    className="w-full object-contain max-h-[80vh]" 
+                  />
+                </DialogContent>
+              </Dialog>
+              <h3 className="text-xl font-bold text-gray-800 text-center">Bible Heroes and Heroines</h3>
+            </div>
+            <p className="text-gray-600 mb-4">Bible Heroes and Heroines as told by Maggie. Expected release: November 2025.</p>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div className="bg-amber-500 h-2.5 rounded-full" style={{width: "10%"}}></div>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">10% complete</p>
           </div>
         </div>
       </div>
