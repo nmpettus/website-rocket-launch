@@ -39,22 +39,26 @@ const Hero = () => {
               </Button>
             </div>
 
-            {/* Desktop bouncing button - positioned absolutely for desktop, now lowered */}
-            <div className="hidden md:block absolute -top-4 left-0 animate-[bounce_2s_infinite]">
-              <Button 
-                className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300"
-                onClick={scrollToLetterSection}
-              >
-                <div className="flex items-center gap-2">
-                  <PartyPopper className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                  <span className="group-hover:underline">Send Maggie a Letter!</span>
-                </div>
-                <div className="absolute -top-2 -right-2 w-5 h-5 bg-pink-500 rounded-full animate-pulse"></div>
-              </Button>
-            </div>
+            {/* Desktop bouncing button has been moved inside the h1 tag */}
             
             <h1 className="text-4xl md:text-5xl font-bold font-canva leading-tight">
-              Delightful <br />Bible Stories <br />Narrated By Maggie
+              <span className="relative inline-block">
+                Delightful
+                {/* Desktop bouncing button - positioned absolutely next to "Delightful" */}
+                <div className="hidden md:block absolute top-1/2 -translate-y-1/2 left-full ml-4 animate-[bounce_2s_infinite]">
+                  <Button 
+                    className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300"
+                    onClick={scrollToLetterSection}
+                  >
+                    <div className="flex items-center gap-2">
+                      <PartyPopper className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                      <span className="group-hover:underline whitespace-nowrap">Send Maggie a Letter!</span>
+                    </div>
+                    <div className="absolute -top-2 -right-2 w-5 h-5 bg-pink-500 rounded-full animate-pulse"></div>
+                  </Button>
+                </div>
+              </span>
+              <br />Bible Stories <br />Narrated By Maggie
             </h1>
             <p className="text-xl">
               Whimsical children's books that spark imagination and joy through the eyes of our beloved Maggie. And others that tell amazing stories of the future and of God's hand in our lives.
