@@ -52,7 +52,7 @@ const Hero = () => {
             </div>
             
             <h1 className="text-4xl md:text-5xl font-bold font-canva leading-tight">
-              Delightful <br />Bible Stories Narrated By Maggie
+              Delightful <br />Bible Stories <br />Narrated By Maggie
             </h1>
             <p className="text-xl">
               Whimsical children's books that spark imagination and joy through the eyes of our beloved Maggie. And others that tell amazing stories of the future and of God's hand in our lives.
