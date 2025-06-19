@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { id: 'home', label: 'Home' },
   { id: 'books', label: 'Books' },
   { id: 'maggie', label: 'Meet Maggie' },
+  { id: 'videos', label: 'Videos' },
   { id: 'activities', label: 'Activities' },
   { id: 'games', label: 'Games' },
   { id: 'projects', label: 'Projects' },
