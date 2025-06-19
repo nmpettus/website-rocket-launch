@@ -1,4 +1,3 @@
-
 export const maggie_images = [
   // Real Maggie images (no cartoons)
   {
@@ -156,6 +155,24 @@ export const maggie_illustrations = [
   {
     src: "/lovable-uploads/2bb063a8-6edf-46ca-a3e5-cd04628b9c5f.png",
     alt: "Maggie with a stick in mouth"
+  },
+  
+  // Latest new illustrations from books
+  {
+    src: "/lovable-uploads/2e76a583-d39d-45cc-b6cc-0df171740faf.png",
+    alt: "Maggie with camera exploring outdoors"
+  },
+  {
+    src: "/lovable-uploads/05e4f476-5c93-427b-8793-ace77b054199.png",
+    alt: "Maggie reading a magical book with glowing text"
+  },
+  {
+    src: "/lovable-uploads/4958326d-4295-4646-9be0-852d9214fc71.png",
+    alt: "Maggie waving with a happy expression"
+  },
+  {
+    src: "/lovable-uploads/e8b41255-0345-45a0-b4d3-1c5bfb1d42e7.png",
+    alt: "Maggie painting with art supplies"
   }
  
   // ...add more book illustration objects here...
