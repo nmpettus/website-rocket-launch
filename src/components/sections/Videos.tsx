@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Play, Video } from "lucide-react";
@@ -23,7 +24,7 @@ const videos: VideoData[] = [
   },
   {
     id: "2", 
-    title: "Maggie's Bible Stories Preview",
+    title: "God is Awesome",
     description: "A sneak peek into Maggie's wonderful Bible story adventures",
     thumbnail: "https://img.youtube.com/vi/wY8ckoYlcaU/maxresdefault.jpg",
     embedUrl: "https://www.youtube.com/embed/wY8ckoYlcaU",
