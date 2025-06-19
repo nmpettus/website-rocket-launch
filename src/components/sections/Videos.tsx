@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Play, Video } from "lucide-react";
@@ -17,7 +15,7 @@ interface VideoData {
 const videos: VideoData[] = [
   {
     id: "1",
-    title: "Meet Maggie - Introduction",
+    title: "God loves you",
     description: "Get to know our beloved Maggie and her adventures",
     thumbnail: "https://img.youtube.com/vi/XVw8H0SgQ_Q/maxresdefault.jpg",
     embedUrl: "https://www.youtube.com/embed/XVw8H0SgQ_Q",
