@@ -1,4 +1,5 @@
 
+
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Play, Video } from "lucide-react";
@@ -34,7 +35,7 @@ const videos: VideoData[] = [
     id: "3",
     title: "Behind the Scenes with Maggie",
     description: "See how Maggie's books come to life",
-    thumbnail: "https://img.youtube.com/vi/WRB_SdUlG-g/maxresdefault.jpg", 
+    thumbnail: "https://img.youtube.com/vi/WRB_SdUlG-g/hqdefault.jpg", 
     embedUrl: "https://www.youtube.com/embed/WRB_SdUlG-g",
     type: "youtube"
   }
