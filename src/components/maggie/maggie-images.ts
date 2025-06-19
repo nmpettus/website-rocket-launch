@@ -1,3 +1,4 @@
+
 export const maggie_images = [
   // Real Maggie images (no cartoons)
   {
@@ -164,7 +165,7 @@ export const maggie_illustrations = [
   },
   {
     src: "/lovable-uploads/05e4f476-5c93-427b-8793-ace77b054199.png",
-    alt: "Maggie reading a magical book with glowing text"
+    alt: "Maggie reading a digital book with glowing text"
   },
   {
     src: "/lovable-uploads/4958326d-4295-4646-9be0-852d9214fc71.png",
