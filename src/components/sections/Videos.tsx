@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Play, Video } from "lucide-react";
@@ -17,7 +18,7 @@ const videos: VideoData[] = [
     id: "1",
     title: "Meet Maggie - Introduction",
     description: "Get to know our beloved Maggie and her adventures",
-    thumbnail: "/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png",
+    thumbnail: "https://img.youtube.com/vi/XVw8H0SgQ_Q/maxresdefault.jpg",
     embedUrl: "https://www.youtube.com/embed/XVw8H0SgQ_Q",
     type: "youtube"
   },
@@ -25,7 +26,7 @@ const videos: VideoData[] = [
     id: "2", 
     title: "Maggie's Bible Stories Preview",
     description: "A sneak peek into Maggie's wonderful Bible story adventures",
-    thumbnail: "/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png",
+    thumbnail: "https://img.youtube.com/vi/wY8ckoYlcaU/maxresdefault.jpg",
     embedUrl: "https://www.youtube.com/embed/wY8ckoYlcaU",
     type: "youtube"
   },
@@ -33,7 +34,7 @@ const videos: VideoData[] = [
     id: "3",
     title: "Behind the Scenes with Maggie",
     description: "See how Maggie's books come to life",
-    thumbnail: "/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png", 
+    thumbnail: "https://img.youtube.com/vi/WRB_SdUlG-g/maxresdefault.jpg", 
     embedUrl: "https://www.youtube.com/embed/WRB_SdUlG-g",
     type: "youtube"
   }
