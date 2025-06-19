@@ -42,9 +42,9 @@ const Projects = () => {
             </div>
             <p className="text-gray-600 mb-4">A fun, simple introduction to artificial intelligence for kids, explained by Maggie! Expected release: November 2025.</p>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
-              <div className="bg-blue-500 h-2.5 rounded-full" style={{width: "40%"}}></div>
+              <div className="bg-blue-500 h-2.5 rounded-full" style={{width: "55%"}}></div>
             </div>
-            <p className="text-sm text-gray-500 mt-2">40% complete</p>
+            <p className="text-sm text-gray-500 mt-2">55% complete</p>
           </div>
           
           {/* Project 2 */}
