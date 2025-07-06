@@ -140,43 +140,53 @@ export interface BookData {
   isNew?: boolean;
 }
 
-export const booksData: BookData[] = [
+export const booksData = [
   {
     id: "gods-love",
-    title: "God's Love as told by MAGGIE",
-    coverImage: "/lovable-uploads/9915a45c-d79b-4a00-8e51-2d7c4ca0afd8.png",
+    coverImage: "/lovable-uploads/83369923-a075-46d1-b5cf-54d226cab7da.png",
+    title: "God's Love for MAGGIE",
     languages: ["English"],
-    description: "An AI-Enhanced Biblical Story for Everyone about God's unconditional love, narrated by Maggie.",
-    reviewCount: 18,
+    description: "A heartwarming tale about God's unconditional love through the eyes of Maggie.",
+    reviewCount: 15,
     amazonLink: "https://a.co/d/a1KplpW",
     isNew: true
   },
   {
     id: "creation",
-    title: "Creation as told by MAGGIE",
-    coverImage: "/lovable-uploads/711c1342-427a-4191-91d3-7ebe4ec29df9.png",
+    coverImage: "/lovable-uploads/2bb063a8-6edf-46ca-a3e5-cd04628b9c5f.png",
+    title: "In the Beginning: MAGGIE and the Story of Creation",
     languages: ["English", "Spanish", "Italian"],
-    description: "An AI-Enhanced Biblical Story for Children, narrated by Maggie about God's creation of the world.",
-    reviewCount: 24,
+    description: "Join Maggie as she discovers the wonder of God's creation in this beautifully illustrated story.",
+    reviewCount: 23,
     amazonLink: "https://a.co/d/8DoEE31"
   },
   {
     id: "noah",
-    title: "Noah's Ark as told by MAGGIE",
-    coverImage: "/lovable-uploads/83369923-a075-46d1-b5cf-54d226cab7da.png",
+    coverImage: "/lovable-uploads/5b72a1e2-6f38-49a3-bc95-07d7cf70ad0d.png",
+    title: "MAGGIE and Noah's Ark Adventure",
     languages: ["English"],
-    description: "An AI-Enhanced Biblical Story for Children about Noah and the great flood, narrated by Maggie.",
-    reviewCount: 21,
+    description: "Maggie learns about faith and obedience through the story of Noah's Ark.",
+    reviewCount: 18,
     amazonLink: "https://a.co/d/5czEdgO"
   },
   {
     id: "jonah",
-    title: "Jonah as told by MAGGIE",
-    coverImage: "/lovable-uploads/b3639f34-6564-48eb-bba5-c7cb2a340f62.png",
+    coverImage: "/lovable-uploads/96d18d5d-f08b-4f0c-bbd6-48259e4a9477.png",
+    title: "MAGGIE and Jonah's Big Fish Story",
     languages: ["English"],
-    description: "An AI-Enhanced Biblical Story for Children about Jonah and the great fish, narrated by Maggie.",
-    reviewCount: 15,
+    description: "A tale of second chances and God's mercy as Maggie explores Jonah's journey.",
+    reviewCount: 12,
     amazonLink: "https://a.co/d/1NfnyaE"
+  },
+  {
+    id: "ai-adventures",
+    coverImage: "/lovable-uploads/27f76749-2345-41b0-a238-588bcd409ec7.png",
+    title: "AI Adventures with MAGGIE",
+    languages: ["English"],
+    description: "Join Maggie the Yorkie Poo on an incredible journey learning about Artificial Intelligence! From understanding how AI recognizes patterns to exploring how it creates art and music, this book is packed with adventures for curious minds of all ages.",
+    reviewCount: 8,
+    amazonLink: "#",
+    isNew: true
   }
 ];
 
