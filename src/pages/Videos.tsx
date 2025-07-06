@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Play, Video, Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,11 @@ import VideoVoting from "@/components/VideoVoting";
 const Videos = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   const filteredVideos = allVideos.filter(video => {
     const matchesCategory = selectedCategory === 'all' || video.category === selectedCategory;
