@@ -20,6 +20,7 @@ const NAV_LINKS = [
 
 const Navigation = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -53,6 +54,11 @@ const Navigation = () => {
   useEffect(() => {
     // On page load/reload, always scroll to top if we're on homepage
     if (location.pathname === '/') {
+      // Clear the hash from URL without triggering navigation
+      if (location.hash) {
+        window.history.replaceState(null, '', '/');
+      }
+      
       // Small delay to ensure DOM is ready
       setTimeout(() => {
         window.scrollTo({
@@ -60,13 +66,16 @@ const Navigation = () => {
           behavior: 'auto' // Use 'auto' for immediate scroll on page load
         });
         setActiveSection('home');
+        setIsInitialLoad(false); // Mark initial load as complete
       }, 50);
+    } else {
+      setIsInitialLoad(false);
     }
   }, []); // Empty dependency array means this runs only on component mount
 
   useEffect(() => {
     // Handle hash navigation when coming from other pages (but not on initial load)
-    if (location.pathname === '/' && location.hash && activeSection !== '') {
+    if (location.pathname === '/' && location.hash && !isInitialLoad) {
       const sectionId = location.hash.replace('#', '');
       setTimeout(() => {
         const section = document.getElementById(sectionId);
@@ -80,7 +89,7 @@ const Navigation = () => {
         }
       }, 100);
     }
-  }, [location, activeSection]);
+  }, [location, isInitialLoad]);
 
   useEffect(() => {
     // Only run scroll detection on homepage
