@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Play, Video, Search, Filter } from "lucide-react";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { allVideos, videoCategories, VideoData } from "@/data/videosData";
 import Navigation from "@/components/Navigation";
+import VideoVoting from "@/components/VideoVoting";
 
 const Videos = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -29,9 +31,12 @@ const Videos = () => {
               <h1 className="text-5xl font-extrabold mb-4 text-gray-800 font-['Comic_Neue']">
                 All Videos with Maggie
               </h1>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-4">
                 Explore all of Maggie's wonderful video adventures! From Bible stories to fun activities, 
                 there's something special for everyone.
+              </p>
+              <p className="text-lg text-indigo-600 font-medium">
+                🗳️ Vote for your favorites! Let us know which videos you love most!
               </p>
             </div>
 
@@ -129,7 +134,7 @@ const Videos = () => {
                       <p className="text-gray-600 text-sm line-clamp-3 mb-3">
                         {video.description}
                       </p>
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between mb-3">
                         <span className="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full font-medium">
                           {videoCategories.find(c => c.id === video.category)?.label}
                         </span>
@@ -137,6 +142,9 @@ const Videos = () => {
                           {video.aspectRatio === '9:16' ? 'Vertical' : 'Landscape'}
                         </span>
                       </div>
+                      
+                      {/* Voting Component */}
+                      <VideoVoting videoId={video.id} className="justify-center" />
                     </div>
                   </div>
                 ))}

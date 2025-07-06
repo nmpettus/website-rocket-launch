@@ -5,6 +5,7 @@ import { Play, Video, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { featuredVideos } from "@/data/videosData";
 import { Link } from "react-router-dom";
+import VideoVoting from "@/components/VideoVoting";
 
 const Videos = () => {
   return (
@@ -56,9 +57,12 @@ const Videos = () => {
                 <h3 className="text-xl font-bold text-gray-800 mb-2 font-['Comic_Neue']">
                   {video.title}
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-sm mb-4">
                   {video.description}
                 </p>
+                
+                {/* Add voting component */}
+                <VideoVoting videoId={video.id} className="justify-center" />
               </div>
             </div>
           ))}
