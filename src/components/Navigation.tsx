@@ -59,22 +59,20 @@ const Navigation = () => {
         window.history.replaceState(null, '', '/');
       }
       
-      // Small delay to ensure DOM is ready
-      setTimeout(() => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'auto' // Use 'auto' for immediate scroll on page load
-        });
-        setActiveSection('home');
-        setIsInitialLoad(false); // Mark initial load as complete
-      }, 50);
+      // Always scroll to top on initial load
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto'
+      });
+      setActiveSection('home');
+      setIsInitialLoad(false);
     } else {
       setIsInitialLoad(false);
     }
   }, []); // Empty dependency array means this runs only on component mount
 
   useEffect(() => {
-    // Handle hash navigation when coming from other pages (but not on initial load)
+    // Handle hash navigation ONLY when navigating from other pages (not on initial load)
     if (location.pathname === '/' && location.hash && !isInitialLoad) {
       const sectionId = location.hash.replace('#', '');
       setTimeout(() => {
@@ -92,8 +90,8 @@ const Navigation = () => {
   }, [location, isInitialLoad]);
 
   useEffect(() => {
-    // Only run scroll detection on homepage
-    if (location.pathname !== '/') {
+    // Only run scroll detection on homepage and after initial load is complete
+    if (location.pathname !== '/' || isInitialLoad) {
       setActiveSection('');
       return;
     }
@@ -123,7 +121,7 @@ const Navigation = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeSection, location.pathname]);
+  }, [activeSection, location.pathname, isInitialLoad]);
 
   const isActiveLink = (link: typeof NAV_LINKS[0]) => {
     if (link.isRoute && link.route) {
