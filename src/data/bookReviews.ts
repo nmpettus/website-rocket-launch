@@ -1,3 +1,4 @@
+
 import { Review } from "@/components/ReviewsModal";
 
 // Book reviews data
@@ -153,7 +154,7 @@ export const booksData = [
   },
   {
     id: "creation",
-    coverImage: "/lovable-uploads/6947ab9e-a034-4dd3-85df-4f275595e32e.png",
+    coverImage: "/lovable-uploads/ddb3fe6d-57c1-434e-938c-58f2e5ab4a75.png",
     title: "In the Beginning: MAGGIE and the Story of Creation",
     languages: ["English", "Spanish", "Italian"],
     description: "Join Maggie as she discovers the wonder of God's creation in this beautifully illustrated story.",
