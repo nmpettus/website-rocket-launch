@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
@@ -52,8 +51,22 @@ const Navigation = () => {
   };
 
   useEffect(() => {
-    // Handle hash navigation when coming from other pages
-    if (location.pathname === '/' && location.hash) {
+    // On page load/reload, always scroll to top if we're on homepage
+    if (location.pathname === '/') {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'auto' // Use 'auto' for immediate scroll on page load
+        });
+        setActiveSection('home');
+      }, 50);
+    }
+  }, []); // Empty dependency array means this runs only on component mount
+
+  useEffect(() => {
+    // Handle hash navigation when coming from other pages (but not on initial load)
+    if (location.pathname === '/' && location.hash && activeSection !== '') {
       const sectionId = location.hash.replace('#', '');
       setTimeout(() => {
         const section = document.getElementById(sectionId);
@@ -67,7 +80,7 @@ const Navigation = () => {
         }
       }, 100);
     }
-  }, [location]);
+  }, [location, activeSection]);
 
   useEffect(() => {
     // Only run scroll detection on homepage
