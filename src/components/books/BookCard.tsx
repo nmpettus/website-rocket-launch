@@ -56,6 +56,16 @@ const BookCard = ({
     }
   };
 
+  // Debug image loading
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    console.error(`Failed to load image for ${bookId}:`, coverImage);
+    console.log("Image error event:", e);
+  };
+
+  const handleImageLoad = () => {
+    console.log(`Successfully loaded image for ${bookId}:`, coverImage);
+  };
+
   return (
     <Card className="overflow-hidden hover:shadow-xl transition duration-300 flex flex-col h-full relative">
       {isNew && (
@@ -70,6 +80,8 @@ const BookCard = ({
             alt={`${formattedTitle} Book Cover`}
             className="rounded-md object-contain w-full h-full cursor-pointer"
             onClick={() => onImageClick(coverImage)}
+            onError={handleImageError}
+            onLoad={handleImageLoad}
           />
         </AspectRatio>
       </div>
