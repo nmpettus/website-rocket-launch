@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Play, Video, Search, Filter } from "lucide-react";
@@ -17,12 +16,6 @@ const Videos = () => {
                          video.description.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-
-  const getVideoGridClass = (aspectRatio: string) => {
-    return aspectRatio === '9:16' 
-      ? "aspect-[9/16] max-w-sm mx-auto" 
-      : "aspect-video";
-  };
 
   return (
     <div className="font-sans min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
@@ -83,7 +76,7 @@ const Videos = () => {
               </p>
             </div>
             
-            {/* Videos Grid */}
+            {/* Videos Grid - Standardized size for all videos */}
             {filteredVideos.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {filteredVideos.map((video) => (
@@ -91,7 +84,8 @@ const Videos = () => {
                     <Dialog>
                       <DialogTrigger className="w-full">
                         <div className="relative group cursor-pointer">
-                          <div className={getVideoGridClass(video.aspectRatio)}>
+                          {/* Standardized aspect ratio for all video previews */}
+                          <div className="aspect-video">
                             <img 
                               src={video.thumbnail} 
                               alt={video.title}
@@ -115,6 +109,7 @@ const Videos = () => {
                       </DialogTrigger>
                       <DialogContent className="max-w-4xl p-2">
                         <DialogTitle>{video.title}</DialogTitle>
+                        {/* Keep original aspect ratio in modal */}
                         <div className={video.aspectRatio === '9:16' ? "aspect-[9/16] max-w-md mx-auto" : "aspect-video w-full"}>
                           <iframe
                             src={video.embedUrl}
