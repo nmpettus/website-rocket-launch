@@ -1,3 +1,4 @@
+
 import { Review } from "@/components/ReviewsModal";
 
 // Book reviews data
@@ -180,7 +181,7 @@ export const booksData = [
   },
   {
     id: "ai-adventures",
-    coverImage: "/lovable-uploads/27f76749-2345-41b0-a238-588bcd409ec7.png",
+    coverImage: "/lovable-uploads/a9f2d2c4-f2c4-48b0-8125-7b49ead49751.png",
     title: "AI Adventures with MAGGIE",
     languages: ["English"],
     description: "Join Maggie the Yorkie Poo on an incredible journey learning about Artificial Intelligence! From understanding how AI recognizes patterns to exploring how it creates art and music, this book is packed with adventures for curious minds of all ages.",
