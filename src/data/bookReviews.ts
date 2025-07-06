@@ -1,4 +1,3 @@
-
 import { Review } from "@/components/ReviewsModal";
 
 // Book reviews data
