@@ -110,6 +110,120 @@ export const allVideos: VideoData[] = [
     type: "youtube",
     aspectRatio: "16:9",
     category: "adventures"
+  },
+  // New Shorts - Featured Category
+  {
+    id: "short-1",
+    title: "Maggie wants to be generous!",
+    description: "Watch Maggie learn about the joy of generosity and sharing with others",
+    thumbnail: "https://i.ytimg.com/vi/e_OofLSKnJk/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/e_OofLSKnJk",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "featured"
+  },
+  {
+    id: "short-2",
+    title: "Maggie increases in faith!",
+    description: "Join Maggie as she grows stronger in her faith journey with God",
+    thumbnail: "https://i.ytimg.com/vi/85POMjcqbkE/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/85POMjcqbkE",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "featured"
+  },
+  {
+    id: "short-3",
+    title: "Maggie and God's Love",
+    description: "Experience the warmth of God's love through Maggie's perspective",
+    thumbnail: "https://i.ytimg.com/vi/L632PZYJlHI/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/L632PZYJlHI",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "featured"
+  },
+  {
+    id: "short-4",
+    title: "Maggie God Forgives",
+    description: "A touching short about forgiveness and God's mercy through Maggie's eyes",
+    thumbnail: "https://i.ytimg.com/vi/Sb_oJ7T9U8U/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/Sb_oJ7T9U8U",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "featured"
+  },
+  // New Shorts - Stories Category
+  {
+    id: "short-5",
+    title: "Maggie and Children",
+    description: "See how Maggie connects with children in this heartwarming story",
+    thumbnail: "https://i.ytimg.com/vi/6RPrnLwYap0/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/6RPrnLwYap0",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "stories"
+  },
+  {
+    id: "short-6",
+    title: "Maggie Loves Children",
+    description: "Watch Maggie express her love and care for children everywhere",
+    thumbnail: "https://i.ytimg.com/vi/nFm_fhAgOdg/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/nFm_fhAgOdg",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "stories"
+  },
+  {
+    id: "short-7",
+    title: "Maggie has a Friend",
+    description: "Join Maggie as she celebrates the joy of friendship and companionship",
+    thumbnail: "https://i.ytimg.com/vi/exMcr5IFjA0/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/exMcr5IFjA0",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "stories"
+  },
+  {
+    id: "short-8",
+    title: "Maggie and Truth",
+    description: "Learn about honesty and truth through Maggie's important lesson",
+    thumbnail: "https://i.ytimg.com/vi/4r2XKxgYkiM/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/4r2XKxgYkiM",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "stories"
+  },
+  // New Shorts - Activities Category
+  {
+    id: "short-9",
+    title: "Maggie celebrates the 4th of July!",
+    description: "Join Maggie's patriotic celebration of Independence Day with fun and joy",
+    thumbnail: "https://i.ytimg.com/vi/WYJEBdfytXw/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/WYJEBdfytXw",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "activities"
+  },
+  {
+    id: "short-10",
+    title: "Maggie This is the day",
+    description: "Follow Maggie through a special day filled with wonder and gratitude",
+    thumbnail: "https://i.ytimg.com/vi/wkBPNGDUWiE/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/wkBPNGDUWiE",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "activities"
+  },
+  // New Shorts - Behind-scenes Category
+  {
+    id: "short-11",
+    title: "Maggie Shows Compassion",
+    description: "Watch Maggie demonstrate kindness and compassion in this touching moment",
+    thumbnail: "https://i.ytimg.com/vi/cSKGgb_qbAQ/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/cSKGgb_qbAQ",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "behind-scenes"
   }
 ];
 
