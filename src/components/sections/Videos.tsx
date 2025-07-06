@@ -1,59 +1,24 @@
+
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Play, Video } from "lucide-react";
-
-interface VideoData {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  embedUrl: string;
-  type: 'youtube' | 'vimeo';
-}
-
-// Sample video data - replace with your actual videos
-const videos: VideoData[] = [
-  {
-    id: "1",
-    title: "God loves you",
-    description: "Get to know our beloved Maggie and her adventures",
-    thumbnail: "https://img.youtube.com/vi/XVw8H0SgQ_Q/maxresdefault.jpg",
-    embedUrl: "https://www.youtube.com/embed/XVw8H0SgQ_Q",
-    type: "youtube"
-  },
-  {
-    id: "2", 
-    title: "God is Awesome",
-    description: "A sneak peek into Maggie's wonderful Bible story adventures",
-    thumbnail: "https://img.youtube.com/vi/wY8ckoYlcaU/maxresdefault.jpg",
-    embedUrl: "https://www.youtube.com/embed/wY8ckoYlcaU",
-    type: "youtube"
-  },
-  {
-    id: "3",
-    title: "Maggie talks about love",
-    description: "See how Maggie's books come to life",
-    thumbnail: "https://img.youtube.com/vi/WRB_SdUlG-g/hqdefault.jpg", 
-    embedUrl: "https://www.youtube.com/embed/WRB_SdUlG-g",
-    type: "youtube"
-  }
-];
+import { Play, Video, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { featuredVideos } from "@/data/videosData";
+import { Link } from "react-router-dom";
 
 const Videos = () => {
-  const [selectedVideo, setSelectedVideo] = useState<VideoData | null>(null);
-
   return (
     <section id="videos" className="py-16 bg-gradient-to-br from-purple-50 to-blue-50">
       <div className="container mx-auto px-6">
         <h2 className="text-4xl font-extrabold text-center mb-4 text-gray-800 font-['Comic_Neue']">
-          Videos with Maggie
+          Featured Videos with Maggie
         </h2>
-        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
+        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-8">
           Watch Maggie come to life in these delightful videos! Get a behind-the-scenes look at her adventures and stories.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {videos.map((video) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {featuredVideos.map((video) => (
             <div key={video.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <Dialog>
                 <DialogTrigger className="w-full">
@@ -98,8 +63,18 @@ const Videos = () => {
             </div>
           ))}
         </div>
+
+        {/* View All Videos Button */}
+        <div className="text-center">
+          <Link to="/videos">
+            <Button className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+              View All Videos
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
+        </div>
         
-        <div className="text-center mt-12">
+        <div className="text-center mt-8">
           <p className="text-gray-600 mb-4">
             Have a video idea for Maggie? We'd love to hear from you!
           </p>
