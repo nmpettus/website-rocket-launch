@@ -19,7 +19,7 @@ const Projects = () => {
               <Dialog>
                 <DialogTrigger className="relative group">
                   <img 
-                    src="/lovable-uploads/6b22c83b-1f49-4e75-8037-492e12cab7bf.png" 
+                    src="/lovable-uploads/a9f2d2c4-f2c4-48b0-8125-7b49ead49751.png" 
                     alt="AI Adventures with Maggie book cover" 
                     className="w-full h-48 object-contain mb-4 cursor-pointer transition-all group-hover:opacity-90" 
                   />
@@ -32,7 +32,7 @@ const Projects = () => {
                 <DialogContent className="max-w-2xl p-2">
                   <DialogTitle>AI Adventures with Maggie</DialogTitle>
                   <img 
-                    src="/lovable-uploads/6b22c83b-1f49-4e75-8037-492e12cab7bf.png" 
+                    src="/lovable-uploads/a9f2d2c4-f2c4-48b0-8125-7b49ead49751.png" 
                     alt="AI Adventures with Maggie book cover" 
                     className="w-full object-contain max-h-[80vh]" 
                   />
