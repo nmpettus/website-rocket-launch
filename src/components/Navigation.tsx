@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
@@ -22,6 +22,7 @@ const NAV_LINKS = [
 const Navigation = () => {
   const [activeSection, setActiveSection] = useState('home');
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof NAV_LINKS[0]) => {
     if (link.isRoute) {
@@ -30,6 +31,14 @@ const Navigation = () => {
     }
     
     e.preventDefault();
+    
+    // If we're not on the homepage, navigate to homepage first with the section hash
+    if (location.pathname !== '/') {
+      navigate(`/#${link.id}`);
+      return;
+    }
+    
+    // If we're on homepage, scroll to the section
     const section = document.getElementById(link.id);
     if (section) {
       const navbarHeight = 80;
@@ -41,6 +50,24 @@ const Navigation = () => {
       });
     }
   };
+
+  useEffect(() => {
+    // Handle hash navigation when coming from other pages
+    if (location.pathname === '/' && location.hash) {
+      const sectionId = location.hash.replace('#', '');
+      setTimeout(() => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          const navbarHeight = 80;
+          const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+          window.scrollTo({
+            top: sectionTop,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    }
+  }, [location]);
 
   useEffect(() => {
     // Only run scroll detection on homepage
@@ -110,7 +137,7 @@ const Navigation = () => {
               ) : (
                 <a 
                   key={link.id}
-                  href={`#${link.id}`} 
+                  href={`/#${link.id}`} 
                   onClick={(e) => handleNavClick(e, link)} 
                   className={cn(
                     "px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-in-out",
@@ -158,7 +185,7 @@ const Navigation = () => {
                           </Link>
                         ) : (
                           <a 
-                            href={`#${link.id}`} 
+                            href={`/#${link.id}`} 
                             onClick={(e) => handleNavClick(e, link)}
                             className={cn(
                               "block text-lg py-3 px-4 rounded-lg transition-all duration-200",
