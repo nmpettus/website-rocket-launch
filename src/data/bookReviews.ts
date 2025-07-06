@@ -1,4 +1,3 @@
-
 import { Review } from "@/components/ReviewsModal";
 
 // Book reviews data
@@ -190,8 +189,5 @@ export const booksData = [
     isNew: true
   }
 ];
-
-// Debug logging to help identify the issue
-console.log("Updated book covers data:", booksData.map(book => ({ id: book.id, coverImage: book.coverImage })));
 
 export default bookReviews;
