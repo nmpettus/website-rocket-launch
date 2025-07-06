@@ -2,14 +2,6 @@
 export const maggie_images = [
   // Real Maggie images (no cartoons)
   {
-    src: "/lovable-uploads/96d18d5d-f08b-4f0c-bbd6-48259e4a9477.png",
-    alt: "Maggie on carpet"
-  },
-  {
-    src: "/lovable-uploads/5b72a1e2-6f38-49a3-bc95-07d7cf70ad0d.png",
-    alt: "Maggie in the car"
-  },
-  {
     src: "/lovable-uploads/a0dc09df-1ac6-4e12-b89f-b420c454c324.png",
     alt: "Maggie with toy"
   },
@@ -152,10 +144,6 @@ export const maggie_illustrations = [
   {
     src: "/lovable-uploads/d00d299e-c0ab-4a09-b21b-b420928858df.png",
     alt: "Maggie happy and playful"
-  },
-  {
-    src: "/lovable-uploads/2bb063a8-6edf-46ca-a3e5-cd04628b9c5f.png",
-    alt: "Maggie with a stick in mouth"
   },
   
   // Latest new illustrations from books
