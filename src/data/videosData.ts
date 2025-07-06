@@ -164,16 +164,6 @@ export const allVideos: VideoData[] = [
     category: "stories"
   },
   {
-    id: "short-6",
-    title: "Maggie Loves Children",
-    description: "Watch Maggie express her love and care for children everywhere",
-    thumbnail: "https://i.ytimg.com/vi/nFm_fhAgOdg/hqdefault.jpg",
-    embedUrl: "https://www.youtube.com/embed/nFm_fhAgOdg",
-    type: "youtube",
-    aspectRatio: "9:16",
-    category: "stories"
-  },
-  {
     id: "short-7",
     title: "Maggie has a Friend",
     description: "Join Maggie as she celebrates the joy of friendship and companionship",
