@@ -56,15 +56,19 @@ const BookCard = ({
     }
   };
 
-  // Debug image loading
+  // Enhanced debug image loading
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     console.error(`Failed to load image for ${bookId}:`, coverImage);
     console.log("Image error event:", e);
+    console.log("Full image path being attempted:", coverImage);
   };
 
   const handleImageLoad = () => {
     console.log(`Successfully loaded image for ${bookId}:`, coverImage);
   };
+
+  // Debug log on component render
+  console.log(`BookCard ${bookId} rendering with image:`, coverImage);
 
   return (
     <Card className="overflow-hidden hover:shadow-xl transition duration-300 flex flex-col h-full relative">
