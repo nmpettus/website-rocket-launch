@@ -144,7 +144,7 @@ export interface BookData {
 export const booksData = [
   {
     id: "gods-love",
-    coverImage: "/lovable-uploads/83369923-a075-46d1-b5cf-54d226cab7da.png",
+    coverImage: "/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png",
     title: "God's Love for MAGGIE",
     languages: ["English"],
     description: "A heartwarming tale about God's unconditional love through the eyes of Maggie.",
@@ -154,7 +154,7 @@ export const booksData = [
   },
   {
     id: "creation",
-    coverImage: "/lovable-uploads/2bb063a8-6edf-46ca-a3e5-cd04628b9c5f.png",
+    coverImage: "/lovable-uploads/6947ab9e-a034-4dd3-85df-4f275595e32e.png",
     title: "In the Beginning: MAGGIE and the Story of Creation",
     languages: ["English", "Spanish", "Italian"],
     description: "Join Maggie as she discovers the wonder of God's creation in this beautifully illustrated story.",
@@ -172,7 +172,7 @@ export const booksData = [
   },
   {
     id: "jonah",
-    coverImage: "/lovable-uploads/96d18d5d-f08b-4f0c-bbd6-48259e4a9477.png",
+    coverImage: "/lovable-uploads/62a614b9-872b-4627-aa30-98d723add3dc.png",
     title: "MAGGIE and Jonah's Big Fish Story",
     languages: ["English"],
     description: "A tale of second chances and God's mercy as Maggie explores Jonah's journey.",
@@ -192,6 +192,6 @@ export const booksData = [
 ];
 
 // Debug logging to help identify the issue
-console.log("Book covers data:", booksData.map(book => ({ id: book.id, coverImage: book.coverImage })));
+console.log("Updated book covers data:", booksData.map(book => ({ id: book.id, coverImage: book.coverImage })));
 
 export default bookReviews;
