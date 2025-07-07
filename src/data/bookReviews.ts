@@ -1,4 +1,3 @@
-
 import { Review } from "@/components/ReviewsModal";
 
 // Book reviews data
@@ -178,16 +177,6 @@ export const booksData = [
     description: "A tale of second chances and God's mercy as Maggie explores Jonah's journey.",
     reviewCount: 12,
     amazonLink: "https://a.co/d/1NfnyaE"
-  },
-  {
-    id: "ai-adventures",
-    coverImage: "/lovable-uploads/a9f2d2c4-f2c4-48b0-8125-7b49ead49751.png",
-    title: "AI Adventures with MAGGIE",
-    languages: ["English"],
-    description: "Join Maggie the Yorkie Poo on an incredible journey learning about Artificial Intelligence! From understanding how AI recognizes patterns to exploring how it creates art and music, this book is packed with adventures for curious minds of all ages.",
-    reviewCount: 8,
-    amazonLink: "#",
-    isNew: true
   }
 ];
 
