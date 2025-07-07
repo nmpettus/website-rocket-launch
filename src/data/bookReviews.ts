@@ -144,7 +144,7 @@ export interface BookData {
 export const booksData = [
   {
     id: "gods-love",
-    coverImage: "/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png",
+    coverImage: "/lovable-uploads/9915a45c-d79b-4a00-8e51-2d7c4ca0afd8.png",
     title: "God's Love for MAGGIE",
     languages: ["English"],
     description: "A heartwarming tale about God's unconditional love through the eyes of Maggie.",
@@ -154,7 +154,7 @@ export const booksData = [
   },
   {
     id: "creation",
-    coverImage: "/lovable-uploads/ddb3fe6d-57c1-434e-938c-58f2e5ab4a75.png",
+    coverImage: "/lovable-uploads/711c1342-427a-4191-91d3-7ebe4ec29df9.png",
     title: "In the Beginning: MAGGIE and the Story of Creation",
     languages: ["English", "Spanish", "Italian"],
     description: "Join Maggie as she discovers the wonder of God's creation in this beautifully illustrated story.",
@@ -163,7 +163,7 @@ export const booksData = [
   },
   {
     id: "noah",
-    coverImage: "/lovable-uploads/5b72a1e2-6f38-49a3-bc95-07d7cf70ad0d.png",
+    coverImage: "/lovable-uploads/83369923-a075-46d1-b5cf-54d226cab7da.png",
     title: "MAGGIE and Noah's Ark Adventure",
     languages: ["English"],
     description: "Maggie learns about faith and obedience through the story of Noah's Ark.",
@@ -172,7 +172,7 @@ export const booksData = [
   },
   {
     id: "jonah",
-    coverImage: "/lovable-uploads/62a614b9-872b-4627-aa30-98d723add3dc.png",
+    coverImage: "/lovable-uploads/b3639f34-6564-48eb-bba5-c7cb2a340f62.png",
     title: "MAGGIE and Jonah's Big Fish Story",
     languages: ["English"],
     description: "A tale of second chances and God's mercy as Maggie explores Jonah's journey.",
