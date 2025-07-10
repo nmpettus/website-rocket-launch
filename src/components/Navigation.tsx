@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { id: 'books', label: 'Books', isRoute: false },
   { id: 'maggie', label: 'Meet Maggie', isRoute: false },
   { id: 'videos', label: 'Videos', isRoute: true, route: '/videos' },
-  { id: 'activities', label: 'Activities', isRoute: false },
+  { id: 'kids', label: 'GiveAway', isRoute: false },
   { id: 'games', label: 'Games', isRoute: false },
   { id: 'projects', label: 'Projects', isRoute: false },
   { id: 'newsletter', label: 'Join', isRoute: false },

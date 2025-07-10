@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import { booksData } from "@/data/bookReviews";
@@ -56,7 +55,7 @@ const Footer = () => {
               <li><a href="#books" onClick={(e) => handleNavClick(e, 'books')} className="text-gray-400 hover:text-white transition duration-300">Books</a></li>
               <li><a href="#maggie" onClick={(e) => handleNavClick(e, 'maggie')} className="text-gray-400 hover:text-white transition duration-300">Meet Maggie</a></li>
               <li><Link to="/videos" className="text-gray-400 hover:text-white transition duration-300">Videos</Link></li>
-              <li><a href="#activities" onClick={(e) => handleNavClick(e, 'activities')} className="text-gray-400 hover:text-white transition duration-300">Activities</a></li>
+              <li><a href="#kids" onClick={(e) => handleNavClick(e, 'kids')} className="text-gray-400 hover:text-white transition duration-300">GiveAway</a></li>
               <li><a href="#projects" onClick={(e) => handleNavClick(e, 'projects')} className="text-gray-400 hover:text-white transition duration-300">Projects</a></li>
               <li><a href="#newsletter" onClick={(e) => handleNavClick(e, 'newsletter')} className="text-gray-400 hover:text-white transition duration-300">Join</a></li>
               <li><a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
