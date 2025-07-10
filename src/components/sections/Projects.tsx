@@ -10,7 +10,7 @@ const Projects = () => {
         <h2 className="text-4xl font-extrabold text-center mb-12 text-gray-800 font-['Comic_Neue']">Projects</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Project 1 - AI Adventures with Maggie */}
+          {/* Project 1 - Maggie's AI Adventures */}
           <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300">
             <div className="bg-blue-500 bg-opacity-10 text-blue-500 w-12 h-12 rounded-full flex items-center justify-center mb-4">
               <span className="text-xl">1</span>
@@ -19,8 +19,8 @@ const Projects = () => {
               <Dialog>
                 <DialogTrigger className="relative group">
                   <img 
-                    src="/lovable-uploads/a9f2d2c4-f2c4-48b0-8125-7b49ead49751.png" 
-                    alt="AI Adventures with Maggie book cover" 
+                    src="/lovable-uploads/6fbae857-85fa-459d-a309-a8c44e28ebc0.png" 
+                    alt="Maggie's AI Adventures book cover" 
                     className="w-full h-48 object-contain mb-4 cursor-pointer transition-all group-hover:opacity-90" 
                   />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -30,17 +30,18 @@ const Projects = () => {
                   </div>
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl p-2">
-                  <DialogTitle>AI Adventures with Maggie</DialogTitle>
+                  <DialogTitle>Maggie's AI Adventures</DialogTitle>
                   <img 
-                    src="/lovable-uploads/a9f2d2c4-f2c4-48b0-8125-7b49ead49751.png" 
-                    alt="AI Adventures with Maggie book cover" 
+                    src="/lovable-uploads/6fbae857-85fa-459d-a309-a8c44e28ebc0.png" 
+                    alt="Maggie's AI Adventures book cover" 
                     className="w-full object-contain max-h-[80vh]" 
                   />
                 </DialogContent>
               </Dialog>
-              <h3 className="text-xl font-bold text-gray-800 text-center">AI Adventures with Maggie</h3>
+              <h3 className="text-xl font-bold text-gray-800 text-center">Maggie's AI Adventures</h3>
+              <p className="text-sm text-gray-600 text-center mt-1">A Complete Family Guide to Understanding Artificial Intelligence</p>
             </div>
-            <p className="text-gray-600 mb-4">A fun, simple introduction to artificial intelligence for kids, explained by Maggie! Expected release: November 2025.</p>
+            <p className="text-gray-600 mb-4">A fun, engaging introduction to artificial intelligence for the whole family! Expected release: November 2025.</p>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div className="bg-blue-500 h-2.5 rounded-full" style={{width: "55%"}}></div>
             </div>
