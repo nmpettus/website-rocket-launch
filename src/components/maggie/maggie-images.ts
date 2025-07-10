@@ -1,4 +1,5 @@
 
+
 export const maggie_images = [
   // Real Maggie images (no cartoons)
   {
@@ -94,6 +95,20 @@ export const maggie_images = [
     alt: "Maggie getting cuddles indoors"
   },
 
+  // Latest new images
+  {
+    src: "/lovable-uploads/a44b3fc6-baa0-48bd-8f0c-4a126c20bf46.png",
+    alt: "Maggie sitting on hardwood floor wearing collar"
+  },
+  {
+    src: "/lovable-uploads/f92fc5eb-f933-4c56-891d-9b090731bca6.png",
+    alt: "Maggie relaxing on patterned rug in living room"
+  },
+  {
+    src: "/lovable-uploads/df24224b-aaa2-46d4-aac7-92f9bf1e61e5.png",
+    alt: "Maggie playing with white cloth on colorful rug"
+  },
+
 ];
 
 // Book/cartoon illustrations (for Maggie from Her Books)
@@ -166,3 +181,4 @@ export const maggie_illustrations = [
  
   // ...add more book illustration objects here...
 ];
+
