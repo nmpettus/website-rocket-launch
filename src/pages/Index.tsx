@@ -7,6 +7,7 @@ import MeetMaggie from "@/components/sections/MeetMaggie";
 import MaggieImagesSection from "@/components/sections/MaggieImagesSection";
 import Videos from "@/components/sections/Videos";
 import GiveAway from "@/components/sections/GiveAway";
+import Activities from "@/components/sections/Activities";
 import Games from "@/components/sections/Games";
 import Projects from "@/components/sections/Projects";
 import Newsletter from "@/components/sections/NewsLetter";
@@ -31,6 +32,7 @@ const Index = () => {
       <div id="kids">
         <GiveAway />
       </div>
+      <Activities />
       <div id="games">
         <Games />
       </div>
