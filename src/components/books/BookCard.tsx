@@ -1,10 +1,10 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe, Book } from "lucide-react";
+import { Globe, Book, Eye } from "lucide-react";
+import { SamplePage } from "@/data/bookReviews";
 
 interface LanguageLink {
   language: string;
@@ -21,8 +21,10 @@ interface BookCardProps {
   amazonLink: string;
   bookId: string;
   isNew?: boolean;
+  samplePages?: SamplePage[];
   onOpenReviews: (bookId: string, title: string) => void;
   onImageClick: (imageSrc: string) => void;
+  onOpenSample: (bookId: string, title: string) => void;
 }
 
 const BookCard = ({
@@ -35,8 +37,10 @@ const BookCard = ({
   amazonLink,
   bookId,
   isNew = false,
+  samplePages = [],
   onOpenReviews,
   onImageClick,
+  onOpenSample,
 }: BookCardProps) => {
   // Map language names to their respective badge colors
   const languageColors: Record<string, string> = {
@@ -69,6 +73,8 @@ const BookCard = ({
 
   // Debug log on component render
   console.log(`BookCard ${bookId} rendering with image:`, coverImage);
+
+  const hasSamples = samplePages && samplePages.length > 0;
 
   return (
     <Card className="overflow-hidden hover:shadow-xl transition duration-300 flex flex-col h-full relative">
@@ -125,6 +131,18 @@ const BookCard = ({
             <Book className="w-4 h-4 mr-2" />
             Amazon
           </Button>
+          
+          {hasSamples && (
+            <Button 
+              variant="outline" 
+              className="border border-green-600 text-green-600 hover:bg-green-600 hover:text-white flex-1 flex items-center justify-center"
+              onClick={() => onOpenSample(bookId, formattedTitle)}
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              Sample
+            </Button>
+          )}
+          
           <Button 
             variant="outline" 
             className="border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white flex-1"

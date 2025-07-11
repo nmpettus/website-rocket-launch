@@ -1,3 +1,4 @@
+
 import { Review } from "@/components/ReviewsModal";
 
 // Book reviews data
@@ -138,6 +139,13 @@ export interface BookData {
   reviewCount: number;
   amazonLink: string;
   isNew?: boolean;
+  samplePages?: SamplePage[];
+}
+
+export interface SamplePage {
+  src: string;
+  pageNumber: number;
+  alt: string;
 }
 
 export const booksData = [
@@ -149,7 +157,10 @@ export const booksData = [
     description: "A heartwarming tale about God's unconditional love through the eyes of Maggie.",
     reviewCount: 15,
     amazonLink: "https://a.co/d/a1KplpW",
-    isNew: true
+    isNew: true,
+    samplePages: [
+      // Add sample pages here when you upload them
+    ]
   },
   {
     id: "creation",
@@ -158,7 +169,10 @@ export const booksData = [
     languages: ["English", "Spanish", "Italian"],
     description: "Join Maggie as she discovers the wonder of God's creation in this beautifully illustrated story.",
     reviewCount: 23,
-    amazonLink: "https://a.co/d/8DoEE31"
+    amazonLink: "https://a.co/d/8DoEE31",
+    samplePages: [
+      // Add sample pages here when you upload them
+    ]
   },
   {
     id: "noah",
@@ -167,7 +181,10 @@ export const booksData = [
     languages: ["English"],
     description: "Maggie learns about faith and obedience through the story of Noah's Ark.",
     reviewCount: 18,
-    amazonLink: "https://a.co/d/5czEdgO"
+    amazonLink: "https://a.co/d/5czEdgO",
+    samplePages: [
+      // Add sample pages here when you upload them
+    ]
   },
   {
     id: "jonah",
@@ -176,7 +193,10 @@ export const booksData = [
     languages: ["English"],
     description: "A tale of second chances and God's mercy as Maggie explores Jonah's journey.",
     reviewCount: 12,
-    amazonLink: "https://a.co/d/1NfnyaE"
+    amazonLink: "https://a.co/d/1NfnyaE",
+    samplePages: [
+      // Add sample pages here when you upload them
+    ]
   }
 ];
 

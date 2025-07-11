@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import BookCard from "@/components/books/BookCard";
 import BookGiveaway from "@/components/books/BookGiveaway";
 import ImageViewer from "@/components/books/ImageViewer";
+import BookSampleViewer from "@/components/books/BookSampleViewer";
 import ReviewsModal, { Review } from "@/components/ReviewsModal";
-import bookReviews, { booksData } from "@/data/bookReviews";
+import bookReviews, { booksData, SamplePage } from "@/data/bookReviews";
 
 // Define language links for each book
 const bookLanguageLinks = {
@@ -28,6 +29,11 @@ const Books = () => {
   const [selectedReviews, setSelectedReviews] = useState<Review[]>([]);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
+  const [selectedSample, setSelectedSample] = useState<{
+    bookId: string;
+    title: string;
+    pages: SamplePage[];
+  } | null>(null);
 
   const handleOpenReviews = (bookId: string, title: string) => {
     setSelectedBook(bookId);
@@ -41,6 +47,21 @@ const Books = () => {
 
   const handleImageClick = (imageSrc: string) => {
     setEnlargedImage(imageSrc);
+  };
+
+  const handleOpenSample = (bookId: string, title: string) => {
+    const book = booksData.find(b => b.id === bookId);
+    if (book && book.samplePages) {
+      setSelectedSample({
+        bookId,
+        title,
+        pages: book.samplePages
+      });
+    }
+  };
+
+  const handleCloseSample = () => {
+    setSelectedSample(null);
   };
 
   return (
@@ -64,8 +85,10 @@ const Books = () => {
               amazonLink={book.amazonLink}
               bookId={book.id}
               isNew={book.isNew}
+              samplePages={book.samplePages}
               onOpenReviews={handleOpenReviews}
               onImageClick={handleImageClick}
+              onOpenSample={handleOpenSample}
             />
           ))}
         </div>
@@ -75,6 +98,16 @@ const Books = () => {
           enlargedImage={enlargedImage}
           onClose={() => setEnlargedImage(null)}
         />
+        
+        {/* Sample Viewer component */}
+        {selectedSample && (
+          <BookSampleViewer
+            isOpen={!!selectedSample}
+            onClose={handleCloseSample}
+            bookTitle={selectedSample.title}
+            samplePages={selectedSample.pages}
+          />
+        )}
         
         {/* Reviews Modal */}
         {selectedBook && (
