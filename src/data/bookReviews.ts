@@ -1,4 +1,3 @@
-
 import { Review } from "@/components/ReviewsModal";
 
 // Book reviews data
@@ -159,7 +158,26 @@ export const booksData = [
     amazonLink: "https://a.co/d/a1KplpW",
     isNew: true,
     samplePages: [
-      // Add sample pages here when you upload them
+      {
+        src: "/lovable-uploads/6eafedb9-930e-4688-8ed6-23f6eea36ca1.png",
+        pageNumber: 1,
+        alt: "God's Love for MAGGIE - Cover Page"
+      },
+      {
+        src: "/lovable-uploads/8ec2cc2f-dc37-43da-94eb-f2ef89193117.png",
+        pageNumber: 2,
+        alt: "God's Love for MAGGIE - Copyright Page"
+      },
+      {
+        src: "/lovable-uploads/c760b8fc-403f-4fb4-ad94-4aa6ec255b71.png",
+        pageNumber: 3,
+        alt: "God's Love for MAGGIE - Dedication Page"
+      },
+      {
+        src: "/lovable-uploads/6a8578d4-4d36-4b8f-ba26-1722c64f34ed.png",
+        pageNumber: 4,
+        alt: "God's Love for MAGGIE - Story Page"
+      }
     ]
   },
   {
