@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -49,10 +50,8 @@ const BookCard = ({
     Italian: "bg-emerald-500",
   };
 
-  // Convert "MAGGIE" to "Maggie" in the title
   const formattedTitle = title.replace(/MAGGIE/g, "Maggie");
 
-  // Handler for language badge click
   const handleLanguageClick = (language: string) => {
     const link = languageLinks.find(l => l.language === language)?.url;
     if (link) {
@@ -60,7 +59,6 @@ const BookCard = ({
     }
   };
 
-  // Enhanced debug image loading
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     console.error(`Failed to load image for ${bookId}:`, coverImage);
     console.log("Image error event:", e);
@@ -71,7 +69,6 @@ const BookCard = ({
     console.log(`Successfully loaded image for ${bookId}:`, coverImage);
   };
 
-  // Debug log on component render
   console.log(`BookCard ${bookId} rendering with image:`, coverImage);
 
   const hasSamples = samplePages && samplePages.length > 0;
@@ -123,29 +120,32 @@ const BookCard = ({
         </div>
       </CardContent>
       <CardFooter className="p-6 pt-0 mt-auto">
-        <div className="flex w-full space-x-2">
+        <div className="flex w-full gap-2">
           <Button 
-            className="bg-indigo-600 hover:bg-indigo-700 text-white flex-1 flex items-center justify-center"
+            size="sm"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white flex-1 min-w-0"
             onClick={() => window.open(amazonLink, "_blank")}
           >
-            <Book className="w-4 h-4 mr-2" />
+            <Book className="w-3 h-3 mr-1" />
             Amazon
           </Button>
           
           {hasSamples && (
             <Button 
+              size="sm"
               variant="outline" 
-              className="border border-green-600 text-green-600 hover:bg-green-600 hover:text-white flex-1 flex items-center justify-center"
+              className="border border-green-600 text-green-600 hover:bg-green-600 hover:text-white flex-1 min-w-0"
               onClick={() => onOpenSample(bookId, formattedTitle)}
             >
-              <Eye className="w-4 h-4 mr-2" />
+              <Eye className="w-3 h-3 mr-1" />
               Sample
             </Button>
           )}
           
           <Button 
+            size="sm"
             variant="outline" 
-            className="border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white flex-1"
+            className="border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white flex-1 min-w-0"
             onClick={() => onOpenReviews(bookId, formattedTitle)}
           >
             Reviews
