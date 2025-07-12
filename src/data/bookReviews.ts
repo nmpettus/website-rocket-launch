@@ -6,14 +6,14 @@ const bookReviews: Record<string, Review[]> = {
     {
       id: "1",
       author: "Maria S.",
-      date: "May 20, 2025",
+      date: "May 20, 2025", 
       rating: 5,
       title: "Heartwarming and beautiful",
       content: "This book touched my heart! The way Maggie explains God's love is so gentle and perfect for children of all ages. The illustrations are absolutely stunning and my kids keep asking to read it again and again. A wonderful addition to our family library!",
       verified: true
     },
     {
-      id: "2", 
+      id: "2",
       author: "Pastor John",
       date: "May 15, 2025",
       rating: 5,
@@ -24,7 +24,7 @@ const bookReviews: Record<string, Review[]> = {
     {
       id: "3",
       author: "Catherine L.",
-      date: "April 28, 2025", 
+      date: "April 28, 2025",
       rating: 5,
       title: "A treasured bedtime story",
       content: "This has become our go-to bedtime story. My daughter loves Maggie and the way she explains how much God loves us. The book brings comfort and joy to our evening routine. Beautiful illustrations and meaningful message!",
@@ -261,7 +261,31 @@ export const booksData = [
     reviewCount: 12,
     amazonLink: "https://a.co/d/1NfnyaE",
     samplePages: [
-      // Add sample pages here when you upload them
+      {
+        src: "/lovable-uploads/496293da-0424-49d9-82f7-962821154ce8.png",
+        pageNumber: 1,
+        alt: "Jonah - Cover Page"
+      },
+      {
+        src: "/lovable-uploads/da0f40b4-0905-4295-947e-c1dcc4014b32.png",
+        pageNumber: 2,
+        alt: "Jonah - Copyright Page"
+      },
+      {
+        src: "/lovable-uploads/69bc37f9-db15-4f1a-9192-ce4a16183cb4.png",
+        pageNumber: 3,
+        alt: "Jonah - Dedication Page"
+      },
+      {
+        src: "/lovable-uploads/b958f7f4-9a0b-4232-bb78-200b80405755.png",
+        pageNumber: 4,
+        alt: "Jonah - Story Introduction"
+      },
+      {
+        src: "/lovable-uploads/2541c224-1f8f-49ba-af72-b6d7d52bb1a7.png",
+        pageNumber: 5,
+        alt: "Jonah - Maggie with Bible"
+      }
     ]
   }
 ];
