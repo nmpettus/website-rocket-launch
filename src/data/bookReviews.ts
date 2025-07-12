@@ -1,3 +1,4 @@
+
 import { Review } from "@/components/ReviewsModal";
 
 // Book reviews data
@@ -189,7 +190,31 @@ export const booksData = [
     reviewCount: 23,
     amazonLink: "https://a.co/d/8DoEE31",
     samplePages: [
-      // Add sample pages here when you upload them
+      {
+        src: "/lovable-uploads/8d195fa8-24a9-42f2-a494-52c93340a9b9.png",
+        pageNumber: 1,
+        alt: "Creation - Cover Page"
+      },
+      {
+        src: "/lovable-uploads/0165e2d6-4d19-4daf-9f72-794452ed4037.png",
+        pageNumber: 2,
+        alt: "Creation - Copyright Page"
+      },
+      {
+        src: "/lovable-uploads/ff6ad52c-6fc6-4e35-af7e-dfefc6b87b5f.png",
+        pageNumber: 3,
+        alt: "Creation - Dedication Page"
+      },
+      {
+        src: "/lovable-uploads/5cbb2c6a-7961-43f1-913b-9a53e10e22b2.png",
+        pageNumber: 4,
+        alt: "Creation - Story Introduction"
+      },
+      {
+        src: "/lovable-uploads/d2492465-6080-4845-94a9-9be588776161.png",
+        pageNumber: 5,
+        alt: "Creation - Maggie Character Introduction"
+      }
     ]
   },
   {
