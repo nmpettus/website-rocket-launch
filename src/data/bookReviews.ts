@@ -1,4 +1,3 @@
-
 import { Review } from "@/components/ReviewsModal";
 
 // Book reviews data
@@ -14,7 +13,7 @@ const bookReviews: Record<string, Review[]> = {
       verified: true
     },
     {
-      id: "2",
+      id: "2", 
       author: "Pastor John",
       date: "May 15, 2025",
       rating: 5,
@@ -25,7 +24,7 @@ const bookReviews: Record<string, Review[]> = {
     {
       id: "3",
       author: "Catherine L.",
-      date: "April 28, 2025",
+      date: "April 28, 2025", 
       rating: 5,
       title: "A treasured bedtime story",
       content: "This has become our go-to bedtime story. My daughter loves Maggie and the way she explains how much God loves us. The book brings comfort and joy to our evening routine. Beautiful illustrations and meaningful message!",
@@ -54,7 +53,7 @@ const bookReviews: Record<string, Review[]> = {
     {
       id: "3",
       author: "Sara L.",
-      date: "February 12, 2025", 
+      date: "February 12, 2025",
       rating: 5,
       title: "Beautifully illustrated",
       content: "The illustrations in this book are gorgeous! My kids enjoy the interactive nature of how Maggie tells the story. The innovative approach to biblical storytelling has made our family reading time even more special. Absolutely recommended!",
@@ -226,7 +225,31 @@ export const booksData = [
     reviewCount: 18,
     amazonLink: "https://a.co/d/5czEdgO",
     samplePages: [
-      // Add sample pages here when you upload them
+      {
+        src: "/lovable-uploads/c73e65b6-6177-4ca3-9d4f-e78852a5b3c5.png",
+        pageNumber: 1,
+        alt: "Noah's Ark - Cover Page"
+      },
+      {
+        src: "/lovable-uploads/d6ebfbaf-dd9c-478a-ab61-6f5b9dbf33ab.png",
+        pageNumber: 2,
+        alt: "Noah's Ark - Copyright Page"
+      },
+      {
+        src: "/lovable-uploads/e0245b65-92b9-4c0d-b1c0-af49a8ad5f26.png",
+        pageNumber: 3,
+        alt: "Noah's Ark - Dedication Page"
+      },
+      {
+        src: "/lovable-uploads/06d172ae-e936-40dc-9af7-495715de4f7c.png",
+        pageNumber: 4,
+        alt: "Noah's Ark - Story Introduction"
+      },
+      {
+        src: "/lovable-uploads/5e46c827-2b2e-4a14-af19-1422424c86c4.png",
+        pageNumber: 5,
+        alt: "Noah's Ark - Fun Fact Page"
+      }
     ]
   },
   {
