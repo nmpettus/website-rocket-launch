@@ -42,6 +42,23 @@ const Videos = () => {
               <p className="text-lg text-indigo-600 font-medium">
                 🗳️ Vote for your favorites! Let us know which videos you love most!
               </p>
+              
+              {/* YouTube Channel Link */}
+              <div className="mt-6">
+                <a 
+                  href="https://www.youtube.com/channel/UCrCK_T8kkP9pCMqHmnYpdgw"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 px-6 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-red-300/50 animate-pulse hover:animate-none"
+                  style={{
+                    boxShadow: '0 0 20px rgba(239, 68, 68, 0.5), 0 0 40px rgba(239, 68, 68, 0.3)',
+                    animation: 'glow 2s ease-in-out infinite alternate'
+                  }}
+                >
+                  <Video className="w-5 h-5" />
+                  See all of Maggie's videos
+                </a>
+              </div>
             </div>
 
             {/* Search and Filter Bar */}
