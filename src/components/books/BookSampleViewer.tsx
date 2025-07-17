@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut } from "lucide-react";
 
@@ -40,18 +40,21 @@ const BookSampleViewer = ({ isOpen, onClose, bookTitle, samplePages }: BookSampl
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent 
-        className="max-w-4xl max-h-[90vh] p-2 bg-white border-none shadow-xl"
+        className="max-w-4xl max-h-[90vh] p-2 bg-background border-none shadow-xl"
         onKeyDown={handleKeyDown}
       >
         <DialogTitle className="sr-only">{bookTitle} Sample Pages</DialogTitle>
+        <DialogDescription className="sr-only">
+          Sample pages from {bookTitle}. Use arrow keys to navigate or click the navigation buttons.
+        </DialogDescription>
         
         {/* Header */}
-        <div className="flex justify-between items-center p-4 border-b">
-          <h3 className="text-lg font-semibold text-gray-800 truncate">
+        <div className="flex justify-between items-center p-4 border-b border-border">
+          <h3 className="text-lg font-semibold text-foreground truncate">
             {bookTitle} - Sample
           </h3>
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-muted-foreground">
               Page {currentPage + 1} of {samplePages.length}
             </span>
             <Button
@@ -74,7 +77,7 @@ const BookSampleViewer = ({ isOpen, onClose, bookTitle, samplePages }: BookSampl
         </div>
 
         {/* Main Image Display */}
-        <div className="flex-1 flex items-center justify-center bg-gray-50 min-h-[500px] relative">
+        <div className="flex-1 flex items-center justify-center bg-muted/30 min-h-[500px] relative">
           <img
             src={samplePages[currentPage].src}
             alt={samplePages[currentPage].alt}
@@ -86,7 +89,7 @@ const BookSampleViewer = ({ isOpen, onClose, bookTitle, samplePages }: BookSampl
         </div>
 
         {/* Navigation Controls */}
-        <div className="flex justify-between items-center p-4 border-t">
+        <div className="flex justify-between items-center p-4 border-t border-border">
           <Button
             variant="outline"
             onClick={goToPreviousPage}
@@ -104,7 +107,7 @@ const BookSampleViewer = ({ isOpen, onClose, bookTitle, samplePages }: BookSampl
                 key={index}
                 onClick={() => setCurrentPage(index)}
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentPage ? "bg-indigo-600" : "bg-gray-300"
+                  index === currentPage ? "bg-primary" : "bg-muted-foreground/30"
                 }`}
                 aria-label={`Go to page ${index + 1}`}
               />
