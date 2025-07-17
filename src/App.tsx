@@ -11,6 +11,11 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookiePolicy from "./pages/CookiePolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Videos from "./pages/Videos";
+import CreationBook from "./pages/books/CreationBook";
+import NoahsArkBook from "./pages/books/NoahsArkBook";
+import JonahBook from "./pages/books/JonahBook";
+import GodsLoveBook from "./pages/books/GodsLoveBook";
+import AIAdventuresBook from "./pages/books/AIAdventuresBook";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +29,11 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/videos" element={<Videos />} />
+            <Route path="/books/creation" element={<CreationBook />} />
+            <Route path="/books/noahs-ark" element={<NoahsArkBook />} />
+            <Route path="/books/jonah" element={<JonahBook />} />
+            <Route path="/books/gods-love" element={<GodsLoveBook />} />
+            <Route path="/books/ai-adventures" element={<AIAdventuresBook />} />
             <Route path="/subscribers" element={<SubscribersList />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
