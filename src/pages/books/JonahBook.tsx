@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
@@ -17,6 +17,10 @@ const JonahBook = () => {
   const [showImageViewer, setShowImageViewer] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState("");
   const [showReviews, setShowReviews] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!book) {
     return <div>Book not found</div>;
@@ -61,7 +65,7 @@ const JonahBook = () => {
             <div className="space-y-6">
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-                  {book.title}
+                  Jonah as told by Maggie
                 </h1>
                 
                 {book.isNew && (
