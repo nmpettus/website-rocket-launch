@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe, Book, Eye } from "lucide-react";
+import { Globe, Book, Eye, BookOpen } from "lucide-react";
 import { SamplePage } from "@/data/bookReviews";
+import { Link } from "react-router-dom";
 
 interface LanguageLink {
   language: string;
@@ -73,6 +74,20 @@ const BookCard = ({
 
   const hasSamples = samplePages && samplePages.length > 0;
 
+  // Map bookId to routes
+  const getBookRoute = (bookId: string) => {
+    const routeMap: Record<string, string> = {
+      'creation': '/books/creation',
+      'noahs-ark': '/books/noahs-ark',
+      'jonah': '/books/jonah',
+      'gods-love': '/books/gods-love',
+      'ai-adventures': '/books/ai-adventures'
+    };
+    return routeMap[bookId];
+  };
+
+  const bookRoute = getBookRoute(bookId);
+
   return (
     <Card className="overflow-hidden hover:shadow-xl transition duration-300 flex flex-col h-full relative">
       {isNew && (
@@ -120,36 +135,52 @@ const BookCard = ({
         </div>
       </CardContent>
       <CardFooter className="p-6 pt-0 mt-auto">
-        <div className="flex w-full gap-2">
-          <Button 
-            size="sm"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white flex-1 min-w-0"
-            onClick={() => window.open(amazonLink, "_blank")}
-          >
-            <Book className="w-3 h-3 mr-1" />
-            Amazon
-          </Button>
+        <div className="flex flex-col w-full gap-2">
+          {/* View Details Button - Full Width */}
+          {bookRoute && (
+            <Link to={bookRoute} className="w-full">
+              <Button 
+                size="sm"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground w-full"
+              >
+                <BookOpen className="w-3 h-3 mr-1" />
+                View Details
+              </Button>
+            </Link>
+          )}
           
-          {hasSamples && (
+          {/* Action Buttons Row */}
+          <div className="flex w-full gap-2">
+            <Button 
+              size="sm"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white flex-1 min-w-0"
+              onClick={() => window.open(amazonLink, "_blank")}
+            >
+              <Book className="w-3 h-3 mr-1" />
+              Amazon
+            </Button>
+            
+            {hasSamples && (
+              <Button 
+                size="sm"
+                variant="outline" 
+                className="border border-green-600 text-green-600 hover:bg-green-600 hover:text-white flex-1 min-w-0"
+                onClick={() => onOpenSample(bookId, formattedTitle)}
+              >
+                <Eye className="w-3 h-3 mr-1" />
+                Sample
+              </Button>
+            )}
+            
             <Button 
               size="sm"
               variant="outline" 
-              className="border border-green-600 text-green-600 hover:bg-green-600 hover:text-white flex-1 min-w-0"
-              onClick={() => onOpenSample(bookId, formattedTitle)}
+              className="border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white flex-1 min-w-0"
+              onClick={() => onOpenReviews(bookId, formattedTitle)}
             >
-              <Eye className="w-3 h-3 mr-1" />
-              Sample
+              Reviews
             </Button>
-          )}
-          
-          <Button 
-            size="sm"
-            variant="outline" 
-            className="border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white flex-1 min-w-0"
-            onClick={() => onOpenReviews(bookId, formattedTitle)}
-          >
-            Reviews
-          </Button>
+          </div>
         </div>
       </CardFooter>
     </Card>
