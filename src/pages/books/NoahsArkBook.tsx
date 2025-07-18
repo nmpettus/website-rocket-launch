@@ -137,7 +137,10 @@ const NoahsArkBook = () => {
       {/* Image Viewer */}
       <ImageViewer
         enlargedImage={enlargedImage}
-        onClose={() => setShowImageViewer(false)}
+        onClose={() => {
+          setShowImageViewer(false);
+          setEnlargedImage("");
+        }}
       />
 
       {/* Reviews Modal */}
