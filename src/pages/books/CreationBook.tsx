@@ -22,6 +22,19 @@ const CreationBook = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Language links for Creation book
+  const languageLinks = [
+    { language: "English", url: "https://a.co/d/8DoEE31" },
+    { language: "Spanish", url: "https://a.co/d/ccsCmGT" },
+    { language: "Italian", url: "https://a.co/d/86irzfP" }
+  ];
+
+  const languageColors: Record<string, string> = {
+    English: "bg-indigo-600",
+    Spanish: "bg-amber-500",
+    Italian: "bg-emerald-500",
+  };
+
   if (!book) {
     return <div>Book not found</div>;
   }
@@ -31,11 +44,18 @@ const CreationBook = () => {
     setShowImageViewer(true);
   };
 
+  const handleLanguageClick = (language: string) => {
+    const link = languageLinks.find(l => l.language === language)?.url;
+    if (link) {
+      window.open(link, "_blank");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 pt-24 pb-16">
         <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8 items-start">
             {/* Book Cover */}
@@ -83,11 +103,20 @@ const CreationBook = () => {
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Available Languages:</h3>
                 <div className="flex flex-wrap gap-2">
-                  {book.languages.map((language) => (
-                    <Badge key={language} variant="outline" className="text-sm">
-                      {language}
-                    </Badge>
-                  ))}
+                  {book.languages.map((language) => {
+                    const hasLink = languageLinks.some(l => l.language === language);
+                    return (
+                      <span 
+                        key={language}
+                        className={`${languageColors[language]} text-white text-sm px-3 py-1 rounded cursor-pointer hover:opacity-80 transition-opacity`}
+                        onClick={() => handleLanguageClick(language)}
+                        role="button"
+                        title={`Open ${language} version`}
+                      >
+                        {language}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
 
