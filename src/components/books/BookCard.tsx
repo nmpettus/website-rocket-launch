@@ -78,7 +78,7 @@ const BookCard = ({
   const getBookRoute = (bookId: string) => {
     const routeMap: Record<string, string> = {
       'creation': '/books/creation',
-      'noahs-ark': '/books/noahs-ark',
+      'noah': '/books/noahs-ark',
       'jonah': '/books/jonah',
       'gods-love': '/books/gods-love',
       'ai-adventures': '/books/ai-adventures'
