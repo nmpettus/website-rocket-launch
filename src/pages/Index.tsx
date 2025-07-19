@@ -7,6 +7,8 @@ import Books from "@/components/sections/Books";
 import Videos from "@/components/sections/Videos";
 import Activities from "@/components/sections/Activities";
 import Games from "@/components/sections/Games";
+import GiveAway from "@/components/sections/GiveAway";
+import Projects from "@/components/sections/Projects";
 import NewsLetter from "@/components/sections/NewsLetter";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
@@ -49,6 +51,8 @@ const Index = () => {
       <Videos />
       <Activities />
       <Games />
+      <GiveAway />
+      <Projects />
       <NewsLetter />
       <Contact />
       <Footer />
