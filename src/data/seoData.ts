@@ -17,7 +17,7 @@ export const bookSEOData = {
     ],
     ogImage: "/lovable-uploads/2541c224-1f8f-49ba-af72-b6d7d52bb1a7.png"
   },
-  "noahs-ark": {
+  "noah": {
     title: "Noah's Ark as told by Maggie - Children's Bible Adventure",
     description: "Join Maggie as she tells the incredible story of Noah's Ark! A captivating children's Bible book that brings this classic story to life with beautiful illustrations and engaging storytelling.",
     keywords: [

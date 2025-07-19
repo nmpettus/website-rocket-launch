@@ -15,7 +15,7 @@ import { bookSEOData } from "@/data/seoData";
 import { createBookStructuredData } from "@/utils/seoUtils";
 
 const NoahsArkBook = () => {
-  const book = booksData.find(b => b.id === "noahs-ark");
+  const book = booksData.find(b => b.id === "noah");
   const [showSampleViewer, setShowSampleViewer] = useState(false);
   const [showImageViewer, setShowImageViewer] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState("");
@@ -27,7 +27,7 @@ const NoahsArkBook = () => {
 
   // SEO optimization
   useSEO({
-    ...bookSEOData["noahs-ark"],
+    ...bookSEOData["noah"],
     structuredData: book ? createBookStructuredData(book) : null
   });
 
@@ -44,7 +44,7 @@ const NoahsArkBook = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 pt-24 pb-16">
         <div className="max-w-4xl mx-auto">
           {/* Breadcrumb Navigation */}
           <nav className="mb-6 text-sm text-gray-600">

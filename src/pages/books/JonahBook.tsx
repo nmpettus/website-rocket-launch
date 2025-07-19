@@ -44,7 +44,7 @@ const JonahBook = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 pt-24 pb-16">
         <div className="max-w-4xl mx-auto">
           {/* Breadcrumb Navigation */}
           <nav className="mb-6 text-sm text-gray-600">
