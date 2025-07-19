@@ -10,6 +10,9 @@ import bookReviews from "@/data/bookReviews";
 import BookSampleViewer from "@/components/books/BookSampleViewer";
 import ImageViewer from "@/components/books/ImageViewer";
 import ReviewsModal from "@/components/ReviewsModal";
+import { useSEO } from "@/hooks/useSEO";
+import { bookSEOData } from "@/data/seoData";
+import { createBookStructuredData } from "@/utils/seoUtils";
 
 const GodsLoveBook = () => {
   const book = booksData.find(b => b.id === "gods-love");
@@ -21,6 +24,12 @@ const GodsLoveBook = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // SEO optimization
+  useSEO({
+    ...bookSEOData["gods-love"],
+    structuredData: book ? createBookStructuredData(book) : null
+  });
 
   if (!book) {
     return <div>Book not found</div>;
@@ -37,12 +46,21 @@ const GodsLoveBook = () => {
       
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
+          {/* Breadcrumb Navigation */}
+          <nav className="mb-6 text-sm text-gray-600">
+            <a href="/" className="hover:text-blue-600">Home</a>
+            <span className="mx-2">›</span>
+            <a href="/#books" className="hover:text-blue-600">Books</a>
+            <span className="mx-2">›</span>
+            <span className="text-gray-800">God's Love as told by Maggie</span>
+          </nav>
+
           <div className="grid md:grid-cols-2 gap-8 items-start">
             {/* Book Cover */}
             <div className="space-y-4">
               <img
                 src={book.coverImage}
-                alt={book.title}
+                alt="God's Love as told by Maggie - Children's Christian Book Cover showing God's love and care"
                 className="w-full max-w-md mx-auto rounded-lg shadow-xl cursor-pointer transition-transform hover:scale-105"
                 onClick={() => handleImageClick(book.coverImage)}
               />
@@ -74,9 +92,34 @@ const GodsLoveBook = () => {
                   </Badge>
                 )}
 
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <p className="text-lg text-gray-600 leading-relaxed mb-4">
                   {book.description}
                 </p>
+
+                {/* Enhanced Description for SEO */}
+                <div className="prose max-w-none">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-3">Discover God's Amazing Love</h2>
+                  <p className="text-gray-600 mb-4">
+                    Through Maggie's heartwarming storytelling, children will discover the depth and wonder of God's unconditional love. This beautiful Christian children's book helps young hearts understand how much God cares for them every single day.
+                  </p>
+                  
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">What Children Will Discover:</h3>
+                  <ul className="text-gray-600 mb-4">
+                    <li>• God's love is unconditional and never-ending</li>
+                    <li>• How God shows His love in everyday life</li>
+                    <li>• They are precious and valuable to God</li>
+                    <li>• God's love helps us love others</li>
+                    <li>• God's care and protection are always with us</li>
+                  </ul>
+
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">Perfect For Building:</h3>
+                  <ul className="text-gray-600 mb-4">
+                    <li>• Self-esteem and confidence</li>
+                    <li>• Understanding of God's character</li>
+                    <li>• Foundation for faith</li>
+                    <li>• Emotional security and comfort</li>
+                  </ul>
+                </div>
               </div>
 
               {/* Languages */}
@@ -93,7 +136,7 @@ const GodsLoveBook = () => {
 
               {/* Reviews */}
               <div className="flex items-center gap-4">
-                <div className="flex items-center">
+                <div className="flex items-center" role="img" aria-label="5 star rating">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}

@@ -10,6 +10,9 @@ import bookReviews from "@/data/bookReviews";
 import BookSampleViewer from "@/components/books/BookSampleViewer";
 import ImageViewer from "@/components/books/ImageViewer";
 import ReviewsModal from "@/components/ReviewsModal";
+import { useSEO } from "@/hooks/useSEO";
+import { bookSEOData } from "@/data/seoData";
+import { createBookStructuredData } from "@/utils/seoUtils";
 
 const JonahBook = () => {
   const book = booksData.find(b => b.id === "jonah");
@@ -21,6 +24,12 @@ const JonahBook = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // SEO optimization
+  useSEO({
+    ...bookSEOData.jonah,
+    structuredData: book ? createBookStructuredData(book) : null
+  });
 
   if (!book) {
     return <div>Book not found</div>;
@@ -37,12 +46,21 @@ const JonahBook = () => {
       
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
+          {/* Breadcrumb Navigation */}
+          <nav className="mb-6 text-sm text-gray-600">
+            <a href="/" className="hover:text-blue-600">Home</a>
+            <span className="mx-2">›</span>
+            <a href="/#books" className="hover:text-blue-600">Books</a>
+            <span className="mx-2">›</span>
+            <span className="text-gray-800">Jonah as told by Maggie</span>
+          </nav>
+
           <div className="grid md:grid-cols-2 gap-8 items-start">
             {/* Book Cover */}
             <div className="space-y-4">
               <img
                 src={book.coverImage}
-                alt={book.title}
+                alt="Jonah as told by Maggie - Children's Bible Story Book Cover featuring Jonah and the whale"
                 className="w-full max-w-md mx-auto rounded-lg shadow-xl cursor-pointer transition-transform hover:scale-105"
                 onClick={() => handleImageClick(book.coverImage)}
               />
@@ -74,9 +92,34 @@ const JonahBook = () => {
                   </Badge>
                 )}
 
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <p className="text-lg text-gray-600 leading-relaxed mb-4">
                   {book.description}
                 </p>
+
+                {/* Enhanced Description for SEO */}
+                <div className="prose max-w-none">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-3">The Amazing Story of Jonah and the Whale</h2>
+                  <p className="text-gray-600 mb-4">
+                    Join Maggie as she tells the incredible adventure of Jonah and the whale! This engaging children's Bible book teaches important lessons about obedience, running from God, and His amazing mercy and forgiveness.
+                  </p>
+                  
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">Life Lessons for Children:</h3>
+                  <ul className="text-gray-600 mb-4">
+                    <li>• The importance of obeying God</li>
+                    <li>• God's mercy and second chances</li>
+                    <li>• Caring for others, even enemies</li>
+                    <li>• God's love for all people</li>
+                    <li>• The consequences of running from God</li>
+                  </ul>
+
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">Why Kids Love This Story:</h3>
+                  <ul className="text-gray-600 mb-4">
+                    <li>• Exciting adventure with a giant whale</li>
+                    <li>• Relatable character who makes mistakes</li>
+                    <li>• Beautiful underwater illustrations</li>
+                    <li>• Happy ending with forgiveness</li>
+                  </ul>
+                </div>
               </div>
 
               {/* Languages */}
@@ -93,7 +136,7 @@ const JonahBook = () => {
 
               {/* Reviews */}
               <div className="flex items-center gap-4">
-                <div className="flex items-center">
+                <div className="flex items-center" role="img" aria-label="5 star rating">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}

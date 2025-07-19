@@ -2,53 +2,58 @@
 import React from "react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/sections/Hero";
-import Books from "@/components/sections/Books";
 import MeetMaggie from "@/components/sections/MeetMaggie";
-import MaggieImagesSection from "@/components/sections/MaggieImagesSection";
+import Books from "@/components/sections/Books";
 import Videos from "@/components/sections/Videos";
-import GiveAway from "@/components/sections/GiveAway";
 import Activities from "@/components/sections/Activities";
 import Games from "@/components/sections/Games";
-import Projects from "@/components/sections/Projects";
-import Newsletter from "@/components/sections/NewsLetter";
+import NewsLetter from "@/components/sections/NewsLetter";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
-import WriteToMaggie from "@/components/sections/WriteToMaggie";
+import { useSEO } from "@/hooks/useSEO";
+import { homeSEOData } from "@/data/seoData";
 
 const Index = () => {
+  useSEO({
+    ...homeSEOData,
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Maggie's Bible Adventures",
+      "url": window.location.origin,
+      "description": homeSEOData.description,
+      "author": {
+        "@type": "Person",
+        "name": "Maggie",
+        "description": "A lovable dog who shares Bible stories and adventures with children"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Maggie's Bible Adventures"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": `${window.location.origin}/search?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
+    }
+  });
+
   return (
-    <div className="font-sans min-h-screen">
+    <>
       <Navigation />
       <Hero />
-      <div id="books">
-        <Books />
-      </div>
       <MeetMaggie />
-      <MaggieImagesSection />
-      <div id="videos">
-        <Videos />
-      </div>
-      <div id="kids">
-        <GiveAway />
-      </div>
+      <Books />
+      <Videos />
       <Activities />
-      <div id="games">
-        <Games />
-      </div>
-      <div id="write-to-maggie" className="scroll-mt-20">
-        <WriteToMaggie />
-      </div>
-      <Projects />
-      <div id="newsletter">
-        <Newsletter />
-      </div>
+      <Games />
+      <NewsLetter />
       <Contact />
-      <div id="footer">
-        <Footer />
-      </div>
+      <Footer />
       <BackToTopButton />
-    </div>
+    </>
   );
 };
 

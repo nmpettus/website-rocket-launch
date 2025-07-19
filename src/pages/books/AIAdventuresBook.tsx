@@ -10,6 +10,9 @@ import bookReviews from "@/data/bookReviews";
 import BookSampleViewer from "@/components/books/BookSampleViewer";
 import ImageViewer from "@/components/books/ImageViewer";
 import ReviewsModal from "@/components/ReviewsModal";
+import { useSEO } from "@/hooks/useSEO";
+import { bookSEOData } from "@/data/seoData";
+import { createBookStructuredData } from "@/utils/seoUtils";
 
 const AIAdventuresBook = () => {
   const book = booksData.find(b => b.id === "ai-adventures");
@@ -17,6 +20,12 @@ const AIAdventuresBook = () => {
   const [showImageViewer, setShowImageViewer] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState("");
   const [showReviews, setShowReviews] = useState(false);
+
+  // SEO optimization
+  useSEO({
+    ...bookSEOData["ai-adventures"],
+    structuredData: book ? createBookStructuredData(book) : null
+  });
 
   if (!book) {
     return <div>Book not found</div>;
@@ -33,12 +42,21 @@ const AIAdventuresBook = () => {
       
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
+          {/* Breadcrumb Navigation */}
+          <nav className="mb-6 text-sm text-gray-600">
+            <a href="/" className="hover:text-blue-600">Home</a>
+            <span className="mx-2">›</span>
+            <a href="/#books" className="hover:text-blue-600">Books</a>
+            <span className="mx-2">›</span>
+            <span className="text-gray-800">AI Adventures with Maggie</span>
+          </nav>
+
           <div className="grid md:grid-cols-2 gap-8 items-start">
             {/* Book Cover */}
             <div className="space-y-4">
               <img
                 src={book.coverImage}
-                alt={book.title}
+                alt="AI Adventures with Maggie - Educational Children's Book Cover about artificial intelligence"
                 className="w-full max-w-md mx-auto rounded-lg shadow-xl cursor-pointer transition-transform hover:scale-105"
                 onClick={() => handleImageClick(book.coverImage)}
               />
@@ -70,9 +88,34 @@ const AIAdventuresBook = () => {
                   </Badge>
                 )}
 
-                <p className="text-lg text-gray-600 leading-relaxed">
+                <p className="text-lg text-gray-600 leading-relaxed mb-4">
                   {book.description}
                 </p>
+
+                {/* Enhanced Description for SEO */}
+                <div className="prose max-w-none">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-3">Learn About AI in a Fun Way</h2>
+                  <p className="text-gray-600 mb-4">
+                    Join Maggie on exciting adventures as she introduces children to the fascinating world of artificial intelligence! This unique educational book makes complex technology concepts accessible and fun for young minds.
+                  </p>
+                  
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">What Kids Will Learn:</h3>
+                  <ul className="text-gray-600 mb-4">
+                    <li>• What artificial intelligence really is</li>
+                    <li>• How AI helps us in everyday life</li>
+                    <li>• Simple coding and technology concepts</li>
+                    <li>• The importance of using technology responsibly</li>
+                    <li>• How AI can solve problems and help people</li>
+                  </ul>
+
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">Perfect For:</h3>
+                  <ul className="text-gray-600 mb-4">
+                    <li>• STEM education at home</li>
+                    <li>• Future tech leaders</li>
+                    <li>• Curious minds who love technology</li>
+                    <li>• Preparing kids for the digital future</li>
+                  </ul>
+                </div>
               </div>
 
               {/* Languages */}
@@ -89,7 +132,7 @@ const AIAdventuresBook = () => {
 
               {/* Reviews */}
               <div className="flex items-center gap-4">
-                <div className="flex items-center">
+                <div className="flex items-center" role="img" aria-label="5 star rating">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}
