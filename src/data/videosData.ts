@@ -214,6 +214,289 @@ export const allVideos: VideoData[] = [
     type: "youtube",
     aspectRatio: "9:16",
     category: "behind-scenes"
+  },
+  // AI Education Series
+  {
+    id: "ai-1",
+    title: "Maggie explains Output! #shorts #ai #artificialintelligence #stemeducation #stemforkids",
+    description: "Dive into the innovative world of MaggieDefinesAI in this captivating video! Witness how Maggie demystifies artificial intelligence, breaking down complex concepts into engaging, digestible segments.",
+    thumbnail: "https://i.ytimg.com/vi/BuQQeOqMrRA/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/BuQQeOqMrRA",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "activities"
+  },
+  {
+    id: "ai-2",
+    title: "Maggie explains what Input is? #shorts #ai #artificialintelligence",
+    description: "Dive into the innovative world of MaggieDefinesAI in this captivating video! Witness how Maggie demystifies artificial intelligence, breaking down complex concepts into engaging, digestible segments.",
+    thumbnail: "https://i.ytimg.com/vi/fvLuhIzI6u8/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/fvLuhIzI6u8",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "activities"
+  },
+  {
+    id: "ai-3",
+    title: "Maggie explains QR codes! #shorts #ai #artificialintelligence",
+    description: "Dive into the innovative world of MaggieDefinesAI in this captivating video! Witness how Maggie demystifies artificial intelligence, breaking down complex concepts into engaging, digestible segments.",
+    thumbnail: "https://i.ytimg.com/vi/Aq0SCPkZPA8/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/Aq0SCPkZPA8",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "activities"
+  },
+  {
+    id: "ai-4",
+    title: "Maggie explains Data. #shorts #ai #artificialintelligence",
+    description: "Dive into the innovative world of MaggieDefinesAI in this captivating video! Witness how Maggie demystifies artificial intelligence, breaking down complex concepts into engaging, digestible segments.",
+    thumbnail: "https://i.ytimg.com/vi/C4QIzr6EM08/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/C4QIzr6EM08",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "activities"
+  },
+  {
+    id: "ai-5",
+    title: "Maggie talks about programs. #shorts #AI #artificialintelligence",
+    description: "Dive into the innovative world of MaggieDefinesAI in this captivating video! Witness how Maggie demystifies artificial intelligence, breaking down complex concepts into engaging, digestible segments.",
+    thumbnail: "https://i.ytimg.com/vi/DUgyWrmwuec/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/DUgyWrmwuec",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "activities"
+  },
+  {
+    id: "ai-6",
+    title: "Maggie explains algorithms! #shorts #AI #artificialintelligence",
+    description: "Dive into the innovative world of MaggieDefinesAI in this captivating video! Witness how Maggie demystifies artificial intelligence, breaking down complex concepts into engaging, digestible segments.",
+    thumbnail: "https://i.ytimg.com/vi/F_J-qH3C-Vc/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/F_J-qH3C-Vc",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "activities"
+  },
+  {
+    id: "ai-7",
+    title: "Maggie gives AI definitions! #shorts #AI #artificialintelligence",
+    description: "Dive into the innovative world of MaggieDefinesAI in this captivating video! Witness how Maggie demystifies artificial intelligence, breaking down complex concepts into engaging, digestible segments.",
+    thumbnail: "https://i.ytimg.com/vi/EB9AX2J1_YA/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/EB9AX2J1_YA",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "activities"
+  },
+  // Faith & Character Stories
+  {
+    id: "faith-1",
+    title: "Maggie tells why she is happy!",
+    description: "Get ready for a heartwarming and inspirational adventure with our latest animated kids' story, \"The Little Dog with a Big Heart!\" Join a cute and courageous Yorkshire Terrier expressing her happiness.",
+    thumbnail: "https://i.ytimg.com/vi/jysZiH5JlrM/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/jysZiH5JlrM",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "faith"
+  },
+  {
+    id: "faith-2",
+    title: "Maggie helps others!",
+    description: "Get ready for a heartwarming and inspirational adventure with our latest animated kids' story, \"The Little Dog with a Big Heart!\" Join a cute and courageous Yorkshire Terrier on his mission to help his elderly neighbor.",
+    thumbnail: "https://i.ytimg.com/vi/eg-sGOpFg_Y/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/eg-sGOpFg_Y",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "faith"
+  },
+  {
+    id: "faith-3",
+    title: "Maggie knows how to deal with sin!",
+    description: "In this powerful and heart-tugging video, Maggie the Yorkie Poo shares a kid-friendly explanation of what sin is and how it separates us from God—but also how Jesus' love brings us back.",
+    thumbnail: "https://i.ytimg.com/vi/DSFQnAxa2m8/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/DSFQnAxa2m8",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "faith"
+  },
+  {
+    id: "faith-4",
+    title: "Maggie sees the truth as best!",
+    description: "Join Maggie the Yorkie Poo in this heartwarming 16x9 animated journey as she chooses the path of truth, kindness, and character! Perfect for Christian families, kids, and parents looking for inspirational Bible-based children's content.",
+    thumbnail: "https://i.ytimg.com/vi/1W3aWd-PAkU/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/1W3aWd-PAkU",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "faith"
+  },
+  {
+    id: "faith-5",
+    title: "Maggie is faithful in all things!",
+    description: "Join Maggie the Yorkie Poo as she puts faith in action, serving, helping and sharing love with every wag of her tail! This adorable dog video brings Bible-based moral lessons and Christian values to life.",
+    thumbnail: "https://i.ytimg.com/vi/AedEORsLCsY/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/AedEORsLCsY",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "faith"
+  },
+  {
+    id: "faith-6",
+    title: "Maggie lets go of her worries!",
+    description: "Are you trapped in a cycle of worry and anxiety? In this faith-filled devotional video, we unpack Jesus' powerful promise in Matthew 6:34—\"Do not worry about tomorrow\"—and discover how to trade our \"what ifs\" for prayer.",
+    thumbnail: "https://i.ytimg.com/vi/DBtpQgAqJWA/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/DBtpQgAqJWA",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "faith"
+  },
+  {
+    id: "faith-7",
+    title: "Maggie finds her real purpose?",
+    description: "Experience faith, fun, and furry cuteness with Maggie the Yorkie Poo in \"Maggie Is Happy\" – a heartwarming puppy video featuring Maggie's personal stories, adorable dog antics, and Bible-based lessons told from a kid's perspective.",
+    thumbnail: "https://i.ytimg.com/vi/F7w6itzMAKY/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/F7w6itzMAKY",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "faith"
+  },
+  // Character Trait Stories
+  {
+    id: "character-1",
+    title: "Maggie shows her loyalty!",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/-5j9Mt3pKSc/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/-5j9Mt3pKSc",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
+  },
+  {
+    id: "character-2",
+    title: "Maggie is confident!",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/vcgAXZY6z5s/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/vcgAXZY6z5s",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
+  },
+  {
+    id: "character-3",
+    title: "Maggie is all alone but....",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/qI7SArxhNDk/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/qI7SArxhNDk",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
+  },
+  {
+    id: "character-4",
+    title: "Maggie is valuable! #love #godslove #christianfaith",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/CEnHogpTfHU/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/CEnHogpTfHU",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "stories"
+  },
+  {
+    id: "character-5",
+    title: "Maggie sees her true worth!",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/FGKHWqnnuXo/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/FGKHWqnnuXo",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
+  },
+  {
+    id: "character-6",
+    title: "Maggie scared but hopeful!",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/x71n6_25kOA/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/x71n6_25kOA",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
+  },
+  {
+    id: "character-7",
+    title: "Maggie knows respect and reverance!",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/ZtEWfcysUng/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/ZtEWfcysUng",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
+  },
+  {
+    id: "character-8",
+    title: "Maggie is courageous!",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/0WMtIa2VsBE/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/0WMtIa2VsBE",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
+  },
+  {
+    id: "character-9",
+    title: "Maggie feels the rainbow! #love #religiousquote #christianfaith",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/S2PBNa43Fao/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/S2PBNa43Fao",
+    type: "youtube",
+    aspectRatio: "9:16",
+    category: "stories"
+  },
+  {
+    id: "character-10",
+    title: "Maggie's Honesty",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/T5vPYaK_w1s/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/T5vPYaK_w1s",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
+  },
+  {
+    id: "character-11",
+    title: "Maggie keeps her promise!",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/OBb3lIeqAiw/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/OBb3lIeqAiw",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
+  },
+  {
+    id: "character-12",
+    title: "Maggie shows trust!",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/7sg0XfxL9fY/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/7sg0XfxL9fY",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
+  },
+  {
+    id: "character-13",
+    title: "Maggie Waits Patiently!",
+    description: "Maggie gives an account of her experiences in life from a kids perspective. Maggie has lived in a Christian home for over 15 years. She has listened and learned to love God.",
+    thumbnail: "https://i.ytimg.com/vi/I_la2Ypqxk4/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/I_la2Ypqxk4",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
+  },
+  {
+    id: "character-14",
+    title: "Maggie Loves Children",
+    description: "Maggie's Advice - see how Maggie connects with and loves children in this heartwarming video.",
+    thumbnail: "https://i.ytimg.com/vi/nFm_fhAgOdg/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/nFm_fhAgOdg",
+    type: "youtube",
+    aspectRatio: "16:9",
+    category: "stories"
   }
 ];
 
