@@ -38,8 +38,8 @@ const Hero = () => {
             
             <h1 className="text-4xl md:text-5xl font-bold font-canva leading-tight">
               <span className="relative inline-block">
-                Christian Children's Books
-                {/* Desktop bouncing button - positioned absolutely next to "Christian Children's Books" */}
+                Christian Children's
+                {/* Desktop bouncing button - positioned absolutely next to "Christian Children's" */}
                 <div className="hidden md:block absolute top-0 -translate-y-1/2 left-full ml-4 animate-[bounce_2s_infinite]">
                   <Button className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300" onClick={scrollToLetterSection}>
                     <div className="flex items-center gap-2">
