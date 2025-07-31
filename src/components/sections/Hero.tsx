@@ -23,8 +23,15 @@ const Hero = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="space-y-6 max-w-lg relative">
-            {/* Mobile bouncing button - now part of the content flow */}
-            <div className="md:hidden flex justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold font-canva leading-tight">
+              Christian Children's
+              <br />Books by Maggie
+              <br />Faith-Based Stories
+            </h1>
+            <p className="text-xl">Discover faith-based children's books by author Maggie. Heartwarming Bible stories and Christian values for kids—perfect for family reading and gifts.</p>
+            
+            {/* Send Maggie a Letter button - positioned below subtitle */}
+            <div className="flex justify-center md:justify-start">
               <Button className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300 animate-[bounce_2s_infinite]" onClick={scrollToLetterSection}>
                 <div className="flex items-center gap-2">
                   <PartyPopper className="h-5 w-5 group-hover:scale-110 transition-transform" />
@@ -33,28 +40,6 @@ const Hero = () => {
                 <div className="absolute -top-2 -right-2 w-5 h-5 bg-pink-500 rounded-full animate-pulse"></div>
               </Button>
             </div>
-
-            {/* Desktop bouncing button has been moved inside the h1 tag */}
-            
-            <h1 className="text-4xl md:text-5xl font-bold font-canva leading-tight">
-              <span className="relative inline-block">
-                Christian Children's
-                {/* Desktop bouncing button - positioned absolutely next to "Christian Children's" */}
-                <div className="hidden md:block absolute top-0 -translate-y-1/2 left-full ml-4 animate-[bounce_2s_infinite]">
-                  <Button className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300" onClick={scrollToLetterSection}>
-                    <div className="flex items-center gap-2">
-                      <PartyPopper className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                      <span className="group-hover:underline whitespace-nowrap">Send Maggie a Letter!</span>
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-5 h-5 bg-pink-500 rounded-full animate-pulse"></div>
-                  </Button>
-                </div>
-              </span>
-              <br />Books by Maggie
-              <br />Faith-Based Stories
-            </h1>
-            <p className="text-xl">Delightful
-Send Maggie a Lett</p>
             <div className="flex flex-wrap gap-4">
               <Button className="bg-amber-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full" onClick={() => document.getElementById('books')?.scrollIntoView({
               behavior: 'smooth'
