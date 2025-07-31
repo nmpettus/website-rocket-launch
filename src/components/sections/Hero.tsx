@@ -1,8 +1,6 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { PartyPopper } from "lucide-react";
-
 const Hero = () => {
   // Scroll so #write-to-maggie is at the very top of the viewport — no offset.
   const scrollToLetterSection = () => {
@@ -10,16 +8,16 @@ const Hero = () => {
     if (letterSection) {
       letterSection.scrollIntoView({
         behavior: 'smooth',
-        block: 'start',
+        block: 'start'
       });
     } else {
       // Fallback to activities section if not found
-      document.getElementById('activities')?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('activities')?.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
   };
-
-  return (
-    <section id="home" className="pt-32 pb-16 md:py-24 bg-gradient-to-r from-indigo-600 to-emerald-500 text-white">
+  return <section id="home" className="pt-32 pb-16 md:py-24 bg-gradient-to-r from-indigo-600 to-emerald-500 text-white">
       <div className="container mx-auto px-6">
         {/* Mobile bouncing button has been moved into the grid below */}
 
@@ -27,10 +25,7 @@ const Hero = () => {
           <div className="space-y-6 max-w-lg relative">
             {/* Mobile bouncing button - now part of the content flow */}
             <div className="md:hidden flex justify-center">
-              <Button 
-                className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300 animate-[bounce_2s_infinite]"
-                onClick={scrollToLetterSection}
-              >
+              <Button className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300 animate-[bounce_2s_infinite]" onClick={scrollToLetterSection}>
                 <div className="flex items-center gap-2">
                   <PartyPopper className="h-5 w-5 group-hover:scale-110 transition-transform" />
                   <span className="group-hover:underline">Send Maggie a Letter!</span>
@@ -46,10 +41,7 @@ const Hero = () => {
                 Delightful
                 {/* Desktop bouncing button - positioned absolutely next to "Delightful" */}
                 <div className="hidden md:block absolute top-0 -translate-y-1/2 left-full ml-4 animate-[bounce_2s_infinite]">
-                  <Button 
-                    className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300"
-                    onClick={scrollToLetterSection}
-                  >
+                  <Button className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300" onClick={scrollToLetterSection}>
                     <div className="flex items-center gap-2">
                       <PartyPopper className="h-5 w-5 group-hover:scale-110 transition-transform" />
                       <span className="group-hover:underline whitespace-nowrap">Send Maggie a Letter!</span>
@@ -60,42 +52,30 @@ const Hero = () => {
               </span>
               <br />Bible Stories <br />Narrated By Maggie
             </h1>
-            <p className="text-xl">
-              Whimsical children's books that spark imagination and joy through the eyes of our beloved Maggie. And others that tell amazing stories of the future and of God's hand in our lives.
-            </p>
+            <p className="text-xl">Delightful
+Send Maggie a Lett</p>
             <div className="flex flex-wrap gap-4">
-              <Button 
-                className="bg-amber-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full"
-                onClick={() => document.getElementById('books')?.scrollIntoView({ behavior: 'smooth' })}
-              >
+              <Button className="bg-amber-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full" onClick={() => document.getElementById('books')?.scrollIntoView({
+              behavior: 'smooth'
+            })}>
                 Explore Books
               </Button>
-              <Button 
-                variant="outline"
-                className="bg-white hover:bg-gray-100 text-indigo-600 font-bold py-3 px-6 rounded-full"
-                onClick={() => document.getElementById('newsletter')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              >
+              <Button variant="outline" className="bg-white hover:bg-gray-100 text-indigo-600 font-bold py-3 px-6 rounded-full" onClick={() => document.getElementById('newsletter')?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            })}>
                 Join Our List
               </Button>
-              <Button 
-                className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full"
-                onClick={() => window.open('https://velvety-lamington-6fd815.netlify.app', '_blank')}
-              >
+              <Button className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full" onClick={() => window.open('https://velvety-lamington-6fd815.netlify.app', '_blank')}>
                 Ask Maggie a Bible Question
               </Button>
             </div>
           </div>
           <div className="flex justify-center relative">
-            <img 
-              src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" 
-              alt="Maggie with books" 
-              className="rounded-xl shadow-2xl max-w-full md:max-w-md h-auto" 
-            />
+            <img src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" alt="Maggie with books" className="rounded-xl shadow-2xl max-w-full md:max-w-md h-auto" />
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
