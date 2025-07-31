@@ -19,7 +19,7 @@ const MeetMaggie = () => {
   return (
     <section id="maggie" className="py-16 bg-gray-50">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center mb-12 text-gray-800 font-['Comic_Neue']">Meet Maggie</h2>
+        <h2 className="text-4xl font-extrabold text-center mb-12 text-gray-800 font-['Comic_Neue']">Meet Maggie – Author of Christian Children's Books</h2>
         
         <MaggieProfile />
 
