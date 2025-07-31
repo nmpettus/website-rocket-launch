@@ -88,7 +88,7 @@ export const bookSEOData = {
 };
 
 export const homeSEOData = {
-  title: "Maggie's Bible Adventures - Christian Children's Books | Bible Stories for Kids",
+  title: "Christian Children's Books by Maggie | Faith-Based Stories",
   description: "Discover amazing Bible stories through Maggie's eyes! Christian children's books featuring Creation, Noah's Ark, Jonah, and God's Love. Perfect for teaching kids about faith, love, and God's wonderful world.",
   keywords: [
     "children's bible stories",

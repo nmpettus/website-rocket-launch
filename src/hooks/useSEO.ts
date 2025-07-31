@@ -27,7 +27,7 @@ export const useSEO = (seoData: UseSEOProps) => {
 
     // Cleanup function to restore default title when component unmounts
     return () => {
-      document.title = "Maggie's Bible Adventures - Children's Christian Books";
+      document.title = "Christian Children's Books by Maggie | Faith-Based Stories";
     };
   }, [seoData]);
 };
