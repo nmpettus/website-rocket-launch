@@ -67,7 +67,7 @@ const Books = () => {
   return (
     <section id="books" className="py-16 bg-white">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center mb-6 text-gray-800 font-['Comic_Neue']">Our Book Collection</h2>
+        <h2 className="text-4xl font-extrabold text-center mb-6 text-gray-800 font-['Comic_Neue']">Our Book Collection- Bible Stories for Kids</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {booksData.map(book => (
