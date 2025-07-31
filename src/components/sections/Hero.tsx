@@ -50,7 +50,8 @@ const Hero = () => {
                   </Button>
                 </div>
               </span>
-              <br />by Maggie | Faith-Based Stories
+              <br />Books by Maggie
+              <br />Faith-Based Stories
             </h1>
             <p className="text-xl">Delightful
 Send Maggie a Lett</p>
