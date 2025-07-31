@@ -24,7 +24,7 @@ const MeetMaggie = () => {
         <MaggieProfile />
 
         <div className="mb-8">
-          <h3 className="text-2xl font-bold text-center mb-8 text-gray-800 font-['Comic_Neue']">Maggie's Photo Gallery</h3>
+          <h3 className="text-2xl font-bold text-center mb-8 text-gray-800 font-['Comic_Neue']">Behind the Scenes with Maggie – Photo Gallery</h3>
           
           <MaggieCarousel onImageClick={handleImageClick} />
           
