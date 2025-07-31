@@ -46,8 +46,8 @@ const Index = () => {
     <>
       <Navigation />
       <Hero />
-      <MeetMaggie />
       <Books />
+      <MeetMaggie />
       <Videos />
       <Activities />
       <Games />
