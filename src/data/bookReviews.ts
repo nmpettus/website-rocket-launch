@@ -219,9 +219,9 @@ export const booksData = [
   {
     id: "noah",
     coverImage: "/lovable-uploads/83369923-a075-46d1-b5cf-54d226cab7da.png",
-    title: "MAGGIE and Noah's Ark Adventure",
+    title: "Noah's Ark - Christian Children's Book by Maggie",
     languages: ["English"],
-    description: "Maggie learns about faith and obedience through the story of Noah's Ark.",
+    description: "Explore \"Noah's Ark\" by Maggie - a beautifully illustrated Christian children's book retelling God's promise, faith, and rescue in a way kids will love",
     reviewCount: 18,
     amazonLink: "https://a.co/d/5czEdgO",
     samplePages: [
