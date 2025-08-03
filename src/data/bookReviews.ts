@@ -255,9 +255,9 @@ export const booksData = [
   {
     id: "jonah",
     coverImage: "/lovable-uploads/b3639f34-6564-48eb-bba5-c7cb2a340f62.png",
-    title: "MAGGIE and Jonah's Big Fish Story",
+    title: "Jonah - A Christian Children's Story About Obedience and God's Mercy",
     languages: ["English"],
-    description: "A tale of second chances and God's mercy as Maggie explores Jonah's journey.",
+    description: "Read \"Jonah\" by Maggie - a fun and faith-filled children's book teaching kids about obedience, God's mercy, and the power of second chances.",
     reviewCount: 12,
     amazonLink: "https://a.co/d/1NfnyaE",
     samplePages: [
