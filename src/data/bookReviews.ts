@@ -151,9 +151,9 @@ export const booksData = [
   {
     id: "gods-love",
     coverImage: "/lovable-uploads/9915a45c-d79b-4a00-8e51-2d7c4ca0afd8.png",
-    title: "God's Love for MAGGIE",
+    title: "God's Love - Christian Families Bible Devotional",
     languages: ["English"],
-    description: "A heartwarming tale about God's unconditional love through the eyes of Maggie.",
+    description: "Discover \"God's Love\" by Maggie - a heartfelt Christian children's book that teaches kid's about God's never ending love through gentle faith-filled storytelling",
     reviewCount: 15,
     amazonLink: "https://a.co/d/a1KplpW",
     isNew: true,
