@@ -45,7 +45,7 @@ const GiveAway = () => {
     <section id="kids" className="py-16 bg-gradient-to-br from-purple-50 to-pink-50">
       <div className="container mx-auto px-6">
         <h2 className="text-4xl font-extrabold text-center mb-4 text-gray-800 font-['Comic_Neue']">
-          Kids Love Maggie's Books!
+          Loved by Kids – Maggie's Heartfelt Christian Books
         </h2>
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
           See how children around the world are enjoying Maggie's Bible stories! From bedtime reading to family adventures, these precious moments show the joy our books bring to young readers.
