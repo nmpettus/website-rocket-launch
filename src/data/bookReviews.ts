@@ -183,9 +183,9 @@ export const booksData = [
   {
     id: "creation",
     coverImage: "/lovable-uploads/711c1342-427a-4191-91d3-7ebe4ec29df9.png",
-    title: "In the Beginning: MAGGIE and the Story of Creation",
+    title: "Creation - Christian Children's Book by Maggie",
     languages: ["English", "Spanish", "Italian"],
-    description: "Join Maggie as she discovers the wonder of God's creation in this beautifully illustrated story.",
+    description: "Explore \"Creation\" by Maggie--a faith-filled children's book about God's creation. Simple, engaging Bible stories that delight young readers and teach Christian values.",
     reviewCount: 23,
     amazonLink: "https://a.co/d/8DoEE31",
     samplePages: [
