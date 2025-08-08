@@ -6,6 +6,7 @@ import MeetMaggie from "@/components/sections/MeetMaggie";
 import Books from "@/components/sections/Books";
 import Videos from "@/components/sections/Videos";
 import Activities from "@/components/sections/Activities";
+import WriteToMaggie from "@/components/sections/WriteToMaggie";
 import Games from "@/components/sections/Games";
 import GiveAway from "@/components/sections/GiveAway";
 import Projects from "@/components/sections/Projects";
@@ -50,6 +51,7 @@ const Index = () => {
       <MeetMaggie />
       <Videos />
       <Activities />
+      <WriteToMaggie />
       <Games />
       <GiveAway />
       <Projects />
