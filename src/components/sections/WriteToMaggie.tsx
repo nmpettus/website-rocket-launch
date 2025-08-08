@@ -7,7 +7,7 @@ import LetterToMaggie from "@/components/activities/LetterToMaggie";
 // - Heading now matches other section titles: text-4xl (was text-6xl)
 
 const WriteToMaggie = () => (
-  <section id="write-to-maggie" className="py-4 bg-pink-50">
+  <section id="write-to-maggie" className="py-16 bg-pink-50 scroll-mt-20">
     <div className="container mx-auto px-2 max-w-md">
       <h2 className="text-4xl font-extrabold text-center mb-2 text-purple-700 font-['Comic_Neue']">
         Write to Maggie
