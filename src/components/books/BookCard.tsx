@@ -141,7 +141,7 @@ const BookCard = ({
             <Link to={bookRoute} className="w-full">
               <Button 
                 size="sm"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground w-full"
+                className="bg-primary hover:bg-primary/90 text-white w-full"
               >
                 <BookOpen className="w-3 h-3 mr-1" />
                 View Details
