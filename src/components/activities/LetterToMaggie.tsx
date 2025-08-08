@@ -142,7 +142,7 @@ const LetterToMaggie = () => {
           <Button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-base py-4"
+            className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white text-base py-4"
           >
             <Send size={18} />
             {isSubmitting ? "Sending letter..." : "Send Letter to Maggie"}
