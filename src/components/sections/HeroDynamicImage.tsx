@@ -7,20 +7,26 @@ const HeroDynamicImage = () => {
   // Select the best hero images (first 6 for variety)
   const heroImages = maggie_images.slice(0, 6);
   
+  // Debug logging
+  console.log("HeroDynamicImage rendering, heroImages length:", heroImages.length);
+  console.log("Current image:", heroImages[currentImageIndex]);
+  
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        (prevIndex + 1) % heroImages.length
-      );
+      setCurrentImageIndex((prevIndex) => {
+        const newIndex = (prevIndex + 1) % heroImages.length;
+        console.log("Switching to image index:", newIndex);
+        return newIndex;
+      });
     }, 3000); // Change image every 3 seconds
     
     return () => clearInterval(interval);
   }, [heroImages.length]);
 
   return (
-    <div className="relative overflow-hidden rounded-xl shadow-2xl max-w-full md:max-w-md h-auto">
+    <div className="relative overflow-hidden rounded-xl shadow-2xl w-full max-w-md min-h-[300px] md:min-h-[400px] bg-gradient-to-br from-purple-100 to-pink-100">
       {/* Main carousel container */}
-      <div className="relative aspect-square md:aspect-[4/5] bg-white/10 backdrop-blur-sm">
+      <div className="relative w-full h-full min-h-[300px] md:min-h-[400px] bg-gradient-to-br from-indigo-50 to-purple-50">
         {heroImages.map((image, index) => (
           <div
             key={index}
