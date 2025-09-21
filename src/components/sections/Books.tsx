@@ -14,7 +14,8 @@ const bookLanguageLinks = {
   creation: [
     { language: "English", url: "https://a.co/d/8DoEE31" },
     { language: "Spanish", url: "https://a.co/d/ccsCmGT" },
-    { language: "Italian", url: "https://a.co/d/86irzfP" }
+    { language: "Italian", url: "https://a.co/d/86irzfP" },
+    { language: "Kindle", url: "https://a.co/d/1rEEGjy" }
   ],
   noah: [
     { language: "English", url: "https://a.co/d/5czEdgO" }
