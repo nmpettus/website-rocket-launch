@@ -51,7 +51,7 @@ const HeroDynamicImage = () => {
             key={currentImageIndex}
             src={heroImages[currentImageIndex].src}
             alt={heroImages[currentImageIndex].alt}
-            className={`w-full h-full object-contain rounded-2xl transform-gpu transition-all duration-1000 ease-out
+            className={`w-full h-full object-cover rounded-2xl transform-gpu transition-all duration-1000 ease-out
               ${isImageLoaded 
                 ? 'opacity-100 scale-100 blur-0 rotate-0' 
                 : 'opacity-0 scale-90 blur-sm rotate-2'
