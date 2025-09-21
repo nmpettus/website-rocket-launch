@@ -49,6 +49,7 @@ const BookCard = ({
     English: "bg-indigo-600",
     Spanish: "bg-amber-500",
     Italian: "bg-emerald-500",
+    Kindle: "bg-purple-600",
   };
 
   const formattedTitle = title.replace(/MAGGIE/g, "Maggie");

@@ -184,7 +184,7 @@ export const booksData = [
     id: "creation",
     coverImage: "/lovable-uploads/711c1342-427a-4191-91d3-7ebe4ec29df9.png",
     title: "Creation - A Christian children's book about God's Beautiful Beginning",
-    languages: ["English", "Spanish", "Italian"],
+    languages: ["English", "Spanish", "Italian", "Kindle"],
     description: "Explore \"Creation\" by Maggie--a faith-filled children's book about God's creation. Simple, engaging Bible stories that delight young readers and teach Christian values.",
     reviewCount: 23,
     amazonLink: "https://a.co/d/8DoEE31",
