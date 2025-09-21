@@ -35,13 +35,15 @@ const CreationBook = () => {
   const languageLinks = [
     { language: "English", url: "https://a.co/d/8DoEE31" },
     { language: "Spanish", url: "https://a.co/d/ccsCmGT" },
-    { language: "Italian", url: "https://a.co/d/86irzfP" }
+    { language: "Italian", url: "https://a.co/d/86irzfP" },
+    { language: "Kindle", url: "https://a.co/d/1rEEGjy" }
   ];
 
   const languageColors: Record<string, string> = {
     English: "bg-indigo-600",
     Spanish: "bg-amber-500",
     Italian: "bg-emerald-500",
+    Kindle: "bg-purple-600",
   };
 
   if (!book) {
