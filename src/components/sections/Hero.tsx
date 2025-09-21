@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { PartyPopper } from "lucide-react";
+import HeroDynamicImage from "./HeroDynamicImage";
 const Hero = () => {
   // Scroll so #write-to-maggie is at the very top of the viewport — no offset.
   const scrollToLetterSection = () => {
@@ -58,7 +59,7 @@ const Hero = () => {
             </div>
           </div>
           <div className="flex justify-center relative">
-            <img src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" alt="Maggie with books" className="rounded-xl shadow-2xl max-w-full md:max-w-md h-auto" loading="eager" />
+            <HeroDynamicImage />
           </div>
         </div>
       </div>
