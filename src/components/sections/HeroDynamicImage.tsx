@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { maggie_images } from "@/components/maggie/maggie-images";
 
 const HeroDynamicImage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
-  // Select the best hero images (first 6 for variety)
-  const heroImages = maggie_images.slice(0, 6);
+  // Book illustration images instead of photos
+  const heroImages = [
+    { src: "/illustrations/God1.png", alt: "God's love illustration from Maggie's books" },
+    { src: "/illustrations/maggie1.jpg", alt: "Maggie character illustration" },
+    { src: "/illustrations/mSmile1.jpg", alt: "Smiling Maggie book illustration" },
+    { src: "/illustrations/msweet.jpg", alt: "Sweet Maggie character art" },
+    { src: "/illustrations/mSur4.jpg", alt: "Surprised Maggie illustration" },
+    { src: "/illustrations/stars2.jpg", alt: "Starry night book illustration" },
+    { src: "/illustrations/Rolling4.jpg", alt: "Rolling hills book scene" },
+    { src: "/illustrations/mI.jpg", alt: "Maggie book character design" }
+  ];
   
   // Debug logging
   console.log("HeroDynamicImage rendering, heroImages length:", heroImages.length);
