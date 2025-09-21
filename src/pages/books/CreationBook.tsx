@@ -36,7 +36,7 @@ const CreationBook = () => {
     { language: "English", url: "https://a.co/d/8DoEE31" },
     { language: "Spanish", url: "https://a.co/d/ccsCmGT" },
     { language: "Italian", url: "https://a.co/d/86irzfP" },
-    { language: "Kindle", url: "https://a.co/d/1rEEGjy" }
+    { language: "Kindle", url: "https://www.amazon.com/Creation-told-Maggie-Beloved-Generation-ebook/dp/B0FRVXFZSX/ref=tmm_kin_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.BwbJeoyC49WDoBkR4KRx3JVNtDY6MUZIMID_hWhopZtE0_WaTTQw-3DV8w-xCkj7T4QqfvRvDhcV9fDk52e6sdtyogVW1uutZBMaUxVw3fXIBbkZIw3ttbO4BqymQFOtOM9StexQJtUTaG8ysIAjNGzRRQPRUV-27b5ImWNWpGdlmArdDzsBPkHgrUAAtpus.Iyo7h1nvFki8KhttY3go09QquyuIwT8lRxIrtyla2uw&qid=1758454617&sr=8-1" }
   ];
 
   const languageColors: Record<string, string> = {
