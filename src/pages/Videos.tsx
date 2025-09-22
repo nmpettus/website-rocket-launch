@@ -73,12 +73,12 @@ const Videos = () => {
                       It looks like YouTube might be blocked in your network. You can still watch all the videos below, or try accessing YouTube directly if possible.
                     </p>
                     <div className="mt-3 text-xs text-gray-500">
-                      Channel: <span className="font-mono">UCrCK_T8kkP9pCMqHmnYpdgw</span>
+                      Channel: <span className="font-mono">@nmpettus</span>
                     </div>
                   </div>
                 ) : (
                   <a 
-                    href="https://www.youtube.com/channel/UCrCK_T8kkP9pCMqHmnYpdgw"
+                    href="https://www.youtube.com/@nmpettus"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 px-6 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-red-300/50 animate-pulse hover:animate-none"
