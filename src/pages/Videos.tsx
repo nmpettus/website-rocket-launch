@@ -10,10 +10,28 @@ import VideoVoting from "@/components/VideoVoting";
 const Videos = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [isYouTubeBlocked, setIsYouTubeBlocked] = useState(false);
 
-  // Scroll to top when component mounts
+  // Scroll to top when component mounts and check YouTube accessibility
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Check if YouTube is accessible
+    const testYouTubeAccess = async () => {
+      try {
+        const response = await fetch('https://www.youtube.com/favicon.ico', { 
+          mode: 'no-cors',
+          method: 'HEAD',
+          signal: AbortSignal.timeout(3000)
+        });
+        setIsYouTubeBlocked(false);
+      } catch (error) {
+        console.log('YouTube access may be blocked:', error);
+        setIsYouTubeBlocked(true);
+      }
+    };
+    
+    testYouTubeAccess();
   }, []);
 
   const filteredVideos = allVideos.filter(video => {
@@ -43,21 +61,36 @@ const Videos = () => {
                 🗳️ Vote for your favorites! Let us know which videos you love most!
               </p>
               
-              {/* YouTube Channel Link */}
+              {/* YouTube Channel Link with fallback */}
               <div className="mt-6">
-                <a 
-                  href="https://www.youtube.com/channel/UCrCK_T8kkP9pCMqHmnYpdgw"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 px-6 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-red-300/50 animate-pulse hover:animate-none"
-                  style={{
-                    boxShadow: '0 0 20px rgba(239, 68, 68, 0.5), 0 0 40px rgba(239, 68, 68, 0.3)',
-                    animation: 'glow 2s ease-in-out infinite alternate'
-                  }}
-                >
-                  <Video className="w-5 h-5" />
-                  See all of Maggie's videos
-                </a>
+                {isYouTubeBlocked ? (
+                  <div className="text-center">
+                    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg mb-3">
+                      <Video className="w-5 h-5" />
+                      YouTube Access Limited
+                    </div>
+                    <p className="text-gray-600 max-w-md mx-auto text-sm">
+                      It looks like YouTube might be blocked in your network. You can still watch all the videos below, or try accessing YouTube directly if possible.
+                    </p>
+                    <div className="mt-3 text-xs text-gray-500">
+                      Channel: <span className="font-mono">UCrCK_T8kkP9pCMqHmnYpdgw</span>
+                    </div>
+                  </div>
+                ) : (
+                  <a 
+                    href="https://www.youtube.com/channel/UCrCK_T8kkP9pCMqHmnYpdgw"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 px-6 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-red-300/50 animate-pulse hover:animate-none"
+                    style={{
+                      boxShadow: '0 0 20px rgba(239, 68, 68, 0.5), 0 0 40px rgba(239, 68, 68, 0.3)',
+                      animation: 'glow 2s ease-in-out infinite alternate'
+                    }}
+                  >
+                    <Video className="w-5 h-5" />
+                    See all of Maggie's videos
+                  </a>
+                )}
               </div>
             </div>
 
