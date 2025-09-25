@@ -234,7 +234,7 @@ const ChapterZero = () => {
             <div className="order-2 md:order-1">
               <div className="bg-white rounded-lg shadow-xl p-8 max-w-sm mx-auto">
                 <img 
-                  src="/lovable-uploads/AI Adventures with Maggie.jpg" 
+                  src="/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png" 
                   alt="AI Adventures with Maggie Book Cover"
                   className="w-full rounded-lg shadow-lg"
                 />

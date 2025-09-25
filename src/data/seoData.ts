@@ -83,7 +83,7 @@ export const bookSEOData = {
       "ai education children",
       "future technology kids book"
     ],
-    ogImage: "/lovable-uploads/AI Adventures with Maggie.jpg"
+    ogImage: "/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png"
   }
 };
 
