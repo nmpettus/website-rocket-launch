@@ -232,13 +232,11 @@ const ChapterZero = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             {/* Book Cover */}
             <div className="order-2 md:order-1">
-              <div className="bg-white rounded-lg shadow-xl p-8 max-w-sm mx-auto">
-                <img 
-                  src="/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png" 
-                  alt="AI Adventures with Maggie Book Cover"
-                  className="w-full rounded-lg shadow-lg"
-                />
-              </div>
+              <img 
+                src="/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png" 
+                alt="AI Adventures with Maggie Book Cover"
+                className="w-full h-auto rounded-lg shadow-xl"
+              />
             </div>
 
             {/* Final Message */}
