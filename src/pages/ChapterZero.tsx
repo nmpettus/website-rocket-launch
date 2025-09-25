@@ -52,7 +52,6 @@ const ChapterZero = () => {
 
   return (
     <div className="min-h-screen bg-blue-50">
-      <Navigation />
       
       {/* Section 1: Welcome Video */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-20">
