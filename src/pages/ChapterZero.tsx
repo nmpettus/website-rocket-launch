@@ -56,19 +56,18 @@ const ChapterZero = () => {
       {/* Section 1: Welcome Video */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-20">
         <div className="w-full max-w-4xl mx-auto text-center">
-          {/* Video Placeholder */}
-          <div className="relative w-full aspect-video bg-gradient-to-br from-purple-400 to-blue-500 rounded-lg overflow-hidden shadow-2xl mb-8">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center text-white">
-                <div className="w-24 h-24 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
-                  <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z"/>
-                  </svg>
-                </div>
-                <p className="text-lg font-lato">Welcome Video from Maggie</p>
-                <p className="text-sm opacity-80">20-second animated introduction</p>
-              </div>
-            </div>
+          {/* Video */}
+          <div className="relative w-full max-w-sm mx-auto md:max-w-md lg:max-w-lg aspect-[9/16] bg-black rounded-lg overflow-hidden shadow-2xl mb-8">
+            <video
+              className="w-full h-full object-cover"
+              controls
+              muted={isMuted}
+              preload="metadata"
+              poster="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png"
+            >
+              <source src="/lovable-uploads/MaggieAIBackCoverIntroVideo.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
             
             {/* Mute/Unmute Button */}
             <Button
