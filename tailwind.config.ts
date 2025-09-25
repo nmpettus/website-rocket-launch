@@ -60,6 +60,8 @@ const config = {
         sans: ["Canva Sans", "var(--font-sans)", ...fontFamily.sans],
         display: ["Comic Neue", "cursive"],
         canva: ["Canva Sans", "sans-serif"],
+        lato: ["Lato", "sans-serif"],
+        lora: ["Lora", "serif"],
       },
       keyframes: {
         "accordion-down": {

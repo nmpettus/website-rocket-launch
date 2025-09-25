@@ -17,6 +17,7 @@ import NoahsArkBook from "./pages/books/NoahsArkBook";
 import JonahBook from "./pages/books/JonahBook";
 import GodsLoveBook from "./pages/books/GodsLoveBook";
 import AIAdventuresBook from "./pages/books/AIAdventuresBook";
+import ChapterZero from "./pages/ChapterZero";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/books/jonah" element={<JonahBook />} />
             <Route path="/books/gods-love" element={<GodsLoveBook />} />
             <Route path="/books/ai-adventures" element={<AIAdventuresBook />} />
+            <Route path="/chapter-zero" element={<ChapterZero />} />
             <Route path="/subscribers" element={<SubscribersList />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
