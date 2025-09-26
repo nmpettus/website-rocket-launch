@@ -56,6 +56,11 @@ const ChapterZero = () => {
       {/* Section 1: Welcome Video */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-20">
         <div className="w-full max-w-4xl mx-auto text-center">
+          {/* Headline */}
+          <h1 className="font-lato font-bold text-4xl md:text-5xl text-gray-800 mb-8">
+            You've Unlocked a Secret Mini-Adventure!
+          </h1>
+
           {/* Video */}
           <div className="relative w-full max-w-sm mx-auto md:max-w-md lg:max-w-lg aspect-[9/16] bg-black rounded-lg overflow-hidden shadow-2xl mb-8">
             <video
@@ -80,11 +85,6 @@ const ChapterZero = () => {
               {isMuted ? "Tap to Unmute" : "Muted"}
             </Button>
           </div>
-
-          {/* Headline */}
-          <h1 className="font-lato font-bold text-4xl md:text-5xl text-gray-800 mb-8">
-            You've Unlocked a Secret Mini-Adventure!
-          </h1>
 
           {/* Scroll Cue */}
           <div className="animate-bounce">
