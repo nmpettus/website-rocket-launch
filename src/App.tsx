@@ -37,6 +37,7 @@ const App = () => (
             <Route path="/books/gods-love" element={<GodsLoveBook />} />
             <Route path="/books/ai-adventures" element={<AIAdventuresBook />} />
             <Route path="/chapter-zero" element={<ChapterZero />} />
+            <Route path="/secret" element={<ChapterZero />} />
             <Route path="/subscribers" element={<SubscribersList />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
