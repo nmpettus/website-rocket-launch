@@ -57,8 +57,9 @@ const ChapterZero = () => {
       <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-20">
         <div className="w-full max-w-4xl mx-auto text-center">
           {/* Headline */}
-          <h1 className="font-lato font-bold text-4xl md:text-5xl text-gray-800 mb-8">
-            You've Unlocked a Secret Mini-Adventure!
+          <h1 className="font-lato font-bold text-4xl md:text-5xl text-gray-800 mb-8 leading-tight">
+            You've Unlocked a Secret<br />
+            Mini-Adventure!
           </h1>
 
           {/* Video */}
