@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { ChevronDown, Volume2, VolumeX } from "lucide-react";
 import { useSEO } from "@/hooks/useSEO";
+import comicPanel1 from "@/assets/comic-panel-1.png";
 
 const ChapterZero = () => {
   const [isMuted, setIsMuted] = useState(true);
@@ -101,17 +102,27 @@ const ChapterZero = () => {
             A Story Not Found in the Book: Maggie and the Midnight Snack
           </h2>
           
-          {/* Comic Strip Placeholder */}
+          {/* Comic Strip */}
           <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[1, 2, 3, 4].map((panel) => (
+              {/* Panel 1 - Actual comic panel */}
+              <div className="aspect-square rounded-lg overflow-hidden border-2 border-gray-300">
+                <img 
+                  src={comicPanel1} 
+                  alt="Late one night, Maggie's tummy had a mission: Operation Midnight Snack!"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Placeholder panels 2-4 */}
+              {[2, 3, 4].map((panel) => (
                 <div key={panel} className="aspect-square bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center border-2 border-gray-300">
                   <div className="text-center text-gray-600">
                     <div className="w-16 h-16 mx-auto mb-2 bg-orange-200 rounded-full flex items-center justify-center">
                       <span className="text-2xl font-bold">{panel}</span>
                     </div>
                     <p className="text-sm font-lora">Panel {panel}</p>
-                    <p className="text-xs opacity-70">Comic content here</p>
+                    <p className="text-xs opacity-70">Coming Soon</p>
                   </div>
                 </div>
               ))}
