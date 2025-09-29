@@ -29,19 +29,19 @@ const ChapterZero = () => {
       id: "maggie",
       name: "Maggie",
       image: "/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png",
-      funFact: "I love midnight snacks and solving AI mysteries! My favorite treat is digital dog biscuits."
+      funFact: "The adorable Yorkshire Terrier who is the star and narrator of the adventures. She's curious, smart, and helps kids understand AI concepts."
     },
     {
-      id: "alex",
-      name: "Alex",
+      id: "scientist",
+      name: "The Adult/Scientist",
       image: "/lovable-uploads/a44b3fc6-baa0-48bd-8f0c-4a126c20bf46.png",
-      funFact: "I'm the tech wizard of the group! I can code in 7 different programming languages."
+      funFact: "The woman in the lab coat who appears to be a researcher or teacher. She represents the knowledgeable adult who can explain the more complex concepts."
     },
     {
-      id: "professor",
-      name: "Professor Bot",
+      id: "kids",
+      name: "The Kids",
       image: "/lovable-uploads/96d18d5d-f08b-4f0c-bbd6-48259e4a9477.png",
-      funFact: "I've been teaching AI concepts for over 50 years! My circuits light up when kids ask great questions."
+      funFact: "The diverse group of children (appears to be 3-4 kids of different ages and backgrounds) who are learning alongside Maggie. They ask the questions that young readers would ask."
     }
   ];
 
