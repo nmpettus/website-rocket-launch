@@ -9,8 +9,4 @@ import { logEnvironment } from './utils/environmentUtils';
 logEnvironment();
 
 // Create and render the root component
-createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+createRoot(document.getElementById("root")!).render(<App />);
