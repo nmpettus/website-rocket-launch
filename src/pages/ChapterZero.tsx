@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronDown, Volume2, VolumeX } from "lucide-react";
 import { useSEO } from "@/hooks/useSEO";
 import comicPanel1 from "@/assets/comic-panel-1.png";
+import comicPanel2 from "@/assets/comic-panel-2.png";
 
 const ChapterZero = () => {
   const [isMuted, setIsMuted] = useState(true);
@@ -114,8 +115,17 @@ const ChapterZero = () => {
                 />
               </div>
               
-              {/* Placeholder panels 2-4 */}
-              {[2, 3, 4].map((panel) => (
+              {/* Panel 2 - Actual comic panel */}
+              <div className="aspect-square rounded-lg overflow-hidden border-2 border-gray-300">
+                <img 
+                  src={comicPanel2} 
+                  alt="But the giant food fortress was sealed tight. How could a little pup get inside?"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Placeholder panels 3-4 */}
+              {[3, 4].map((panel) => (
                 <div key={panel} className="aspect-square bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center border-2 border-gray-300">
                   <div className="text-center text-gray-600">
                     <div className="w-16 h-16 mx-auto mb-2 bg-orange-200 rounded-full flex items-center justify-center">
