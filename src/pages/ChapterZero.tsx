@@ -11,6 +11,7 @@ import { useSEO } from "@/hooks/useSEO";
 import comicPanel1 from "@/assets/comic-panel-1.png";
 import comicPanel2 from "@/assets/comic-panel-2.png";
 import comicPanel3 from "@/assets/comic-panel-3.png";
+import comicPanel4 from "@/assets/comic-panel-4.png";
 
 const ChapterZero = () => {
   const [isMuted, setIsMuted] = useState(true);
@@ -134,15 +135,13 @@ const ChapterZero = () => {
                 />
               </div>
               
-              {/* Placeholder panel 4 */}
-              <div className="aspect-square bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center border-2 border-gray-300">
-                <div className="text-center text-gray-600">
-                  <div className="w-16 h-16 mx-auto mb-2 bg-orange-200 rounded-full flex items-center justify-center">
-                    <span className="text-2xl font-bold">4</span>
-                  </div>
-                  <p className="text-sm font-lora">Panel 4</p>
-                  <p className="text-xs opacity-70">Coming Soon</p>
-                </div>
+              {/* Panel 4 - Actual comic panel */}
+              <div className="aspect-square rounded-lg overflow-hidden border-2 border-gray-300">
+                <img 
+                  src={comicPanel4} 
+                  alt="It wasn't magic... it was AI! And this was just the beginning of Maggie's adventures. The rest of the story is waiting for you inside the book!"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
