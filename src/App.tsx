@@ -1,30 +1,46 @@
-function App() {
-  console.log("App component is loading - this proves our changes are working!");
-  
-  return (
-    <div style={{
-      minHeight: "100vh",
-      backgroundColor: "#f0f9ff",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontFamily: "sans-serif",
-      padding: "20px",
-      textAlign: "center"
-    }}>
-      <div>
-        <h1 style={{ color: "#1e40af", marginBottom: "10px" }}>
-          React is Working! ✅
-        </h1>
-        <p style={{ color: "#64748b" }}>
-          If you see this message, the React app is loading correctly.
-        </p>
-        <p style={{ color: "#64748b", marginTop: "10px", fontSize: "14px" }}>
-          Check the browser console for confirmation log.
-        </p>
-      </div>
-    </div>
-  );
-}
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Index from "./pages/Index";
+import NotFound from "./pages/NotFound";
+import Videos from "./pages/Videos";
+import ChapterZero from "./pages/ChapterZero";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import CookiePolicy from "./pages/CookiePolicy";
+import SubscribersList from "./pages/SubscribersList";
+import AIAdventuresBook from "./pages/books/AIAdventuresBook";
+import CreationBook from "./pages/books/CreationBook";
+import GodsLoveBook from "./pages/books/GodsLoveBook";
+import JonahBook from "./pages/books/JonahBook";
+import NoahsArkBook from "./pages/books/NoahsArkBook";
+
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/videos" element={<Videos />} />
+          <Route path="/chapter-zero" element={<ChapterZero />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/cookie-policy" element={<CookiePolicy />} />
+          <Route path="/secret" element={<SubscribersList />} />
+          <Route path="/books/ai-adventures" element={<AIAdventuresBook />} />
+          <Route path="/books/creation" element={<CreationBook />} />
+          <Route path="/books/gods-love" element={<GodsLoveBook />} />
+          <Route path="/books/jonah" element={<JonahBook />} />
+          <Route path="/books/noahs-ark" element={<NoahsArkBook />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
 export default App;
