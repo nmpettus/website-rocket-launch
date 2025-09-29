@@ -10,6 +10,7 @@ import { ChevronDown, Volume2, VolumeX } from "lucide-react";
 import { useSEO } from "@/hooks/useSEO";
 import comicPanel1 from "@/assets/comic-panel-1.png";
 import comicPanel2 from "@/assets/comic-panel-2.png";
+import comicPanel3 from "@/assets/comic-panel-3.png";
 
 const ChapterZero = () => {
   const [isMuted, setIsMuted] = useState(true);
@@ -124,18 +125,25 @@ const ChapterZero = () => {
                 />
               </div>
               
-              {/* Placeholder panels 3-4 */}
-              {[3, 4].map((panel) => (
-                <div key={panel} className="aspect-square bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center border-2 border-gray-300">
-                  <div className="text-center text-gray-600">
-                    <div className="w-16 h-16 mx-auto mb-2 bg-orange-200 rounded-full flex items-center justify-center">
-                      <span className="text-2xl font-bold">{panel}</span>
-                    </div>
-                    <p className="text-sm font-lora">Panel {panel}</p>
-                    <p className="text-xs opacity-70">Coming Soon</p>
+              {/* Panel 3 - Actual comic panel */}
+              <div className="aspect-square rounded-lg overflow-hidden border-2 border-gray-300">
+                <img 
+                  src={comicPanel3} 
+                  alt="Suddenly, the fridge woke up! It knew Norman was there before he even touched it. Was it... magic?"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Placeholder panel 4 */}
+              <div className="aspect-square bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center border-2 border-gray-300">
+                <div className="text-center text-gray-600">
+                  <div className="w-16 h-16 mx-auto mb-2 bg-orange-200 rounded-full flex items-center justify-center">
+                    <span className="text-2xl font-bold">4</span>
                   </div>
+                  <p className="text-sm font-lora">Panel 4</p>
+                  <p className="text-xs opacity-70">Coming Soon</p>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
