@@ -258,19 +258,19 @@ const ChapterZero = () => {
 
       {/* Section 4: Bridge to the Future */}
       <section className="py-20 px-4 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-center">
             {/* Book Cover */}
-            <div className="order-2 md:order-1">
+            <div className="order-2 md:order-1 md:col-span-3">
               <img 
                 src="/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png" 
                 alt="AI Adventures with Maggie Book Cover"
-                className="w-full h-auto rounded-lg shadow-xl"
+                className="w-full h-auto rounded-lg shadow-xl max-w-md mx-auto"
               />
             </div>
 
             {/* Final Message */}
-            <div className="order-1 md:order-2 text-left">
+            <div className="order-1 md:order-2 md:col-span-2 text-left">
               <h2 className="font-lato font-bold text-4xl text-gray-800 mb-6">
                 The Rest of the Adventure is Waiting...
               </h2>
