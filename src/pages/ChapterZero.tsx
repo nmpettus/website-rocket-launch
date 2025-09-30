@@ -13,6 +13,7 @@ import comicPanel2 from "@/assets/comic-panel-2.png";
 import comicPanel3 from "@/assets/comic-panel-3.png";
 import comicPanel4 from "@/assets/comic-panel-4.png";
 import scientistCharacter from "@/assets/scientist-character.png";
+import kidsCharacter from "@/assets/kids-character.png";
 
 const ChapterZero = () => {
   const [isMuted, setIsMuted] = useState(true);
@@ -41,7 +42,7 @@ const ChapterZero = () => {
     {
       id: "kids",
       name: "The Kids",
-      image: "/lovable-uploads/96d18d5d-f08b-4f0c-bbd6-48259e4a9477.png",
+      image: kidsCharacter,
       funFact: "The diverse group of children (appears to be 3-4 kids of different ages and backgrounds) who are learning alongside Maggie. They ask the questions that young readers would ask."
     }
   ];
