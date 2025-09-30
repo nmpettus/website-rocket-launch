@@ -265,7 +265,7 @@ const ChapterZero = () => {
               <img 
                 src="/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png" 
                 alt="AI Adventures with Maggie Book Cover"
-                className="w-full h-auto rounded-lg shadow-xl max-w-md mx-auto"
+                className="w-full h-auto rounded-lg shadow-xl max-w-xl mx-auto"
               />
             </div>
 
