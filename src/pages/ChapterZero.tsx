@@ -12,6 +12,7 @@ import comicPanel1 from "@/assets/comic-panel-1.png";
 import comicPanel2 from "@/assets/comic-panel-2.png";
 import comicPanel3 from "@/assets/comic-panel-3.png";
 import comicPanel4 from "@/assets/comic-panel-4.png";
+import scientistCharacter from "@/assets/scientist-character.png";
 
 const ChapterZero = () => {
   const [isMuted, setIsMuted] = useState(true);
@@ -34,7 +35,7 @@ const ChapterZero = () => {
     {
       id: "scientist",
       name: "The Adult/Scientist",
-      image: "/lovable-uploads/a44b3fc6-baa0-48bd-8f0c-4a126c20bf46.png",
+      image: scientistCharacter,
       funFact: "The woman in the lab coat who appears to be a researcher or teacher. She represents the knowledgeable adult who can explain the more complex concepts."
     },
     {
