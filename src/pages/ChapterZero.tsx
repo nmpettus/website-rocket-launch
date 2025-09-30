@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { ChevronDown, Volume2, VolumeX } from "lucide-react";
+import { ChevronDown, Volume2, VolumeX, Download } from "lucide-react";
 import { useSEO } from "@/hooks/useSEO";
+import QRCode from "react-qr-code";
 import comicPanel1 from "@/assets/comic-panel-1.png";
 import comicPanel2 from "@/assets/comic-panel-2.png";
 import comicPanel3 from "@/assets/comic-panel-3.png";
@@ -284,8 +285,30 @@ const ChapterZero = () => {
             </div>
           </div>
 
-          {/* Link to Main Website */}
+          {/* QR Code Section */}
           <div className="mt-16 pt-8 border-t border-gray-200">
+            <div className="max-w-md mx-auto">
+              <h3 className="font-lato font-bold text-xl text-gray-800 mb-4">
+                Share This Secret Page
+              </h3>
+              <p className="text-sm text-gray-600 font-lora mb-6">
+                Scan this QR code to visit Chapter Zero directly
+              </p>
+              <div className="bg-white p-6 rounded-lg shadow-lg inline-block">
+                <QRCode
+                  value={window.location.href}
+                  size={200}
+                  level="H"
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-4 font-lora">
+                Take a screenshot to save and share!
+              </p>
+            </div>
+          </div>
+
+          {/* Link to Main Website */}
+          <div className="mt-8">
             <p className="text-sm text-gray-500 font-lora">
               For parent resources, author information, and more books, visit{" "}
               <a href="/" className="text-blue-600 hover:underline">
