@@ -136,65 +136,61 @@ const BookCard = ({
           </div>
           <span className="text-gray-500 ml-2">({reviewCount} reviews)</span>
         </div>
-      </CardContent>
-      <CardFooter className="p-6 pt-0 mt-auto">
-        <div className="flex flex-col w-full gap-2">
-          {/* View Details Button - Full Width */}
+
+        {/* Action Buttons */}
+        <div className="space-y-2">
           {bookRoute && (
-            <Link to={bookRoute} className="w-full">
+            <Link to={bookRoute} className="block">
               <Button 
                 size="sm"
                 className="bg-primary hover:bg-primary/90 text-white w-full"
               >
-                <BookOpen className="w-3 h-3 mr-1" />
+                <BookOpen className="w-4 h-4 mr-2" />
                 View Details
               </Button>
             </Link>
           )}
           
-          {/* Action Buttons Row */}
-          <div className="flex w-full gap-2">
-            <Button 
-              size="sm"
-              className="bg-indigo-600 hover:bg-indigo-700 text-white flex-1 min-w-0"
-              onClick={() => window.open(amazonLink, "_blank")}
-            >
-              <Book className="w-3 h-3 mr-1" />
-              Amazon
-            </Button>
-            
-            <Button 
-              size="sm"
-              className="bg-purple-600 hover:bg-purple-700 text-white flex-1 min-w-0"
-              onClick={() => window.open(kindleLink, "_blank")}
-            >
-              <Book className="w-3 h-3 mr-1" />
-              Kindle
-            </Button>
-            
-            {hasSamples && (
-              <Button 
-                size="sm"
-                variant="outline" 
-                className="border border-green-600 text-green-600 hover:bg-green-600 hover:text-white flex-1 min-w-0"
-                onClick={() => onOpenSample(bookId, formattedTitle)}
-              >
-                <Eye className="w-3 h-3 mr-1" />
-                Sample
-              </Button>
-            )}
-            
+          <Button 
+            size="sm"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white w-full"
+            onClick={() => window.open(amazonLink, "_blank")}
+          >
+            <Book className="w-4 h-4 mr-2" />
+            Buy on Amazon
+          </Button>
+          
+          <Button 
+            size="sm"
+            className="bg-purple-600 hover:bg-purple-700 text-white w-full"
+            onClick={() => window.open(kindleLink, "_blank")}
+          >
+            <Book className="w-4 h-4 mr-2" />
+            Buy Kindle Version
+          </Button>
+          
+          {hasSamples && (
             <Button 
               size="sm"
               variant="outline" 
-              className="border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white flex-1 min-w-0"
-              onClick={() => onOpenReviews(bookId, formattedTitle)}
+              className="border border-green-600 text-green-600 hover:bg-green-600 hover:text-white w-full"
+              onClick={() => onOpenSample(bookId, formattedTitle)}
             >
-              Reviews
+              <Eye className="w-4 h-4 mr-2" />
+              View Sample Pages
             </Button>
-          </div>
+          )}
+          
+          <Button 
+            size="sm"
+            variant="outline" 
+            className="border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white w-full"
+            onClick={() => onOpenReviews(bookId, formattedTitle)}
+          >
+            Read Reviews
+          </Button>
         </div>
-      </CardFooter>
+      </CardContent>
     </Card>
   );
 };
