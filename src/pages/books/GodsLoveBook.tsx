@@ -161,6 +161,15 @@ const GodsLoveBook = () => {
                     Buy on Amazon
                   </a>
                 </Button>
+                <Button
+                  asChild
+                  className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white"
+                >
+                  <a href={book.kindleLink} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Buy Kindle Version
+                  </a>
+                </Button>
               </div>
             </div>
           </div>

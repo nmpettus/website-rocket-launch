@@ -84,6 +84,7 @@ const Books = () => {
               description={book.description}
               reviewCount={book.reviewCount}
               amazonLink={book.amazonLink}
+              kindleLink={book.kindleLink}
               bookId={book.id}
               isNew={book.isNew}
               samplePages={book.samplePages}

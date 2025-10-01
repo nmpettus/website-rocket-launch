@@ -21,6 +21,7 @@ interface BookCardProps {
   description: string;
   reviewCount: number;
   amazonLink: string;
+  kindleLink: string;
   bookId: string;
   isNew?: boolean;
   samplePages?: SamplePage[];
@@ -37,6 +38,7 @@ const BookCard = ({
   description,
   reviewCount,
   amazonLink,
+  kindleLink,
   bookId,
   isNew = false,
   samplePages = [],
@@ -159,6 +161,15 @@ const BookCard = ({
             >
               <Book className="w-3 h-3 mr-1" />
               Amazon
+            </Button>
+            
+            <Button 
+              size="sm"
+              className="bg-purple-600 hover:bg-purple-700 text-white flex-1 min-w-0"
+              onClick={() => window.open(kindleLink, "_blank")}
+            >
+              <Book className="w-3 h-3 mr-1" />
+              Kindle
             </Button>
             
             {hasSamples && (

@@ -137,6 +137,7 @@ export interface BookData {
   description: string;
   reviewCount: number;
   amazonLink: string;
+  kindleLink: string;
   isNew?: boolean;
   samplePages?: SamplePage[];
 }
@@ -156,6 +157,7 @@ export const booksData = [
     description: "Discover \"God's Love\" by Maggie - a heartfelt Christian children's book that teaches kid's about God's never ending love through gentle faith-filled storytelling",
     reviewCount: 15,
     amazonLink: "https://a.co/d/a1KplpW",
+    kindleLink: "https://a.co/d/a1KplpW",
     isNew: true,
     samplePages: [
       {
@@ -188,6 +190,7 @@ export const booksData = [
     description: "Explore \"Creation\" by Maggie--a faith-filled children's book about God's creation. Simple, engaging Bible stories that delight young readers and teach Christian values.",
     reviewCount: 23,
     amazonLink: "https://a.co/d/8DoEE31",
+    kindleLink: "https://a.co/d/8DoEE31",
     samplePages: [
       {
         src: "/lovable-uploads/8d195fa8-24a9-42f2-a494-52c93340a9b9.png",
@@ -224,6 +227,7 @@ export const booksData = [
     description: "Explore \"Noah's Ark\" by Maggie - a beautifully illustrated Christian children's book retelling God's promise, faith, and rescue in a way kids will love",
     reviewCount: 18,
     amazonLink: "https://a.co/d/5czEdgO",
+    kindleLink: "https://a.co/d/5czEdgO",
     samplePages: [
       {
         src: "/lovable-uploads/c73e65b6-6177-4ca3-9d4f-e78852a5b3c5.png",
@@ -260,6 +264,7 @@ export const booksData = [
     description: "Read \"Jonah\" by Maggie - a fun and faith-filled children's book teaching kids about obedience, God's mercy, and the power of second chances.",
     reviewCount: 12,
     amazonLink: "https://a.co/d/1NfnyaE",
+    kindleLink: "https://a.co/d/1NfnyaE",
     samplePages: [
       {
         src: "/lovable-uploads/496293da-0424-49d9-82f7-962821154ce8.png",
@@ -296,6 +301,7 @@ export const booksData = [
     description: "Join Maggie on exciting adventures as she introduces children to the fascinating world of artificial intelligence! This unique educational book makes complex technology concepts accessible and fun for young minds.",
     reviewCount: 8,
     amazonLink: "https://a.co/d/example-ai-adventures",
+    kindleLink: "https://a.co/d/example-ai-adventures",
     isNew: true,
     samplePages: []
   }
