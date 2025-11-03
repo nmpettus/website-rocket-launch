@@ -289,22 +289,10 @@ export const booksData = [
       {
         src: "/lovable-uploads/2541c224-1f8f-49ba-af72-b6d7d52bb1a7.png",
         pageNumber: 5,
-        alt: "Jonah - Maggie with Bible"
-      }
-    ]
-  },
-  {
-    id: "ai-adventures",
-    coverImage: "/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png",
-    title: "AI Adventures with Maggie - Educational Children's Book",
-    languages: ["English"],
-    description: "Join Maggie on exciting adventures as she introduces children to the fascinating world of artificial intelligence! This unique educational book makes complex technology concepts accessible and fun for young minds.",
-    reviewCount: 8,
-    amazonLink: "https://a.co/d/example-ai-adventures",
-    kindleLink: "https://a.co/d/example-ai-adventures",
-    isNew: true,
-    samplePages: []
-  }
+      alt: "Jonah - Maggie with Bible"
+    }
+  ]
+}
 ];
 
 export default bookReviews;
