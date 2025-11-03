@@ -126,6 +126,35 @@ const bookReviews: Record<string, Review[]> = {
       content: "I use this in my Sunday School class and the children absolutely love it! The way Maggie explains Jonah's journey makes it relatable for young minds. The illustrations are engaging and the interactive questions throughout keep the children participating in the story. Highly recommend!",
       verified: true
     }
+  ],
+  "thanksgiving": [
+    {
+      id: "1",
+      author: "Emily R.",
+      date: "November 5, 2025",
+      rating: 5,
+      title: "Perfect for Thanksgiving season!",
+      content: "What a delightful way to teach children about the First Thanksgiving! My kids absolutely love Maggie's perspective on the Pilgrims' journey. The illustrations are gorgeous and the story is both educational and entertaining. This will definitely become a Thanksgiving tradition in our home!",
+      verified: true
+    },
+    {
+      id: "2",
+      author: "Daniel M.",
+      date: "November 2, 2025",
+      rating: 5,
+      title: "Engaging historical storytelling",
+      content: "I'm a history teacher and bought this for my classroom. The way Maggie narrates the First Thanksgiving makes it accessible and fun for young students while maintaining historical accuracy. The kids are captivated by her witty observations and the beautiful full-color illustrations!",
+      verified: true
+    },
+    {
+      id: "3",
+      author: "Lisa K.",
+      date: "October 28, 2025",
+      rating: 5,
+      title: "Heartwarming and educational",
+      content: "This book beautifully teaches children about gratitude, friendship, and God's blessings through the story of the First Thanksgiving. Maggie's personality shines through every page, and my daughter asks to read it every night! The perfect addition to any family's holiday collection.",
+      verified: true
+    }
   ]
 };
 
@@ -291,8 +320,36 @@ export const booksData = [
         pageNumber: 5,
       alt: "Jonah - Maggie with Bible"
     }
-  ]
-}
+    ]
+  },
+  {
+    id: "thanksgiving",
+    coverImage: "/lovable-uploads/thanksgiving-cover.png",
+    title: "The First Thanksgiving as told by Maggie: A Yorkie's Tail of History, Gratitude, and Unexpected Friendship",
+    languages: ["English"],
+    description: "Wag your tail into American history! Follow Maggie, an adorable Yorkie with a big heart and even bigger personality, as she takes you on a hilarious, heartwarming journey through the true story of the First Thanksgiving.",
+    reviewCount: 10,
+    amazonLink: "https://a.co/d/7Eqcogw",
+    kindleLink: "https://a.co/d/7Eqcogw",
+    isNew: true,
+    samplePages: [
+      {
+        src: "/lovable-uploads/thanksgiving-cover.png",
+        pageNumber: 1,
+        alt: "The First Thanksgiving - Cover Page"
+      },
+      {
+        src: "/lovable-uploads/thanksgiving-sample-1.png",
+        pageNumber: 2,
+        alt: "The First Thanksgiving - Sample Page 1"
+      },
+      {
+        src: "/lovable-uploads/thanksgiving-sample-2.png",
+        pageNumber: 3,
+        alt: "The First Thanksgiving - Sample Page 2"
+      }
+    ]
+  }
 ];
 
 export default bookReviews;
