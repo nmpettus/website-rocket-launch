@@ -5,16 +5,13 @@ const HeroDynamicImage = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   
-  // Book illustration images instead of photos
+  // Book cover images from Maggie's published books
   const heroImages = [
-    { src: "/illustrations/God1.png", alt: "God's love illustration from Maggie's books" },
-    { src: "/illustrations/maggie1.jpg", alt: "Maggie character illustration" },
-    { src: "/illustrations/mSmile1.jpg", alt: "Smiling Maggie book illustration" },
-    { src: "/illustrations/msweet.jpg", alt: "Sweet Maggie character art" },
-    { src: "/illustrations/mSur4.jpg", alt: "Surprised Maggie illustration" },
-    { src: "/illustrations/stars2.jpg", alt: "Starry night book illustration" },
-    { src: "/illustrations/Rolling4.jpg", alt: "Rolling hills book scene" },
-    { src: "/illustrations/mI.jpg", alt: "Maggie book character design" }
+    { src: "/lovable-uploads/6fbae857-85fa-459d-a309-a8c44e28ebc0.png", alt: "Noah's Ark as told by Maggie - Book Cover" },
+    { src: "/lovable-uploads/711c1342-427a-4191-91d3-7ebe4ec29df9.png", alt: "God's Love as told by Maggie - Book Cover" },
+    { src: "/lovable-uploads/904bbfd4-81bf-49a4-8b1b-74825bcddacf.png", alt: "The Creation Story as told by Maggie - Book Cover" },
+    { src: "/lovable-uploads/96d18d5d-f08b-4f0c-bbd6-48259e4a9477.png", alt: "Jonah and the Whale as told by Maggie - Book Cover" },
+    { src: "/lovable-uploads/thanksgiving-cover.png", alt: "The First Thanksgiving as told by Maggie - Book Cover" }
   ];
   
   useEffect(() => {
