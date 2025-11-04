@@ -7,7 +7,6 @@ const HeroDynamicImage = () => {
   
   // Book cover images from Maggie's published books
   const heroImages = [
-    { src: "/lovable-uploads/6fbae857-85fa-459d-a309-a8c44e28ebc0.png", alt: "Noah's Ark as told by Maggie - Book Cover" },
     { src: "/lovable-uploads/711c1342-427a-4191-91d3-7ebe4ec29df9.png", alt: "God's Love as told by Maggie - Book Cover" },
     { src: "/lovable-uploads/904bbfd4-81bf-49a4-8b1b-74825bcddacf.png", alt: "The Creation Story as told by Maggie - Book Cover" },
     { src: "/lovable-uploads/96d18d5d-f08b-4f0c-bbd6-48259e4a9477.png", alt: "Jonah and the Whale as told by Maggie - Book Cover" },
