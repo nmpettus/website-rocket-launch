@@ -5,12 +5,21 @@ const HeroDynamicImage = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   
-  // Book cover images from Maggie's published books
+  // All 5 book covers plus original illustrations from Maggie's books
   const heroImages = [
-    { src: "/lovable-uploads/711c1342-427a-4191-91d3-7ebe4ec29df9.png", alt: "God's Love as told by Maggie - Book Cover" },
-    { src: "/lovable-uploads/904bbfd4-81bf-49a4-8b1b-74825bcddacf.png", alt: "The Creation Story as told by Maggie - Book Cover" },
-    { src: "/lovable-uploads/96d18d5d-f08b-4f0c-bbd6-48259e4a9477.png", alt: "Jonah and the Whale as told by Maggie - Book Cover" },
-    { src: "/lovable-uploads/thanksgiving-cover.png", alt: "The First Thanksgiving as told by Maggie - Book Cover" }
+    // Book Covers
+    { src: "/lovable-uploads/9915a45c-d79b-4a00-8e51-2d7c4ca0afd8.png", alt: "God's Love as told by Maggie - Book Cover" },
+    { src: "/lovable-uploads/711c1342-427a-4191-91d3-7ebe4ec29df9.png", alt: "The Creation Story as told by Maggie - Book Cover" },
+    { src: "/lovable-uploads/83369923-a075-46d1-b5cf-54d226cab7da.png", alt: "Noah's Ark as told by Maggie - Book Cover" },
+    { src: "/lovable-uploads/b3639f34-6564-48eb-bba5-c7cb2a340f62.png", alt: "Jonah and the Whale as told by Maggie - Book Cover" },
+    { src: "/lovable-uploads/thanksgiving-cover.png", alt: "The First Thanksgiving as told by Maggie - Book Cover" },
+    // Original Illustrations from Books
+    { src: "/illustrations/God1.png", alt: "Maggie smiling illustration" },
+    { src: "/illustrations/mSmile1.jpg", alt: "Maggie head tilt smiling illustration" },
+    { src: "/illustrations/Rolling4.jpg", alt: "Maggie rolling in the grass illustration" },
+    { src: "/illustrations/stars2.jpg", alt: "Maggie looking at stars illustration" },
+    { src: "/lovable-uploads/2e76a583-d39d-45cc-b6cc-0df171740faf.png", alt: "Maggie with camera exploring outdoors" },
+    { src: "/lovable-uploads/05e4f476-5c93-427b-8793-ace77b054199.png", alt: "Maggie reading a digital book" }
   ];
   
   useEffect(() => {
