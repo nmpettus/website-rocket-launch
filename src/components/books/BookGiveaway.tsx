@@ -3,8 +3,11 @@ import { Button } from "@/components/ui/button";
 
 const BookGiveaway = () => {
   return (
-    <div className="mt-16 bg-gradient-to-r from-amber-500 to-emerald-500 rounded-xl p-8 text-white">
-      <div className="flex flex-col md:flex-row items-center">
+    <div className="mt-16 relative">
+      {/* Decorative Thanksgiving Border */}
+      <div className="absolute inset-0 rounded-xl border-8 border-amber-600/80 shadow-[0_0_0_4px_#92400e,0_0_0_8px_#d97706,0_0_0_12px_#78350f]"></div>
+      <div className="relative bg-gradient-to-r from-amber-500 to-emerald-500 rounded-xl p-8 text-white m-3">
+        <div className="flex flex-col md:flex-row items-center">
         <div className="flex-1 md:pr-6">
           <h3 className="text-2xl font-bold mb-4 font-['Comic_Neue']">Help Give Maggie's Books to Others!</h3>
           <p className="mb-6">Through our GiveSendGo campaign, we're able to provide free books to children in need. Help us spread the joy of reading!</p>
@@ -25,6 +28,7 @@ const BookGiveaway = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
