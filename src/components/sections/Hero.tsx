@@ -53,7 +53,7 @@ const Hero = () => {
             })}>
                 Join Our List
               </Button>
-              <Button className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full" onClick={() => window.open('https://maggie-bible-bot-norm9.replit.app', '_blank')}>
+              <Button className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full" onClick={() => window.open('https://maggie-bible-bot-norm9.replit.app/', '_blank')}>
                 Ask Maggie a Bible Question
               </Button>
             </div>
