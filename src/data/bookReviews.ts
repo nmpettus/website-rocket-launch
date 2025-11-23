@@ -155,6 +155,17 @@ const bookReviews: Record<string, Review[]> = {
       content: "This book beautifully teaches children about gratitude, friendship, and God's blessings through the story of the First Thanksgiving. Maggie's personality shines through every page, and my daughter asks to read it every night! The perfect addition to any family's holiday collection.",
       verified: true
     }
+  ],
+  "christmas": [
+    {
+      id: "1",
+      author: "Sarah Johnson",
+      date: "November 23, 2025",
+      rating: 5,
+      title: "A beautiful telling of the Christmas story!",
+      content: "This book beautifully explains how Jesus' birth was promised long before it happened. My children were amazed to learn about God's perfect plan through the ages. Maggie's gentle storytelling makes complex prophecies accessible to young minds. The illustrations are stunning and capture the wonder of that holy night. This will definitely become part of our family's Christmas tradition!",
+      verified: true
+    }
   ]
 };
 
@@ -347,6 +358,24 @@ export const booksData = [
         src: "/lovable-uploads/thanksgiving-sample-2.png",
         pageNumber: 3,
         alt: "The First Thanksgiving - Sample Page 2"
+      }
+    ]
+  },
+  {
+    id: "christmas",
+    coverImage: "/lovable-uploads/christmas-cover.jpg",
+    title: "Christmas as told by Maggie: Discovering the Christmas Story Through God's Promises",
+    languages: ["English", "Kindle"],
+    description: "What if your child could see the Christmas story the way Heaven saw it—through God's promises, His prophecies, and His perfect plan? In Christmas as Told by Maggie, a lovable Yorkie Poo leads children on a heartwarming, faith-building adventure through the very first Christmas. Maggie gently peeks \"behind the scenes,\" showing young readers how God promised the Savior long before Bethlehem—and how every prophecy came true the night Jesus was born.",
+    reviewCount: 1,
+    amazonLink: "https://a.co/d/6Xkd4Ut",
+    kindleLink: "https://www.amazon.com/dp/B0G3M8FXKH",
+    isNew: true,
+    samplePages: [
+      {
+        src: "/lovable-uploads/christmas-cover.jpg",
+        pageNumber: 1,
+        alt: "Christmas as told by Maggie - Cover Page"
       }
     ]
   }
