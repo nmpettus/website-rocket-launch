@@ -84,6 +84,27 @@ export const bookSEOData = {
       "future technology kids book"
     ],
     ogImage: "/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png"
+  },
+  "christmas": {
+    title: "Christmas as told by Maggie - Children's Christian Christmas Book",
+    description: "Discover the Christmas story through God's promises with Maggie! A beautiful children's book that reveals how every prophecy came true on that holy night. Perfect for teaching kids about Jesus' birth and God's perfect plan.",
+    keywords: [
+      "christmas story for children",
+      "children's christmas bible book",
+      "nativity story for kids",
+      "christian christmas books",
+      "jesus birth children's book",
+      "christmas picture book kids",
+      "biblical christmas story",
+      "prophecy christmas children",
+      "religious christmas books",
+      "god's promises children's book",
+      "christian holiday books kids",
+      "christmas devotional children",
+      "bethlehem story kids",
+      "maggie christmas book"
+    ],
+    ogImage: "/lovable-uploads/christmas-cover.jpg"
   }
 };
 
