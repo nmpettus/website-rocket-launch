@@ -13,6 +13,7 @@ const HeroDynamicImage = () => {
     { src: "/lovable-uploads/83369923-a075-46d1-b5cf-54d226cab7da.png", alt: "Noah's Ark as told by Maggie - Book Cover" },
     { src: "/lovable-uploads/b3639f34-6564-48eb-bba5-c7cb2a340f62.png", alt: "Jonah and the Whale as told by Maggie - Book Cover" },
     { src: "/lovable-uploads/thanksgiving-cover.png", alt: "The First Thanksgiving as told by Maggie - Book Cover" },
+    { src: "/lovable-uploads/christmas-cover.jpg", alt: "Christmas as told by Maggie - Book Cover" },
     // Original Illustrations from Books
     { src: "/illustrations/God1.png", alt: "Maggie smiling illustration" },
     { src: "/illustrations/mSmile1.jpg", alt: "Maggie head tilt smiling illustration" },
