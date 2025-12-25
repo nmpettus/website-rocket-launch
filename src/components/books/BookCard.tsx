@@ -24,6 +24,7 @@ interface BookCardProps {
   kindleLink: string;
   bookId: string;
   isNew?: boolean;
+  comingSoon?: boolean;
   samplePages?: SamplePage[];
   onOpenReviews: (bookId: string, title: string) => void;
   onImageClick: (imageSrc: string) => void;
@@ -41,6 +42,7 @@ const BookCard = ({
   kindleLink,
   bookId,
   isNew = false,
+  comingSoon = false,
   samplePages = [],
   onOpenReviews,
   onImageClick,
@@ -93,11 +95,15 @@ const BookCard = ({
 
   return (
     <Card className="overflow-hidden hover:shadow-xl transition duration-300 flex flex-col h-full relative">
-      {isNew && (
+      {comingSoon ? (
+        <Badge className="absolute top-3 right-3 z-10 bg-amber-500 hover:bg-amber-600 text-white">
+          Coming Soon
+        </Badge>
+      ) : isNew ? (
         <Badge className="absolute top-3 right-3 z-10 bg-red-500 hover:bg-red-600 text-white">
           New
         </Badge>
-      )}
+      ) : null}
       <div className="p-3">
         <AspectRatio ratio={3/4}>
           <img 
