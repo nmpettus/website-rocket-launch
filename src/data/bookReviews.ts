@@ -378,6 +378,24 @@ export const booksData = [
         alt: "Christmas as told by Maggie - Cover Page"
       }
     ]
+  },
+  {
+    id: "ai-adventures",
+    coverImage: "/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png",
+    title: "AI Adventures with Maggie - The Smartest Dog in the World Meets the Smartest Technology",
+    languages: ["English", "Kindle"],
+    description: "Maggie the dog and Riley the tech-curious kid team up with Artie the AI robot to answer one big question: How do computers learn? Through laugh-out-loud moments and mind-expanding discoveries, they unlock the secrets of pixels, patterns, and what makes humans truly special.",
+    reviewCount: 5,
+    amazonLink: "https://a.co/d/4pL2gHD",
+    kindleLink: "https://a.co/d/4pL2gHD",
+    isNew: true,
+    samplePages: [
+      {
+        src: "/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png",
+        pageNumber: 1,
+        alt: "AI Adventures with Maggie - Cover Page"
+      }
+    ]
   }
 ];
 
