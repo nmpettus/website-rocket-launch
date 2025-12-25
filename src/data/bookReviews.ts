@@ -179,6 +179,7 @@ export interface BookData {
   amazonLink: string;
   kindleLink: string;
   isNew?: boolean;
+  comingSoon?: boolean;
   samplePages?: SamplePage[];
 }
 
@@ -388,7 +389,7 @@ export const booksData = [
     reviewCount: 5,
     amazonLink: "https://a.co/d/4pL2gHD",
     kindleLink: "https://a.co/d/4pL2gHD",
-    isNew: true,
+    comingSoon: true,
     samplePages: [
       {
         src: "/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png",

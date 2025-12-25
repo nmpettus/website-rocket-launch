@@ -87,6 +87,7 @@ const Books = () => {
               kindleLink={book.kindleLink}
               bookId={book.id}
               isNew={book.isNew}
+              comingSoon={book.comingSoon}
               samplePages={book.samplePages}
               onOpenReviews={handleOpenReviews}
               onImageClick={handleImageClick}

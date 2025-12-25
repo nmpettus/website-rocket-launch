@@ -82,9 +82,9 @@ const AIAdventuresBook = () => {
                   {book.title}
                 </h1>
                 
-                {book.isNew && (
-                  <Badge className="bg-gradient-to-r from-green-500 to-emerald-600 text-white mb-4">
-                    NEW
+                {book.comingSoon && (
+                  <Badge className="bg-gradient-to-r from-amber-500 to-orange-600 text-white mb-4">
+                    COMING SOON
                   </Badge>
                 )}
 
