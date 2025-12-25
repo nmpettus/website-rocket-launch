@@ -189,7 +189,7 @@ export interface SamplePage {
   alt: string;
 }
 
-export const booksData = [
+export const booksData: BookData[] = [
   {
     id: "gods-love",
     coverImage: "/lovable-uploads/9915a45c-d79b-4a00-8e51-2d7c4ca0afd8.png",
