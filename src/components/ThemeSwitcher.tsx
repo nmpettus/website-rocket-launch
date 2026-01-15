@@ -44,6 +44,13 @@ const themes = [
     colors: ['#FFF8E7', '#F97316', '#EC4899', '#FBBF24'],
     fontPreview: 'Pacifico',
   },
+  {
+    id: 'vintage',
+    name: 'Vintage Retro',
+    description: 'Typewriter fonts, sepia & nostalgic tones',
+    colors: ['#EDE8DC', '#5C4033', '#A67B5B', '#B8860B'],
+    fontPreview: 'Special Elite',
+  },
 ];
 
 export const ThemeSwitcher = () => {
