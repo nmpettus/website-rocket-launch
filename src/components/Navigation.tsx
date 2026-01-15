@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { Menu } from "lucide-react";
+import { Menu, BookOpen } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -8,37 +8,33 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
   { id: 'books', label: 'Books', isRoute: false },
-  { id: 'maggie', label: 'Maggie', isRoute: false },
+  { id: 'maggie', label: 'Meet Maggie', isRoute: false },
   { id: 'videos', label: 'Videos', isRoute: true, route: '/videos' },
-  { id: 'kids', label: 'GiveAway', isRoute: false },
+  { id: 'activities', label: 'Activities', isRoute: false },
   { id: 'games', label: 'Games', isRoute: false },
-  { id: 'projects', label: 'Projects', isRoute: false },
   { id: 'newsletter', label: 'Join', isRoute: false },
   { id: 'contact', label: 'Contact', isRoute: false },
-  { id: 'footer', label: 'More', isRoute: false },
 ];
 
 const Navigation = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof NAV_LINKS[0]) => {
     if (link.isRoute) {
-      // Let React Router handle route navigation
       return;
     }
     
     e.preventDefault();
     
-    // If we're not on the homepage, navigate to homepage first with the section hash
     if (location.pathname !== '/') {
       navigate(`/#${link.id}`);
       return;
     }
     
-    // If we're on homepage, scroll to the section
     const section = document.getElementById(link.id);
     if (section) {
       const navbarHeight = 80;
@@ -52,14 +48,11 @@ const Navigation = () => {
   };
 
   useEffect(() => {
-    // On page load/reload, always scroll to top if we're on homepage
     if (location.pathname === '/') {
-      // Clear the hash from URL without triggering navigation
       if (location.hash) {
         window.history.replaceState(null, '', '/');
       }
       
-      // Always scroll to top on initial load
       window.scrollTo({
         top: 0,
         behavior: 'auto'
@@ -69,10 +62,9 @@ const Navigation = () => {
     } else {
       setIsInitialLoad(false);
     }
-  }, []); // Empty dependency array means this runs only on component mount
+  }, []);
 
   useEffect(() => {
-    // Handle hash navigation ONLY when navigating from other pages (not on initial load)
     if (location.pathname === '/' && location.hash && !isInitialLoad) {
       const sectionId = location.hash.replace('#', '');
       setTimeout(() => {
@@ -90,13 +82,14 @@ const Navigation = () => {
   }, [location, isInitialLoad]);
 
   useEffect(() => {
-    // Only run scroll detection on homepage and after initial load is complete
-    if (location.pathname !== '/' || isInitialLoad) {
-      setActiveSection('');
-      return;
-    }
-
     const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+      
+      if (location.pathname !== '/' || isInitialLoad) {
+        setActiveSection('');
+        return;
+      }
+
       const sections = NAV_LINKS.filter(link => !link.isRoute).map(link => document.getElementById(link.id));
       const navbarHeight = 80;
       let currentSection = '';
@@ -111,7 +104,7 @@ const Navigation = () => {
       }
       
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
-        currentSection = 'footer';
+        currentSection = 'contact';
       }
 
       if (activeSection !== currentSection && currentSection) {
@@ -120,6 +113,7 @@ const Navigation = () => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeSection, location.pathname, isInitialLoad]);
 
@@ -131,25 +125,43 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-40 border-b border-slate-200/80 transition-all duration-300">
-      <div className="container mx-auto px-6 py-3">
+    <nav className={cn(
+      "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
+      isScrolled 
+        ? "bg-cream/95 backdrop-blur-md shadow-elegant border-b border-sage/10" 
+        : "bg-transparent"
+    )}>
+      <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-2">
-            <img src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" alt="Maggie the dog logo" className="h-12 w-12 rounded-full object-cover" />
-            <span className="text-2xl font-bold text-indigo-600 font-comic">Books By Maggie</span>
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-3 group">
+            <img 
+              src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" 
+              alt="Maggie the dog logo" 
+              className="h-12 w-12 rounded-full object-cover ring-2 ring-sage/30 group-hover:ring-sage transition-all duration-300" 
+            />
+            <div className="flex flex-col">
+              <span className="text-xl font-display font-semibold text-charcoal tracking-tight">
+                Books By Maggie
+              </span>
+              <span className="text-xs text-muted-foreground hidden sm:block">
+                Faith-Based Stories for Children
+              </span>
+            </div>
           </Link>
           
-          <div className="hidden md:flex items-center space-x-1">
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-1">
             {NAV_LINKS.map(link => (
               link.isRoute && link.route ? (
                 <Link 
                   key={link.id}
                   to={link.route}
                   className={cn(
-                    "px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-in-out",
+                    "px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg",
                     isActiveLink(link)
-                      ? "bg-indigo-600 text-white shadow-md"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-indigo-50"
+                      ? "text-sage-dark bg-sage-light"
+                      : "text-charcoal/70 hover:text-charcoal hover:bg-sage-light/50"
                   )}
                 >
                   {link.label}
@@ -160,45 +172,68 @@ const Navigation = () => {
                   href={`/#${link.id}`} 
                   onClick={(e) => handleNavClick(e, link)} 
                   className={cn(
-                    "px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ease-in-out",
+                    "px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg",
                     isActiveLink(link)
-                      ? "bg-indigo-600 text-white shadow-md"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-indigo-50"
+                      ? "text-sage-dark bg-sage-light"
+                      : "text-charcoal/70 hover:text-charcoal hover:bg-sage-light/50"
                   )}
                 >
                   {link.label}
                 </a>
               )
             ))}
+            
+            {/* Shop Books CTA */}
+            <Button 
+              className="ml-4 bg-sage hover:bg-sage-dark text-white font-medium px-5 py-2 rounded-full shadow-sm transition-all duration-300 hover:shadow-md"
+              onClick={() => document.getElementById('books')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <BookOpen className="w-4 h-4 mr-2" />
+              Shop Books
+            </Button>
           </div>
           
-          <div className="md:hidden">
+          {/* Mobile Menu */}
+          <div className="lg:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="text-charcoal hover:bg-sage-light">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[320px] p-0">
+              <SheetContent side="right" className="w-[300px] sm:w-[350px] p-0 bg-cream border-l border-sage/20">
                 <div className="flex flex-col h-full">
-                  <div className="p-6 border-b">
-                    <Link to="/" className="flex items-center space-x-2">
-                      <img src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" alt="Maggie the dog logo" className="h-10 w-10 rounded-full object-cover" />
-                      <span className="text-xl font-bold text-indigo-600 font-comic">Books By Maggie</span>
+                  {/* Mobile Header */}
+                  <div className="p-6 border-b border-sage/10 bg-sage-light/30">
+                    <Link to="/" className="flex items-center space-x-3">
+                      <img 
+                        src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" 
+                        alt="Maggie the dog logo" 
+                        className="h-12 w-12 rounded-full object-cover ring-2 ring-sage/30" 
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-lg font-display font-semibold text-charcoal">
+                          Books By Maggie
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          Faith-Based Stories
+                        </span>
+                      </div>
                     </Link>
                   </div>
                   
-                  <nav className="flex flex-col space-y-1 p-4">
+                  {/* Mobile Navigation Links */}
+                  <nav className="flex flex-col p-4 space-y-1 flex-1">
                     {NAV_LINKS.map(link => (
                       <SheetClose asChild key={link.id}>
                         {link.isRoute && link.route ? (
                           <Link 
                             to={link.route}
                             className={cn(
-                              "block text-lg py-3 px-4 rounded-lg transition-all duration-200",
+                              "block text-base py-3 px-4 rounded-xl transition-all duration-200 font-medium",
                               isActiveLink(link)
-                                ? "bg-indigo-600 text-white"
-                                : "text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
+                                ? "bg-sage text-white"
+                                : "text-charcoal/80 hover:bg-sage-light hover:text-charcoal"
                             )}
                           >
                             {link.label}
@@ -208,10 +243,10 @@ const Navigation = () => {
                             href={`/#${link.id}`} 
                             onClick={(e) => handleNavClick(e, link)}
                             className={cn(
-                              "block text-lg py-3 px-4 rounded-lg transition-all duration-200",
+                              "block text-base py-3 px-4 rounded-xl transition-all duration-200 font-medium",
                               isActiveLink(link)
-                                ? "bg-indigo-600 text-white"
-                                : "text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
+                                ? "bg-sage text-white"
+                                : "text-charcoal/80 hover:bg-sage-light hover:text-charcoal"
                             )}
                           >
                             {link.label}
@@ -220,6 +255,19 @@ const Navigation = () => {
                       </SheetClose>
                     ))}
                   </nav>
+                  
+                  {/* Mobile Footer CTA */}
+                  <div className="p-4 border-t border-sage/10">
+                    <SheetClose asChild>
+                      <Button 
+                        className="w-full bg-sage hover:bg-sage-dark text-white font-medium py-3 rounded-full"
+                        onClick={() => document.getElementById('books')?.scrollIntoView({ behavior: 'smooth' })}
+                      >
+                        <BookOpen className="w-4 h-4 mr-2" />
+                        Shop Books
+                      </Button>
+                    </SheetClose>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
