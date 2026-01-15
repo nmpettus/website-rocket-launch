@@ -1,15 +1,17 @@
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  /* ============================================
+     THEME 1: Classic Storybook (Default)
+     Elegant, timeless, warm & refined
+     ============================================ */
   :root,
   [data-theme="storybook"] {
-    /* Polished Storybook Color Palette */
-    --background: 45 33% 98%; /* Warm cream */
-    --foreground: 200 12% 19%; /* Deep charcoal */
+    --background: 45 33% 98%;
+    --foreground: 200 12% 19%;
     
     --card: 45 33% 98%;
     --card-foreground: 200 12% 19%;
@@ -17,13 +19,13 @@
     --popover: 45 33% 98%;
     --popover-foreground: 200 12% 19%;
     
-    --primary: 131 25% 63%; /* Soft sage green */
+    --primary: 131 25% 50%;
     --primary-foreground: 45 33% 98%;
     
-    --secondary: 0 28% 75%; /* Dusty rose */
+    --secondary: 0 28% 70%;
     --secondary-foreground: 200 12% 19%;
     
-    --accent: 43 65% 52%; /* Warm gold */
+    --accent: 43 75% 48%;
     --accent-foreground: 200 12% 19%;
     
     --muted: 45 20% 93%;
@@ -32,145 +34,212 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 45 33% 98%;
     
-    --border: 45 15% 88%;
-    --input: 45 15% 88%;
-    --ring: 131 25% 63%;
+    --border: 45 15% 85%;
+    --input: 45 15% 85%;
+    --ring: 131 25% 50%;
     
     --radius: 0.75rem;
     
-    /* Extended palette for sections */
     --cream: 45 33% 98%;
-    --sage: 131 25% 63%;
-    --sage-light: 131 25% 90%;
-    --rose: 0 28% 75%;
-    --rose-light: 0 28% 92%;
-    --gold: 43 65% 52%;
-    --gold-light: 43 65% 90%;
-    --lavender: 270 30% 90%;
-    --sky: 200 50% 92%;
+    --sage: 131 25% 50%;
+    --sage-light: 131 25% 92%;
+    --rose: 0 28% 70%;
+    --rose-light: 0 28% 94%;
+    --gold: 43 75% 48%;
+    --gold-light: 43 75% 92%;
+    --lavender: 270 30% 92%;
+    --sky: 200 50% 94%;
+    
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
   }
 
-  /* Sunshine & Sky Theme */
-  [data-theme="sunshine"] {
-    --background: 48 100% 96%; /* Soft cream yellow */
-    --foreground: 210 20% 25%; /* Deep blue-gray */
+  /* ============================================
+     THEME 2: Bubbly Playful
+     Fun, colorful, kid-friendly, energetic
+     ============================================ */
+  [data-theme="playful"] {
+    --background: 180 100% 97%;
+    --foreground: 260 60% 25%;
     
-    --card: 48 100% 96%;
-    --card-foreground: 210 20% 25%;
+    --card: 0 0% 100%;
+    --card-foreground: 260 60% 25%;
     
-    --popover: 48 100% 96%;
-    --popover-foreground: 210 20% 25%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 260 60% 25%;
     
-    --primary: 199 80% 70%; /* Sky blue */
-    --primary-foreground: 210 20% 15%;
+    --primary: 280 70% 60%;
+    --primary-foreground: 0 0% 100%;
     
-    --secondary: 16 85% 70%; /* Coral */
-    --secondary-foreground: 210 20% 25%;
+    --secondary: 45 100% 55%;
+    --secondary-foreground: 260 60% 25%;
     
-    --accent: 160 50% 60%; /* Mint */
-    --accent-foreground: 210 20% 25%;
+    --accent: 340 85% 60%;
+    --accent-foreground: 0 0% 100%;
     
-    --muted: 48 50% 92%;
-    --muted-foreground: 210 15% 50%;
+    --muted: 180 40% 92%;
+    --muted-foreground: 260 30% 45%;
     
     --destructive: 0 84% 60%;
-    --destructive-foreground: 48 100% 96%;
+    --destructive-foreground: 0 0% 100%;
     
-    --border: 48 30% 85%;
-    --input: 48 30% 85%;
-    --ring: 199 80% 70%;
+    --border: 280 30% 85%;
+    --input: 280 30% 85%;
+    --ring: 280 70% 60%;
     
-    --cream: 48 100% 96%;
-    --sage: 160 50% 60%;
-    --sage-light: 160 50% 90%;
-    --rose: 16 85% 70%;
-    --rose-light: 16 85% 92%;
-    --gold: 45 90% 55%;
-    --gold-light: 45 90% 90%;
-    --lavender: 199 60% 92%;
-    --sky: 199 80% 92%;
+    --cream: 180 100% 97%;
+    --sage: 160 70% 50%;
+    --sage-light: 160 70% 92%;
+    --rose: 340 85% 65%;
+    --rose-light: 340 85% 94%;
+    --gold: 45 100% 55%;
+    --gold-light: 45 100% 92%;
+    --lavender: 280 60% 92%;
+    --sky: 200 90% 92%;
+    
+    --font-heading: 'Fredoka', sans-serif;
+    --font-body: 'Quicksand', sans-serif;
   }
 
-  /* Lavender Dreams Theme */
-  [data-theme="lavender"] {
-    --background: 270 30% 97%; /* Soft lavender white */
-    --foreground: 280 15% 20%; /* Deep purple-gray */
+  /* ============================================
+     THEME 3: Ocean Adventure
+     Deep sea blues, coral accents, nautical
+     ============================================ */
+  [data-theme="ocean"] {
+    --background: 200 30% 97%;
+    --foreground: 210 50% 15%;
     
-    --card: 270 30% 97%;
-    --card-foreground: 280 15% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 50% 15%;
     
-    --popover: 270 30% 97%;
-    --popover-foreground: 280 15% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 50% 15%;
     
-    --primary: 270 40% 70%; /* Soft lavender */
-    --primary-foreground: 270 30% 97%;
+    --primary: 200 80% 45%;
+    --primary-foreground: 0 0% 100%;
     
-    --secondary: 350 60% 80%; /* Blush pink */
-    --secondary-foreground: 280 15% 20%;
+    --secondary: 15 90% 60%;
+    --secondary-foreground: 0 0% 100%;
     
-    --accent: 175 40% 55%; /* Soft teal */
-    --accent-foreground: 280 15% 20%;
+    --accent: 170 60% 45%;
+    --accent-foreground: 0 0% 100%;
     
-    --muted: 270 20% 93%;
-    --muted-foreground: 280 10% 45%;
+    --muted: 200 20% 92%;
+    --muted-foreground: 210 30% 45%;
     
     --destructive: 0 84% 60%;
-    --destructive-foreground: 270 30% 97%;
+    --destructive-foreground: 0 0% 100%;
     
-    --border: 270 20% 88%;
-    --input: 270 20% 88%;
-    --ring: 270 40% 70%;
+    --border: 200 25% 85%;
+    --input: 200 25% 85%;
+    --ring: 200 80% 45%;
     
-    --cream: 270 30% 97%;
-    --sage: 175 40% 55%;
-    --sage-light: 175 40% 90%;
-    --rose: 350 60% 80%;
-    --rose-light: 350 60% 93%;
-    --gold: 40 50% 60%;
-    --gold-light: 40 50% 90%;
-    --lavender: 270 40% 90%;
-    --sky: 270 30% 92%;
+    --cream: 200 30% 97%;
+    --sage: 170 60% 45%;
+    --sage-light: 170 60% 92%;
+    --rose: 15 90% 65%;
+    --rose-light: 15 90% 93%;
+    --gold: 45 85% 55%;
+    --gold-light: 45 85% 92%;
+    --lavender: 200 50% 92%;
+    --sky: 195 100% 94%;
+    
+    --font-heading: 'Abril Fatface', serif;
+    --font-body: 'Nunito', sans-serif;
   }
 
-  /* Autumn Warmth Theme */
-  [data-theme="autumn"] {
-    --background: 35 40% 96%; /* Warm cream */
-    --foreground: 25 30% 18%; /* Deep brown */
+  /* ============================================
+     THEME 4: Enchanted Forest
+     Deep greens, rich browns, magical woodland
+     ============================================ */
+  [data-theme="forest"] {
+    --background: 80 20% 96%;
+    --foreground: 30 30% 15%;
     
-    --card: 35 40% 96%;
-    --card-foreground: 25 30% 18%;
+    --card: 60 20% 98%;
+    --card-foreground: 30 30% 15%;
     
-    --popover: 35 40% 96%;
-    --popover-foreground: 25 30% 18%;
+    --popover: 60 20% 98%;
+    --popover-foreground: 30 30% 15%;
     
-    --primary: 15 60% 55%; /* Terracotta */
-    --primary-foreground: 35 40% 96%;
+    --primary: 140 50% 35%;
+    --primary-foreground: 60 20% 98%;
     
-    --secondary: 140 35% 40%; /* Forest green */
-    --secondary-foreground: 35 40% 96%;
+    --secondary: 30 60% 45%;
+    --secondary-foreground: 60 20% 98%;
     
-    --accent: 40 80% 50%; /* Honey gold */
-    --accent-foreground: 25 30% 18%;
+    --accent: 50 75% 50%;
+    --accent-foreground: 30 30% 15%;
     
-    --muted: 35 25% 92%;
-    --muted-foreground: 25 20% 45%;
+    --muted: 80 15% 90%;
+    --muted-foreground: 30 20% 45%;
     
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 35 40% 96%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 60 20% 98%;
     
-    --border: 35 20% 85%;
-    --input: 35 20% 85%;
-    --ring: 15 60% 55%;
+    --border: 80 15% 82%;
+    --input: 80 15% 82%;
+    --ring: 140 50% 35%;
     
-    --cream: 35 40% 96%;
-    --sage: 140 35% 40%;
-    --sage-light: 140 35% 88%;
-    --rose: 15 60% 55%;
-    --rose-light: 15 60% 90%;
-    --gold: 40 80% 50%;
-    --gold-light: 40 80% 90%;
-    --lavender: 30 30% 90%;
-    --sky: 35 40% 92%;
+    --cream: 60 20% 98%;
+    --sage: 140 50% 40%;
+    --sage-light: 140 40% 90%;
+    --rose: 340 40% 65%;
+    --rose-light: 340 40% 92%;
+    --gold: 50 75% 50%;
+    --gold-light: 50 75% 92%;
+    --lavender: 280 20% 90%;
+    --sky: 80 30% 92%;
+    
+    --font-heading: 'Merriweather', serif;
+    --font-body: 'Lato', sans-serif;
+  }
+
+  /* ============================================
+     THEME 5: Sunset Dreams
+     Warm oranges, pinks, golden hour vibes
+     ============================================ */
+  [data-theme="sunset"] {
+    --background: 35 100% 97%;
+    --foreground: 350 30% 20%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 350 30% 20%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 350 30% 20%;
+    
+    --primary: 20 90% 55%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 330 70% 60%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --accent: 45 100% 50%;
+    --accent-foreground: 350 30% 20%;
+    
+    --muted: 35 50% 92%;
+    --muted-foreground: 350 20% 45%;
+    
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 35 40% 85%;
+    --input: 35 40% 85%;
+    --ring: 20 90% 55%;
+    
+    --cream: 35 100% 97%;
+    --sage: 160 40% 55%;
+    --sage-light: 160 40% 92%;
+    --rose: 330 70% 65%;
+    --rose-light: 330 70% 93%;
+    --gold: 45 100% 50%;
+    --gold-light: 45 100% 92%;
+    --lavender: 280 40% 92%;
+    --sky: 20 60% 94%;
+    
+    --font-heading: 'Pacifico', cursive;
+    --font-body: 'Quicksand', sans-serif;
   }
 
   * {
@@ -179,21 +248,21 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
   }
   
   .font-body {
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font-body);
   }
   
   .font-playful {
