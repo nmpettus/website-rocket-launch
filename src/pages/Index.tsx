@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/sections/Hero";
@@ -14,6 +13,7 @@ import NewsLetter from "@/components/sections/NewsLetter";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { useSEO } from "@/hooks/useSEO";
 import { homeSEOData } from "@/data/seoData";
 
@@ -59,6 +59,7 @@ const Index = () => {
       <Contact />
       <Footer />
       <BackToTopButton />
+      <ThemeSwitcher />
     </>
   );
 };
