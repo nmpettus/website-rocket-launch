@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
-  { id: 'books', label: 'Apps', isRoute: false },
+  { id: 'apps', label: 'Apps', isRoute: true, route: 'https://apps.booksbymaggie.com', isExternal: true },
   { id: 'maggie', label: 'Meet Maggie', isRoute: false },
   { id: 'videos', label: 'Videos', isRoute: true, route: '/videos' },
   { id: 'activities', label: 'Activities', isRoute: false },
@@ -153,7 +153,17 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1">
             {NAV_LINKS.map(link => (
-              link.isRoute && link.route ? (
+              link.isExternal ? (
+                <a 
+                  key={link.id}
+                  href={link.route}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg text-charcoal/70 hover:text-charcoal hover:bg-sage-light/50"
+                >
+                  {link.label}
+                </a>
+              ) : link.isRoute && link.route ? (
                 <Link 
                   key={link.id}
                   to={link.route}
@@ -226,7 +236,16 @@ const Navigation = () => {
                   <nav className="flex flex-col p-4 space-y-1 flex-1">
                     {NAV_LINKS.map(link => (
                       <SheetClose asChild key={link.id}>
-                        {link.isRoute && link.route ? (
+                        {link.isExternal ? (
+                          <a 
+                            href={link.route}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block text-base py-3 px-4 rounded-xl transition-all duration-200 font-medium text-charcoal/80 hover:bg-sage-light hover:text-charcoal"
+                          >
+                            {link.label}
+                          </a>
+                        ) : link.isRoute && link.route ? (
                           <Link 
                             to={link.route}
                             className={cn(
