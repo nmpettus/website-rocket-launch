@@ -1,8 +1,7 @@
 import { useState, useCallback } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 type Message = { role: "user" | "assistant"; content: string };
-
-const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/maggie-chat`;
 
 export function useMaggieChat() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -35,32 +34,36 @@ export function useMaggieChat() {
     try {
       const allMessages = [...messages, userMsg];
       
-      const resp = await fetch(CHAT_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-        },
-        body: JSON.stringify({ messages: allMessages }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/maggie-chat`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ messages: allMessages }),
+        }
+      );
 
-      if (!resp.ok) {
-        const errorData = await resp.json().catch(() => ({}));
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
         
-        if (resp.status === 429) {
+        if (response.status === 429) {
           throw new Error(errorData.error || "Too many requests. Please wait a moment and try again.");
         }
-        if (resp.status === 402) {
+        if (response.status === 402) {
           throw new Error(errorData.error || "Service temporarily unavailable. Please try again later.");
         }
         throw new Error(errorData.error || "Failed to get response from Maggie");
       }
 
-      if (!resp.body) {
+      if (!response.body) {
         throw new Error("No response body");
       }
 
-      const reader = resp.body.getReader();
+      const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
 
