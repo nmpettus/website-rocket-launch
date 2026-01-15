@@ -73,7 +73,9 @@ const BookCard = ({
       'noah': '/books/noahs-ark',
       'jonah': '/books/jonah',
       'gods-love': '/books/gods-love',
-      'ai-adventures': '/books/ai-adventures'
+      'ai-adventures': '/books/ai-adventures',
+      'thanksgiving': '/books/thanksgiving',
+      'christmas': '/books/christmas'
     };
     return routeMap[bookId];
   };
