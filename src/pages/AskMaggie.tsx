@@ -186,10 +186,13 @@ const AskMaggie = () => {
                       "rounded-2xl px-4 py-3 max-w-[80%] shadow-sm",
                       msg.role === "user"
                         ? "bg-sage text-white rounded-br-md"
-                        : "bg-white border border-sage/20 text-charcoal rounded-bl-md"
+                        : "bg-white border border-sage/20 text-charcoal rounded-bl-md font-fredoka"
                     )}
                   >
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                    <p className={cn(
+                      "leading-relaxed whitespace-pre-wrap",
+                      msg.role === "assistant" ? "text-base" : "text-sm"
+                    )}>
                       {msg.role === "assistant" ? renderMessageWithLinks(msg.content) : msg.content}
                     </p>
                   </div>
