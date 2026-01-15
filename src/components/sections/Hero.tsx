@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Mail, Sparkles } from "lucide-react";
+import { BookOpen, Mail, Sparkles, MessageCircle } from "lucide-react";
 import HeroDynamicImage from "./HeroDynamicImage";
 
 const Hero = () => {
@@ -61,6 +61,13 @@ const Hero = () => {
               >
                 <Mail className="w-5 h-5 mr-2" />
                 Write to Maggie
+              </Button>
+              <Button 
+                className="bg-gold hover:bg-gold-dark text-charcoal font-medium py-6 px-8 rounded-full shadow-elegant transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+                onClick={() => window.open('https://maggie-bible-bot-norm9.replit.app', '_blank')}
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Ask Maggie a Bible Question
               </Button>
             </div>
             
