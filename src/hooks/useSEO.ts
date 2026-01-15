@@ -1,5 +1,4 @@
-
-import { useEffect } from 'react';
+import React from 'react';
 import { updateMetaTags, SEOData } from '@/utils/seoUtils';
 
 interface UseSEOProps {
@@ -14,7 +13,7 @@ interface UseSEOProps {
 }
 
 export const useSEO = (seoData: UseSEOProps) => {
-  useEffect(() => {
+  React.useEffect(() => {
     const baseUrl = window.location.origin;
     const currentUrl = window.location.href;
     
