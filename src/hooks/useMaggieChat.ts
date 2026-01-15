@@ -1,22 +1,10 @@
 import { useState, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
 
 type Message = { role: "user" | "assistant"; content: string };
 
-// Get the Supabase URL from the client
-const getSupabaseUrl = () => {
-  // The supabase client has the URL configured
-  const url = (supabase as any).supabaseUrl || 
-    `https://ppzpihpzmvgqumjvxuvb.supabase.co`;
-  return url;
-};
-
-const getSupabaseKey = () => {
-  const key = (supabase as any).supabaseKey ||
-    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwenBpaHB6bXZncXVtanZ4dXZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0NzI4NTksImV4cCI6MjA4NDA0ODg1OX0.oMELHAOPgOVDiFMopdYVBkmcaHvhHYPeDoEQZ8cM5B0";
-  return key;
-};
+// Hardcoded values for the newly enabled Cloud project
+const SUPABASE_URL = "https://ppzpihpzmvgqumjvxuvb.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwenBpaHB6bXZncXVtanZ4dXZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0NzI4NTksImV4cCI6MjA4NDA0ODg1OX0.oMELHAOPgOVDiFMopdYVBkmcaHvhHYPeDoEQZ8cM5B0";
 
 export function useMaggieChat() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -48,17 +36,15 @@ export function useMaggieChat() {
 
     try {
       const allMessages = [...messages, userMsg];
-      const supabaseUrl = getSupabaseUrl();
-      const supabaseKey = getSupabaseKey();
       
       const response = await fetch(
-        `${supabaseUrl}/functions/v1/maggie-chat`,
+        `${SUPABASE_URL}/functions/v1/maggie-chat`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "apikey": supabaseKey,
-            "Authorization": `Bearer ${supabaseKey}`,
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`,
           },
           body: JSON.stringify({ messages: allMessages }),
         }
