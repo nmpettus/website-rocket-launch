@@ -98,16 +98,12 @@ const BookCard = ({
       {/* Book Cover with elegant presentation */}
       <div className="p-6 pb-4 bg-gradient-to-b from-sage-light/30 to-transparent">
         <div className="relative mx-auto flex justify-center">
-          {/* Book shadow effect */}
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-48 md:w-56 h-64 md:h-72 bg-charcoal/10 rounded-lg transform translate-x-1" />
-          <div className="relative w-48 md:w-56 h-64 md:h-72">
-            <img 
-              src={coverImage}
-              alt={`${formattedTitle} Book Cover`}
-              className="absolute inset-0 rounded-lg object-cover w-full h-full cursor-pointer shadow-book transition-transform duration-300 group-hover:scale-[1.02]"
-              onClick={() => onImageClick(coverImage)}
-            />
-          </div>
+          <img 
+            src={coverImage}
+            alt={`${formattedTitle} Book Cover`}
+            className="max-h-72 w-auto rounded-lg object-contain cursor-pointer shadow-book transition-transform duration-300 group-hover:scale-[1.02]"
+            onClick={() => onImageClick(coverImage)}
+          />
         </div>
       </div>
       
