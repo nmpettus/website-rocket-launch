@@ -83,7 +83,7 @@ const Contact = () => {
         formData.append("message", message)
 
         // Send to PHP backend
-        const response = await fetch("/api/contact.php", {
+        const response = await fetch("https://booksbymaggie.com/api/contact.php", {
           method: "POST",
           body: formData,
         })

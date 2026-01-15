@@ -88,7 +88,7 @@ const Newsletter = () => {
         formData.append("force_new", "true") // Add this to force a new subscription
 
         // Send to PHP backend
-        const response = await fetch("/api/newsletter.php", {
+        const response = await fetch("https://booksbymaggie.com/api/newsletter.php", {
           method: "POST",
           body: formData,
         })
