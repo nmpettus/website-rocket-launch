@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
-  { id: 'books', label: 'Books', isRoute: false },
+  { id: 'books', label: 'Apps', isRoute: false },
   { id: 'maggie', label: 'Meet Maggie', isRoute: false },
   { id: 'videos', label: 'Videos', isRoute: true, route: '/videos' },
   { id: 'activities', label: 'Activities', isRoute: false },
