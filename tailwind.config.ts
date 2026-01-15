@@ -91,6 +91,7 @@ const config = {
         sans: ["Lato", ...fontFamily.sans],
         display: ["Playfair Display", "serif"],
         playful: ["Comic Neue", "cursive"],
+        fredoka: ["Fredoka", "sans-serif"],
         lato: ["Lato", "sans-serif"],
         lora: ["Playfair Display", "serif"],
       },
