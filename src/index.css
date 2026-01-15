@@ -242,6 +242,53 @@
     --font-body: 'Quicksand', sans-serif;
   }
 
+  /* ============================================
+     THEME 6: Vintage Retro
+     Sepia tones, typewriter fonts, nostalgic
+     ============================================ */
+  [data-theme="vintage"] {
+    --background: 35 30% 94%;
+    --foreground: 25 40% 18%;
+    
+    --card: 40 35% 96%;
+    --card-foreground: 25 40% 18%;
+    
+    --popover: 40 35% 96%;
+    --popover-foreground: 25 40% 18%;
+    
+    --primary: 25 50% 35%;
+    --primary-foreground: 40 35% 96%;
+    
+    --secondary: 35 45% 55%;
+    --secondary-foreground: 25 40% 18%;
+    
+    --accent: 30 60% 45%;
+    --accent-foreground: 40 35% 96%;
+    
+    --muted: 35 25% 88%;
+    --muted-foreground: 25 30% 40%;
+    
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 40 35% 96%;
+    
+    --border: 35 25% 78%;
+    --input: 35 25% 78%;
+    --ring: 25 50% 35%;
+    
+    --cream: 40 35% 96%;
+    --sage: 45 30% 45%;
+    --sage-light: 45 30% 90%;
+    --rose: 15 40% 55%;
+    --rose-light: 15 40% 92%;
+    --gold: 40 55% 50%;
+    --gold-light: 40 55% 90%;
+    --lavender: 30 20% 88%;
+    --sky: 35 35% 92%;
+    
+    --font-heading: 'Special Elite', monospace;
+    --font-body: 'Courier Prime', monospace;
+  }
+
   * {
     @apply border-border;
   }
