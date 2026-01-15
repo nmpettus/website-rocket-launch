@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Mail, Sparkles } from "lucide-react";
+import HeroDynamicImage from "./HeroDynamicImage";
 
 const Hero = () => {
   const scrollToSection = (sectionId: string) => {
@@ -78,44 +79,9 @@ const Hero = () => {
             </div>
           </div>
           
-          {/* Hero Image */}
+          {/* Hero Image Carousel */}
           <div className="relative flex justify-center lg:justify-end">
-            {/* Decorative ring behind image */}
-            <div className="absolute inset-0 flex items-center justify-center lg:justify-end">
-              <div className="w-80 h-80 md:w-96 md:h-96 rounded-full border-4 border-dashed border-sage/20 animate-[spin_60s_linear_infinite]" />
-            </div>
-            
-            {/* Main Maggie image */}
-            <div className="relative">
-              <div className="w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden shadow-elegant border-4 border-white bg-white">
-                <img 
-                  src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" 
-                  alt="Maggie the dog - author of children's Bible stories" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              
-              {/* Floating card - Featured Book */}
-              <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl p-4 shadow-elegant border border-sage/10 animate-gentle-bounce">
-                <div className="flex items-center gap-3">
-                  <img 
-                    src="/lovable-uploads/9915a45c-d79b-4a00-8e51-2d7c4ca0afd8.png" 
-                    alt="God's Love book cover"
-                    className="w-12 h-16 object-cover rounded-lg shadow-sm"
-                  />
-                  <div>
-                    <p className="text-xs text-muted-foreground">Featured</p>
-                    <p className="text-sm font-semibold text-charcoal">God's Love</p>
-                    <p className="text-xs text-sage">Available Now</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Floating element - Ask Maggie */}
-              <div className="absolute -top-2 -right-2 bg-gold text-white rounded-full px-4 py-2 shadow-lg animate-gentle-bounce" style={{ animationDelay: '0.5s' }}>
-                <span className="text-sm font-medium">Ask Maggie!</span>
-              </div>
-            </div>
+            <HeroDynamicImage />
           </div>
         </div>
       </div>
