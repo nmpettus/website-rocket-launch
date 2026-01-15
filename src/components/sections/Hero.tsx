@@ -63,11 +63,13 @@ const Hero = () => {
                 Write to Maggie
               </Button>
               <Button 
+                asChild
                 className="bg-gold hover:bg-gold-dark text-charcoal font-medium py-6 px-8 rounded-full shadow-elegant transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
-                onClick={() => window.open('https://maggie-bible-bot-norm9.replit.app', '_blank')}
               >
-                <MessageCircle className="w-5 h-5 mr-2" />
-                Ask Maggie a Bible Question
+                <a href="https://maggie-bible-bot-norm9.replit.app/" target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  Ask Maggie a Bible Question
+                </a>
               </Button>
             </div>
             
