@@ -45,80 +45,93 @@ const HeroDynamicImage = () => {
   };
 
   return (
-    <div 
-      className="relative overflow-hidden rounded-3xl w-full max-w-md min-h-[320px] md:min-h-[420px] bg-white group cursor-pointer transform-gpu transition-all duration-500 hover:scale-[1.02]"
-      style={{
-        boxShadow: '0 8px 32px -8px rgba(141, 180, 142, 0.3), 0 4px 16px -4px rgba(0, 0, 0, 0.1)'
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Decorative border gradient */}
-      <div className="absolute inset-0 rounded-3xl p-1 bg-gradient-to-br from-sage via-gold/50 to-rose">
-        <div className="w-full h-full rounded-[22px] bg-white" />
-      </div>
+    <div className="relative">
+      {/* Soft shadow underneath */}
+      <div className="absolute top-4 left-4 right-0 bottom-0 bg-charcoal/10 rounded-3xl blur-xl" />
       
-      {/* Main carousel container */}
-      <div className="relative w-full h-full min-h-[320px] md:min-h-[420px] z-10">
-        {/* Main image */}
-        <div className="absolute inset-0 p-3 flex items-center justify-center">
-          <img
-            key={currentImageIndex}
-            src={heroImages[currentImageIndex].src}
-            alt={heroImages[currentImageIndex].alt}
-            className={`max-w-full max-h-full object-contain rounded-2xl transform-gpu transition-all duration-700 ease-out drop-shadow-lg
-              ${isImageLoaded 
-                ? 'opacity-100 scale-100' 
-                : 'opacity-0 scale-95'
-              }
-            `}
-            onLoad={handleImageLoad}
-            loading="eager"
-          />
+      {/* Main card */}
+      <div 
+        className="relative overflow-hidden rounded-3xl w-full max-w-md bg-cream border-2 border-sage/20 group cursor-pointer transform-gpu transition-all duration-500 hover:-translate-y-1"
+        style={{
+          boxShadow: '4px 4px 20px rgba(141, 180, 142, 0.15), -2px -2px 16px rgba(255, 255, 255, 0.8)'
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {/* Decorative top accent bar */}
+        <div className="h-2 bg-gradient-to-r from-sage via-gold to-rose" />
+        
+        {/* Main carousel container */}
+        <div className="relative min-h-[320px] md:min-h-[400px] p-4 bg-white/50">
+          {/* Main image */}
+          <div className="flex items-center justify-center h-full min-h-[290px] md:min-h-[370px]">
+            <img
+              key={currentImageIndex}
+              src={heroImages[currentImageIndex].src}
+              alt={heroImages[currentImageIndex].alt}
+              className={`max-w-full max-h-[280px] md:max-h-[360px] object-contain rounded-xl transform-gpu transition-all duration-700 ease-out
+                ${isImageLoaded 
+                  ? 'opacity-100 scale-100' 
+                  : 'opacity-0 scale-95'
+                }
+              `}
+              style={{
+                filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.1))'
+              }}
+              onLoad={handleImageLoad}
+              loading="eager"
+            />
+          </div>
+          
+          {/* Navigation arrows */}
+          <button
+            onClick={() => handleManualImageChange((currentImageIndex - 1 + heroImages.length) % heroImages.length)}
+            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white hover:bg-sage hover:text-white text-charcoal w-9 h-9 rounded-full flex items-center justify-center shadow-book transition-all duration-300 hover:scale-110 border border-sage/30"
+            aria-label="Previous image"
+          >
+            <span className="font-semibold text-lg">‹</span>
+          </button>
+          <button
+            onClick={() => handleManualImageChange((currentImageIndex + 1) % heroImages.length)}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white hover:bg-sage hover:text-white text-charcoal w-9 h-9 rounded-full flex items-center justify-center shadow-book transition-all duration-300 hover:scale-110 border border-sage/30"
+            aria-label="Next image"
+          >
+            <span className="font-semibold text-lg">›</span>
+          </button>
         </div>
         
-        {/* Navigation arrows - always visible */}
-        <button
-          onClick={() => handleManualImageChange((currentImageIndex - 1 + heroImages.length) % heroImages.length)}
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-sage hover:bg-sage-dark text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-20"
-          aria-label="Previous image"
-        >
-          <span className="font-bold text-xl">‹</span>
-        </button>
-        <button
-          onClick={() => handleManualImageChange((currentImageIndex + 1) % heroImages.length)}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-sage hover:bg-sage-dark text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-20"
-          aria-label="Next image"
-        >
-          <span className="font-bold text-xl">›</span>
-        </button>
+        {/* Bottom info bar */}
+        <div className="px-4 py-3 bg-sage-light/50 border-t border-sage/10 flex items-center justify-between">
+          <p className="text-sm font-medium text-charcoal truncate max-w-[200px]">
+            {heroImages[currentImageIndex].alt}
+          </p>
+          <span className="text-xs text-charcoal/60 font-medium bg-white/60 px-2 py-1 rounded-full">
+            {currentImageIndex + 1} of {heroImages.length}
+          </span>
+        </div>
         
-        {/* Decorative corner elements */}
-        <div className="absolute top-3 right-3 w-4 h-4 bg-gold rounded-full animate-pulse shadow-md z-10"></div>
-        <div className="absolute bottom-16 left-3 w-3 h-3 bg-rose rounded-full animate-bounce shadow-sm z-10" style={{ animationDelay: '0.5s' }}></div>
-        <div className="absolute top-1/4 left-3 w-3 h-3 bg-sage rounded-full animate-pulse shadow-sm z-10" style={{ animationDelay: '1s' }}></div>
+        {/* Progress dots */}
+        <div className="px-4 pb-4 pt-2 bg-sage-light/50 flex justify-center gap-1.5">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentImageIndex 
+                  ? 'bg-sage w-6' 
+                  : 'bg-sage/30 hover:bg-sage/50'
+              }`}
+              onClick={() => handleManualImageChange(index)}
+              aria-label={`View image ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
       
-      {/* Progress indicators */}
-      <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 shadow-md border border-sage/20 z-20">
-        {heroImages.map((_, index) => (
-          <button
-            key={index}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 hover:scale-125 ${
-              index === currentImageIndex 
-                ? 'bg-sage scale-110' 
-                : 'bg-muted hover:bg-sage/50'
-            }`}
-            onClick={() => handleManualImageChange(index)}
-            aria-label={`View image ${index + 1}`}
-          />
-        ))}
+      {/* Decorative floating elements */}
+      <div className="absolute -top-2 -right-2 w-6 h-6 bg-gold rounded-full animate-gentle-bounce shadow-lg flex items-center justify-center">
+        <span className="text-white text-xs">✦</span>
       </div>
-      
-      {/* Image counter badge */}
-      <div className="absolute top-3 left-3 bg-charcoal/80 text-white text-xs font-medium px-3 py-1 rounded-full z-20">
-        {currentImageIndex + 1} / {heroImages.length}
-      </div>
+      <div className="absolute -bottom-1 -left-1 w-4 h-4 bg-rose rounded-full animate-float shadow-md" style={{ animationDelay: '0.5s' }} />
     </div>
   );
 };
