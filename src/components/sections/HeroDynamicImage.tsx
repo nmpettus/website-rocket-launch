@@ -46,26 +46,30 @@ const HeroDynamicImage = () => {
 
   return (
     <div 
-      className="relative overflow-hidden rounded-3xl shadow-elegant w-full max-w-md min-h-[300px] md:min-h-[400px] bg-gradient-to-br from-sage-light via-cream to-rose-light group cursor-pointer transform-gpu transition-all duration-500 hover:shadow-2xl border-4 border-white"
+      className="relative overflow-hidden rounded-3xl w-full max-w-md min-h-[320px] md:min-h-[420px] bg-white group cursor-pointer transform-gpu transition-all duration-500 hover:scale-[1.02]"
+      style={{
+        boxShadow: '0 8px 32px -8px rgba(141, 180, 142, 0.3), 0 4px 16px -4px rgba(0, 0, 0, 0.1)'
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Decorative border gradient */}
+      <div className="absolute inset-0 rounded-3xl p-1 bg-gradient-to-br from-sage via-gold/50 to-rose">
+        <div className="w-full h-full rounded-[22px] bg-white" />
+      </div>
+      
       {/* Main carousel container */}
-      <div className="relative w-full h-full min-h-[300px] md:min-h-[400px]">
+      <div className="relative w-full h-full min-h-[320px] md:min-h-[420px] z-10">
         {/* Main image */}
-        <div className="absolute inset-0 p-4">
+        <div className="absolute inset-0 p-3 flex items-center justify-center">
           <img
             key={currentImageIndex}
             src={heroImages[currentImageIndex].src}
             alt={heroImages[currentImageIndex].alt}
-            className={`w-full h-full object-contain rounded-2xl transform-gpu transition-all duration-700 ease-out
+            className={`max-w-full max-h-full object-contain rounded-2xl transform-gpu transition-all duration-700 ease-out drop-shadow-lg
               ${isImageLoaded 
                 ? 'opacity-100 scale-100' 
                 : 'opacity-0 scale-95'
-              }
-              ${isHovered 
-                ? 'scale-[1.02]' 
-                : 'scale-100'
               }
             `}
             onLoad={handleImageLoad}
@@ -73,41 +77,37 @@ const HeroDynamicImage = () => {
           />
         </div>
         
-        {/* Navigation arrows */}
+        {/* Navigation arrows - always visible */}
         <button
           onClick={() => handleManualImageChange((currentImageIndex - 1 + heroImages.length) % heroImages.length)}
-          className={`absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm hover:bg-white text-charcoal w-10 h-10 rounded-full flex items-center justify-center shadow-elegant transition-all duration-300 hover:scale-110 border border-sage/20
-            ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}
-          `}
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-sage hover:bg-sage-dark text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-20"
           aria-label="Previous image"
         >
-          <span className="font-bold text-lg">‹</span>
+          <span className="font-bold text-xl">‹</span>
         </button>
         <button
           onClick={() => handleManualImageChange((currentImageIndex + 1) % heroImages.length)}
-          className={`absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm hover:bg-white text-charcoal w-10 h-10 rounded-full flex items-center justify-center shadow-elegant transition-all duration-300 hover:scale-110 border border-sage/20
-            ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2'}
-          `}
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-sage hover:bg-sage-dark text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-20"
           aria-label="Next image"
         >
-          <span className="font-bold text-lg">›</span>
+          <span className="font-bold text-xl">›</span>
         </button>
         
-        {/* Decorative floating elements */}
-        <div className="absolute top-4 right-4 w-3 h-3 bg-gold rounded-full animate-pulse opacity-70"></div>
-        <div className="absolute bottom-16 left-4 w-2 h-2 bg-rose rounded-full animate-bounce opacity-60" style={{ animationDelay: '0.5s' }}></div>
-        <div className="absolute top-1/3 left-3 w-2 h-2 bg-sage rounded-full animate-pulse opacity-60" style={{ animationDelay: '1s' }}></div>
+        {/* Decorative corner elements */}
+        <div className="absolute top-3 right-3 w-4 h-4 bg-gold rounded-full animate-pulse shadow-md z-10"></div>
+        <div className="absolute bottom-16 left-3 w-3 h-3 bg-rose rounded-full animate-bounce shadow-sm z-10" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute top-1/4 left-3 w-3 h-3 bg-sage rounded-full animate-pulse shadow-sm z-10" style={{ animationDelay: '1s' }}></div>
       </div>
       
       {/* Progress indicators */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2 border border-sage/10">
+      <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 bg-white/95 backdrop-blur-sm rounded-full px-4 py-2 shadow-md border border-sage/20 z-20">
         {heroImages.map((_, index) => (
           <button
             key={index}
-            className={`w-2 h-2 rounded-full transition-all duration-300 hover:scale-150 ${
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 hover:scale-125 ${
               index === currentImageIndex 
-                ? 'bg-sage scale-125 shadow-sm' 
-                : 'bg-charcoal/30 hover:bg-charcoal/50'
+                ? 'bg-sage scale-110' 
+                : 'bg-muted hover:bg-sage/50'
             }`}
             onClick={() => handleManualImageChange(index)}
             aria-label={`View image ${index + 1}`}
@@ -115,13 +115,9 @@ const HeroDynamicImage = () => {
         ))}
       </div>
       
-      {/* Title overlay on hover */}
-      <div className={`absolute top-4 left-1/2 transform -translate-x-1/2 transition-all duration-400 ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}>
-        <div className="bg-white/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-elegant border border-sage/10">
-          <p className="text-xs font-medium text-charcoal text-center max-w-[200px] truncate">
-            {heroImages[currentImageIndex].alt}
-          </p>
-        </div>
+      {/* Image counter badge */}
+      <div className="absolute top-3 left-3 bg-charcoal/80 text-white text-xs font-medium px-3 py-1 rounded-full z-20">
+        {currentImageIndex + 1} / {heroImages.length}
       </div>
     </div>
   );
