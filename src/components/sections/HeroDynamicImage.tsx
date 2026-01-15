@@ -7,6 +7,8 @@ const HeroDynamicImage = () => {
   
   // All book covers plus original illustrations from Maggie's books
   const heroImages = [
+    // Maggie Profile
+    { src: "/lovable-uploads/MaggieNewNBP.png", alt: "Maggie the dog - Author of Christian Children's Books" },
     // Book Covers
     { src: "/lovable-uploads/9915a45c-d79b-4a00-8e51-2d7c4ca0afd8.png", alt: "God's Love as told by Maggie" },
     { src: "/lovable-uploads/711c1342-427a-4191-91d3-7ebe4ec29df9.png", alt: "The Creation Story as told by Maggie" },
