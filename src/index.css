@@ -289,6 +289,53 @@
     --font-body: 'Courier Prime', monospace;
   }
 
+  /* ============================================
+     THEME 7: Candy Pastel
+     Soft pinks, mint greens, playful & sweet
+     ============================================ */
+  [data-theme="candy"] {
+    --background: 340 100% 98%;
+    --foreground: 340 50% 25%;
+    
+    --card: 330 100% 99%;
+    --card-foreground: 340 50% 25%;
+    
+    --popover: 330 100% 99%;
+    --popover-foreground: 340 50% 25%;
+    
+    --primary: 330 80% 75%;
+    --primary-foreground: 340 50% 20%;
+    
+    --secondary: 160 60% 70%;
+    --secondary-foreground: 160 50% 20%;
+    
+    --accent: 270 70% 72%;
+    --accent-foreground: 270 50% 20%;
+    
+    --muted: 330 40% 93%;
+    --muted-foreground: 340 30% 45%;
+    
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 330 100% 99%;
+    
+    --border: 330 50% 88%;
+    --input: 330 50% 88%;
+    --ring: 330 80% 75%;
+    
+    --cream: 330 100% 99%;
+    --sage: 160 60% 70%;
+    --sage-light: 160 60% 92%;
+    --rose: 330 80% 75%;
+    --rose-light: 330 80% 94%;
+    --gold: 270 70% 72%;
+    --gold-light: 270 70% 92%;
+    --lavender: 280 60% 90%;
+    --sky: 180 60% 92%;
+    
+    --font-heading: 'Baloo 2', cursive;
+    --font-body: 'Varela Round', sans-serif;
+  }
+
   * {
     @apply border-border;
   }
