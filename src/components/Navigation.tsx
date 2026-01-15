@@ -136,7 +136,7 @@ const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
             <img 
-              src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" 
+              src="/lovable-uploads/MaggieNewNBP.png" 
               alt="Maggie the dog logo" 
               className="h-12 w-12 rounded-full object-cover ring-2 ring-sage/30 group-hover:ring-sage transition-all duration-300" 
             />
@@ -207,7 +207,7 @@ const Navigation = () => {
                   <div className="p-6 border-b border-sage/10 bg-sage-light/30">
                     <Link to="/" className="flex items-center space-x-3">
                       <img 
-                        src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" 
+                        src="/lovable-uploads/MaggieNewNBP.png" 
                         alt="Maggie the dog logo" 
                         className="h-12 w-12 rounded-full object-cover ring-2 ring-sage/30" 
                       />
