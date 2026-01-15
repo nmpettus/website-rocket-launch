@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Send, Loader2, Sparkles, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,45 @@ import { Input } from "@/components/ui/input";
 import { useMaggieChat } from "@/hooks/useMaggieChat";
 import { cn } from "@/lib/utils";
 import { useSEO } from "@/hooks/useSEO";
+
+// Function to parse markdown links and render them as clickable
+const renderMessageWithLinks = (content: string): ReactNode => {
+  // Regex to match markdown links: [text](url)
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts: ReactNode[] = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = linkRegex.exec(content)) !== null) {
+    // Add text before the link
+    if (match.index > lastIndex) {
+      parts.push(content.slice(lastIndex, match.index));
+    }
+    
+    // Add the link as a clickable element
+    const [, linkText, url] = match;
+    parts.push(
+      <a
+        key={match.index}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-sage-dark underline hover:text-sage font-medium"
+      >
+        {linkText}
+      </a>
+    );
+    
+    lastIndex = match.index + match[0].length;
+  }
+
+  // Add remaining text after the last link
+  if (lastIndex < content.length) {
+    parts.push(content.slice(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : content;
+};
 
 const AskMaggie = () => {
   const [input, setInput] = useState("");
@@ -151,7 +190,7 @@ const AskMaggie = () => {
                     )}
                   >
                     <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                      {msg.content}
+                      {msg.role === "assistant" ? renderMessageWithLinks(msg.content) : msg.content}
                     </p>
                   </div>
                 </div>
