@@ -92,6 +92,14 @@ function containsInappropriateContent(text: string): boolean {
   return false;
 }
 
+// Convert OpenAI-style messages to Gemini format
+function convertToGeminiFormat(messages: Array<{ role: string; content: string }>) {
+  return messages.map((msg) => ({
+    role: msg.role === "assistant" ? "model" : "user",
+    parts: [{ text: msg.content }],
+  }));
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -99,10 +107,10 @@ serve(async (req) => {
 
   try {
     const { messages } = await req.json();
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const GOOGLE_GEMINI_API_KEY = Deno.env.get("GOOGLE_GEMINI_API_KEY");
     
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+    if (!GOOGLE_GEMINI_API_KEY) {
+      throw new Error("GOOGLE_GEMINI_API_KEY is not configured");
     }
 
     console.log("Received messages:", JSON.stringify(messages));
@@ -130,41 +138,37 @@ Isn't that amazing? God's love is the most wonderful thing! Would you like to he
       );
     }
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    // Call Google Gemini API directly
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse&key=${GOOGLE_GEMINI_API_KEY}`;
+    
+    const geminiMessages = convertToGeminiFormat(messages);
+    
+    const response = await fetch(geminiUrl, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
-        messages: [
-          { role: "system", content: MAGGIE_SYSTEM_PROMPT },
-          ...messages,
-        ],
-        stream: true,
+        contents: geminiMessages,
+        systemInstruction: {
+          parts: [{ text: MAGGIE_SYSTEM_PROMPT }],
+        },
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 2048,
+        },
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("AI gateway error:", response.status, errorText);
+      console.error("Gemini API error:", response.status, errorText);
       
       if (response.status === 429) {
         return new Response(
           JSON.stringify({ error: "Maggie is a bit tired! Too many questions at once. Please wait a moment and try again." }),
           {
             status: 429,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          }
-        );
-      }
-      
-      if (response.status === 402) {
-        return new Response(
-          JSON.stringify({ error: "Oops! Maggie needs a little rest. Please try again later." }),
-          {
-            status: 402,
             headers: { ...corsHeaders, "Content-Type": "application/json" },
           }
         );
@@ -179,9 +183,45 @@ Isn't that amazing? God's love is the most wonderful thing! Would you like to he
       );
     }
 
-    console.log("Streaming response from AI gateway");
+    console.log("Streaming response from Gemini API");
     
-    return new Response(response.body, {
+    // Transform Gemini SSE format to OpenAI-compatible format for the frontend
+    const transformStream = new TransformStream({
+      transform(chunk, controller) {
+        const text = new TextDecoder().decode(chunk);
+        const lines = text.split("\n");
+        
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const jsonStr = line.slice(6).trim();
+            if (jsonStr && jsonStr !== "[DONE]") {
+              try {
+                const geminiData = JSON.parse(jsonStr);
+                const content = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                if (content) {
+                  // Convert to OpenAI format that the frontend expects
+                  const openAIFormat = {
+                    choices: [{ delta: { content } }],
+                  };
+                  controller.enqueue(
+                    new TextEncoder().encode(`data: ${JSON.stringify(openAIFormat)}\n\n`)
+                  );
+                }
+              } catch (e) {
+                console.error("Error parsing Gemini response:", e);
+              }
+            }
+          }
+        }
+      },
+      flush(controller) {
+        controller.enqueue(new TextEncoder().encode("data: [DONE]\n\n"));
+      },
+    });
+
+    const transformedStream = response.body?.pipeThrough(transformStream);
+    
+    return new Response(transformedStream, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
     });
   } catch (error) {
