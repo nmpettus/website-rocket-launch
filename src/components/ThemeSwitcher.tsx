@@ -51,6 +51,13 @@ const themes = [
     colors: ['#EDE8DC', '#5C4033', '#A67B5B', '#B8860B'],
     fontPreview: 'Special Elite',
   },
+  {
+    id: 'candy',
+    name: 'Candy Pastel',
+    description: 'Soft pinks & mint greens, playful & sweet',
+    colors: ['#FFF5F7', '#F9A8D4', '#6EE7B7', '#A78BFA'],
+    fontPreview: 'Baloo 2',
+  },
 ];
 
 export const ThemeSwitcher = () => {
