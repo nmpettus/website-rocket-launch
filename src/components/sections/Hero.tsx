@@ -1,68 +1,136 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { PartyPopper } from "lucide-react";
-import HeroDynamicImage from "./HeroDynamicImage";
+import { BookOpen, Mail, Sparkles } from "lucide-react";
+
 const Hero = () => {
-  // Scroll so #write-to-maggie is at the very top of the viewport — no offset.
-  const scrollToLetterSection = () => {
-    const letterSection = document.getElementById('write-to-maggie');
-    if (letterSection) {
-      letterSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    } else {
-      // Fallback to activities section if not found
-      document.getElementById('activities')?.scrollIntoView({
-        behavior: 'smooth'
-      });
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-  return <section id="home" className="pt-32 pb-16 md:py-24 bg-gradient-to-r from-indigo-600 to-emerald-500 text-white">
-      <div className="container mx-auto px-6">
-        {/* Mobile bouncing button has been moved into the grid below */}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="space-y-6 max-w-lg relative">
-            <h1 className="text-4xl md:text-5xl font-bold font-canva leading-tight">
-              Christian Children's
-              <br />Books by Maggie
-              <br />Faith-Based Stories
-            </h1>
-            <p className="text-xl">Discover faith-based children's books by author Maggie. Heartwarming Bible stories and Christian values for kids—perfect for family reading and gifts.</p>
+  return (
+    <section id="home" className="relative min-h-screen pt-24 pb-16 overflow-hidden">
+      {/* Elegant gradient background */}
+      <div className="absolute inset-0 gradient-hero" />
+      
+      {/* Decorative floating elements */}
+      <div className="absolute top-32 left-10 w-16 h-16 rounded-full bg-gold-light opacity-60 animate-float" />
+      <div className="absolute top-48 right-20 w-12 h-12 rounded-full bg-rose-light opacity-50 animate-float" style={{ animationDelay: '1s' }} />
+      <div className="absolute bottom-32 left-1/4 w-20 h-20 rounded-full bg-sage-light opacity-40 animate-float" style={{ animationDelay: '2s' }} />
+      <div className="absolute bottom-48 right-1/3 w-8 h-8 rounded-full bg-lavender opacity-60 animate-float" style={{ animationDelay: '0.5s' }} />
+      
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)]">
+          {/* Content */}
+          <div className="space-y-8 max-w-xl">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm border border-sage/20">
+              <Sparkles className="w-4 h-4 text-gold" />
+              <span className="text-sm font-medium text-charcoal">Faith-Based Children's Books</span>
+            </div>
             
-            {/* Send Maggie a Letter button - positioned below subtitle */}
-            <div className="flex justify-center md:justify-start">
-              <Button className="rounded-full bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-3 px-5 shadow-lg group transition-all duration-300 animate-[bounce_2s_infinite]" onClick={scrollToLetterSection}>
-                <div className="flex items-center gap-2">
-                  <PartyPopper className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                  <span className="group-hover:underline">Send Maggie a Letter!</span>
-                </div>
-                <div className="absolute -top-2 -right-2 w-5 h-5 bg-pink-500 rounded-full animate-pulse"></div>
+            {/* Main Headline */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-charcoal leading-tight">
+              Stories of Faith,
+              <br />
+              <span className="text-sage">Love & Wonder</span>
+            </h1>
+            
+            {/* Subheadline */}
+            <p className="text-lg md:text-xl text-charcoal/70 leading-relaxed">
+              Join Maggie on heartwarming adventures through Bible stories that inspire, 
+              teach, and bring joy to children and families everywhere.
+            </p>
+            
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap gap-4">
+              <Button 
+                className="bg-sage hover:bg-sage-dark text-white font-medium py-6 px-8 rounded-full shadow-elegant transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+                onClick={() => scrollToSection('books')}
+              >
+                <BookOpen className="w-5 h-5 mr-2" />
+                Explore Our Books
+              </Button>
+              <Button 
+                variant="outline"
+                className="border-2 border-sage text-sage hover:bg-sage hover:text-white font-medium py-6 px-8 rounded-full transition-all duration-300"
+                onClick={() => scrollToSection('write-to-maggie')}
+              >
+                <Mail className="w-5 h-5 mr-2" />
+                Write to Maggie
               </Button>
             </div>
-            <div className="flex flex-wrap gap-4">
-              <Button className="bg-amber-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full" onClick={() => document.getElementById('books')?.scrollIntoView({
-              behavior: 'smooth'
-            })}>
-                Explore Books
-              </Button>
-              <Button variant="outline" className="bg-white hover:bg-gray-100 text-indigo-600 font-bold py-3 px-6 rounded-full" onClick={() => document.getElementById('newsletter')?.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            })}>
-                Join Our List
-              </Button>
-              <Button className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full" onClick={() => window.open('https://maggie-bible-bot-norm9.replit.app/', '_blank')}>
-                Ask Maggie a Bible Question
-              </Button>
+            
+            {/* Trust indicators */}
+            <div className="flex items-center gap-6 pt-4">
+              <div className="flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  <div className="w-8 h-8 rounded-full bg-rose-light border-2 border-white flex items-center justify-center text-xs">⭐</div>
+                  <div className="w-8 h-8 rounded-full bg-gold-light border-2 border-white flex items-center justify-center text-xs">⭐</div>
+                  <div className="w-8 h-8 rounded-full bg-sage-light border-2 border-white flex items-center justify-center text-xs">⭐</div>
+                </div>
+                <span className="text-sm text-charcoal/60">5-Star Reviews</span>
+              </div>
+              <div className="h-6 w-px bg-charcoal/20" />
+              <span className="text-sm text-charcoal/60">Available on Amazon</span>
             </div>
           </div>
-          <div className="flex justify-center relative">
-            <HeroDynamicImage />
+          
+          {/* Hero Image */}
+          <div className="relative flex justify-center lg:justify-end">
+            {/* Decorative ring behind image */}
+            <div className="absolute inset-0 flex items-center justify-center lg:justify-end">
+              <div className="w-80 h-80 md:w-96 md:h-96 rounded-full border-4 border-dashed border-sage/20 animate-[spin_60s_linear_infinite]" />
+            </div>
+            
+            {/* Main Maggie image */}
+            <div className="relative">
+              <div className="w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden shadow-elegant border-4 border-white bg-white">
+                <img 
+                  src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" 
+                  alt="Maggie the dog - author of children's Bible stories" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Floating card - Featured Book */}
+              <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl p-4 shadow-elegant border border-sage/10 animate-gentle-bounce">
+                <div className="flex items-center gap-3">
+                  <img 
+                    src="/lovable-uploads/9915a45c-d79b-4a00-8e51-2d7c4ca0afd8.png" 
+                    alt="God's Love book cover"
+                    className="w-12 h-16 object-cover rounded-lg shadow-sm"
+                  />
+                  <div>
+                    <p className="text-xs text-muted-foreground">Featured</p>
+                    <p className="text-sm font-semibold text-charcoal">God's Love</p>
+                    <p className="text-xs text-sage">Available Now</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Floating element - Ask Maggie */}
+              <div className="absolute -top-2 -right-2 bg-gold text-white rounded-full px-4 py-2 shadow-lg animate-gentle-bounce" style={{ animationDelay: '0.5s' }}>
+                <span className="text-sm font-medium">Ask Maggie!</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>;
+      
+      {/* Bottom wave decoration */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path 
+            d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" 
+            fill="hsl(45, 33%, 98%)"
+          />
+        </svg>
+      </div>
+    </section>
+  );
 };
+
 export default Hero;

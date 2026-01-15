@@ -5,6 +5,7 @@ import ImageViewer from "@/components/books/ImageViewer";
 import BookSampleViewer from "@/components/books/BookSampleViewer";
 import ReviewsModal, { Review } from "@/components/ReviewsModal";
 import bookReviews, { booksData, SamplePage } from "@/data/bookReviews";
+import { BookOpen } from "lucide-react";
 
 // Define language links for each book
 const bookLanguageLinks = {
@@ -66,11 +67,25 @@ const Books = () => {
   };
 
   return (
-    <section id="books" className="py-16 bg-white">
+    <section id="books" className="py-20 bg-cream">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center mb-6 text-gray-800 font-['Comic_Neue']">Our Book Collection- Bible Stories for Kids</h2>
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-sage-light px-4 py-2 rounded-full mb-4">
+            <BookOpen className="w-4 h-4 text-sage" />
+            <span className="text-sm font-medium text-sage-dark">Our Library</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-charcoal mb-4">
+            Maggie's Bookshelf
+          </h2>
+          <p className="text-lg text-charcoal/60 max-w-2xl mx-auto">
+            Beautiful Bible stories brought to life through Maggie's heartwarming adventures. 
+            Perfect for bedtime reading and family devotions.
+          </p>
+        </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {/* Books Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {booksData.map(book => (
             <BookCard
               key={book.id}

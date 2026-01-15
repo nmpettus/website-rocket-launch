@@ -1,34 +1,23 @@
 import React from "react";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram, Heart } from "lucide-react";
 import { booksData } from "@/data/bookReviews";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
-  // Find the God's Love book
   const godsLoveBook = booksData.find(book => book.id === "gods-love");
-
-  // Find the Creation book (first book)
   const creationBook = booksData.find(book => book.id === "creation");
-  
-  // Find the Noah book (second book)
   const noahBook = booksData.find(book => book.id === "noah");
-  
-  // Find the Jonah book (third book)
   const jonahBook = booksData.find(book => book.id === "jonah");
   
-  // Direct links to Spanish and Italian versions
   const spanishVersionLink = "https://a.co/d/6ZbpRHg";
   const italianVersionLink = "https://a.co/d/f0xPfeW";
 
-  // Handle smooth scrolling to sections
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
     const section = document.getElementById(sectionId);
     if (section) {
-      const navbarHeight = 80; // Approximate height of navbar
-      const additionalOffset = 20; // Extra padding to show section headers properly
-      const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - navbarHeight - additionalOffset;
-      
+      const navbarHeight = 80;
+      const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
       window.scrollTo({
         top: sectionTop,
         behavior: 'smooth'
@@ -37,70 +26,108 @@ const Footer = () => {
   };
 
   return (
-    <footer id="footer" className="bg-gray-800 text-white py-12">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <img src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" alt="Maggie logo" className="h-10 w-10 rounded-full object-cover" />
-              <span className="text-xl font-bold font-['Comic_Neue']">Maggie's Books</span>
+    <footer id="footer" className="bg-charcoal text-white">
+      {/* Main Footer Content */}
+      <div className="container mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          {/* Brand Column */}
+          <div className="lg:col-span-1">
+            <div className="flex items-center space-x-3 mb-6">
+              <img 
+                src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" 
+                alt="Maggie logo" 
+                className="h-14 w-14 rounded-full object-cover ring-2 ring-sage/30" 
+              />
+              <div>
+                <span className="text-xl font-display font-semibold block">Books By Maggie</span>
+                <span className="text-xs text-white/60">Faith-Based Stories</span>
+              </div>
             </div>
-            <p className="text-gray-400">Bringing joy to children through delightful stories narrated by Maggie the dog.</p>
+            <p className="text-white/70 text-sm leading-relaxed mb-6">
+              Bringing joy to children through heartwarming Bible stories, narrated by Maggie the dog. 
+              Perfect for family reading and growing in faith together.
+            </p>
+            {/* Social Links */}
+            <div className="flex space-x-4">
+              <a 
+                href="https://www.facebook.com/profile.php?id=61577214954344" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-sage flex items-center justify-center transition-colors duration-300"
+              >
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a 
+                href="https://www.instagram.com/nmpettus" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-sage flex items-center justify-center transition-colors duration-300"
+              >
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a 
+                href="https://x.com/nmpettus" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-sage flex items-center justify-center transition-colors duration-300"
+              >
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+            </div>
           </div>
           
+          {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><a href="#home" onClick={(e) => handleNavClick(e, 'home')} className="text-gray-400 hover:text-white transition duration-300">Home</a></li>
-              <li><a href="#books" onClick={(e) => handleNavClick(e, 'books')} className="text-gray-400 hover:text-white transition duration-300">Books</a></li>
-              <li><a href="#maggie" onClick={(e) => handleNavClick(e, 'maggie')} className="text-gray-400 hover:text-white transition duration-300">Meet Maggie</a></li>
-              <li><Link to="/videos" className="text-gray-400 hover:text-white transition duration-300">Videos</Link></li>
-              <li><a href="#kids" onClick={(e) => handleNavClick(e, 'kids')} className="text-gray-400 hover:text-white transition duration-300">GiveAway</a></li>
-              <li><a href="#projects" onClick={(e) => handleNavClick(e, 'projects')} className="text-gray-400 hover:text-white transition duration-300">Projects</a></li>
-              <li><a href="#newsletter" onClick={(e) => handleNavClick(e, 'newsletter')} className="text-gray-400 hover:text-white transition duration-300">Join</a></li>
-              <li><a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90 mb-6">Navigate</h3>
+            <ul className="space-y-3">
+              <li><a href="#home" onClick={(e) => handleNavClick(e, 'home')} className="text-white/60 hover:text-sage transition-colors text-sm">Home</a></li>
+              <li><a href="#books" onClick={(e) => handleNavClick(e, 'books')} className="text-white/60 hover:text-sage transition-colors text-sm">Our Books</a></li>
+              <li><a href="#maggie" onClick={(e) => handleNavClick(e, 'maggie')} className="text-white/60 hover:text-sage transition-colors text-sm">Meet Maggie</a></li>
+              <li><Link to="/videos" className="text-white/60 hover:text-sage transition-colors text-sm">Videos</Link></li>
+              <li><a href="#activities" onClick={(e) => handleNavClick(e, 'activities')} className="text-white/60 hover:text-sage transition-colors text-sm">Activities</a></li>
+              <li><a href="#games" onClick={(e) => handleNavClick(e, 'games')} className="text-white/60 hover:text-sage transition-colors text-sm">Games</a></li>
+              <li><a href="#newsletter" onClick={(e) => handleNavClick(e, 'newsletter')} className="text-white/60 hover:text-sage transition-colors text-sm">Newsletter</a></li>
+              <li><a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="text-white/60 hover:text-sage transition-colors text-sm">Contact</a></li>
             </ul>
           </div>
           
+          {/* Books */}
           <div>
-            <h3 className="text-lg font-bold mb-4">Our Books</h3>
-            <ul className="space-y-2">
-              <li><a href={godsLoveBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">God's Love as told by Maggie</a></li>
-              <li><a href={creationBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">Creation as told by Maggie</a></li>
-              <li><a href={noahBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">Noah's Ark as told by Maggie</a></li>
-              <li><a href={jonahBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">Jonah as told by Maggie</a></li>
-              <li><a href={spanishVersionLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">Spanish Version</a></li>
-              <li><a href={italianVersionLink} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">Italian Version</a></li>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90 mb-6">Our Books</h3>
+            <ul className="space-y-3">
+              <li><a href={godsLoveBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-sage transition-colors text-sm">God's Love</a></li>
+              <li><a href={creationBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-sage transition-colors text-sm">Creation</a></li>
+              <li><a href={noahBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-sage transition-colors text-sm">Noah's Ark</a></li>
+              <li><a href={jonahBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-sage transition-colors text-sm">Jonah</a></li>
+              <li><a href={spanishVersionLink} target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-sage transition-colors text-sm">Spanish Edition</a></li>
+              <li><a href={italianVersionLink} target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-sage transition-colors text-sm">Italian Edition</a></li>
             </ul>
           </div>
           
+          {/* Legal */}
           <div>
-            <h3 className="text-lg font-bold mb-4">Legal</h3>
-            <ul className="space-y-2">
-              <li><Link to="/privacy-policy" className="text-gray-400 hover:text-white transition duration-300">Privacy Policy</Link></li>
-              <li><Link to="/terms-of-service" className="text-gray-400 hover:text-white transition duration-300">Terms of Service</Link></li>
-              <li><Link to="/cookie-policy" className="text-gray-400 hover:text-white transition duration-300">Cookie Policy</Link></li>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90 mb-6">Legal</h3>
+            <ul className="space-y-3">
+              <li><Link to="/privacy-policy" className="text-white/60 hover:text-sage transition-colors text-sm">Privacy Policy</Link></li>
+              <li><Link to="/terms-of-service" className="text-white/60 hover:text-sage transition-colors text-sm">Terms of Service</Link></li>
+              <li><Link to="/cookie-policy" className="text-white/60 hover:text-sage transition-colors text-sm">Cookie Policy</Link></li>
             </ul>
           </div>
         </div>
-        
-        <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 mb-4 md:mb-0">© 2023 Maggie's Books. All rights reserved.</p>
-          <div className="flex space-x-6">
-            <a href="https://www.facebook.com/profile.php?id=61577214954344" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">
-              <span className="sr-only">Facebook</span>
-              <Facebook className="h-6 w-6" />
-            </a>
-            <a href="https://www.instagram.com/nmpettus" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">
-              <span className="sr-only">Instagram</span>
-              <Instagram className="h-6 w-6" />
-            </a>
-            <a href="https://x.com/nmpettus" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition duration-300">
-              <span className="sr-only">X</span>
-              <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
+      </div>
+      
+      {/* Bottom Bar */}
+      <div className="border-t border-white/10">
+        <div className="container mx-auto px-6 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-white/50 text-sm">
+              © {new Date().getFullYear()} Books By Maggie. All rights reserved.
+            </p>
+            <p className="text-white/50 text-sm flex items-center gap-1">
+              Made with <Heart className="w-4 h-4 text-rose fill-rose" /> for families everywhere
+            </p>
           </div>
         </div>
       </div>

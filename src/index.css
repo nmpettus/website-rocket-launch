@@ -6,26 +6,47 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
+    /* Polished Storybook Color Palette */
+    --background: 45 33% 98%; /* Warm cream #FFFEF5 */
+    --foreground: 200 12% 19%; /* Deep charcoal #2D3436 */
+    
+    --card: 45 33% 98%;
+    --card-foreground: 200 12% 19%;
+    
+    --popover: 45 33% 98%;
+    --popover-foreground: 200 12% 19%;
+    
+    --primary: 131 25% 63%; /* Soft sage green #8DB48E */
+    --primary-foreground: 45 33% 98%;
+    
+    --secondary: 0 28% 75%; /* Dusty rose #D4A5A5 */
+    --secondary-foreground: 200 12% 19%;
+    
+    --accent: 43 65% 52%; /* Warm gold #D4AF37 */
+    --accent-foreground: 200 12% 19%;
+    
+    --muted: 45 20% 93%;
+    --muted-foreground: 200 8% 45%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 45 33% 98%;
+    
+    --border: 45 15% 88%;
+    --input: 45 15% 88%;
+    --ring: 131 25% 63%;
+    
+    --radius: 0.75rem;
+    
+    /* Extended palette for sections */
+    --cream: 45 33% 98%;
+    --sage: 131 25% 63%;
+    --sage-light: 131 25% 90%;
+    --rose: 0 28% 75%;
+    --rose-light: 0 28% 92%;
+    --gold: 43 65% 52%;
+    --gold-light: 43 65% 90%;
+    --lavender: 270 30% 90%;
+    --sky: 200 50% 92%;
   }
 
   * {
@@ -33,22 +54,83 @@
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Canva Sans', sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Lato', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
   }
 }
 
 @layer utilities {
+  .font-display {
+    font-family: 'Playfair Display', serif;
+  }
+  
+  .font-body {
+    font-family: 'Lato', sans-serif;
+  }
+  
+  .font-playful {
+    font-family: 'Comic Neue', cursive;
+  }
+  
+  /* Legacy support */
   .font-comic {
     font-family: 'Comic Neue', cursive;
   }
   
   .font-poppins {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Lato', sans-serif;
   }
   
   .font-canva {
-    font-family: 'Canva Sans', sans-serif;
+    font-family: 'Lato', sans-serif;
+  }
+  
+  /* Decorative utilities */
+  .bg-cream {
+    background-color: hsl(var(--cream));
+  }
+  
+  .bg-sage-light {
+    background-color: hsl(var(--sage-light));
+  }
+  
+  .bg-rose-light {
+    background-color: hsl(var(--rose-light));
+  }
+  
+  .bg-gold-light {
+    background-color: hsl(var(--gold-light));
+  }
+  
+  .bg-lavender {
+    background-color: hsl(var(--lavender));
+  }
+  
+  .bg-sky {
+    background-color: hsl(var(--sky));
+  }
+  
+  /* Elegant shadows */
+  .shadow-elegant {
+    box-shadow: 0 4px 20px -4px hsl(var(--foreground) / 0.08),
+                0 8px 32px -8px hsl(var(--foreground) / 0.05);
+  }
+  
+  .shadow-book {
+    box-shadow: 4px 4px 15px hsl(var(--foreground) / 0.1),
+                -2px 0 8px hsl(var(--foreground) / 0.05);
+  }
+  
+  /* Gradient backgrounds */
+  .gradient-hero {
+    background: linear-gradient(135deg, hsl(var(--sage-light)) 0%, hsl(var(--cream)) 50%, hsl(var(--rose-light)) 100%);
+  }
+  
+  .gradient-section-alt {
+    background: linear-gradient(180deg, hsl(var(--cream)) 0%, hsl(var(--lavender)) 100%);
   }
 }
-
