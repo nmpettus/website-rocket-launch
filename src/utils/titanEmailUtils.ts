@@ -8,11 +8,14 @@ export const EMAIL_TEMPLATES = {
   LETTER_TO_MAGGIE: "letter-to-maggie",
 }
 
+// Hostinger API base URL
+const HOSTINGER_API_BASE = "https://booksbymaggie.com"
+
 // API endpoints for each email type
 const API_ENDPOINTS = {
-  CONTACT: "/api/contact.php",
-  NEWSLETTER: "/api/newsletter.php",
-  LETTER_TO_MAGGIE: "/api/letter-to-maggie.php",
+  CONTACT: `${HOSTINGER_API_BASE}/api/contact.php`,
+  NEWSLETTER: `${HOSTINGER_API_BASE}/api/newsletter.php`,
+  LETTER_TO_MAGGIE: `${HOSTINGER_API_BASE}/api/letter-to-maggie.php`,
 }
 
 /**
