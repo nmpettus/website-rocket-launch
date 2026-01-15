@@ -3,6 +3,21 @@ import { supabase } from "@/integrations/supabase/client";
 
 type Message = { role: "user" | "assistant"; content: string };
 
+// Get the Supabase URL from the client
+const getSupabaseUrl = () => {
+  // The supabase client has the URL configured
+  const url = (supabase as any).supabaseUrl || 
+    `https://ppzpihpzmvgqumjvxuvb.supabase.co`;
+  return url;
+};
+
+const getSupabaseKey = () => {
+  const key = (supabase as any).supabaseKey ||
+    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwenBpaHB6bXZncXVtanZ4dXZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0NzI4NTksImV4cCI6MjA4NDA0ODg1OX0.oMELHAOPgOVDiFMopdYVBkmcaHvhHYPeDoEQZ8cM5B0";
+  return key;
+};
+
 export function useMaggieChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,15 +48,17 @@ export function useMaggieChat() {
 
     try {
       const allMessages = [...messages, userMsg];
+      const supabaseUrl = getSupabaseUrl();
+      const supabaseKey = getSupabaseKey();
       
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/maggie-chat`,
+        `${supabaseUrl}/functions/v1/maggie-chat`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "apikey": import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-            "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            "apikey": supabaseKey,
+            "Authorization": `Bearer ${supabaseKey}`,
           },
           body: JSON.stringify({ messages: allMessages }),
         }
