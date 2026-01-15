@@ -6,7 +6,7 @@ const MaggieProfile = () => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center mb-12">
       <div className="flex justify-center">
         <img 
-          src="/lovable-uploads/22798029-d558-453e-8673-fa3d5ec62840.png" 
+          src="/lovable-uploads/MaggieNewNBP.png" 
           alt="Maggie the dog" 
           className="rounded-full h-64 w-64 object-cover border-4 border-white shadow-lg" 
         />
