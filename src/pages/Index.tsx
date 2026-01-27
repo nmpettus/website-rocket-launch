@@ -14,6 +14,9 @@ import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
+import FloatingElements from "@/components/magical/FloatingElements";
+import MaggieMascot from "@/components/magical/MaggieMascot";
+import SoundToggle from "@/components/magical/SoundToggle";
 import { useSEO } from "@/hooks/useSEO";
 import { homeSEOData } from "@/data/seoData";
 
@@ -45,6 +48,9 @@ const Index = () => {
 
   return (
     <>
+      {/* Magical floating elements in background */}
+      <FloatingElements />
+      
       <Navigation />
       <Hero />
       <Books />
@@ -58,7 +64,11 @@ const Index = () => {
       <NewsLetter />
       <Contact />
       <Footer />
+      
+      {/* Interactive elements */}
       <BackToTopButton />
+      <MaggieMascot />
+      <SoundToggle />
       <ThemeSwitcher />
     </>
   );
