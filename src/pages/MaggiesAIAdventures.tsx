@@ -142,14 +142,31 @@ const MaggiesAIAdventures = () => {
                   <h2 className="text-xl font-display font-bold text-foreground">What You'll Learn</h2>
                 </div>
                 <p className="text-muted-foreground leading-relaxed mb-4">
-                  Join Maggie on an exciting journey into the world of Artificial Intelligence! 
-                  This magical adventure teaches kids that AI is a wonderful tool created by people, 
-                  and that God gives us the wisdom to use technology for good.
+                  Maggie the Yorkie and Riley the tech-curious kid team up with Artie the AI robot 
+                  to answer one big question: How do computers learn? Through laugh-out-loud moments 
+                  and mind-expanding discoveries, they unlock the secrets of pixels, patterns, and 
+                  what makes humans truly special! 🤖✨
                 </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  Perfect for curious minds ages 4-8, this book combines faith-based lessons with 
-                  fun, age-appropriate explanations of how AI works and helps us every day! 🤖✨
-                </p>
+                
+                {/* Key features */}
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary font-bold">✓</span>
+                    <span className="text-muted-foreground"><strong className="text-foreground">Real STEM concepts</strong> explained through story</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary font-bold">✓</span>
+                    <span className="text-muted-foreground"><strong className="text-foreground">Activities, QR codes,</strong> and parent discussion guides</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary font-bold">✓</span>
+                    <span className="text-muted-foreground">Covers <strong className="text-foreground">AI ethics and empathy</strong> (not just the tech)</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary font-bold">✓</span>
+                    <span className="text-muted-foreground">Perfect for <strong className="text-foreground">classroom use</strong> or family reading</span>
+                  </li>
+                </ul>
               </div>
 
               {/* Email signup */}
