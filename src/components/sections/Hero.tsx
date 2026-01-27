@@ -67,11 +67,11 @@ const Hero = () => {
               <span className="text-accent font-semibold"> learn and have fun together!</span> 🐾
             </p>
             
-            {/* CTA Buttons with Confetti */}
+            {/* CTA Buttons with 3D Effect */}
             <div className="flex flex-wrap gap-4">
               <ConfettiButton 
                 confettiType="cannon"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 px-8 rounded-full shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105 text-lg"
+                className="btn-3d bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 px-8 rounded-2xl text-lg border-0"
                 onClick={() => scrollToSection('books')}
               >
                 <BookOpen className="w-5 h-5 mr-2" />
@@ -79,8 +79,7 @@ const Hero = () => {
               </ConfettiButton>
               <ConfettiButton 
                 confettiType="stars"
-                variant="outline"
-                className="border-3 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-bold py-6 px-8 rounded-full transition-all duration-300 hover:scale-105 text-lg"
+                className="btn-3d-secondary bg-secondary hover:bg-secondary/90 text-secondary-foreground font-bold py-6 px-8 rounded-2xl text-lg border-0"
                 onClick={() => scrollToSection('write-to-maggie')}
               >
                 <Mail className="w-5 h-5 mr-2" />
@@ -92,7 +91,7 @@ const Hero = () => {
             <ConfettiButton 
               asChild
               confettiType="burst"
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-6 px-8 rounded-full shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105 text-lg w-full sm:w-auto"
+              className="btn-3d-accent bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-6 px-8 rounded-2xl text-lg w-full sm:w-auto border-0"
             >
               <Link to="/ask-maggie">
                 <MessageCircle className="w-5 h-5 mr-2" />

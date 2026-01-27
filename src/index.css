@@ -5,53 +5,54 @@
 
 @layer base {
   /* ============================================
-     THEME 1: Classic Storybook (Default)
-     Elegant, timeless, warm & refined
+     DEFAULT THEME: Purple Magic ✨
+     Magical purple, gold sparkles, pink accents
+     Fredoka + Quicksand fonts, Playful 3D buttons
      ============================================ */
   :root,
   [data-theme="storybook"] {
-    --background: 45 33% 98%;
-    --foreground: 200 12% 19%;
+    --background: 270 60% 98%;
+    --foreground: 280 50% 18%;
     
-    --card: 45 33% 98%;
-    --card-foreground: 200 12% 19%;
+    --card: 0 0% 100%;
+    --card-foreground: 280 50% 18%;
     
-    --popover: 45 33% 98%;
-    --popover-foreground: 200 12% 19%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 280 50% 18%;
     
-    --primary: 131 25% 50%;
-    --primary-foreground: 45 33% 98%;
+    --primary: 275 80% 55%;
+    --primary-foreground: 0 0% 100%;
     
-    --secondary: 0 28% 70%;
-    --secondary-foreground: 200 12% 19%;
+    --secondary: 340 75% 55%;
+    --secondary-foreground: 0 0% 100%;
     
-    --accent: 43 75% 48%;
-    --accent-foreground: 200 12% 19%;
+    --accent: 45 100% 50%;
+    --accent-foreground: 280 50% 18%;
     
-    --muted: 45 20% 93%;
-    --muted-foreground: 200 8% 45%;
+    --muted: 270 30% 94%;
+    --muted-foreground: 280 25% 45%;
     
     --destructive: 0 84% 60%;
-    --destructive-foreground: 45 33% 98%;
+    --destructive-foreground: 0 0% 100%;
     
-    --border: 45 15% 85%;
-    --input: 45 15% 85%;
-    --ring: 131 25% 50%;
+    --border: 275 40% 88%;
+    --input: 275 40% 88%;
+    --ring: 275 80% 55%;
     
-    --radius: 0.75rem;
+    --radius: 1rem;
     
-    --cream: 45 33% 98%;
-    --sage: 131 25% 50%;
-    --sage-light: 131 25% 92%;
-    --rose: 0 28% 70%;
-    --rose-light: 0 28% 94%;
-    --gold: 43 75% 48%;
-    --gold-light: 43 75% 92%;
-    --lavender: 270 30% 92%;
-    --sky: 200 50% 94%;
+    --cream: 270 60% 98%;
+    --sage: 275 80% 55%;
+    --sage-light: 275 60% 92%;
+    --rose: 340 75% 60%;
+    --rose-light: 340 75% 94%;
+    --gold: 45 100% 50%;
+    --gold-light: 45 100% 92%;
+    --lavender: 280 60% 92%;
+    --sky: 200 80% 92%;
     
-    --font-heading: 'Playfair Display', serif;
-    --font-body: 'Lato', sans-serif;
+    --font-heading: 'Fredoka', sans-serif;
+    --font-body: 'Quicksand', sans-serif;
   }
 
   /* ============================================
@@ -419,5 +420,60 @@
   
   .gradient-section-alt {
     background: linear-gradient(180deg, hsl(var(--cream)) 0%, hsl(var(--lavender)) 100%);
+  }
+  
+  /* Playful 3D Button Style */
+  .btn-3d {
+    @apply relative transform transition-all duration-150;
+    box-shadow: 0 6px 0 hsl(var(--primary) / 0.7), 
+                0 8px 15px hsl(var(--primary) / 0.3);
+  }
+  
+  .btn-3d:hover {
+    @apply -translate-y-0.5;
+    box-shadow: 0 8px 0 hsl(var(--primary) / 0.7), 
+                0 12px 20px hsl(var(--primary) / 0.3);
+  }
+  
+  .btn-3d:active {
+    @apply translate-y-1;
+    box-shadow: 0 2px 0 hsl(var(--primary) / 0.7), 
+                0 4px 8px hsl(var(--primary) / 0.3);
+  }
+  
+  .btn-3d-secondary {
+    @apply relative transform transition-all duration-150;
+    box-shadow: 0 6px 0 hsl(var(--secondary) / 0.7), 
+                0 8px 15px hsl(var(--secondary) / 0.3);
+  }
+  
+  .btn-3d-secondary:hover {
+    @apply -translate-y-0.5;
+    box-shadow: 0 8px 0 hsl(var(--secondary) / 0.7), 
+                0 12px 20px hsl(var(--secondary) / 0.3);
+  }
+  
+  .btn-3d-secondary:active {
+    @apply translate-y-1;
+    box-shadow: 0 2px 0 hsl(var(--secondary) / 0.7), 
+                0 4px 8px hsl(var(--secondary) / 0.3);
+  }
+  
+  .btn-3d-accent {
+    @apply relative transform transition-all duration-150;
+    box-shadow: 0 6px 0 hsl(var(--accent) / 0.8), 
+                0 8px 15px hsl(var(--accent) / 0.3);
+  }
+  
+  .btn-3d-accent:hover {
+    @apply -translate-y-0.5;
+    box-shadow: 0 8px 0 hsl(var(--accent) / 0.8), 
+                0 12px 20px hsl(var(--accent) / 0.3);
+  }
+  
+  .btn-3d-accent:active {
+    @apply translate-y-1;
+    box-shadow: 0 2px 0 hsl(var(--accent) / 0.8), 
+                0 4px 8px hsl(var(--accent) / 0.3);
   }
 }
