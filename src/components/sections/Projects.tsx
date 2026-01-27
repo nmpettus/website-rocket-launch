@@ -9,49 +9,11 @@ const Projects = () => {
       <div className="container mx-auto px-6">
         <h2 className="text-4xl font-extrabold text-center mb-12 text-gray-800 font-['Comic_Neue']">Maggie's Faith-Based Projects for Children and Families</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Project 1 - Maggie's AI Adventures */}
-          <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300">
-            <div className="bg-blue-500 bg-opacity-10 text-blue-500 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-              <span className="text-xl">1</span>
-            </div>
-            <div className="flex flex-col items-center mb-4">
-              <Dialog>
-                <DialogTrigger className="relative group">
-                  <img 
-                    src="/lovable-uploads/6fbae857-85fa-459d-a309-a8c44e28ebc0.png" 
-                    alt="Maggie's AI Adventures book cover" 
-                    className="w-full h-48 object-contain mb-4 cursor-pointer transition-all group-hover:opacity-90" 
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="bg-black bg-opacity-40 p-2 rounded-full">
-                      <Image className="w-6 h-6 text-white" />
-                    </div>
-                  </div>
-                </DialogTrigger>
-                <DialogContent className="max-w-2xl p-2">
-                  <DialogTitle>Maggie's AI Adventures</DialogTitle>
-                  <img 
-                    src="/lovable-uploads/6fbae857-85fa-459d-a309-a8c44e28ebc0.png" 
-                    alt="Maggie's AI Adventures book cover" 
-                    className="w-full object-contain max-h-[80vh]" 
-                  />
-                </DialogContent>
-              </Dialog>
-              <h3 className="text-xl font-bold text-gray-800 text-center">Maggie's AI Adventures</h3>
-              <p className="text-sm text-gray-600 text-center mt-1">A Complete Family Guide to Understanding Artificial Intelligence</p>
-            </div>
-            <p className="text-gray-600 mb-4">A fun, engaging introduction to artificial intelligence for the whole family! Expected release: November 2025.</p>
-            <div className="w-full bg-gray-200 rounded-full h-2.5">
-              <div className="bg-blue-500 h-2.5 rounded-full" style={{width: "55%"}}></div>
-            </div>
-            <p className="text-sm text-gray-500 mt-2">55% complete</p>
-          </div>
-          
-          {/* Project 2 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Project 1 - Divine Protocol */}
           <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300">
             <div className="bg-emerald-500 bg-opacity-10 text-emerald-500 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-              <span className="text-xl">2</span>
+              <span className="text-xl">1</span>
             </div>
             <div className="flex flex-col items-center mb-4">
               <Dialog>
@@ -85,10 +47,10 @@ const Projects = () => {
             <p className="text-sm text-gray-500 mt-2">15% complete</p>
           </div>
 
-          {/* Project 3 - Bible Heroes */}
+          {/* Project 2 - Bible Heroes */}
           <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300">
             <div className="bg-amber-500 bg-opacity-10 text-amber-500 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-              <span className="text-xl">3</span>
+              <span className="text-xl">2</span>
             </div>
             <div className="flex flex-col items-center mb-4">
               <Dialog>
