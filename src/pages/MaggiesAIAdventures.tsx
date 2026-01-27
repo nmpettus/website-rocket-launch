@@ -133,68 +133,68 @@ const MaggiesAIAdventures = () => {
             </div>
           </div>
 
-          {/* Book description and signup */}
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div className="flex flex-col justify-center space-y-6">
-              <div className="bg-card/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border-2 border-primary/20">
-                <div className="flex items-center gap-2 mb-4">
-                  <BookOpen className="w-6 h-6 text-primary" />
-                  <h2 className="text-xl font-display font-bold text-foreground">What You'll Learn</h2>
-                </div>
-                <p className="text-muted-foreground leading-relaxed mb-4">
-                  Maggie the Yorkie and Riley the tech-curious kid team up with Artie the AI robot 
-                  to answer one big question: How do computers learn? Through laugh-out-loud moments 
-                  and mind-expanding discoveries, they unlock the secrets of pixels, patterns, and 
-                  what makes humans truly special! 🤖✨
-                </p>
-                
-                {/* Key features */}
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold">✓</span>
-                    <span className="text-muted-foreground"><strong className="text-foreground">Real STEM concepts</strong> explained through story</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold">✓</span>
-                    <span className="text-muted-foreground"><strong className="text-foreground">Activities, QR codes,</strong> and parent discussion guides</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold">✓</span>
-                    <span className="text-muted-foreground">Covers <strong className="text-foreground">AI ethics and empathy</strong> (not just the tech)</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold">✓</span>
-                    <span className="text-muted-foreground">Perfect for <strong className="text-foreground">classroom use</strong> or family reading</span>
-                  </li>
-                </ul>
+          {/* Book description - full width */}
+          <div className="mb-8">
+            <div className="bg-card/80 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-lg border-2 border-primary/20">
+              <div className="flex items-center gap-2 mb-4">
+                <BookOpen className="w-6 h-6 text-primary" />
+                <h2 className="text-xl font-display font-bold text-foreground">What You'll Learn</h2>
               </div>
+              <p className="text-muted-foreground leading-relaxed mb-6 text-lg">
+                Maggie the Yorkie and Riley the tech-curious kid team up with Artie the AI robot 
+                to answer one big question: How do computers learn? Through laugh-out-loud moments 
+                and mind-expanding discoveries, they unlock the secrets of pixels, patterns, and 
+                what makes humans truly special! 🤖✨
+              </p>
+              
+              {/* Key features - 2 column grid on larger screens */}
+              <ul className="grid sm:grid-cols-2 gap-4">
+                <li className="flex items-start gap-3 bg-primary/5 rounded-xl p-4">
+                  <span className="text-primary font-bold text-lg">✓</span>
+                  <span className="text-muted-foreground"><strong className="text-foreground">Real STEM concepts</strong> explained through story</span>
+                </li>
+                <li className="flex items-start gap-3 bg-primary/5 rounded-xl p-4">
+                  <span className="text-primary font-bold text-lg">✓</span>
+                  <span className="text-muted-foreground"><strong className="text-foreground">Activities, QR codes,</strong> and parent discussion guides</span>
+                </li>
+                <li className="flex items-start gap-3 bg-primary/5 rounded-xl p-4">
+                  <span className="text-primary font-bold text-lg">✓</span>
+                  <span className="text-muted-foreground">Covers <strong className="text-foreground">AI ethics and empathy</strong> (not just the tech)</span>
+                </li>
+                <li className="flex items-start gap-3 bg-primary/5 rounded-xl p-4">
+                  <span className="text-primary font-bold text-lg">✓</span>
+                  <span className="text-muted-foreground">Perfect for <strong className="text-foreground">classroom use</strong> or family reading</span>
+                </li>
+              </ul>
+            </div>
+          </div>
 
-              {/* Email signup */}
-              <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl p-6 border-2 border-primary/30">
-                <div className="flex items-center gap-2 mb-4">
-                  <Mail className="w-6 h-6 text-accent" />
-                  <h3 className="text-lg font-display font-bold text-foreground">Be the First to Know!</h3>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Sign up to get notified when the book launches and receive exclusive early-bird offers!
-                </p>
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-                  <Input
-                    type="email"
-                    placeholder="Enter your email..."
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="flex-1 bg-background/80"
-                  />
-                  <Button 
-                    type="submit" 
-                    disabled={isSubmitting}
-                    className="btn-3d bg-primary hover:bg-primary/90 text-primary-foreground font-bold"
-                  >
-                    {isSubmitting ? "Signing up..." : "Notify Me! 🔔"}
-                  </Button>
-                </form>
+          {/* Email signup - full width */}
+          <div className="mb-12">
+            <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl p-6 md:p-8 border-2 border-primary/30">
+              <div className="flex items-center gap-2 mb-4">
+                <Mail className="w-6 h-6 text-accent" />
+                <h3 className="text-xl font-display font-bold text-foreground">Be the First to Know!</h3>
               </div>
+              <p className="text-muted-foreground mb-4">
+                Sign up to get notified when the book launches and receive exclusive early-bird offers!
+              </p>
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-xl">
+                <Input
+                  type="email"
+                  placeholder="Enter your email..."
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 bg-background/80"
+                />
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="btn-3d bg-primary hover:bg-primary/90 text-primary-foreground font-bold"
+                >
+                  {isSubmitting ? "Signing up..." : "Notify Me! 🔔"}
+                </Button>
+              </form>
             </div>
           </div>
 
