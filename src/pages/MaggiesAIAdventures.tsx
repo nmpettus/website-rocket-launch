@@ -18,7 +18,7 @@ const MaggiesAIAdventures = () => {
   });
 
   // Set launch date - adjust as needed
-  const launchDate = new Date("2025-03-01T00:00:00");
+  const launchDate = new Date("2025-02-12T00:00:00");
 
   useSEO({
     title: "Maggie's AI Adventures - Coming Soon! | Books by Maggie",
