@@ -107,13 +107,13 @@ const BookCard = ({
       className="group overflow-hidden bg-white border-0 shadow-elegant hover:shadow-lg transition-all duration-500 flex flex-col h-full relative rounded-2xl"
       onMouseEnter={handleMouseEnter}
     >
-      {/* Badge */}
+      {/* Badge - positioned to not overlap with cover image */}
       {comingSoon ? (
-        <Badge className="absolute top-4 right-4 z-10 bg-gold hover:bg-gold-dark text-charcoal font-medium px-3 py-1">
+        <Badge className="absolute top-3 left-4 z-20 bg-gold hover:bg-gold-dark text-charcoal font-medium px-3 py-1 shadow-md">
           Coming Soon
         </Badge>
       ) : isNew ? (
-        <Badge className="absolute top-4 right-4 z-10 bg-rose hover:bg-rose-dark text-white font-medium px-3 py-1">
+        <Badge className="absolute top-3 left-4 z-20 bg-rose hover:bg-rose-dark text-white font-medium px-3 py-1 shadow-md">
           New Release
         </Badge>
       ) : null}
