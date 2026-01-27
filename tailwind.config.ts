@@ -191,6 +191,14 @@ const config = {
           "50%": { transform: "rotate(-15deg)" },
           "75%": { transform: "rotate(20deg)" }
         },
+        "paw-appear": {
+          "0%": { opacity: "0", transform: "scale(0) translateY(20px)" },
+          "100%": { opacity: "0.6", transform: "scale(1) translateY(0)" }
+        },
+        "paw-fade": {
+          "0%": { opacity: "0.6" },
+          "100%": { opacity: "0" }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
