@@ -122,27 +122,8 @@ const MaggieMascot = () => {
                 src="/lovable-uploads/MaggieNewNBP.png" 
                 alt="Maggie the dog mascot"
                 className="w-full h-full object-cover object-top"
-              />
+            />
             </div>
-            
-            {/* Animated tail */}
-            <div className="absolute -bottom-2 -right-3 text-2xl animate-tail-wag origin-left">
-              🐕‍🦺
-            </div>
-            
-            {/* Wagging tail visual (curved line) */}
-            <svg 
-              className="absolute -bottom-1 -right-4 w-8 h-6 animate-tail-wag origin-left"
-              viewBox="0 0 32 24"
-            >
-              <path 
-                d="M4 12 Q16 4, 28 8 Q32 10, 30 14"
-                stroke="hsl(var(--primary))"
-                strokeWidth="4"
-                strokeLinecap="round"
-                fill="none"
-              />
-            </svg>
             
             {/* Sparkle effects */}
             <div className="absolute -top-1 -right-1 text-xl animate-sparkle">✨</div>
