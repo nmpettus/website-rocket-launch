@@ -200,27 +200,43 @@ const MaggiesAIAdventures = () => {
 
           {/* Author section */}
           <div className="bg-card/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg border-2 border-secondary/30">
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-secondary/30 to-primary/30 rounded-full blur-lg opacity-50" />
+            <div className="flex flex-col items-center gap-8">
+              <div className="relative w-full max-w-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-secondary/30 to-primary/30 rounded-2xl blur-lg opacity-50" />
                 <img
-                  src="/lovable-uploads/norm-and-maggie.jpeg"
-                  alt="Norm and Maggie"
-                  className="relative w-48 h-48 md:w-56 md:h-56 rounded-full object-cover shadow-xl border-4 border-secondary/50"
+                  src="/lovable-uploads/our-team.jpeg"
+                  alt="The Team: Norm, Marianna, Doreen, and Maggie the Yorkie"
+                  className="relative w-full rounded-2xl shadow-xl border-4 border-secondary/50"
                 />
               </div>
-              <div className="text-center md:text-left">
-                <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-2">
                   <Heart className="w-5 h-5 text-secondary animate-heartbeat" />
                   <span className="text-sm font-medium text-secondary">Meet the Team</span>
                 </div>
-                <h3 className="text-2xl font-display font-bold text-foreground mb-3">
-                  Norm & Maggie
+                <h3 className="text-2xl font-display font-bold text-foreground mb-4">
+                  The Family Behind the Stories
                 </h3>
-                <p className="text-muted-foreground leading-relaxed max-w-md">
-                  Norm and his adorable pup Maggie work together to create faith-filled adventures 
-                  that spark curiosity and wonder in young readers. When they're not writing, 
-                  you can find them exploring new ideas and sharing God's love through stories! 🐾💜
+                <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto text-left">
+                  <div className="bg-primary/5 rounded-xl p-4">
+                    <p className="font-bold text-foreground">Norm</p>
+                    <p className="text-muted-foreground text-sm">Author & storyteller who brings faith-filled adventures to life</p>
+                  </div>
+                  <div className="bg-primary/5 rounded-xl p-4">
+                    <p className="font-bold text-foreground">Marianna</p>
+                    <p className="text-muted-foreground text-sm">Wife & creative partner who keeps the inspiration flowing</p>
+                  </div>
+                  <div className="bg-primary/5 rounded-xl p-4">
+                    <p className="font-bold text-foreground">Doreen</p>
+                    <p className="text-muted-foreground text-sm">Daughter & collaborator who helps bring fresh ideas to each story</p>
+                  </div>
+                  <div className="bg-primary/5 rounded-xl p-4">
+                    <p className="font-bold text-foreground">Maggie 🐾</p>
+                    <p className="text-muted-foreground text-sm">The adorable Yorkie star & heart of every adventure</p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground leading-relaxed max-w-xl mx-auto mt-4">
+                  Together, this family creates faith-filled adventures that spark curiosity and wonder in young readers! 💜
                 </p>
               </div>
             </div>
