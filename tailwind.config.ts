@@ -114,11 +114,67 @@ const config = {
         },
         "float": {
           "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-10px)" }
+          "50%": { transform: "translateY(-15px)" }
+        },
+        "float-up": {
+          "0%": { transform: "translateY(100vh) rotate(0deg)", opacity: "0" },
+          "10%": { opacity: "0.8" },
+          "90%": { opacity: "0.8" },
+          "100%": { transform: "translateY(-100px) rotate(360deg)", opacity: "0" }
         },
         "gentle-bounce": {
           "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" }
+        },
+        "bounce-big": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-30px)" }
+        },
+        "bounce-in": {
+          "0%": { transform: "scale(0) translateY(50px)", opacity: "0" },
+          "60%": { transform: "scale(1.1) translateY(-10px)" },
+          "100%": { transform: "scale(1) translateY(0)", opacity: "1" }
+        },
+        "wiggle": {
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" }
+        },
+        "wave": {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(10deg)" },
+          "75%": { transform: "rotate(-10deg)" }
+        },
+        "wave-text": {
+          "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-5px)" }
+        },
+        "sparkle": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.5", transform: "scale(0.8)" }
+        },
+        "heartbeat": {
+          "0%, 100%": { transform: "scale(1)" },
+          "25%": { transform: "scale(1.1)" },
+          "50%": { transform: "scale(1)" },
+          "75%": { transform: "scale(1.15)" }
+        },
+        "blob": {
+          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
+          "25%": { transform: "translate(20px, -30px) scale(1.1)" },
+          "50%": { transform: "translate(-20px, 20px) scale(0.9)" },
+          "75%": { transform: "translate(30px, 10px) scale(1.05)" }
+        },
+        "spin-slow": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" }
+        },
+        "ping-slow": {
+          "0%": { transform: "scale(1)", opacity: "0.5" },
+          "75%, 100%": { transform: "scale(1.3)", opacity: "0" }
+        },
+        "pulse-slow": {
+          "0%, 100%": { opacity: "0.4" },
+          "50%": { opacity: "0.8" }
         },
       },
       animation: {
@@ -126,8 +182,20 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.3s ease-out",
         "fade-out": "fade-out 0.3s ease-out",
-        "float": "float 3s ease-in-out infinite",
-        "gentle-bounce": "gentle-bounce 2s ease-in-out infinite",
+        "float": "float 4s ease-in-out infinite",
+        "float-up": "float-up 20s linear infinite",
+        "gentle-bounce": "gentle-bounce 2.5s ease-in-out infinite",
+        "bounce-big": "bounce-big 0.8s ease-in-out infinite",
+        "bounce-in": "bounce-in 0.6s ease-out",
+        "wiggle": "wiggle 0.5s ease-in-out infinite",
+        "wave": "wave 1s ease-in-out infinite",
+        "wave-text": "wave-text 2s ease-in-out infinite",
+        "sparkle": "sparkle 1.5s ease-in-out infinite",
+        "heartbeat": "heartbeat 1.5s ease-in-out infinite",
+        "blob": "blob 8s ease-in-out infinite",
+        "spin-slow": "spin-slow 20s linear infinite",
+        "ping-slow": "ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "pulse-slow": "pulse-slow 3s ease-in-out infinite",
       },
       borderRadius: {
         "xl": "1rem",

@@ -18,9 +18,9 @@ const themes = [
   },
   {
     id: 'playful',
-    name: 'Bubbly Playful',
-    description: 'Fun rounded fonts, bright purple & yellow',
-    colors: ['#E0FFFF', '#A855F7', '#FFD700', '#EC4899'],
+    name: '✨ Magical Storybook',
+    description: 'Sparkly purple & gold, enchanting & fun!',
+    colors: ['#F5E6FF', '#9333EA', '#FF6B9D', '#FFD700'],
     fontPreview: 'Fredoka',
   },
   {
@@ -81,10 +81,10 @@ export const ThemeSwitcher = () => {
         <Button
           variant="outline"
           size="sm"
-          className="fixed bottom-4 right-4 z-50 gap-2 shadow-lg bg-background/95 backdrop-blur-sm border-2 border-primary/30 hover:border-primary hover:scale-105 transition-all"
+          className="fixed bottom-4 right-4 z-50 gap-2 shadow-lg bg-background/95 backdrop-blur-sm border-2 border-primary/30 hover:border-primary hover:scale-105 transition-all rounded-full"
         >
-          <Sparkles className="h-4 w-4" />
-          <span className="hidden sm:inline">Try Themes</span>
+          <Sparkles className="h-4 w-4 text-accent" />
+          <span className="hidden sm:inline text-foreground">✨ Themes</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80 p-2">
