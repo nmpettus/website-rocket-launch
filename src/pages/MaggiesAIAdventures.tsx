@@ -121,21 +121,20 @@ const MaggiesAIAdventures = () => {
             <CountdownBox value={timeLeft.seconds} label="Secs" />
           </div>
 
-          {/* Book cover and content */}
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {/* Book cover */}
-            <div className="flex justify-center">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-3xl blur-xl opacity-50" />
-                <img
-                  src="/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png"
-                  alt="AI Adventures with Maggie Book Cover"
-                  className="relative w-full max-w-sm rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
-                />
-              </div>
+          {/* Book cover - full spread with front and back */}
+          <div className="mb-12">
+            <div className="relative max-w-4xl mx-auto">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-3xl blur-xl opacity-50" />
+              <img
+                src="/lovable-uploads/ai-adventures-cover-full.png"
+                alt="Maggie's AI Adventure - Full Book Cover with Front and Back"
+                className="relative w-full rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-300"
+              />
             </div>
+          </div>
 
-            {/* Book description */}
+          {/* Book description and signup */}
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
             <div className="flex flex-col justify-center space-y-6">
               <div className="bg-card/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border-2 border-primary/20">
                 <div className="flex items-center gap-2 mb-4">
