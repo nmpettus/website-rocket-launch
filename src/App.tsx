@@ -10,6 +10,7 @@ import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
 import SubscribersList from "./pages/SubscribersList";
 import AskMaggie from "./pages/AskMaggie";
+import MaggiesAIAdventures from "./pages/MaggiesAIAdventures";
 import AIAdventuresBook from "./pages/books/AIAdventuresBook";
 import CreationBook from "./pages/books/CreationBook";
 import GodsLoveBook from "./pages/books/GodsLoveBook";
@@ -29,6 +30,7 @@ const App = () => (
         <Route path="/videos" element={<Videos />} />
         <Route path="/chapter-zero" element={<ChapterZero />} />
         <Route path="/ask-maggie" element={<AskMaggie />} />
+        <Route path="/maggies-ai-adventures" element={<MaggiesAIAdventures />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/cookie-policy" element={<CookiePolicy />} />
