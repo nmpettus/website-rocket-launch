@@ -17,6 +17,7 @@ import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import FloatingElements from "@/components/magical/FloatingElements";
 import MaggieMascot from "@/components/magical/MaggieMascot";
 import SoundToggle from "@/components/magical/SoundToggle";
+import LaunchBanner from "@/components/LaunchBanner";
 import { useSEO } from "@/hooks/useSEO";
 import { homeSEOData } from "@/data/seoData";
 
@@ -48,6 +49,9 @@ const Index = () => {
 
   return (
     <>
+      {/* Launch announcement banner */}
+      <LaunchBanner />
+      
       {/* Magical floating elements in background */}
       <FloatingElements />
       
