@@ -185,6 +185,12 @@ const config = {
           "80%": { transform: "translateY(-10px) rotate(1deg)" },
           "100%": { transform: "translateY(0) rotate(0deg)" }
         },
+        "tail-wag": {
+          "0%, 100%": { transform: "rotate(-20deg)" },
+          "25%": { transform: "rotate(25deg)" },
+          "50%": { transform: "rotate(-15deg)" },
+          "75%": { transform: "rotate(20deg)" }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -206,6 +212,7 @@ const config = {
         "ping-slow": "ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite",
         "pulse-slow": "pulse-slow 3s ease-in-out infinite",
         "maggie-jump": "maggie-jump 0.6s ease-out",
+        "tail-wag": "tail-wag 0.4s ease-in-out infinite",
       },
       borderRadius: {
         "xl": "1rem",
