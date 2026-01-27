@@ -163,7 +163,7 @@ const MaggiesAIAdventures = () => {
                 </li>
                 <li className="flex items-start gap-3 bg-primary/5 rounded-xl p-4">
                   <span className="text-primary font-bold text-lg">✓</span>
-                  <span className="text-muted-foreground">Perfect for <strong className="text-foreground">classroom use</strong> or family reading</span>
+                  <span className="text-muted-foreground">Perfect for <strong className="text-foreground">homeschoolers, classroom use,</strong> or family reading</span>
                 </li>
               </ul>
             </div>
