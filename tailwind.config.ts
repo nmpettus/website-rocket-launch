@@ -88,12 +88,13 @@ const config = {
         },
       },
       fontFamily: {
-        sans: ["Lato", ...fontFamily.sans],
-        display: ["Playfair Display", "serif"],
-        playful: ["Comic Neue", "cursive"],
+        sans: ["Quicksand", ...fontFamily.sans],
+        display: ["Fredoka", "sans-serif"],
+        heading: ["Fredoka", "sans-serif"],
+        body: ["Quicksand", "sans-serif"],
+        playful: ["Fredoka", "sans-serif"],
         fredoka: ["Fredoka", "sans-serif"],
-        lato: ["Lato", "sans-serif"],
-        lora: ["Playfair Display", "serif"],
+        quicksand: ["Quicksand", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {

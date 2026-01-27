@@ -11,16 +11,16 @@ import {
 const themes = [
   {
     id: 'storybook',
-    name: 'Classic Storybook',
-    description: 'Elegant serif fonts, warm cream & sage',
-    colors: ['#FFFEF5', '#6B9B6B', '#D4A5A5', '#D4AF37'],
-    fontPreview: 'Playfair Display',
+    name: '✨ Purple Magic',
+    description: 'Magical purple, gold sparkles & pink accents',
+    colors: ['#F5E6FF', '#9333EA', '#EC4899', '#FFD700'],
+    fontPreview: 'Fredoka',
   },
   {
     id: 'playful',
-    name: '✨ Magical Storybook',
-    description: 'Sparkly purple & gold, enchanting & fun!',
-    colors: ['#F5E6FF', '#9333EA', '#FF6B9D', '#FFD700'],
+    name: '🌈 Rainbow Joy',
+    description: 'Sky blue, sunshine yellow & coral',
+    colors: ['#E0F7FF', '#0EA5E9', '#FFD700', '#FF6B6B'],
     fontPreview: 'Fredoka',
   },
   {
