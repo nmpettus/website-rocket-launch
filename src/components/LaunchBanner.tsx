@@ -6,7 +6,7 @@ const LaunchBanner = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [daysLeft, setDaysLeft] = useState(0);
 
-  const launchDate = new Date("2025-02-12T00:00:00");
+  const launchDate = new Date("2026-02-12T00:00:00");
 
   useEffect(() => {
     const now = new Date().getTime();
