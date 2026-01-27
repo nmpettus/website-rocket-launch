@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent } from "@/components/ui/card";
@@ -47,6 +47,26 @@ const BookCard = ({
   onImageClick,
   onOpenSample,
 }: BookCardProps) => {
+  const [isJumping, setIsJumping] = useState(false);
+  const barkAudioRef = useRef<HTMLAudioElement | null>(null);
+  const isAIAdventures = bookId === "ai-adventures";
+
+  const handleMouseEnter = () => {
+    if (isAIAdventures) {
+      setIsJumping(true);
+      // Play bark sound
+      if (!barkAudioRef.current) {
+        barkAudioRef.current = new Audio("data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2teleAN2xN3teleAJ3y7yre0ol94YWx7hImCc11SY4CVnpN6Xk5ZfJahnI1yYWJwfoKAbmlhZ3V9goB4bmRlcHh7eXRsZWZrcHJxbmpmZmlrbGxqaGZmaGhoZ2ZlZGRkZGRjYmFhYWFhYGBfX19fX19eXl5eXl5dXV1dXV1cXFxcXFxbW1tbW1taWlpaWlpZWVlZWVlZWFhYWFhYV1dXV1dXV1ZWVlZWVlZVVVVVVVVVVFRUVFRUU1NTU1NTU1JSUlJSUlFRUVFRUVBQUFBQUE9PT09PT09OTk5OTk5NTU1NTU1MTExMTExLS0tLS0tKSkpKSkpJSUlJSUlISEhISEhHR0dHR0dGRkZGRkZFRUVFRUVEREREREQ=");
+      }
+      barkAudioRef.current.currentTime = 0;
+      barkAudioRef.current.volume = 0.3;
+      barkAudioRef.current.play().catch(() => {}); // Catch any autoplay restrictions
+      
+      // Reset animation after it completes
+      setTimeout(() => setIsJumping(false), 600);
+    }
+  };
+
   // Map language names to their respective badge colors
   const languageColors: Record<string, string> = {
     English: "bg-sage text-white",
@@ -83,7 +103,10 @@ const BookCard = ({
   const bookRoute = getBookRoute(bookId);
 
   return (
-    <Card className="group overflow-hidden bg-white border-0 shadow-elegant hover:shadow-lg transition-all duration-500 flex flex-col h-full relative rounded-2xl">
+    <Card 
+      className="group overflow-hidden bg-white border-0 shadow-elegant hover:shadow-lg transition-all duration-500 flex flex-col h-full relative rounded-2xl"
+      onMouseEnter={handleMouseEnter}
+    >
       {/* Badge */}
       {comingSoon ? (
         <Badge className="absolute top-4 right-4 z-10 bg-gold hover:bg-gold-dark text-charcoal font-medium px-3 py-1">
@@ -101,9 +124,15 @@ const BookCard = ({
           <img 
             src={coverImage}
             alt={`${formattedTitle} Book Cover`}
-            className="max-h-72 w-auto rounded-lg object-contain cursor-pointer shadow-book transition-transform duration-300 group-hover:scale-[1.02]"
+            className={`max-h-72 w-auto rounded-lg object-contain cursor-pointer shadow-book transition-transform duration-300 group-hover:scale-[1.02] ${isJumping ? 'animate-maggie-jump' : ''}`}
             onClick={() => onImageClick(coverImage)}
           />
+          {/* Bark speech bubble */}
+          {isJumping && isAIAdventures && (
+            <div className="absolute -top-2 -right-2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-bold animate-bounce-in shadow-lg">
+              Woof! 🐾
+            </div>
+          )}
         </div>
       </div>
       

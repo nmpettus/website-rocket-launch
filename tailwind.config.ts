@@ -177,6 +177,14 @@ const config = {
           "0%, 100%": { opacity: "0.4" },
           "50%": { opacity: "0.8" }
         },
+        "maggie-jump": {
+          "0%": { transform: "translateY(0) rotate(0deg)" },
+          "20%": { transform: "translateY(-25px) rotate(-5deg)" },
+          "40%": { transform: "translateY(-35px) rotate(3deg)" },
+          "60%": { transform: "translateY(-20px) rotate(-2deg)" },
+          "80%": { transform: "translateY(-10px) rotate(1deg)" },
+          "100%": { transform: "translateY(0) rotate(0deg)" }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -197,6 +205,7 @@ const config = {
         "spin-slow": "spin-slow 20s linear infinite",
         "ping-slow": "ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite",
         "pulse-slow": "pulse-slow 3s ease-in-out infinite",
+        "maggie-jump": "maggie-jump 0.6s ease-out",
       },
       borderRadius: {
         "xl": "1rem",
