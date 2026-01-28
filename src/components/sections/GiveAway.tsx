@@ -42,12 +42,12 @@ const giveawayPhotos = [
 
 const GiveAway = () => {
   return (
-    <section id="kids" className="py-16 bg-gradient-to-br from-purple-50 to-pink-50">
+    <section id="kids" className="py-16 bg-gradient-to-br from-lavender to-rose-light">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center mb-4 text-gray-800 font-['Comic_Neue']">
+        <h2 className="text-4xl font-extrabold text-center mb-4 text-foreground font-display">
           Loved by Kids – Maggie's Heartfelt Christian Books
         </h2>
-        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
+        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
           See how children around the world are enjoying Maggie's Bible stories! From bedtime reading to family adventures, these precious moments show the joy our books bring to young readers.
         </p>
         
@@ -63,7 +63,7 @@ const GiveAway = () => {
                   />
                 </div>
                 <div className="p-6">
-                  <p className="text-gray-700 text-sm leading-relaxed">
+                  <p className="text-card-foreground text-sm leading-relaxed">
                     {photo.caption}
                   </p>
                 </div>
@@ -73,7 +73,7 @@ const GiveAway = () => {
         </div>
         
         <div className="text-center mt-12">
-          <p className="text-gray-600 italic">
+          <p className="text-muted-foreground italic">
             Want to share your child's reading moment with Maggie's books? 
             <br />
             Send us your photos and we might feature them here!

@@ -29,12 +29,12 @@ const Activities = () => {
   const categories = getActivities();
 
   return (
-    <section id="activities" className="py-8 bg-white">
+    <section id="activities" className="py-8 bg-card">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center mb-2 text-gray-800 font-['Comic_Neue']">
+        <h2 className="text-4xl font-extrabold text-center mb-2 text-foreground font-display">
           Fun Activities
         </h2>
-        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-6">
+        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-6">
           Engage in fun and educational activities that bring the Bible to life!
         </p>
         {/* Updated grid classes for responsiveness and gap */}
