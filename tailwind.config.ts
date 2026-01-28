@@ -17,26 +17,24 @@ const config = {
     },
     extend: {
       colors: {
-        /* Polished Storybook Palette */
-        cream: "hsl(45, 33%, 98%)",
+        /* Theme-aware palette using CSS variables */
+        cream: "hsl(var(--cream))",
         sage: {
-          DEFAULT: "hsl(131, 25%, 63%)",
-          light: "hsl(131, 25%, 90%)",
-          dark: "hsl(131, 25%, 45%)",
+          DEFAULT: "hsl(var(--sage))",
+          light: "hsl(var(--sage-light))",
+          dark: "hsl(var(--sage-dark))",
         },
         rose: {
-          DEFAULT: "hsl(0, 28%, 75%)",
-          light: "hsl(0, 28%, 92%)",
-          dark: "hsl(0, 28%, 55%)",
+          DEFAULT: "hsl(var(--rose))",
+          light: "hsl(var(--rose-light))",
         },
         gold: {
-          DEFAULT: "hsl(43, 65%, 52%)",
-          light: "hsl(43, 65%, 90%)",
-          dark: "hsl(43, 65%, 40%)",
+          DEFAULT: "hsl(var(--gold))",
+          light: "hsl(var(--gold-light))",
         },
-        charcoal: "hsl(200, 12%, 19%)",
-        lavender: "hsl(270, 30%, 90%)",
-        sky: "hsl(200, 50%, 92%)",
+        charcoal: "hsl(var(--charcoal))",
+        lavender: "hsl(var(--lavender))",
+        sky: "hsl(var(--sky))",
         
         /* Semantic tokens */
         border: "hsl(var(--border))",

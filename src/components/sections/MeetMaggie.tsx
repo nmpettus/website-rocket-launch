@@ -17,14 +17,14 @@ const MeetMaggie = () => {
   };
 
   return (
-    <section id="maggie" className="py-16 bg-gray-50">
+    <section id="maggie" className="py-16 bg-muted">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center mb-12 text-gray-800 font-['Comic_Neue']">Meet Maggie – Author of Christian Children's Books</h2>
+        <h2 className="text-4xl font-extrabold text-center mb-12 text-foreground font-display">Meet Maggie – Author of Christian Children's Books</h2>
         
         <MaggieProfile />
 
         <div className="mb-8">
-          <h3 className="text-2xl font-bold text-center mb-8 text-gray-800 font-['Comic_Neue']">Behind the Scenes with Maggie – Photo Gallery</h3>
+          <h3 className="text-2xl font-bold text-center mb-8 text-foreground font-display">Behind the Scenes with Maggie – Photo Gallery</h3>
           
           <MaggieCarousel onImageClick={handleImageClick} />
           
@@ -32,7 +32,7 @@ const MeetMaggie = () => {
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-gray-600 italic">
+          <p className="text-muted-foreground italic">
             "I may be small, but my stories are big!" - Maggie
           </p>
         </div>

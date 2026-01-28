@@ -5,14 +5,14 @@ import { Image } from "lucide-react";
 
 const Projects = () => {
   return (
-    <section id="projects" className="py-16 bg-gray-50">
+    <section id="projects" className="py-16 bg-muted">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center mb-12 text-gray-800 font-['Comic_Neue']">Maggie's Faith-Based Projects for Children and Families</h2>
+        <h2 className="text-4xl font-extrabold text-center mb-12 text-foreground font-display">Maggie's Faith-Based Projects for Children and Families</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Project 1 - Divine Protocol */}
-          <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300">
-            <div className="bg-emerald-500 bg-opacity-10 text-emerald-500 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+          <div className="bg-card p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+            <div className="bg-primary/10 text-primary w-12 h-12 rounded-full flex items-center justify-center mb-4">
               <span className="text-xl">1</span>
             </div>
             <div className="flex flex-col items-center mb-4">
@@ -38,18 +38,18 @@ const Projects = () => {
                   />
                 </DialogContent>
               </Dialog>
-              <h3 className="text-xl font-bold mb-3 text-gray-800 text-center">The Divine Protocol</h3>
+              <h3 className="text-xl font-bold mb-3 text-foreground text-center">The Divine Protocol</h3>
             </div>
-            <p className="text-gray-600 mb-4">How God Used Doctors, Medicine, and My Own Body to Heal Me. Expected release: October 2025.</p>
-            <div className="w-full bg-gray-200 rounded-full h-2.5">
-              <div className="bg-emerald-500 h-2.5 rounded-full" style={{width: "15%"}}></div>
+            <p className="text-muted-foreground mb-4">How God Used Doctors, Medicine, and My Own Body to Heal Me. Expected release: October 2025.</p>
+            <div className="w-full bg-muted rounded-full h-2.5">
+              <div className="bg-primary h-2.5 rounded-full" style={{width: "15%"}}></div>
             </div>
-            <p className="text-sm text-gray-500 mt-2">15% complete</p>
+            <p className="text-sm text-muted-foreground mt-2">15% complete</p>
           </div>
 
           {/* Project 2 - Bible Heroes */}
-          <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300">
-            <div className="bg-amber-500 bg-opacity-10 text-amber-500 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+          <div className="bg-card p-8 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+            <div className="bg-accent/20 text-accent-foreground w-12 h-12 rounded-full flex items-center justify-center mb-4">
               <span className="text-xl">2</span>
             </div>
             <div className="flex flex-col items-center mb-4">
@@ -75,13 +75,13 @@ const Projects = () => {
                   />
                 </DialogContent>
               </Dialog>
-              <h3 className="text-xl font-bold text-gray-800 text-center">Bible Heroes and Heroines</h3>
+              <h3 className="text-xl font-bold text-foreground text-center">Bible Heroes and Heroines</h3>
             </div>
-            <p className="text-gray-600 mb-4">Bible Heroes and Heroines as told by Maggie. Expected release: November 2025.</p>
-            <div className="w-full bg-gray-200 rounded-full h-2.5">
-              <div className="bg-amber-500 h-2.5 rounded-full" style={{width: "10%"}}></div>
+            <p className="text-muted-foreground mb-4">Bible Heroes and Heroines as told by Maggie. Expected release: November 2025.</p>
+            <div className="w-full bg-muted rounded-full h-2.5">
+              <div className="bg-accent h-2.5 rounded-full" style={{width: "10%"}}></div>
             </div>
-            <p className="text-sm text-gray-500 mt-2">10% complete</p>
+            <p className="text-sm text-muted-foreground mt-2">10% complete</p>
           </div>
         </div>
       </div>

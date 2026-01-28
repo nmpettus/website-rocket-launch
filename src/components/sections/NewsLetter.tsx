@@ -124,10 +124,10 @@ const Newsletter = () => {
   }
 
   return (
-    <section id="newsletter" className="py-16 bg-indigo-600 text-white scroll-mt-28">
+    <section id="newsletter" className="py-16 bg-primary text-primary-foreground scroll-mt-28">
       <div className="container mx-auto px-6 text-center">
-        <h2 className="text-4xl font-extrabold mb-6 font-['Comic_Neue']">Join Our Reading Family</h2>
-        <p className="text-xl mb-8 max-w-2xl mx-auto">
+        <h2 className="text-4xl font-extrabold mb-6 font-display">Join Our Reading Family</h2>
+        <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
           Sign up for our free newsletter to get updates on new releases, special giveaways, and Maggie's latest
           adventures!
         </p>
@@ -137,27 +137,27 @@ const Newsletter = () => {
             <Input
               type="email"
               placeholder="Your email address"
-              className="flex-grow px-4 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="flex-grow px-4 py-3 rounded-full text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-accent"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
             <Button
               type="submit"
-              className="bg-amber-500 hover:bg-yellow-600 text-white font-bold rounded-full"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold rounded-full"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Subscribing..." : "Subscribe"}
             </Button>
           </div>
-          <p className="text-sm mt-3 text-indigo-100">We respect your privacy. Unsubscribe at any time.</p>
+          <p className="text-sm mt-3 opacity-80">We respect your privacy. Unsubscribe at any time.</p>
         </form>
 
         {isDevelopmentMode && (
           <div className="mt-4">
             <button
               onClick={clearLocalStorageSubscribers}
-              className="text-xs underline text-indigo-200 hover:text-white"
+              className="text-xs underline opacity-70 hover:opacity-100"
             >
               Clear Local Subscribers (Dev Only)
             </button>
