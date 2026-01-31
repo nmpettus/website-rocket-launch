@@ -3,7 +3,7 @@ import MaggieProfile from "../maggie/MaggieProfile";
 import MaggieCarousel from "../maggie/MaggieCarousel";
 import MaggieThumbnails from "../maggie/MaggieThumbnails";
 import MaggieImageViewer from "../maggie/MaggieImageViewer";
-import MaggieImagesSection from "@/components/sections/MaggieImagesSection";
+import { Heart } from "lucide-react";
 
 const MeetMaggie = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -17,29 +17,40 @@ const MeetMaggie = () => {
   };
 
   return (
-    <section id="maggie" className="py-16 bg-muted">
+    <section id="maggie" className="py-24 bg-muted/50">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center mb-12 text-foreground font-display">Meet Maggie – Author of Christian Children's Books</h2>
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 bg-secondary/10 px-4 py-2 rounded-full mb-4">
+            <Heart className="w-4 h-4 text-secondary" />
+            <span className="text-sm font-medium text-secondary">About the Author</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
+            Meet Maggie
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Get to know the lovable pup behind these heartwarming Bible stories
+          </p>
+        </div>
         
         <MaggieProfile />
 
-        <div className="mb-8">
-          <h3 className="text-2xl font-bold text-center mb-8 text-foreground font-display">Behind the Scenes with Maggie – Photo Gallery</h3>
+        <div className="mt-16">
+          <h3 className="text-xl font-display font-semibold text-center mb-8 text-foreground">
+            Behind the Scenes
+          </h3>
           
           <MaggieCarousel onImageClick={handleImageClick} />
           
           <MaggieThumbnails onImageClick={handleImageClick} />
         </div>
 
-        <div className="mt-8 text-center">
-          <p className="text-muted-foreground italic">
-            "I may be small, but my stories are big!" - Maggie
+        <div className="mt-12 text-center">
+          <p className="text-muted-foreground italic text-lg">
+            "I may be small, but my stories are big!" — Maggie
           </p>
         </div>
-
-      
-
-      </div> {/* This closes the container div */}
+      </div>
 
       <MaggieImageViewer 
         selectedImage={selectedImage} 

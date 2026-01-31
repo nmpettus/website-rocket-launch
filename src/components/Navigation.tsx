@@ -8,12 +8,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
   { id: 'apps', label: 'Apps', isRoute: true, route: 'https://apps.booksbymaggie.com', isExternal: true },
-  { id: 'ai-adventures', label: '🚀 AI Adventures', isRoute: true, route: '/maggies-ai-adventures' },
+  { id: 'ai-adventures', label: 'AI Adventures', isRoute: true, route: '/maggies-ai-adventures' },
   { id: 'maggie', label: 'Meet Maggie', isRoute: false },
   { id: 'videos', label: 'Videos', isRoute: true, route: '/videos' },
   { id: 'activities', label: 'Activities', isRoute: false },
   { id: 'games', label: 'Games', isRoute: false },
-  { id: 'newsletter', label: 'Join', isRoute: false },
+  { id: 'newsletter', label: 'Newsletter', isRoute: false },
   { id: 'contact', label: 'Contact', isRoute: false },
 ];
 
@@ -129,7 +129,7 @@ const Navigation = () => {
     <nav className={cn(
       "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
       isScrolled 
-        ? "bg-cream/95 backdrop-blur-md shadow-elegant border-b border-sage/10" 
+        ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border" 
         : "bg-transparent"
     )}>
       <div className="container mx-auto px-6 py-4">
@@ -139,10 +139,10 @@ const Navigation = () => {
             <img 
               src="/lovable-uploads/MaggieNewNBP.png" 
               alt="Maggie the dog logo" 
-              className="h-12 w-12 rounded-full object-cover ring-2 ring-sage/30 group-hover:ring-sage transition-all duration-300" 
+              className="h-10 w-10 rounded-full object-cover ring-2 ring-border group-hover:ring-primary/50 transition-all duration-300" 
             />
             <div className="flex flex-col">
-              <span className="text-xl font-display font-semibold text-charcoal tracking-tight">
+              <span className="text-lg font-display font-semibold text-foreground tracking-tight">
                 Books By Maggie
               </span>
               <span className="text-xs text-muted-foreground hidden sm:block">
@@ -160,7 +160,7 @@ const Navigation = () => {
                   href={link.route}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg text-charcoal/70 hover:text-charcoal hover:bg-sage-light/50"
+                  className="px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted"
                 >
                   {link.label}
                 </a>
@@ -169,10 +169,10 @@ const Navigation = () => {
                   key={link.id}
                   to={link.route}
                   className={cn(
-                    "px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg",
+                    "px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-lg",
                     isActiveLink(link)
-                      ? "text-sage-dark bg-sage-light"
-                      : "text-charcoal/70 hover:text-charcoal hover:bg-sage-light/50"
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
                   {link.label}
@@ -183,10 +183,10 @@ const Navigation = () => {
                   href={`/#${link.id}`} 
                   onClick={(e) => handleNavClick(e, link)} 
                   className={cn(
-                    "px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg",
+                    "px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-lg",
                     isActiveLink(link)
-                      ? "text-sage-dark bg-sage-light"
-                      : "text-charcoal/70 hover:text-charcoal hover:bg-sage-light/50"
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
                   {link.label}
@@ -196,7 +196,7 @@ const Navigation = () => {
             
             {/* Shop Books CTA */}
             <Button 
-              className="ml-4 bg-sage hover:bg-sage-dark text-white font-medium px-5 py-2 rounded-full shadow-sm transition-all duration-300 hover:shadow-md"
+              className="ml-4 bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-5 py-2 rounded-lg transition-colors duration-200"
               onClick={() => document.getElementById('books')?.scrollIntoView({ behavior: 'smooth' })}
             >
               <BookOpen className="w-4 h-4 mr-2" />
@@ -208,22 +208,22 @@ const Navigation = () => {
           <div className="lg:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-charcoal hover:bg-sage-light">
+                <Button variant="ghost" size="icon" className="text-foreground hover:bg-muted">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[350px] p-0 bg-cream border-l border-sage/20">
+              <SheetContent side="right" className="w-[300px] sm:w-[350px] p-0 bg-background border-l border-border">
                 <div className="flex flex-col h-full">
                   {/* Mobile Header */}
-                  <div className="p-6 border-b border-sage/10 bg-sage-light/30">
+                  <div className="p-6 border-b border-border">
                     <Link to="/" className="flex items-center space-x-3">
                       <img 
                         src="/lovable-uploads/MaggieNewNBP.png" 
                         alt="Maggie the dog logo" 
-                        className="h-12 w-12 rounded-full object-cover ring-2 ring-sage/30" 
+                        className="h-10 w-10 rounded-full object-cover ring-2 ring-border" 
                       />
                       <div className="flex flex-col">
-                        <span className="text-lg font-display font-semibold text-charcoal">
+                        <span className="text-lg font-display font-semibold text-foreground">
                           Books By Maggie
                         </span>
                         <span className="text-xs text-muted-foreground">
@@ -242,7 +242,7 @@ const Navigation = () => {
                             href={link.route}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block text-base py-3 px-4 rounded-xl transition-all duration-200 font-medium text-charcoal/80 hover:bg-sage-light hover:text-charcoal"
+                            className="block text-base py-3 px-4 rounded-lg transition-colors duration-200 font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
                           >
                             {link.label}
                           </a>
@@ -250,10 +250,10 @@ const Navigation = () => {
                           <Link 
                             to={link.route}
                             className={cn(
-                              "block text-base py-3 px-4 rounded-xl transition-all duration-200 font-medium",
+                              "block text-base py-3 px-4 rounded-lg transition-colors duration-200 font-medium",
                               isActiveLink(link)
-                                ? "bg-sage text-white"
-                                : "text-charcoal/80 hover:bg-sage-light hover:text-charcoal"
+                                ? "bg-primary text-primary-foreground"
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
                             )}
                           >
                             {link.label}
@@ -263,10 +263,10 @@ const Navigation = () => {
                             href={`/#${link.id}`} 
                             onClick={(e) => handleNavClick(e, link)}
                             className={cn(
-                              "block text-base py-3 px-4 rounded-xl transition-all duration-200 font-medium",
+                              "block text-base py-3 px-4 rounded-lg transition-colors duration-200 font-medium",
                               isActiveLink(link)
-                                ? "bg-sage text-white"
-                                : "text-charcoal/80 hover:bg-sage-light hover:text-charcoal"
+                                ? "bg-primary text-primary-foreground"
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
                             )}
                           >
                             {link.label}
@@ -277,10 +277,10 @@ const Navigation = () => {
                   </nav>
                   
                   {/* Mobile Footer CTA */}
-                  <div className="p-4 border-t border-sage/10">
+                  <div className="p-4 border-t border-border">
                     <SheetClose asChild>
                       <Button 
-                        className="w-full bg-sage hover:bg-sage-dark text-white font-medium py-3 rounded-full"
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 rounded-lg"
                         onClick={() => document.getElementById('books')?.scrollIntoView({ behavior: 'smooth' })}
                       >
                         <BookOpen className="w-4 h-4 mr-2" />
