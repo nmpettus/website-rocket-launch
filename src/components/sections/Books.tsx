@@ -67,18 +67,18 @@ const Books = () => {
   };
 
   return (
-    <section id="books" className="py-20 bg-cream">
+    <section id="books" className="py-24 bg-background">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-sage-light px-4 py-2 rounded-full mb-4">
-            <BookOpen className="w-4 h-4 text-sage" />
-            <span className="text-sm font-medium text-sage-dark">Our Library</span>
+          <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full mb-4">
+            <BookOpen className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-primary">Our Library</span>
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-charcoal mb-4">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
             Maggie's Bookshelf
           </h2>
-          <p className="text-lg text-charcoal/60 max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Beautiful Bible stories brought to life through Maggie's heartwarming adventures. 
             Perfect for bedtime reading and family devotions.
           </p>

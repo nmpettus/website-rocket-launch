@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Play, Video, ArrowRight } from "lucide-react";
@@ -9,28 +8,35 @@ import VideoVoting from "@/components/VideoVoting";
 
 const Videos = () => {
   return (
-    <section id="videos" className="py-16 bg-gradient-to-br from-lavender to-sky">
+    <section id="videos" className="py-24 bg-muted/30">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center mb-4 text-foreground font-display">
-          Featured Videos with Maggie
-        </h2>
-        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-8">
-          Watch Maggie come to life in these delightful videos! Get a behind-the-scenes look at her adventures and stories.
-        </p>
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 bg-secondary/10 px-4 py-2 rounded-full mb-4">
+            <Video className="w-4 h-4 text-secondary" />
+            <span className="text-sm font-medium text-secondary">Watch & Learn</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
+            Featured Videos
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Watch Maggie come to life in these delightful videos! Get a behind-the-scenes look at her adventures.
+          </p>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {featuredVideos.map((video) => (
-            <div key={video.id} className="bg-card rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <div key={video.id} className="bg-card rounded-xl shadow-card overflow-hidden border border-border hover:shadow-lg transition-shadow duration-200">
               <Dialog>
                 <DialogTrigger className="w-full">
                   <div className="relative group cursor-pointer">
                     <img 
                       src={video.thumbnail} 
                       alt={video.title}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-48 object-cover"
                     />
-                    <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="bg-card/90 rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <div className="bg-card rounded-full p-4">
                         <Play className="w-8 h-8 text-primary" fill="currentColor" />
                       </div>
                     </div>
@@ -54,14 +60,13 @@ const Videos = () => {
               </Dialog>
               
               <div className="p-6">
-                <h3 className="text-xl font-bold text-foreground mb-2 font-display">
+                <h3 className="text-lg font-display font-semibold text-foreground mb-2">
                   {video.title}
                 </h3>
                 <p className="text-muted-foreground text-sm mb-4">
                   {video.description}
                 </p>
                 
-                {/* Add voting component */}
                 <VideoVoting videoId={video.id} className="justify-center" />
               </div>
             </div>
@@ -69,25 +74,25 @@ const Videos = () => {
         </div>
 
         {/* View All Videos Button */}
-        <div className="text-center">
+        <div className="text-center space-y-6">
           <Link to="/videos">
-            <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 h-12">
               View All Videos
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </Link>
-        </div>
-        
-        <div className="text-center mt-8">
-          <p className="text-muted-foreground mb-4">
-            Have a video idea for Maggie? We'd love to hear from you!
-          </p>
-          <button 
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 px-6 rounded-full transition-colors duration-300"
-          >
-            Suggest a Video
-          </button>
+          
+          <div>
+            <p className="text-muted-foreground mb-4">
+              Have a video idea for Maggie? We'd love to hear from you!
+            </p>
+            <Button 
+              variant="outline"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              Suggest a Video
+            </Button>
+          </div>
         </div>
       </div>
     </section>

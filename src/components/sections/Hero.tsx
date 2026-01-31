@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BookOpen, Mail, MessageCircle, Sparkles, Star, Heart } from "lucide-react";
-import AnimatedMaggie from "@/components/magical/AnimatedMaggie";
-import ConfettiButton from "@/components/magical/ConfettiButton";
+import { BookOpen, Mail, MessageCircle, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   const scrollToSection = (sectionId: string) => {
@@ -13,126 +12,121 @@ const Hero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen pt-24 pb-16 overflow-hidden">
-      {/* Magical gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
-      
-      {/* Animated background pattern */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-primary/20 blur-3xl animate-blob" />
-        <div className="absolute top-40 right-20 w-40 h-40 rounded-full bg-accent/20 blur-3xl animate-blob" style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-40 left-1/4 w-36 h-36 rounded-full bg-secondary/20 blur-3xl animate-blob" style={{ animationDelay: '4s' }} />
-        <div className="absolute bottom-20 right-1/3 w-28 h-28 rounded-full bg-primary/15 blur-3xl animate-blob" style={{ animationDelay: '6s' }} />
-      </div>
-      
-      {/* Floating magical elements */}
-      <div className="absolute top-32 left-[5%] text-4xl animate-float opacity-70">⭐</div>
-      <div className="absolute top-48 right-[10%] text-3xl animate-float opacity-60" style={{ animationDelay: '1s' }}>✨</div>
-      <div className="absolute top-64 left-[15%] text-2xl animate-float opacity-50" style={{ animationDelay: '2s' }}>💫</div>
-      <div className="absolute bottom-48 right-[15%] text-3xl animate-float opacity-60" style={{ animationDelay: '0.5s' }}>🌟</div>
-      <div className="absolute bottom-32 left-[8%] text-2xl animate-float opacity-50" style={{ animationDelay: '1.5s' }}>💖</div>
-      <div className="absolute top-1/3 right-[5%] text-2xl animate-float opacity-40" style={{ animationDelay: '3s' }}>📖</div>
-      <div className="absolute bottom-1/3 left-[3%] text-xl animate-float opacity-50" style={{ animationDelay: '2.5s' }}>🐾</div>
-      <div className="absolute top-1/2 right-[3%] text-2xl animate-float opacity-40" style={{ animationDelay: '4s' }}>🦋</div>
+    <section id="home" className="relative min-h-screen pt-24 pb-16 overflow-hidden bg-gradient-to-b from-muted/50 to-background">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+      }} />
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-[calc(100vh-8rem)]">
           {/* Content */}
           <div className="space-y-8 max-w-xl order-2 lg:order-1">
-            {/* Magical badge */}
-            <div className="inline-flex items-center gap-2 bg-card/80 backdrop-blur-sm px-5 py-3 rounded-full shadow-lg border-2 border-primary/30 animate-bounce-in">
-              <Sparkles className="w-5 h-5 text-accent animate-sparkle" />
-              <span className="text-sm font-bold text-foreground">✨ Magical Bible Adventures! ✨</span>
-              <Star className="w-4 h-4 text-accent animate-sparkle" style={{ animationDelay: '0.5s' }} />
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full">
+              <span className="text-sm font-medium text-primary">Faith-Based Children's Books</span>
             </div>
             
-            {/* Main Headline - More playful! */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground leading-tight">
-              <span className="inline-block animate-wave-text">Come</span>{' '}
-              <span className="inline-block animate-wave-text" style={{ animationDelay: '0.1s' }}>Explore</span>
-              <br />
-              <span className="text-primary inline-block animate-wave-text" style={{ animationDelay: '0.2s' }}>Bible</span>{' '}
-              <span className="text-accent inline-block animate-wave-text" style={{ animationDelay: '0.3s' }}>Stories</span>
-              <br />
-              <span className="inline-flex items-center gap-2">
-                with <span className="text-secondary">Maggie!</span>
-                <Heart className="w-8 h-8 text-secondary animate-heartbeat inline-block" />
-              </span>
+            {/* Main Headline */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground leading-[1.1] tracking-tight">
+              Discover Bible Stories with{' '}
+              <span className="text-primary">Maggie</span>
             </h1>
             
             {/* Subheadline */}
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-              Join Maggie the lovable pup on <span className="text-primary font-semibold">magical adventures</span> through 
-              God's amazing stories! Perfect for curious kids and families who love to 
-              <span className="text-accent font-semibold"> learn and have fun together!</span> 🐾
+              Beautiful, illustrated Bible stories narrated by Maggie the dog. Perfect for bedtime reading, 
+              family devotions, and nurturing faith in young hearts.
             </p>
             
-            {/* CTA Buttons with 3D Effect */}
-            <div className="flex flex-wrap gap-4">
-              <ConfettiButton 
-                confettiType="cannon"
-                className="btn-3d bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 px-8 rounded-2xl text-lg border-0"
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button 
+                size="lg"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 h-14 text-base"
                 onClick={() => scrollToSection('books')}
               >
                 <BookOpen className="w-5 h-5 mr-2" />
-                Explore Books! 📚
-              </ConfettiButton>
-              <ConfettiButton 
-                confettiType="stars"
-                className="btn-3d-secondary bg-secondary hover:bg-secondary/90 text-secondary-foreground font-bold py-6 px-8 rounded-2xl text-lg border-0"
+                Browse Our Books
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+              <Button 
+                variant="outline"
+                size="lg"
+                className="font-medium px-8 h-14 text-base border-2"
                 onClick={() => scrollToSection('write-to-maggie')}
               >
                 <Mail className="w-5 h-5 mr-2" />
-                Write to Maggie! ✉️
-              </ConfettiButton>
+                Write to Maggie
+              </Button>
             </div>
             
-            {/* Ask Maggie CTA */}
-            <ConfettiButton 
-              asChild
-              confettiType="burst"
-              className="btn-3d-accent bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-6 px-8 rounded-2xl text-lg w-full sm:w-auto border-0"
-            >
-              <Link to="/ask-maggie">
-                <MessageCircle className="w-5 h-5 mr-2" />
-                Ask Maggie a Bible Question! 🤔
+            {/* Secondary CTA */}
+            <div className="pt-4">
+              <Link 
+                to="/ask-maggie"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Ask Maggie a Bible Question
+                <ArrowRight className="w-4 h-4" />
               </Link>
-            </ConfettiButton>
+            </div>
             
-            {/* Fun trust indicators */}
-            <div className="flex items-center gap-6 pt-4">
-              <div className="flex items-center gap-2 bg-card/60 backdrop-blur-sm px-4 py-2 rounded-full">
-                <div className="flex -space-x-1">
-                  <span className="text-xl">⭐</span>
-                  <span className="text-xl">⭐</span>
-                  <span className="text-xl">⭐</span>
-                  <span className="text-xl">⭐</span>
-                  <span className="text-xl">⭐</span>
+            {/* Trust indicators */}
+            <div className="flex items-center gap-8 pt-6 border-t border-border">
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold text-foreground">5.0</span>
+                <div className="flex items-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20">
+                      <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                    </svg>
+                  ))}
                 </div>
-                <span className="text-sm font-medium text-foreground">5-Star Reviews!</span>
+                <span className="text-sm text-muted-foreground">Amazon Rating</span>
               </div>
-              <div className="hidden sm:flex items-center gap-2 bg-card/60 backdrop-blur-sm px-4 py-2 rounded-full">
-                <span className="text-xl">🛒</span>
-                <span className="text-sm font-medium text-foreground">On Amazon</span>
+              <div className="h-12 w-px bg-border" />
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold text-foreground">6+</span>
+                <span className="text-sm text-muted-foreground">Books Published</span>
+              </div>
+              <div className="h-12 w-px bg-border hidden sm:block" />
+              <div className="flex-col hidden sm:flex">
+                <span className="text-2xl font-bold text-foreground">3</span>
+                <span className="text-sm text-muted-foreground">Languages</span>
               </div>
             </div>
           </div>
           
-          {/* Animated Maggie */}
+          {/* Hero Image */}
           <div className="relative flex justify-center lg:justify-end order-1 lg:order-2">
-            <AnimatedMaggie />
+            <div className="relative">
+              {/* Main image container */}
+              <div className="relative w-80 h-80 md:w-[420px] md:h-[420px]">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20" />
+                <div className="absolute inset-4 rounded-full overflow-hidden border-4 border-background shadow-2xl">
+                  <img 
+                    src="/lovable-uploads/MaggieNewNBP.png"
+                    alt="Maggie the dog - Your faith adventure guide"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
+              
+              {/* Floating book preview card */}
+              <div className="absolute -bottom-4 -left-8 bg-card rounded-xl shadow-xl p-4 border border-border max-w-[200px]">
+                <img 
+                  src="/lovable-uploads/69bc37f9-db15-4f1a-9192-ce4a16183cb4.png"
+                  alt="Featured book"
+                  className="w-full h-24 object-cover rounded-lg mb-2"
+                />
+                <p className="text-xs font-medium text-foreground">Latest Release</p>
+                <p className="text-xs text-muted-foreground">Available Now</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      
-      {/* Bottom wave decoration */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-          <path 
-            d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" 
-            fill="hsl(var(--background))"
-          />
-        </svg>
       </div>
     </section>
   );

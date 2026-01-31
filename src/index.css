@@ -5,61 +5,59 @@
 
 @layer base {
   /* ============================================
-     DEFAULT THEME: Purple Magic ✨
-     Magical purple, gold sparkles, pink accents
-     Fredoka + Quicksand fonts, Playful 3D buttons
+     PROFESSIONAL THEME: Clean & Elegant
+     Refined colors, sophisticated typography
      ============================================ */
   :root,
   [data-theme="storybook"] {
-    --background: 270 60% 98%;
-    --foreground: 280 50% 18%;
+    --background: 0 0% 99%;
+    --foreground: 220 20% 20%;
     
     --card: 0 0% 100%;
-    --card-foreground: 280 50% 18%;
+    --card-foreground: 220 20% 20%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 280 50% 18%;
+    --popover-foreground: 220 20% 20%;
     
-    --primary: 275 80% 55%;
+    --primary: 250 60% 50%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 340 75% 55%;
+    --secondary: 340 55% 55%;
     --secondary-foreground: 0 0% 100%;
     
-    --accent: 45 100% 50%;
-    --accent-foreground: 280 50% 18%;
+    --accent: 35 90% 55%;
+    --accent-foreground: 220 20% 15%;
     
-    --muted: 270 30% 94%;
-    --muted-foreground: 280 25% 45%;
+    --muted: 220 15% 96%;
+    --muted-foreground: 220 15% 45%;
     
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 275 40% 88%;
-    --input: 275 40% 88%;
-    --ring: 275 80% 55%;
+    --border: 220 15% 90%;
+    --input: 220 15% 90%;
+    --ring: 250 60% 50%;
     
-    --radius: 1rem;
+    --radius: 0.75rem;
     
-    --cream: 270 60% 98%;
-    --sage: 275 80% 55%;
-    --sage-light: 275 60% 92%;
-    --sage-dark: 275 85% 45%;
-    --rose: 340 75% 60%;
-    --rose-light: 340 75% 94%;
-    --gold: 45 100% 50%;
-    --gold-light: 45 100% 92%;
-    --lavender: 280 60% 92%;
-    --sky: 200 80% 92%;
-    --charcoal: 280 50% 18%;
+    --cream: 40 30% 97%;
+    --sage: 250 60% 50%;
+    --sage-light: 250 40% 95%;
+    --sage-dark: 250 65% 40%;
+    --rose: 340 55% 55%;
+    --rose-light: 340 55% 95%;
+    --gold: 35 90% 55%;
+    --gold-light: 35 80% 94%;
+    --lavender: 250 35% 95%;
+    --sky: 200 50% 95%;
+    --charcoal: 220 20% 20%;
     
-    --font-heading: 'Fredoka', sans-serif;
-    --font-body: 'Quicksand', sans-serif;
+    --font-heading: 'Inter', 'Fredoka', system-ui, sans-serif;
+    --font-body: 'Inter', 'Quicksand', system-ui, sans-serif;
   }
 
   /* ============================================
-     THEME 2: Magical Storybook (Kid-Friendly!)
-     Sparkly, colorful, whimsical, enchanting
+     THEME 2: Playful (Legacy)
      ============================================ */
   [data-theme="playful"] {
     --background: 270 100% 98%;
@@ -106,7 +104,6 @@
 
   /* ============================================
      THEME 3: Ocean Adventure
-     Deep sea blues, coral accents, nautical
      ============================================ */
   [data-theme="ocean"] {
     --background: 200 30% 97%;
@@ -147,13 +144,12 @@
     --lavender: 200 50% 92%;
     --sky: 195 100% 94%;
     
-    --font-heading: 'Abril Fatface', serif;
-    --font-body: 'Nunito', sans-serif;
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
   }
 
   /* ============================================
-     THEME 4: Enchanted Forest
-     Deep greens, rich browns, magical woodland
+     THEME 4: Forest
      ============================================ */
   [data-theme="forest"] {
     --background: 80 20% 96%;
@@ -194,13 +190,12 @@
     --lavender: 280 20% 90%;
     --sky: 80 30% 92%;
     
-    --font-heading: 'Merriweather', serif;
-    --font-body: 'Lato', sans-serif;
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
   }
 
   /* ============================================
-     THEME 5: Sunset Dreams
-     Warm oranges, pinks, golden hour vibes
+     THEME 5: Sunset
      ============================================ */
   [data-theme="sunset"] {
     --background: 35 100% 97%;
@@ -241,13 +236,12 @@
     --lavender: 280 40% 92%;
     --sky: 20 60% 94%;
     
-    --font-heading: 'Pacifico', cursive;
-    --font-body: 'Quicksand', sans-serif;
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
   }
 
   /* ============================================
-     THEME 6: Vintage Retro
-     Sepia tones, typewriter fonts, nostalgic
+     THEME 6: Vintage
      ============================================ */
   [data-theme="vintage"] {
     --background: 35 30% 94%;
@@ -288,13 +282,12 @@
     --lavender: 30 20% 88%;
     --sky: 35 35% 92%;
     
-    --font-heading: 'Special Elite', monospace;
-    --font-body: 'Courier Prime', monospace;
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
   }
 
   /* ============================================
-     THEME 7: Candy Pastel
-     Soft pinks, mint greens, playful & sweet
+     THEME 7: Candy
      ============================================ */
   [data-theme="candy"] {
     --background: 340 100% 98%;
@@ -335,8 +328,8 @@
     --lavender: 280 60% 90%;
     --sky: 180 60% 92%;
     
-    --font-heading: 'Baloo 2', cursive;
-    --font-body: 'Varela Round', sans-serif;
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
   }
 
   * {
@@ -346,10 +339,14 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    letter-spacing: -0.01em;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.02em;
   }
 }
 
@@ -360,23 +357,6 @@
   
   .font-body {
     font-family: var(--font-body);
-  }
-  
-  .font-playful {
-    font-family: 'Comic Neue', cursive;
-  }
-  
-  /* Legacy support */
-  .font-comic {
-    font-family: 'Comic Neue', cursive;
-  }
-  
-  .font-poppins {
-    font-family: 'Lato', sans-serif;
-  }
-  
-  .font-canva {
-    font-family: 'Lato', sans-serif;
   }
   
   /* Decorative utilities */
@@ -404,78 +384,38 @@
     background-color: hsl(var(--sky));
   }
   
-  /* Elegant shadows */
+  /* Professional shadows */
   .shadow-elegant {
-    box-shadow: 0 4px 20px -4px hsl(var(--foreground) / 0.08),
-                0 8px 32px -8px hsl(var(--foreground) / 0.05);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  }
+  
+  .shadow-card {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   }
   
   .shadow-book {
-    box-shadow: 4px 4px 15px hsl(var(--foreground) / 0.1),
-                -2px 0 8px hsl(var(--foreground) / 0.05);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
   
-  /* Gradient backgrounds */
+  /* Clean gradient backgrounds */
   .gradient-hero {
-    background: linear-gradient(135deg, hsl(var(--sage-light)) 0%, hsl(var(--cream)) 50%, hsl(var(--rose-light)) 100%);
+    background: linear-gradient(180deg, hsl(var(--muted)) 0%, hsl(var(--background)) 100%);
   }
   
   .gradient-section-alt {
-    background: linear-gradient(180deg, hsl(var(--cream)) 0%, hsl(var(--lavender)) 100%);
+    background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
   }
   
-  /* Playful 3D Button Style */
-  .btn-3d {
-    @apply relative transform transition-all duration-150;
-    box-shadow: 0 6px 0 hsl(var(--primary) / 0.7), 
-                0 8px 15px hsl(var(--primary) / 0.3);
+  /* Professional Button Styles */
+  .btn-primary {
+    @apply bg-primary hover:bg-primary/90 text-primary-foreground font-medium transition-colors duration-200;
   }
   
-  .btn-3d:hover {
-    @apply -translate-y-0.5;
-    box-shadow: 0 8px 0 hsl(var(--primary) / 0.7), 
-                0 12px 20px hsl(var(--primary) / 0.3);
+  .btn-secondary {
+    @apply bg-secondary hover:bg-secondary/90 text-secondary-foreground font-medium transition-colors duration-200;
   }
   
-  .btn-3d:active {
-    @apply translate-y-1;
-    box-shadow: 0 2px 0 hsl(var(--primary) / 0.7), 
-                0 4px 8px hsl(var(--primary) / 0.3);
-  }
-  
-  .btn-3d-secondary {
-    @apply relative transform transition-all duration-150;
-    box-shadow: 0 6px 0 hsl(var(--secondary) / 0.7), 
-                0 8px 15px hsl(var(--secondary) / 0.3);
-  }
-  
-  .btn-3d-secondary:hover {
-    @apply -translate-y-0.5;
-    box-shadow: 0 8px 0 hsl(var(--secondary) / 0.7), 
-                0 12px 20px hsl(var(--secondary) / 0.3);
-  }
-  
-  .btn-3d-secondary:active {
-    @apply translate-y-1;
-    box-shadow: 0 2px 0 hsl(var(--secondary) / 0.7), 
-                0 4px 8px hsl(var(--secondary) / 0.3);
-  }
-  
-  .btn-3d-accent {
-    @apply relative transform transition-all duration-150;
-    box-shadow: 0 6px 0 hsl(var(--accent) / 0.8), 
-                0 8px 15px hsl(var(--accent) / 0.3);
-  }
-  
-  .btn-3d-accent:hover {
-    @apply -translate-y-0.5;
-    box-shadow: 0 8px 0 hsl(var(--accent) / 0.8), 
-                0 12px 20px hsl(var(--accent) / 0.3);
-  }
-  
-  .btn-3d-accent:active {
-    @apply translate-y-1;
-    box-shadow: 0 2px 0 hsl(var(--accent) / 0.8), 
-                0 4px 8px hsl(var(--accent) / 0.3);
+  .btn-outline {
+    @apply border border-border bg-transparent hover:bg-muted text-foreground font-medium transition-colors duration-200;
   }
 }

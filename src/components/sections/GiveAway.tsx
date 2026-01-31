@@ -1,6 +1,6 @@
-
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Camera } from "lucide-react";
 
 const giveawayPhotos = [
   {
@@ -42,28 +42,35 @@ const giveawayPhotos = [
 
 const GiveAway = () => {
   return (
-    <section id="kids" className="py-16 bg-gradient-to-br from-lavender to-rose-light">
+    <section id="kids" className="py-24 bg-background">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-center mb-4 text-foreground font-display">
-          Loved by Kids – Maggie's Heartfelt Christian Books
-        </h2>
-        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
-          See how children around the world are enjoying Maggie's Bible stories! From bedtime reading to family adventures, these precious moments show the joy our books bring to young readers.
-        </p>
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 bg-secondary/10 px-4 py-2 rounded-full mb-4">
+            <Camera className="w-4 h-4 text-secondary" />
+            <span className="text-sm font-medium text-secondary">Community</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
+            Loved by Kids Everywhere
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            See how children around the world are enjoying Maggie's Bible stories. From bedtime reading to family adventures.
+          </p>
+        </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {giveawayPhotos.map((photo) => (
-            <Card key={photo.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <Card key={photo.id} className="overflow-hidden border border-border hover:shadow-lg transition-shadow duration-200">
               <CardContent className="p-0">
                 <div className="relative">
                   <img 
                     src={photo.image} 
                     alt={`Kids enjoying Maggie's books - ${photo.id}`}
-                    className="w-full h-64 object-cover"
+                    className="w-full h-56 object-cover"
                   />
                 </div>
-                <div className="p-6">
-                  <p className="text-card-foreground text-sm leading-relaxed">
+                <div className="p-5">
+                  <p className="text-muted-foreground text-sm leading-relaxed">
                     {photo.caption}
                   </p>
                 </div>
@@ -73,9 +80,8 @@ const GiveAway = () => {
         </div>
         
         <div className="text-center mt-12">
-          <p className="text-muted-foreground italic">
+          <p className="text-muted-foreground">
             Want to share your child's reading moment with Maggie's books? 
-            <br />
             Send us your photos and we might feature them here!
           </p>
         </div>
