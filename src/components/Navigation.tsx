@@ -147,7 +147,7 @@ const Navigation = () => {
           </Link>
           
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-0.5">
             {NAV_LINKS.map(link => (
               link.isExternal ? (
                 <a 
@@ -155,7 +155,7 @@ const Navigation = () => {
                   href={link.route}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted"
+                  className="px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted"
                 >
                   {link.label}
                 </a>
@@ -164,7 +164,7 @@ const Navigation = () => {
                   key={link.id}
                   to={link.route}
                   className={cn(
-                    "px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-lg",
+                    "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
                     isActiveLink(link)
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -178,7 +178,7 @@ const Navigation = () => {
                   href={`/#${link.id}`} 
                   onClick={(e) => handleNavClick(e, link)} 
                   className={cn(
-                    "px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-lg",
+                    "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
                     isActiveLink(link)
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -191,10 +191,10 @@ const Navigation = () => {
             
             {/* Shop Books CTA */}
             <Button 
-              className="ml-4 bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-5 py-2 rounded-lg transition-colors duration-200"
+              className="ml-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-4 py-1.5 text-xs rounded-lg transition-colors duration-200"
               onClick={() => document.getElementById('books')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              <BookOpen className="w-4 h-4 mr-2" />
+              <BookOpen className="w-3.5 h-3.5 mr-1.5" />
               Shop Books
             </Button>
           </div>
