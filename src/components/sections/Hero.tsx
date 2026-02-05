@@ -114,16 +114,6 @@ const Hero = () => {
                 </div>
               </div>
               
-              {/* Floating book preview card */}
-              <div className="absolute -bottom-4 -left-8 bg-card rounded-xl shadow-xl p-4 border border-border max-w-[200px]">
-                <img 
-                  src="/lovable-uploads/69bc37f9-db15-4f1a-9192-ce4a16183cb4.png"
-                  alt="Featured book"
-                  className="w-full h-24 object-cover rounded-lg mb-2"
-                />
-                <p className="text-xs font-medium text-foreground">Latest Release</p>
-                <p className="text-xs text-muted-foreground">Available Now</p>
-              </div>
             </div>
           </div>
         </div>
