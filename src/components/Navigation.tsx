@@ -141,14 +141,9 @@ const Navigation = () => {
               alt="Maggie the dog logo" 
               className="h-10 w-10 rounded-full object-cover ring-2 ring-border group-hover:ring-primary/50 transition-all duration-300" 
             />
-            <div className="flex flex-col">
-              <span className="text-lg font-display font-semibold text-foreground tracking-tight">
-                Books By Maggie
-              </span>
-              <span className="text-xs text-muted-foreground hidden sm:block">
-                Faith-Based Stories for Children
-              </span>
-            </div>
+            <span className="text-lg font-display font-semibold text-foreground tracking-tight whitespace-nowrap">
+              Books By Maggie
+            </span>
           </Link>
           
           {/* Desktop Navigation */}
