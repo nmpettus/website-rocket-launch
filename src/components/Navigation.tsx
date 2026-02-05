@@ -133,9 +133,9 @@ const Navigation = () => {
         : "bg-transparent"
     )}>
       <div className="container mx-auto px-6 py-4">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center gap-8">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
+          <Link to="/" className="flex items-center space-x-3 group flex-shrink-0">
             <img 
               src="/lovable-uploads/MaggieNewNBP.png" 
               alt="Maggie the dog logo" 
