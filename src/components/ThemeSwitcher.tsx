@@ -61,10 +61,10 @@ const themes = [
 ];
 
 export const ThemeSwitcher = () => {
-  const [currentTheme, setCurrentTheme] = useState('storybook');
+  const [currentTheme, setCurrentTheme] = useState('ocean');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('maggie-theme') || 'storybook';
+    const savedTheme = localStorage.getItem('maggie-theme') || 'ocean';
     setCurrentTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
   }, []);
