@@ -186,12 +186,13 @@ const Videos = () => {
               <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
                 Have a video idea for Maggie? We're always creating new content and would love to hear your suggestions!
               </p>
-              <Button 
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105"
-              >
-                Suggest a Video
-              </Button>
+              <a href="mailto:maggie@booksbymaggie.com?subject=Video Suggestion for Maggie">
+                <Button 
+                  className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105"
+                >
+                  Suggest a Video
+                </Button>
+              </a>
             </div>
           </div>
         </section>

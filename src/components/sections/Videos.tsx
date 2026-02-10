@@ -86,12 +86,11 @@ const Videos = () => {
             <p className="text-muted-foreground mb-4">
               Have a video idea for Maggie? We'd love to hear from you!
             </p>
-            <Button 
-              variant="outline"
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Suggest a Video
-            </Button>
+            <a href="mailto:maggie@booksbymaggie.com?subject=Video Suggestion for Maggie">
+              <Button variant="outline">
+                Suggest a Video
+              </Button>
+            </a>
           </div>
         </div>
       </div>
