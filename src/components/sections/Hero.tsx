@@ -19,7 +19,7 @@ const Hero = () => {
       }} />
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-[calc(100vh-8rem)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start min-h-[calc(100vh-8rem)]">
           {/* Content */}
           <div className="space-y-8 max-w-xl order-2 lg:order-1">
             {/* Badge */}
@@ -100,10 +100,10 @@ const Hero = () => {
           </div>
           
           {/* Hero Image */}
-          <div className="relative flex justify-center lg:justify-start order-1 lg:order-2 lg:-mt-20">
+          <div className="relative flex justify-center lg:justify-start order-1 lg:order-2 pt-4 lg:pt-12">
             <div className="relative">
               {/* Main image container */}
-              <div className="relative w-80 h-80 md:w-[420px] md:h-[420px]">
+              <div className="relative w-72 h-72 md:w-96 md:h-96">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20" />
                 <div className="absolute inset-4 rounded-full overflow-hidden border-4 border-background shadow-2xl">
                   <img 
