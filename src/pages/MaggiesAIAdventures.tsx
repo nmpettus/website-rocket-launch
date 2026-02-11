@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Sparkles, Mail, Clock, BookOpen, Heart } from "lucide-react";
+import artieImg from "@/assets/artie.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -85,7 +86,7 @@ const MaggiesAIAdventures = () => {
       {/* Floating elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-20 left-[10%] text-4xl animate-float opacity-60">✨</div>
-        <div className="absolute top-40 right-[15%] text-3xl animate-float opacity-50" style={{ animationDelay: '1s' }}>🤖</div>
+        <img src={artieImg} alt="Artie" className="absolute top-40 right-[15%] w-12 h-12 animate-float opacity-70" style={{ animationDelay: '1s' }} />
         <div className="absolute bottom-40 left-[5%] text-3xl animate-float opacity-50" style={{ animationDelay: '2s' }}>📚</div>
         <div className="absolute bottom-20 right-[10%] text-4xl animate-float opacity-60" style={{ animationDelay: '0.5s' }}>⭐</div>
         <div className="absolute top-1/2 left-[3%] text-2xl animate-float opacity-40" style={{ animationDelay: '1.5s' }}>🐾</div>
