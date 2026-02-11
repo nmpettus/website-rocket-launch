@@ -100,7 +100,7 @@ const Hero = () => {
           </div>
           
           {/* Hero Image */}
-          <div className="relative flex justify-center lg:justify-end order-1 lg:order-2">
+          <div className="relative flex justify-center lg:justify-start order-1 lg:order-2 lg:-mt-8">
             <div className="relative">
               {/* Main image container */}
               <div className="relative w-80 h-80 md:w-[420px] md:h-[420px]">
