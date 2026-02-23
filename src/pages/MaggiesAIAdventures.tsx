@@ -98,7 +98,7 @@ const MaggiesAIAdventures = () => {
           <div className="flex justify-center mb-8">
             <div className="inline-flex items-center gap-2 bg-accent/20 backdrop-blur-sm px-5 py-3 rounded-full border-2 border-accent/30 animate-bounce-in">
               <Sparkles className="w-5 h-5 text-accent animate-sparkle" />
-              <span className="text-sm font-bold text-foreground">🚀 Coming Soon!</span>
+              <span className="text-sm font-bold text-foreground">🚀 Now Available!</span>
             </div>
           </div>
 
