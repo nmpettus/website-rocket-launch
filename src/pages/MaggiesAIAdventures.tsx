@@ -169,7 +169,7 @@ const MaggiesAIAdventures = () => {
             <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl p-6 md:p-8 border-2 border-primary/30">
               <div className="flex items-center gap-2 mb-4">
                 <Mail className="w-6 h-6 text-accent" />
-                <h3 className="text-xl font-display font-bold text-foreground">Be the First to Know!</h3>
+                <h3 className="text-xl font-display font-bold text-foreground">Join Our Newsletter!</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 Sign up to get notified when the book launches and receive exclusive early-bird offers!
