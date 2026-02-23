@@ -1,19 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { X, Rocket, Sparkles } from "lucide-react";
 
 const LaunchBanner = () => {
   const [isVisible, setIsVisible] = useState(true);
-  const [daysLeft, setDaysLeft] = useState(0);
-
-  const launchDate = new Date("2026-02-21T00:00:00");
-
-  useEffect(() => {
-    const now = new Date().getTime();
-    const distance = launchDate.getTime() - now;
-    const days = Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24)));
-    setDaysLeft(days);
-  }, []);
 
   if (!isVisible) return null;
 
@@ -24,8 +14,7 @@ const LaunchBanner = () => {
         <Rocket className="w-4 h-4 animate-bounce" />
         <span className="font-medium">
           <span className="hidden sm:inline">🎉 </span>
-          <strong>Maggie's AI Adventures</strong> launches in{" "}
-          <span className="font-bold text-white">{daysLeft} days!</span>
+          <strong>Maggie's AI Adventures</strong> has launched!
         </span>
         <Link 
           to="/maggies-ai-adventures" 
