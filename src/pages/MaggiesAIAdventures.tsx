@@ -11,29 +11,23 @@ import { useSEO } from "@/hooks/useSEO";
 const MaggiesAIAdventures = () => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [timeLeft, setTimeLeft] = useState({
+  const [timeSince, setTimeSince] = useState({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0
   });
 
-  // Set launch date - adjust as needed
+  // Launch date
   const launchDate = new Date("2026-02-21T00:00:00");
-
-  useSEO({
-    title: "Maggie's AI Adventures - Coming Soon! | Books by Maggie",
-    description: "Join Maggie on her newest adventure exploring AI! Be the first to know when this exciting new children's book launches.",
-    keywords: ["AI Adventures", "Maggie", "children's book", "technology for kids", "faith-based"],
-  });
 
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date().getTime();
-      const distance = launchDate.getTime() - now;
+      const distance = now - launchDate.getTime();
 
       if (distance > 0) {
-        setTimeLeft({
+        setTimeSince({
           days: Math.floor(distance / (1000 * 60 * 60 * 24)),
           hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
           minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
@@ -110,16 +104,16 @@ const MaggiesAIAdventures = () => {
 
           {/* Main headline */}
           <h1 className="text-3xl md:text-5xl font-display font-bold text-center text-foreground mb-4">
-            Maggie's Newest Adventure Launches in{" "}
-            <span className="text-primary">{timeLeft.days} Days!</span>
+            Maggie's Newest Adventure Launched{" "}
+            <span className="text-primary">{timeSince.days} Days Ago!</span>
           </h1>
 
-          {/* Countdown timer */}
+          {/* Count-up timer */}
           <div className="grid grid-cols-4 gap-3 md:gap-6 max-w-lg mx-auto mb-12">
-            <CountdownBox value={timeLeft.days} label="Days" />
-            <CountdownBox value={timeLeft.hours} label="Hours" />
-            <CountdownBox value={timeLeft.minutes} label="Mins" />
-            <CountdownBox value={timeLeft.seconds} label="Secs" />
+            <CountdownBox value={timeSince.days} label="Days" />
+            <CountdownBox value={timeSince.hours} label="Hours" />
+            <CountdownBox value={timeSince.minutes} label="Mins" />
+            <CountdownBox value={timeSince.seconds} label="Secs" />
           </div>
 
           {/* Book cover - full spread with front and back */}
