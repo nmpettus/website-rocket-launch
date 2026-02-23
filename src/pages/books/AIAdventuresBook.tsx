@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
@@ -21,6 +21,10 @@ const AIAdventuresBook = () => {
   const [enlargedImage, setEnlargedImage] = useState("");
   const [showReviews, setShowReviews] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // SEO optimization
   useSEO({
     ...bookSEOData["ai-adventures"],
@@ -40,7 +44,7 @@ const AIAdventuresBook = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 pt-24 pb-16">
         <div className="max-w-4xl mx-auto">
           {/* Breadcrumb Navigation */}
           <nav className="mb-6 text-sm text-gray-600">
@@ -79,7 +83,7 @@ const AIAdventuresBook = () => {
             <div className="space-y-6">
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-                  {book.title}
+                  AI Adventures with Maggie
                 </h1>
                 
                 {book.isNew && (
@@ -130,6 +134,24 @@ const AIAdventuresBook = () => {
                 </div>
               </div>
 
+              {/* Reviews - only show if there are reviews */}
+              {book.reviewCount > 0 && (
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center" role="img" aria-label="5 star rating">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <Button
+                    variant="link"
+                    onClick={() => setShowReviews(true)}
+                    className="text-blue-600 p-0 h-auto"
+                  >
+                    Read {book.reviewCount} reviews
+                  </Button>
+                </div>
+              )}
+
               {/* Action Buttons */}
               <div className="space-y-3">
                 <Button
@@ -141,6 +163,33 @@ const AIAdventuresBook = () => {
                     Buy on Amazon
                   </a>
                 </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* FAQ Section for SEO */}
+          <div className="mt-12 bg-white rounded-lg p-6 shadow-lg">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Frequently Asked Questions</h2>
+            
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-2">What age group is this AI book suitable for?</h3>
+                <p className="text-gray-600">AI Adventures with Maggie is perfect for children ages 5-10 who are curious about technology and how computers learn.</p>
+              </div>
+              
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-2">Do kids need any tech background to enjoy this book?</h3>
+                <p className="text-gray-600">Not at all! Maggie, Riley, and Artie the robot introduce AI concepts from scratch in a fun, story-driven way that any child can follow.</p>
+              </div>
+              
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-2">Can this book be used for homeschool or classroom STEM lessons?</h3>
+                <p className="text-gray-600">Absolutely! It's ideal for homeschoolers, classroom reading, or family STEM time. The book covers pixels, patterns, and responsible technology use.</p>
+              </div>
+              
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-2">Who are the main characters?</h3>
+                <p className="text-gray-600">The story features Maggie the smartest dog in the world, Riley the tech-curious kid, and Artie the friendly AI robot as they explore the world of artificial intelligence together.</p>
               </div>
             </div>
           </div>
@@ -160,7 +209,10 @@ const AIAdventuresBook = () => {
       {/* Image Viewer */}
       <ImageViewer
         enlargedImage={enlargedImage}
-        onClose={() => setShowImageViewer(false)}
+        onClose={() => {
+          setShowImageViewer(false);
+          setEnlargedImage("");
+        }}
       />
 
       {/* Reviews Modal */}
