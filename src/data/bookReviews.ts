@@ -387,7 +387,7 @@ export const booksData: BookData[] = [
     languages: ["English"],
     description: "Maggie the dog and Riley the tech-curious kid team up with Artie the AI robot to answer one big question: How do computers learn? Through laugh-out-loud moments and mind-expanding discoveries, they unlock the secrets of pixels, patterns, and what makes humans truly special.",
     reviewCount: 0,
-    amazonLink: "https://a.co/d/4pL2gHD",
+    amazonLink: "https://a.co/d/03abDACO",
     kindleLink: "",
     isNew: true,
     samplePages: [
