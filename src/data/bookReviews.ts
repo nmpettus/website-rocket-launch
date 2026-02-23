@@ -192,7 +192,7 @@ export interface SamplePage {
 export const booksData: BookData[] = [
   {
     id: "gods-love",
-    coverImage: "/lovable-uploads/9915a45c-d79b-4a00-8e51-2d7c4ca0afd8.png",
+    coverImage: "/lovable-uploads/gods-love-cover.jpeg",
     title: "God's Love - Christian Families Bible Devotional",
     languages: ["English"],
     description: "Discover \"God's Love\" by Maggie - a heartfelt Christian children's book that teaches kid's about God's never ending love through gentle faith-filled storytelling",
