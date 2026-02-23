@@ -389,7 +389,7 @@ export const booksData: BookData[] = [
     reviewCount: 5,
     amazonLink: "https://a.co/d/4pL2gHD",
     kindleLink: "https://a.co/d/4pL2gHD",
-    comingSoon: true,
+    isNew: true,
     samplePages: [
       {
         src: "/lovable-uploads/maggie-ai-cover-latest.jpg",
