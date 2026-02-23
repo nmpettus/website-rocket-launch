@@ -53,7 +53,7 @@ const AIAdventuresBook = () => {
 
           <div className="grid md:grid-cols-2 gap-8 items-start">
             {/* Book Cover */}
-            <div className="space-y-4">
+            <div className="space-y-4 flex flex-col items-center">
               <img
                 src={book.coverImage}
                 alt="AI Adventures with Maggie - Educational Children's Book Cover about artificial intelligence"
