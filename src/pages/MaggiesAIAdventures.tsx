@@ -19,7 +19,7 @@ const MaggiesAIAdventures = () => {
   });
 
   // Launch date
-  const launchDate = new Date("2026-02-23T00:00:00");
+  const launchDate = new Date("2026-02-23T11:00:00");
 
   useEffect(() => {
     const timer = setInterval(() => {
