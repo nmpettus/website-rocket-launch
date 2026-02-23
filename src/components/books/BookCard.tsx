@@ -193,7 +193,7 @@ const BookCard = ({
             </Link>
           )}
           
-          <div className="grid grid-cols-2 gap-2">
+          <div className={`grid ${kindleLink ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
             <Button 
               size="sm"
               variant="outline"
@@ -204,15 +204,17 @@ const BookCard = ({
               Amazon
             </Button>
             
-            <Button 
-              size="sm"
-              variant="outline"
-              className="border-charcoal/30 text-charcoal hover:bg-charcoal hover:text-white font-medium rounded-full text-xs"
-              onClick={() => window.open(kindleLink, "_blank")}
-            >
-              <Book className="w-3 h-3 mr-1" />
-              Kindle
-            </Button>
+            {kindleLink && (
+              <Button 
+                size="sm"
+                variant="outline"
+                className="border-charcoal/30 text-charcoal hover:bg-charcoal hover:text-white font-medium rounded-full text-xs"
+                onClick={() => window.open(kindleLink, "_blank")}
+              >
+                <Book className="w-3 h-3 mr-1" />
+                Kindle
+              </Button>
+            )}
           </div>
           
           {hasSamples && (
