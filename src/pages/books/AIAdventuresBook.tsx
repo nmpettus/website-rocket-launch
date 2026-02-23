@@ -57,25 +57,23 @@ const AIAdventuresBook = () => {
 
           <div className="grid md:grid-cols-2 gap-8 items-start">
             {/* Book Cover */}
-            <div className="space-y-4 flex flex-col items-center">
+            <div className="space-y-4 flex flex-col items-center justify-center w-full">
               <img
                 src={book.coverImage}
                 alt="AI Adventures with Maggie - Educational Children's Book Cover about artificial intelligence"
-                className="w-full max-w-md mx-auto rounded-lg shadow-xl cursor-pointer transition-transform hover:scale-105"
+                className="max-w-md w-full rounded-lg shadow-xl cursor-pointer transition-transform hover:scale-105"
                 onClick={() => handleImageClick(book.coverImage)}
               />
               
               {/* Sample Pages Button */}
               {book.samplePages && book.samplePages.length > 0 && (
-                <div className="text-center">
-                  <Button
-                    onClick={() => setShowSampleViewer(true)}
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-                  >
-                    <Eye className="w-4 h-4 mr-2" />
-                    View Sample Pages
-                  </Button>
-                </div>
+                <Button
+                  onClick={() => setShowSampleViewer(true)}
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white mx-auto"
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  View Sample Pages
+                </Button>
               )}
             </div>
 
