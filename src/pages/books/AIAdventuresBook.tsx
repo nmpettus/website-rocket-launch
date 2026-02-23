@@ -130,22 +130,6 @@ const AIAdventuresBook = () => {
                 </div>
               </div>
 
-              {/* Reviews */}
-              <div className="flex items-center gap-4">
-                <div className="flex items-center" role="img" aria-label="5 star rating">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <Button
-                  variant="link"
-                  onClick={() => setShowReviews(true)}
-                  className="text-blue-600 p-0 h-auto"
-                >
-                  Read {book.reviewCount} reviews
-                </Button>
-              </div>
-
               {/* Action Buttons */}
               <div className="space-y-3">
                 <Button
@@ -155,15 +139,6 @@ const AIAdventuresBook = () => {
                   <a href={book.amazonLink} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="w-4 h-4 mr-2" />
                     Buy on Amazon
-                  </a>
-                </Button>
-                <Button
-                  asChild
-                  className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white"
-                >
-                  <a href={book.kindleLink} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Buy Kindle Version
                   </a>
                 </Button>
               </div>
