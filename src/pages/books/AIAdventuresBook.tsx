@@ -172,7 +172,7 @@ const AIAdventuresBook = () => {
             <div className="space-y-4">
               <div>
                 <h3 className="font-semibold text-gray-800 mb-2">What age group is this AI book suitable for?</h3>
-                <p className="text-gray-600">AI Adventures with Maggie is perfect for children ages 5-10 who are curious about technology and how computers learn.</p>
+                <p className="text-gray-600">AI Adventures with Maggie is perfect for children ages 7 and up who are curious about technology and how computers learn.</p>
               </div>
               
               <div>
