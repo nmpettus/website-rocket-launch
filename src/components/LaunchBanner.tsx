@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { X, Rocket, Sparkles } from "lucide-react";
+import { X, Download, Sparkles } from "lucide-react";
 
 const LaunchBanner = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -8,19 +8,22 @@ const LaunchBanner = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-primary via-accent to-secondary text-white py-2 px-4 shadow-lg">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-400 via-pink-300 to-green-300 text-white py-2 px-4 shadow-lg">
       <div className="container mx-auto flex items-center justify-center gap-2 text-sm md:text-base">
         <Sparkles className="w-4 h-4 animate-sparkle hidden sm:block" />
-        <Rocket className="w-4 h-4 animate-bounce" />
+        <span className="text-lg hidden sm:inline">🐣</span>
         <span className="font-medium">
-          <span className="hidden sm:inline">🎉 </span>
-          <strong>Maggie's AI Adventures</strong> has launched!
+          <span className="hidden sm:inline">🌷 </span>
+          <strong>Maggie's Easter Story</strong> — Free PDF Download!
         </span>
         <Link 
-          to="/maggies-ai-adventures" 
-          className="ml-2 bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full font-bold transition-colors text-xs sm:text-sm"
+          to="/books/easter" 
+          className="ml-2 bg-white/25 hover:bg-white/40 px-3 py-1 rounded-full font-bold transition-colors text-xs sm:text-sm"
         >
-          Learn More →
+          <span className="flex items-center gap-1">
+            <Download className="w-3 h-3" />
+            Get It Free →
+          </span>
         </Link>
         <button 
           onClick={() => setIsVisible(false)}
