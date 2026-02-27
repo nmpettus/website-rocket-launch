@@ -110,6 +110,9 @@ const Hero = () => {
                     src="/lovable-uploads/MaggieNewNBP.png"
                     alt="Maggie the dog - Your faith adventure guide"
                     className="w-full h-full object-cover object-top"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                   />
                 </div>
               </div>
