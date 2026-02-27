@@ -103,6 +103,8 @@ const Books = () => {
               bookId={book.id}
               isNew={book.isNew}
               comingSoon={book.comingSoon}
+              isFree={book.isFree}
+              pdfDownloadUrl={book.pdfDownloadUrl}
               samplePages={book.samplePages}
               onOpenReviews={handleOpenReviews}
               onImageClick={handleImageClick}

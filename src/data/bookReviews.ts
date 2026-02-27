@@ -180,6 +180,8 @@ export interface BookData {
   kindleLink: string;
   isNew?: boolean;
   comingSoon?: boolean;
+  isFree?: boolean;
+  pdfDownloadUrl?: string;
   samplePages?: SamplePage[];
 }
 
@@ -397,6 +399,20 @@ export const booksData: BookData[] = [
         alt: "AI Adventures with Maggie - Cover Page"
       }
     ]
+  },
+  {
+    id: "easter",
+    coverImage: "/lovable-uploads/easter-cover.png",
+    title: "The Easter Story as told by Maggie: A Yorkie's Tale of Hope, Love, and New Beginnings",
+    languages: ["English"],
+    description: "Join Maggie as she shares the beautiful Easter story of hope, love, and new beginnings! This free downloadable PDF is perfect for families and kids who want to explore the true meaning of Easter through Maggie's gentle, heartwarming storytelling.",
+    reviewCount: 0,
+    amazonLink: "",
+    kindleLink: "",
+    isNew: true,
+    isFree: true,
+    pdfDownloadUrl: "/books/easter-story.pdf",
+    samplePages: []
   }
 ];
 

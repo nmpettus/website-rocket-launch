@@ -105,6 +105,23 @@ export const bookSEOData = {
       "maggie christmas book"
     ],
     ogImage: "/lovable-uploads/christmas-cover.jpg"
+  },
+  "easter": {
+    title: "Free Easter Story by Maggie - Download for Kids & Families",
+    description: "Download Maggie's free Easter story PDF! A heartwarming children's story about hope, love, and new beginnings. Perfect for families, Sunday school, and bedtime reading during Easter season.",
+    keywords: [
+      "free easter story for children",
+      "easter children's book pdf",
+      "free christian easter book",
+      "easter story for kids",
+      "easter sunday school resources",
+      "free easter download children",
+      "christian easter story kids",
+      "maggie easter story",
+      "easter picture book free",
+      "resurrection story children"
+    ],
+    ogImage: "/lovable-uploads/easter-cover.png"
   }
 };
 

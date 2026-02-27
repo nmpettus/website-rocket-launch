@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe, Book, Eye, BookOpen, ShoppingCart } from "lucide-react";
+import { Globe, Book, Eye, BookOpen, ShoppingCart, Download } from "lucide-react";
 import { SamplePage } from "@/data/bookReviews";
 import { Link } from "react-router-dom";
 
@@ -24,6 +24,8 @@ interface BookCardProps {
   bookId: string;
   isNew?: boolean;
   comingSoon?: boolean;
+  isFree?: boolean;
+  pdfDownloadUrl?: string;
   samplePages?: SamplePage[];
   onOpenReviews: (bookId: string, title: string) => void;
   onImageClick: (imageSrc: string) => void;
@@ -43,6 +45,8 @@ const BookCard = ({
   isNew = false,
   comingSoon = false,
   samplePages = [],
+  isFree = false,
+  pdfDownloadUrl,
   onOpenReviews,
   onImageClick,
   onOpenSample,
@@ -95,7 +99,8 @@ const BookCard = ({
       'gods-love': '/books/gods-love',
       'ai-adventures': '/books/ai-adventures',
       'thanksgiving': '/books/thanksgiving',
-      'christmas': '/books/christmas'
+      'christmas': '/books/christmas',
+      'easter': '/books/easter'
     };
     return routeMap[bookId];
   };
@@ -108,7 +113,11 @@ const BookCard = ({
       onMouseEnter={handleMouseEnter}
     >
       {/* Badge - positioned to not overlap with cover image */}
-      {comingSoon ? (
+      {isFree ? (
+        <Badge className="absolute top-3 left-4 z-20 bg-emerald-500 hover:bg-emerald-600 text-white font-medium px-3 py-1 shadow-md">
+          Free Download
+        </Badge>
+      ) : comingSoon ? (
         <Badge className="absolute top-3 left-4 z-20 bg-gold hover:bg-gold-dark text-charcoal font-medium px-3 py-1 shadow-md">
           Coming Soon
         </Badge>
@@ -193,29 +202,40 @@ const BookCard = ({
             </Link>
           )}
           
-          <div className={`grid ${kindleLink ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
+          {isFree && pdfDownloadUrl ? (
             <Button 
               size="sm"
-              variant="outline"
-              className="border-sage text-sage hover:bg-sage hover:text-white font-medium rounded-full text-xs"
-              onClick={() => window.open(amazonLink, "_blank")}
+              className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-full"
+              onClick={() => window.open(pdfDownloadUrl, "_blank")}
             >
-              <ShoppingCart className="w-3 h-3 mr-1" />
-              Amazon
+              <Download className="w-4 h-4 mr-2" />
+              Download Free PDF
             </Button>
-            
-            {kindleLink && (
+          ) : (
+            <div className={`grid ${kindleLink ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
               <Button 
                 size="sm"
                 variant="outline"
-                className="border-charcoal/30 text-charcoal hover:bg-charcoal hover:text-white font-medium rounded-full text-xs"
-                onClick={() => window.open(kindleLink, "_blank")}
+                className="border-sage text-sage hover:bg-sage hover:text-white font-medium rounded-full text-xs"
+                onClick={() => window.open(amazonLink, "_blank")}
               >
-                <Book className="w-3 h-3 mr-1" />
-                Kindle
+                <ShoppingCart className="w-3 h-3 mr-1" />
+                Amazon
               </Button>
-            )}
-          </div>
+              
+              {kindleLink && (
+                <Button 
+                  size="sm"
+                  variant="outline"
+                  className="border-charcoal/30 text-charcoal hover:bg-charcoal hover:text-white font-medium rounded-full text-xs"
+                  onClick={() => window.open(kindleLink, "_blank")}
+                >
+                  <Book className="w-3 h-3 mr-1" />
+                  Kindle
+                </Button>
+              )}
+            </div>
+          )}
           
           {hasSamples && (
             <Button 
