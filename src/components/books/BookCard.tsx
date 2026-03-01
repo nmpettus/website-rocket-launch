@@ -204,12 +204,14 @@ const BookCard = ({
           
           {isFree && pdfDownloadUrl ? (
             <Button 
+              asChild
               size="sm"
               className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-full"
-              onClick={() => window.open(pdfDownloadUrl, "_blank")}
             >
-              <Download className="w-4 h-4 mr-2" />
-              Download Free PDF
+              <a href={pdfDownloadUrl} target="_blank" rel="noopener noreferrer">
+                <Download className="w-4 h-4 mr-2" />
+                Download Free PDF
+              </a>
             </Button>
           ) : (
             <div className={`grid ${kindleLink ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
