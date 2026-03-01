@@ -411,7 +411,7 @@ export const booksData: BookData[] = [
     kindleLink: "",
     isNew: true,
     isFree: true,
-    pdfDownloadUrl: "/books/easter-story.pdf",
+    pdfDownloadUrl: "./books/easter-story.pdf",
     samplePages: []
   }
 ];
