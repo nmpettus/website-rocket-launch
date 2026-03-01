@@ -105,13 +105,11 @@ const EasterBook = () => {
               {/* Download Button */}
               <div className="space-y-3">
                 <Button
-                  asChild
                   className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-lg py-6"
+                  onClick={() => window.open('./books/easter-story.pdf', '_blank')}
                 >
-                  <a href={book.pdfDownloadUrl} download target="_blank" rel="noopener noreferrer">
-                    <Download className="w-5 h-5 mr-2" />
-                    Download Free Easter Story PDF
-                  </a>
+                  <Download className="w-5 h-5 mr-2" />
+                  Download Free Easter Story PDF
                 </Button>
                 <p className="text-center text-sm text-gray-500">
                   No sign-up required — just click and download! 🐣
