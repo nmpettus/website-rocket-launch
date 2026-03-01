@@ -34,6 +34,8 @@ const EasterBook = () => {
     setShowImageViewer(true);
   };
 
+  const downloadUrl = (book.pdfDownloadUrl ?? "/books/easter-story.pdf").replace(/^\.\//, "/");
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-green-50">
       <Navigation />
@@ -73,7 +75,7 @@ const EasterBook = () => {
                   asChild
                   className="bg-emerald-500 hover:bg-emerald-600 text-white mb-4 text-sm px-4 py-1 h-auto rounded-full"
                 >
-                  <a href={book.pdfDownloadUrl} target="_blank" rel="noopener noreferrer">
+                  <a href={downloadUrl} target="_blank" rel="noopener noreferrer">
                     <Gift className="w-4 h-4 mr-1" />
                     FREE Download
                   </a>
@@ -113,7 +115,7 @@ const EasterBook = () => {
                   asChild
                   className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-lg py-6"
                 >
-                  <a href={book.pdfDownloadUrl} target="_blank" rel="noopener noreferrer">
+                  <a href={downloadUrl} target="_blank" rel="noopener noreferrer">
                     <Download className="w-5 h-5 mr-2" />
                     Download Free Easter Story PDF
                   </a>
