@@ -5,7 +5,8 @@ import ImageViewer from "@/components/books/ImageViewer";
 import BookSampleViewer from "@/components/books/BookSampleViewer";
 import ReviewsModal, { Review } from "@/components/ReviewsModal";
 import bookReviews, { booksData, SamplePage } from "@/data/bookReviews";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Gift, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 // Define language links for each book
 const bookLanguageLinks = {
@@ -84,6 +85,26 @@ const Books = () => {
           </p>
         </div>
         
+        {/* Free Easter Story Banner */}
+        <Link to="/books/easter" className="block mb-10">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-pink-400 via-purple-400 to-emerald-400 p-[2px] shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 rounded-2xl bg-white/90 dark:bg-charcoal/90 px-6 py-4">
+              <div className="flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 shrink-0">
+                  <Gift className="w-5 h-5" />
+                </span>
+                <div>
+                  <span className="text-base md:text-lg font-bold text-foreground">🐣 Maggie's Easter Story — </span>
+                  <span className="text-base md:text-lg font-semibold text-emerald-600">FREE Download!</span>
+                </div>
+              </div>
+              <span className="inline-flex items-center gap-1 text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors whitespace-nowrap">
+                Get it now <ArrowRight className="w-4 h-4" />
+              </span>
+            </div>
+          </div>
+        </Link>
+
         {/* Books Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {booksData.map(book => (
