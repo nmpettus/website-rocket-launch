@@ -69,10 +69,12 @@ const EasterBook = () => {
                   </h1>
                 </div>
                 
-                <Badge className="bg-emerald-500 hover:bg-emerald-600 text-white mb-4 text-sm px-4 py-1">
-                  <Gift className="w-4 h-4 mr-1" />
-                  FREE Download
-                </Badge>
+                <a href={book.pdfDownloadUrl} target="_blank" rel="noopener noreferrer" className="inline-block">
+                  <Badge className="bg-emerald-500 hover:bg-emerald-600 text-white mb-4 text-sm px-4 py-1 cursor-pointer">
+                    <Gift className="w-4 h-4 mr-1" />
+                    FREE Download
+                  </Badge>
+                </a>
 
                 <p className="text-lg text-gray-600 leading-relaxed mb-4 mt-4">
                   {book.description}
