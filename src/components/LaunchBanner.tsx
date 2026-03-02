@@ -8,7 +8,7 @@ const LaunchBanner = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-400 via-pink-300 to-green-300 text-white py-2 px-4 shadow-lg">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-400 via-pink-300 to-green-300 text-black py-2 px-4 shadow-lg">
       <div className="container mx-auto flex items-center justify-center gap-2 text-sm md:text-base">
         <Sparkles className="w-4 h-4 animate-sparkle hidden sm:block" />
         <span className="text-lg hidden sm:inline">🐣</span>
