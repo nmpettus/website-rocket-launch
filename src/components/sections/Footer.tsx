@@ -4,13 +4,22 @@ import { booksData } from "@/data/bookReviews";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
-  const godsLoveBook = booksData.find(book => book.id === "gods-love");
-  const creationBook = booksData.find(book => book.id === "creation");
-  const noahBook = booksData.find(book => book.id === "noah");
-  const jonahBook = booksData.find(book => book.id === "jonah");
-  
-  const spanishVersionLink = "https://a.co/d/6ZbpRHg";
-  const italianVersionLink = "https://a.co/d/f0xPfeW";
+  const bookLinks = booksData.map(book => ({
+    id: book.id,
+    title: book.id === "gods-love" ? "God's Love" :
+           book.id === "creation" ? "Creation" :
+           book.id === "noah" ? "Noah's Ark" :
+           book.id === "jonah" ? "Jonah" :
+           book.id === "thanksgiving" ? "Thanksgiving" :
+           book.id === "christmas" ? "Christmas" :
+           book.id === "ai-adventures" ? "AI Adventures" :
+           book.id === "easter" ? "Easter Story (Free)" :
+           book.title,
+    url: book.id === "easter" ? "/books/easter" :
+         book.amazonLink || "#",
+    isInternal: book.id === "easter",
+    isFree: book.isFree
+  }));
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
