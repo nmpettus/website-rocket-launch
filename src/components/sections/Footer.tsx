@@ -4,13 +4,22 @@ import { booksData } from "@/data/bookReviews";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
-  const godsLoveBook = booksData.find(book => book.id === "gods-love");
-  const creationBook = booksData.find(book => book.id === "creation");
-  const noahBook = booksData.find(book => book.id === "noah");
-  const jonahBook = booksData.find(book => book.id === "jonah");
-  
-  const spanishVersionLink = "https://a.co/d/6ZbpRHg";
-  const italianVersionLink = "https://a.co/d/f0xPfeW";
+  const bookLinks = booksData.map(book => ({
+    id: book.id,
+    title: book.id === "gods-love" ? "God's Love" :
+           book.id === "creation" ? "Creation" :
+           book.id === "noah" ? "Noah's Ark" :
+           book.id === "jonah" ? "Jonah" :
+           book.id === "thanksgiving" ? "Thanksgiving" :
+           book.id === "christmas" ? "Christmas" :
+           book.id === "ai-adventures" ? "AI Adventures" :
+           book.id === "easter" ? "Easter Story (Free)" :
+           book.title,
+    url: book.id === "easter" ? "/books/easter" :
+         book.amazonLink || "#",
+    isInternal: book.id === "easter",
+    isFree: book.isFree
+  }));
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
@@ -97,12 +106,19 @@ const Footer = () => {
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-background/90 mb-6">Our Books</h3>
             <ul className="space-y-3">
-              <li><a href={godsLoveBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-background/60 hover:text-background transition-colors text-sm">God's Love</a></li>
-              <li><a href={creationBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-background/60 hover:text-background transition-colors text-sm">Creation</a></li>
-              <li><a href={noahBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-background/60 hover:text-background transition-colors text-sm">Noah's Ark</a></li>
-              <li><a href={jonahBook?.amazonLink} target="_blank" rel="noopener noreferrer" className="text-background/60 hover:text-background transition-colors text-sm">Jonah</a></li>
-              <li><a href={spanishVersionLink} target="_blank" rel="noopener noreferrer" className="text-background/60 hover:text-background transition-colors text-sm">Spanish Edition</a></li>
-              <li><a href={italianVersionLink} target="_blank" rel="noopener noreferrer" className="text-background/60 hover:text-background transition-colors text-sm">Italian Edition</a></li>
+              {bookLinks.map(book => (
+                <li key={book.id}>
+                  {book.isInternal ? (
+                    <Link to={book.url} className="text-background/60 hover:text-background transition-colors text-sm">
+                      {book.title}
+                    </Link>
+                  ) : (
+                    <a href={book.url} target="_blank" rel="noopener noreferrer" className="text-background/60 hover:text-background transition-colors text-sm">
+                      {book.title}
+                    </a>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
           
