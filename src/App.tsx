@@ -20,6 +20,7 @@ import ChristmasBook from "./pages/books/ChristmasBook";
 import ThanksgivingBook from "./pages/books/ThanksgivingBook";
 import EasterBook from "./pages/books/EasterBook";
 import About from "./pages/About";
+import OnlineLibrary from "./pages/OnlineLibrary";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
         <Route path="/books/thanksgiving" element={<ThanksgivingBook />} />
         <Route path="/books/easter" element={<EasterBook />} />
         <Route path="/about" element={<About />} />
+        <Route path="/online-library" element={<OnlineLibrary />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
