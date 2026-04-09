@@ -20,6 +20,7 @@ import ChristmasBook from "./pages/books/ChristmasBook";
 import ThanksgivingBook from "./pages/books/ThanksgivingBook";
 import EasterBook from "./pages/books/EasterBook";
 import About from "./pages/About";
+import OnlineLibrary from "./pages/OnlineLibrary";
 
 const queryClient = new QueryClient();
 
