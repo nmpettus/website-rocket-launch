@@ -394,7 +394,7 @@ export const booksData: BookData[] = [
     isNew: true,
     samplePages: [
       {
-        src: "/lovable-uploads/maggie-ai-cover-latest.jpg",
+        src: "/images/ai-adventure-cover.png",
         pageNumber: 1,
         alt: "AI Adventures with Maggie - Cover Page"
       }

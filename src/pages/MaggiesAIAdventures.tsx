@@ -121,7 +121,7 @@ const MaggiesAIAdventures = () => {
             <div className="relative max-w-4xl mx-auto">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-3xl blur-xl opacity-50" />
               <img
-                src="/lovable-uploads/maggie-ai-cover-latest.jpg"
+                src="/images/ai-adventure-cover.png"
                 alt="Maggie's AI Adventure - Full Book Cover with Front and Back"
                 className="relative w-full rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-300"
               />
