@@ -66,11 +66,11 @@ const OnlineLibrary = () => {
               >
                 <Card className="h-full overflow-hidden border-2 border-border hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 bg-card">
                   {/* Cover Image */}
-                  <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+                  <div className={`relative overflow-hidden bg-muted ${book.id === 'ai-adventures' ? 'aspect-[3/4]' : 'aspect-[3/4]'}`}>
                     <img
                       src={book.coverImage}
                       alt={book.title}
-                      className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${book.id === 'ai-adventures' ? 'object-right' : ''}`}
+                      className={`w-full h-full group-hover:scale-105 transition-transform duration-500 ${book.id === 'ai-adventures' ? 'object-cover object-[75%_center]' : 'object-cover'}`}
                       loading="lazy"
                     />
                     {/* Badges */}
