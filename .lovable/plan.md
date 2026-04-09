@@ -1,21 +1,16 @@
 
 
-## Plan: Open Online Books in a New Tab
+## Plan: Show Only Right Side of AI Adventures Cover in Online Library
 
-Since the Online Books page is a standalone HTML file hosted at `booksbymaggie.com/heroes`, the simplest solution is to open it in a new browser tab. Users can close that tab to return. No modification to the standalone `index.html` is needed at all.
+The AI Adventures cover image (`maggie-ai-cover-latest.jpg`) is a wide/landscape image. The user wants only the right-hand portion displayed in the Online Library grid card.
 
-### What changes
+### Approach
 
-**File: `src/components/Navigation.tsx`**
+**File: `src/pages/OnlineLibrary.tsx`**
 
-The "Online Books" nav link already has `isExternal: true`, which renders it as an `<a>` tag with `target="_blank"`. Looking at the current code, the desktop external link rendering already uses `target="_blank"` and `rel="noopener noreferrer"`, and the mobile menu does the same. So this should already be working.
+Add a conditional CSS class for the `ai-adventures` book card image. Instead of `object-cover` (which centers), use `object-right` so the right side of the image is shown when cropped into the 3:4 aspect ratio container.
 
-I will verify the current behavior is correct and ensure nothing is broken. If the link is already opening in a new tab, no code changes are needed -- the user simply closes the tab to return.
+Change on line 73: add a conditional class check — when `book.id === "ai-adventures"`, apply `object-right` instead of the default centered `object-cover`.
 
-### Summary
-
-- No changes to the standalone `heroes/index.html` file
-- The existing nav link already opens in a new tab (`target="_blank"`)
-- Users close the tab to return to the main site
-- No back button or snippet needed
+This is a one-line CSS change, no new files or complex logic needed.
 
