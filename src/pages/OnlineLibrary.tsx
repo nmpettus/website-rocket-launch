@@ -17,6 +17,7 @@ const bookRoutes: Record<string, string> = {
   "thanksgiving": "/books/thanksgiving",
   "ai-adventures": "/books/ai-adventures",
   "easter": "/books/easter",
+  "bible-heroes": "/online-library",
 };
 
 const OnlineLibrary = () => {
