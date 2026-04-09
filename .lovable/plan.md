@@ -1,50 +1,21 @@
 
 
-# Maggie's Easter Story - Free PDF Download
+## Plan: Open Online Books in a New Tab
 
-## Overview
-Add a free Easter story PDF download with two key elements: an announcement banner at the top of the site and a dedicated detail page for the Easter story.
+Since the Online Books page is a standalone HTML file hosted at `booksbymaggie.com/heroes`, the simplest solution is to open it in a new browser tab. Users can close that tab to return. No modification to the standalone `index.html` is needed at all.
 
-## What Will Be Built
+### What changes
 
-### 1. Easter Announcement Banner
-- Replace or update the current launch banner (LaunchBanner.tsx) to announce the free Easter story
-- Easter-themed styling with pastel colors (soft purples, pinks, greens)
-- "Free Download" call-to-action linking to the dedicated Easter story page
-- Dismissible with the X button (same as current banner behavior)
+**File: `src/components/Navigation.tsx`**
 
-### 2. Dedicated Easter Story Page
-- New page at `/books/easter` following the same layout as other book detail pages (breadcrumbs, cover image, description, FAQs)
-- Prominent "Download Free PDF" button that triggers the PDF download
-- Easter-themed styling and description
-- A "FREE" badge instead of price/purchase buttons
-- No Amazon/Kindle links since this is a free download
+The "Online Books" nav link already has `isExternal: true`, which renders it as an `<a>` tag with `target="_blank"`. Looking at the current code, the desktop external link rendering already uses `target="_blank"` and `rel="noopener noreferrer"`, and the mobile menu does the same. So this should already be working.
 
-### 3. Easter Story in the Bookshelf
-- Add the Easter story to the books data in `bookReviews.ts` so it appears in the bookshelf grid
-- Marked with a "Free" badge to distinguish it from paid books
-- "View Details" links to the dedicated page
+I will verify the current behavior is correct and ensure nothing is broken. If the link is already opening in a new tab, no code changes are needed -- the user simply closes the tab to return.
 
----
+### Summary
 
-## Technical Details
-
-### New Files
-- `src/pages/books/EasterBook.tsx` - Dedicated detail page with PDF download button
-
-### Modified Files
-- `src/components/LaunchBanner.tsx` - Update to announce the Easter story with Easter-themed colors and link to `/books/easter`
-- `src/data/bookReviews.ts` - Add Easter story entry to `booksData` array with a `isFree: true` flag and empty `amazonLink`/`kindleLink`
-- `src/data/seoData.ts` - Add SEO data for the Easter book page
-- `src/App.tsx` - Add route for `/books/easter` (using HashRouter as per project conventions)
-- `src/components/books/BookCard.tsx` - Handle `isFree` flag: show "Free Download" badge and replace Amazon/Kindle buttons with a download button when the book is free
-
-### PDF Hosting
-- The uploaded PDF will be placed in the `public/` folder (e.g., `public/books/easter-story.pdf`)
-- Download button will link directly to the PDF file
-
-### Book Card Changes for Free Books
-- Show a "Free" badge (green) in the top-left corner
-- Replace the Amazon/Kindle purchase buttons with a single "Download Free PDF" button
-- Keep the "View Details" button linking to the detail page
+- No changes to the standalone `heroes/index.html` file
+- The existing nav link already opens in a new tab (`target="_blank"`)
+- Users close the tab to return to the main site
+- No back button or snippet needed
 
