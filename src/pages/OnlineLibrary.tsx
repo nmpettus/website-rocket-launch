@@ -57,7 +57,7 @@ const OnlineLibrary = () => {
       <section className="pb-20">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {booksData.map((book) => (
+            {[...booksData].sort((a, b) => (a.isFree ? 0 : 1) - (b.isFree ? 0 : 1)).map((book) => (
               <Link
                 key={book.id}
                 to={bookRoutes[book.id] || "/"}
