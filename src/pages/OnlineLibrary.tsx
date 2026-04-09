@@ -85,6 +85,11 @@ const OnlineLibrary = () => {
                           🎁 FREE
                         </Badge>
                       )}
+                      {book.comingSoon && (
+                        <Badge className="bg-secondary text-secondary-foreground text-xs font-bold px-2 py-1 shadow-md">
+                          🔜 COMING SOON
+                        </Badge>
+                      )}
                     </div>
                     {/* Hover overlay */}
                     <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300 flex items-center justify-center">
