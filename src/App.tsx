@@ -47,6 +47,7 @@ const App = () => (
         <Route path="/books/thanksgiving" element={<ThanksgivingBook />} />
         <Route path="/books/easter" element={<EasterBook />} />
         <Route path="/about" element={<About />} />
+        <Route path="/online-library" element={<OnlineLibrary />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
