@@ -384,7 +384,7 @@ export const booksData: BookData[] = [
   },
   {
     id: "ai-adventures",
-    coverImage: "/lovable-uploads/maggie-ai-cover-latest.jpg",
+    coverImage: "/src/assets/ai-adventure-cover.png",
     title: "AI Adventures with Maggie - The Smartest Dog in the World Meets the Smartest Technology",
     languages: ["English"],
     description: "Maggie the dog and Riley the tech-curious kid team up with Artie the AI robot to answer one big question: How do computers learn? Through laugh-out-loud moments and mind-expanding discoveries, they unlock the secrets of pixels, patterns, and what makes humans truly special.",
