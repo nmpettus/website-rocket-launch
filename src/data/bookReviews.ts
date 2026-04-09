@@ -413,6 +413,20 @@ export const booksData: BookData[] = [
     isFree: true,
     pdfDownloadUrl: "./books/easter-story.pdf",
     samplePages: []
+  },
+  {
+    id: "bible-heroes",
+    coverImage: "/lovable-uploads/a30b516d-17c3-44e1-bd65-120f84bc64a2.png",
+    title: "Bible Heroes and Heroines as told by Maggie",
+    languages: ["English"],
+    description: "Meet the brave heroes and heroines of the Bible through Maggie's fun and faith-filled storytelling! Coming soon — a free online story for kids and families.",
+    reviewCount: 0,
+    amazonLink: "",
+    kindleLink: "",
+    isNew: true,
+    isFree: true,
+    comingSoon: true,
+    samplePages: []
   }
 ];
 
