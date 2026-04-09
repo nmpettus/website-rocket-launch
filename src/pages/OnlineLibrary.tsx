@@ -70,7 +70,7 @@ const OnlineLibrary = () => {
                     <img
                       src={book.coverImage}
                       alt={book.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${book.id === 'ai-adventures' ? 'object-right' : ''}`}
                       loading="lazy"
                     />
                     {/* Badges */}
