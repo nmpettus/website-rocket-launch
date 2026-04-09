@@ -15,8 +15,6 @@ const NAV_LINKS = [
   { id: 'videos', label: 'Videos', isRoute: true, route: '/videos' },
   { id: 'activities', label: 'Activities', isRoute: false },
   { id: 'games', label: 'Games', isRoute: false },
-  { id: 'newsletter', label: 'Newsletter', isRoute: false },
-  { id: 'contact', label: 'Contact', isRoute: false },
 ];
 
 const Navigation = () => {
