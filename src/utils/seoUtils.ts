@@ -34,7 +34,8 @@ export const updateMetaTags = (seoData: SEOData) => {
 
   // Basic meta tags
   updateMetaTag('description', seoData.description);
-  updateMetaTag('keywords', seoData.keywords.join(', '));
+  const keywords = Array.isArray(seoData.keywords) ? seoData.keywords : [];
+  updateMetaTag('keywords', keywords.join(', '));
 
   // Open Graph tags
   updateMetaTag('og:title', seoData.ogTitle || seoData.title, true);
