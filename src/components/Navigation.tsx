@@ -192,7 +192,14 @@ const Navigation = () => {
             {/* Shop Books CTA */}
             <Button 
               className="ml-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-4 py-1.5 text-xs rounded-lg transition-colors duration-200"
-              onClick={() => document.getElementById('books')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => {
+                const booksSection = document.getElementById('books');
+                if (booksSection) {
+                  booksSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  window.location.href = '/#books';
+                }
+              }}
             >
               <BookOpen className="w-3.5 h-3.5 mr-1.5" />
               Shop Books
@@ -276,7 +283,14 @@ const Navigation = () => {
                     <SheetClose asChild>
                       <Button 
                         className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 rounded-lg"
-                        onClick={() => document.getElementById('books')?.scrollIntoView({ behavior: 'smooth' })}
+                        onClick={() => {
+                          const booksSection = document.getElementById('books');
+                          if (booksSection) {
+                            booksSection.scrollIntoView({ behavior: 'smooth' });
+                          } else {
+                            window.location.href = '/#books';
+                          }
+                        }}
                       >
                         <BookOpen className="w-4 h-4 mr-2" />
                         Shop Books
