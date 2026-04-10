@@ -190,7 +190,17 @@ const BookCard = ({
 
         {/* Action Buttons */}
         <div className="space-y-2 mt-auto">
-          {bookRoute && (
+          {bookId === 'bible-heroes' ? (
+            <a href="https://booksbymaggie.com/heroes" target="_blank" rel="noopener noreferrer" className="block">
+              <Button 
+                size="sm"
+                className="w-full bg-sage hover:bg-sage-dark text-white font-medium rounded-full"
+              >
+                <BookOpen className="w-4 h-4 mr-2" />
+                Read Online
+              </Button>
+            </a>
+          ) : bookRoute ? (
             <Link to={bookRoute} className="block">
               <Button 
                 size="sm"
@@ -200,7 +210,7 @@ const BookCard = ({
                 View Details
               </Button>
             </Link>
-          )}
+          ) : null}
           
           {isFree && pdfDownloadUrl ? (
             <Button 
