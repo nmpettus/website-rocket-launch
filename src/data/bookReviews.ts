@@ -376,9 +376,29 @@ export const booksData: BookData[] = [
     isNew: true,
     samplePages: [
       {
-        src: "/lovable-uploads/christmas-cover.jpg",
+        src: "/images/christmas-sample-1.png",
         pageNumber: 1,
-        alt: "Christmas as told by Maggie - Cover Page"
+        alt: "Christmas as told by Maggie - Title Page"
+      },
+      {
+        src: "/images/christmas-sample-2.png",
+        pageNumber: 2,
+        alt: "Christmas as told by Maggie - Copyright Page"
+      },
+      {
+        src: "/images/christmas-sample-3.png",
+        pageNumber: 3,
+        alt: "Christmas as told by Maggie - Dedication Page"
+      },
+      {
+        src: "/images/christmas-sample-4.png",
+        pageNumber: 4,
+        alt: "Christmas as told by Maggie - What Is a Prophecy"
+      },
+      {
+        src: "/images/christmas-sample-5.png",
+        pageNumber: 5,
+        alt: "Christmas as told by Maggie - Angel and Maggie's Adventure"
       }
     ]
   },
