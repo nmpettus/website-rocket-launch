@@ -126,8 +126,10 @@ const OnlineLibrary = () => {
                     </div>
                   </CardContent>
                 </Card>
-              </Link>
-            ))}
+                  {isExternal ? </> : null}
+                  {!isExternal ? </> : null}
+              {isExternal ? </a> : </Link>}
+            })}
           </div>
         </div>
       </section>
