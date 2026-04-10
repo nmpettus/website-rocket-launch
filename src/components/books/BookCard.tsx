@@ -223,7 +223,7 @@ const BookCard = ({
                 Download Free PDF
               </a>
             </Button>
-          ) : (
+          ) : bookId !== 'bible-heroes' && (
             <div className={`grid ${kindleLink ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
               <Button 
                 size="sm"
