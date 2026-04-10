@@ -403,11 +403,13 @@ export const booksData: BookData[] = [
     kindleLink: "",
     isNew: true,
     samplePages: [
-      {
-        src: "/images/ai-adventure-cover.png",
-        pageNumber: 1,
-        alt: "AI Adventures with Maggie - Cover Page"
-      }
+      { src: "/images/ai-adventure-sample-1.png", pageNumber: 1, alt: "AI Adventures with Maggie - Title Page" },
+      { src: "/images/ai-adventure-sample-2.png", pageNumber: 2, alt: "AI Adventures with Maggie - Copyright Page" },
+      { src: "/images/ai-adventure-sample-3.png", pageNumber: 3, alt: "AI Adventures with Maggie - Dedication Page" },
+      { src: "/images/ai-adventure-sample-4.png", pageNumber: 4, alt: "AI Adventures with Maggie - Our Team of Contributors" },
+      { src: "/images/ai-adventure-sample-5.png", pageNumber: 5, alt: "AI Adventures with Maggie - Table of Contents" },
+      { src: "/images/ai-adventure-sample-6.png", pageNumber: 6, alt: "AI Adventures with Maggie - Discovery Team" },
+      { src: "/images/ai-adventure-sample-7.png", pageNumber: 7, alt: "AI Adventures with Maggie - Dog Detected Scene" }
     ]
   },
   {
