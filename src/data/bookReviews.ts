@@ -347,21 +347,11 @@ export const booksData: BookData[] = [
     kindleLink: "https://a.co/d/7Eqcogw",
     isNew: true,
     samplePages: [
-      {
-        src: "/lovable-uploads/thanksgiving-cover.png",
-        pageNumber: 1,
-        alt: "The First Thanksgiving - Cover Page"
-      },
-      {
-        src: "/lovable-uploads/thanksgiving-sample-1.png",
-        pageNumber: 2,
-        alt: "The First Thanksgiving - Sample Page 1"
-      },
-      {
-        src: "/lovable-uploads/thanksgiving-sample-2.png",
-        pageNumber: 3,
-        alt: "The First Thanksgiving - Sample Page 2"
-      }
+      { src: "/images/thanksgiving-sample-1.png", pageNumber: 1, alt: "The First Thanksgiving - Title Page" },
+      { src: "/images/thanksgiving-sample-2.png", pageNumber: 2, alt: "The First Thanksgiving - Copyright Page" },
+      { src: "/images/thanksgiving-sample-3.png", pageNumber: 3, alt: "The First Thanksgiving - Dedication Page" },
+      { src: "/images/thanksgiving-sample-4.png", pageNumber: 4, alt: "The First Thanksgiving - Maggie's Introduction" },
+      { src: "/images/thanksgiving-sample-5.png", pageNumber: 5, alt: "The First Thanksgiving - The Pilgrims' Story Begins" }
     ]
   },
   {
