@@ -100,8 +100,7 @@ const BookCard = ({
       'ai-adventures': '/books/ai-adventures',
       'thanksgiving': '/books/thanksgiving',
       'christmas': '/books/christmas',
-      'easter': '/books/easter',
-      'bible-heroes': '/online-library'
+      'easter': '/books/easter'
     };
     return routeMap[bookId];
   };
