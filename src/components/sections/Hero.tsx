@@ -115,6 +115,23 @@ const Hero = () => {
                     decoding="async"
                   />
                 </div>
+
+                {/* Matteo - puppy successor */}
+                <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 w-32 h-32 md:w-44 md:h-44">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/30 to-primary/20" />
+                  <div className="absolute inset-2 rounded-full overflow-hidden border-4 border-background shadow-xl bg-background">
+                    <img
+                      src="/lovable-uploads/MatteoFront.png"
+                      alt="Matteo the puppy - Maggie's successor"
+                      className="w-full h-full object-contain"
+                      loading="eager"
+                      decoding="async"
+                    />
+                  </div>
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full shadow-md whitespace-nowrap">
+                    Meet Matteo!
+                  </div>
+                </div>
               </div>
               
             </div>
