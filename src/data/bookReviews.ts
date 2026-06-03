@@ -413,6 +413,19 @@ export const booksData: BookData[] = [
     ]
   },
   {
+    id: "independence-day",
+    coverImage: "/lovable-uploads/independence-day-cover.jpg",
+    title: "Independence Day as told by Maggie to Matteo: A Patriotic Fourth of July Story for Kids | America's 250th Anniversary Edition",
+    languages: ["English"],
+    description: "Celebrate America's 250th birthday with the littlest patriot of all — a puppy named Matteo! When fireworks wake little Matteo with a BOOM, his wise big sister Maggie takes him on a joyful, giggle-filled journey through the true story of how America was born — the thirteen colonies, the Boston Tea Party, the brave leaders in Philadelphia, and the day in 1776 when the Declaration of Independence changed the world forever. A warm faith-and-gratitude keepsake rooted in Galatians 5:13, perfect for ages 4–10.",
+    reviewCount: 0,
+    amazonLink: "https://www.amazon.com/Independence-Day-told-Maggie-Matteo/dp/B0H3L5NVL7",
+    kindleLink: "",
+    isNew: true,
+    samplePages: []
+  },
+  {
+
     id: "easter",
     coverImage: "/lovable-uploads/easter-cover.png",
     title: "The Easter Story as told by Maggie: A Yorkie's Tale of Hope, Love, and New Beginnings",
