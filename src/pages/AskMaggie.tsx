@@ -237,6 +237,7 @@ const AskMaggie = () => {
           />
           <Button
             type="submit"
+            aria-label="Send message"
             disabled={!input.trim() || isLoading}
             className="bg-gold hover:bg-gold-dark text-charcoal px-4"
           >
