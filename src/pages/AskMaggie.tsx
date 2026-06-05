@@ -56,6 +56,44 @@ const AskMaggie = () => {
     title: "Ask Maggie a Bible Question | Maggie's Bible Adventures",
     description: "Chat with Maggie the Yorkie Poo about Bible stories, characters, and lessons. Get child-friendly answers to your Bible questions!",
     keywords: ["Bible questions for kids", "children's Bible chat", "Maggie chatbot", "Bible stories", "faith-based learning"],
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Who is Maggie?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Maggie is a friendly Yorkie Poo who loves to share Bible stories with children in fun, easy-to-understand ways."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What can I ask Maggie?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ask Maggie about Bible stories, characters like Noah and Jonah, God's love, Creation, Jesus, or any faith question kids might have."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are Maggie's answers child-friendly?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Maggie answers in warm, age-appropriate language with KJV Bible verses, grounded in Grace-based Christian theology."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Ask Maggie free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, chatting with Maggie is completely free. No sign-up is required."
+          }
+        }
+      ]
+    }
   });
 
   const scrollToBottom = () => {
@@ -237,6 +275,7 @@ const AskMaggie = () => {
           />
           <Button
             type="submit"
+            aria-label="Send message"
             disabled={!input.trim() || isLoading}
             className="bg-gold hover:bg-gold-dark text-charcoal px-4"
           >

@@ -35,11 +35,6 @@ const Index = () => {
       "publisher": {
         "@type": "Organization",
         "name": "Maggie's Bible Adventures"
-      },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": `${window.location.origin}/search?q={search_term_string}`,
-        "query-input": "required name=search_term_string"
       }
     }
   });

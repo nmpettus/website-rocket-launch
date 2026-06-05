@@ -97,9 +97,9 @@ const OnlineLibrary = () => {
                   </div>
 
                   <CardContent className="p-4">
-                    <h3 className="font-display font-semibold text-foreground text-sm leading-snug mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                    <h2 className="font-display font-semibold text-foreground text-sm leading-snug mb-2 line-clamp-2 group-hover:text-primary transition-colors">
                       {book.title}
-                    </h3>
+                    </h2>
                     <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
                       {book.description}
                     </p>

@@ -67,6 +67,7 @@ const Videos = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <Input
                   type="text"
+                  aria-label="Search videos"
                   placeholder="Search videos..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -149,9 +150,9 @@ const Videos = () => {
                     </Dialog>
                     
                     <div className="p-6">
-                      <h3 className="text-xl font-bold text-gray-800 mb-2 font-['Comic_Neue'] line-clamp-2">
+                      <h2 className="text-xl font-bold text-gray-800 mb-2 font-['Comic_Neue'] line-clamp-2">
                         {video.title}
-                      </h3>
+                      </h2>
                       <p className="text-gray-600 text-sm line-clamp-3 mb-3">
                         {video.description}
                       </p>
@@ -173,16 +174,16 @@ const Videos = () => {
             ) : (
               <div className="text-center py-16">
                 <div className="text-6xl mb-4">🎬</div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">No videos found</h3>
+                <h2 className="text-2xl font-bold text-gray-800 mb-2">No videos found</h2>
                 <p className="text-gray-600">Try adjusting your search or filter criteria.</p>
               </div>
             )}
 
             {/* Call to Action */}
             <div className="text-center mt-16 bg-white rounded-2xl p-8 shadow-lg">
-              <h3 className="text-3xl font-bold text-gray-800 mb-4 font-['Comic_Neue']">
+              <h2 className="text-3xl font-bold text-gray-800 mb-4 font-['Comic_Neue']">
                 Want to see more videos?
-              </h3>
+              </h2>
               <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
                 Have a video idea for Maggie? We're always creating new content and would love to hear your suggestions!
               </p>
