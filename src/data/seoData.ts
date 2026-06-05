@@ -1,8 +1,13 @@
 
+const SITE_URL = "https://booksbymaggie.com";
+
+const absoluteImage = (path: string) =>
+  path.startsWith("http") ? path : `${SITE_URL}${path}`;
+
 export const bookSEOData = {
   creation: {
     title: "Creation as told by Maggie - Children's Bible Story Book",
-    description: "Discover God's amazing creation story through Maggie's eyes! A beautiful children's Bible book available in English, Spanish, and Italian. Perfect for teaching kids about God's wonderful world.",
+    description: "Discover God's creation story through Maggie's eyes! A children's Bible book in English, Spanish, and Italian — perfect for teaching kids about God's world.",
     keywords: [
       "creation story for children",
       "children's bible stories",
@@ -15,11 +20,11 @@ export const bookSEOData = {
       "spanish christian books for kids",
       "italian bible stories children"
     ],
-    ogImage: "/lovable-uploads/2541c224-1f8f-49ba-af72-b6d7d52bb1a7.png"
+    ogImage: absoluteImage("/lovable-uploads/2541c224-1f8f-49ba-af72-b6d7d52bb1a7.png")
   },
   "noah": {
     title: "Noah's Ark as told by Maggie - Children's Bible Adventure",
-    description: "Join Maggie as she tells the incredible story of Noah's Ark! A captivating children's Bible book that brings this classic story to life with beautiful illustrations and engaging storytelling.",
+    description: "Join Maggie as she tells the story of Noah's Ark! A captivating children's Bible book with beautiful illustrations and engaging storytelling for kids.",
     keywords: [
       "noah's ark children's book",
       "bible stories for kids",
@@ -32,11 +37,11 @@ export const bookSEOData = {
       "children's bible collection",
       "maggie bible stories"
     ],
-    ogImage: "/lovable-uploads/6eafedb9-930e-4688-8ed6-23f6eea36ca1.png"
+    ogImage: absoluteImage("/lovable-uploads/6eafedb9-930e-4688-8ed6-23f6eea36ca1.png")
   },
   jonah: {
     title: "Jonah as told by Maggie - Children's Bible Story",
-    description: "Experience the amazing story of Jonah and the whale through Maggie's storytelling! A wonderful children's Bible book that teaches about obedience, forgiveness, and God's love.",
+    description: "Experience the story of Jonah and the whale through Maggie's storytelling! A children's Bible book about obedience, forgiveness, and God's love.",
     keywords: [
       "jonah and the whale children's book",
       "bible stories for kids",
@@ -49,11 +54,11 @@ export const bookSEOData = {
       "forgiveness children's books",
       "maggie tells bible stories"
     ],
-    ogImage: "/lovable-uploads/c970bc57-998b-46d1-ae91-2a990f12a72e.png"
+    ogImage: absoluteImage("/lovable-uploads/c970bc57-998b-46d1-ae91-2a990f12a72e.png")
   },
   "gods-love": {
     title: "God's Love as told by Maggie - Children's Christian Book",
-    description: "Discover the depth of God's amazing love through Maggie's heartwarming storytelling! A beautiful children's book that teaches kids about God's unconditional love and care.",
+    description: "Discover the depth of God's love through Maggie's heartwarming storytelling! A children's book that teaches kids about God's unconditional love and care.",
     keywords: [
       "god's love children's book",
       "christian books for kids",
@@ -66,11 +71,11 @@ export const bookSEOData = {
       "bible stories about love",
       "maggie christian stories"
     ],
-    ogImage: "/lovable-uploads/e318e838-5b07-4cb8-bec7-25b2c12f9a63.png"
+    ogImage: absoluteImage("/lovable-uploads/e318e838-5b07-4cb8-bec7-25b2c12f9a63.png")
   },
   "ai-adventures": {
     title: "AI Adventures with Maggie - Educational Children's Book",
-    description: "Join Maggie on exciting AI adventures! A unique educational book that introduces children to artificial intelligence concepts in a fun, age-appropriate way.",
+    description: "Join Maggie on AI adventures! A unique educational book that introduces children to artificial intelligence in a fun, age-appropriate way.",
     keywords: [
       "ai for kids",
       "artificial intelligence children's book",
@@ -83,11 +88,11 @@ export const bookSEOData = {
       "ai education children",
       "future technology kids book"
     ],
-    ogImage: "/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png"
+    ogImage: absoluteImage("/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png")
   },
   "christmas": {
     title: "Christmas as told by Maggie - Children's Christian Christmas Book",
-    description: "Discover the Christmas story through God's promises with Maggie! A beautiful children's book that reveals how every prophecy came true on that holy night. Perfect for teaching kids about Jesus' birth and God's perfect plan.",
+    description: "The Christmas story through God's promises with Maggie! See how every prophecy came true on that holy night — perfect for teaching kids about Jesus' birth.",
     keywords: [
       "christmas story for children",
       "children's christmas bible book",
@@ -104,11 +109,28 @@ export const bookSEOData = {
       "bethlehem story kids",
       "maggie christmas book"
     ],
-    ogImage: "/lovable-uploads/christmas-cover.jpg"
+    ogImage: absoluteImage("/lovable-uploads/christmas-cover.jpg")
+  },
+  "thanksgiving": {
+    title: "Thanksgiving as told by Maggie - Children's Christian Book",
+    description: "Celebrate Thanksgiving with Maggie! A heartwarming children's story about gratitude, family, and God's blessings — perfect for the holiday season.",
+    keywords: [
+      "thanksgiving story for children",
+      "children's thanksgiving book",
+      "christian thanksgiving books",
+      "gratitude story for kids",
+      "thanksgiving picture book",
+      "faith-based thanksgiving",
+      "kids thanksgiving devotional",
+      "maggie thanksgiving",
+      "thankfulness children's book",
+      "harvest story kids"
+    ],
+    ogImage: absoluteImage("/lovable-uploads/thanksgiving-cover.jpg")
   },
   "easter": {
     title: "Free Easter Story by Maggie - Download for Kids & Families",
-    description: "Download Maggie's free Easter story PDF! A heartwarming children's story about hope, love, and new beginnings. Perfect for families, Sunday school, and bedtime reading during Easter season.",
+    description: "Download Maggie's free Easter story PDF! A heartwarming children's story about hope, love, and new beginnings — perfect for families and Sunday school.",
     keywords: [
       "free easter story for children",
       "easter children's book pdf",
@@ -121,13 +143,13 @@ export const bookSEOData = {
       "easter picture book free",
       "resurrection story children"
     ],
-    ogImage: "/lovable-uploads/easter-cover.png"
+    ogImage: absoluteImage("/lovable-uploads/easter-cover.png")
   }
 };
 
 export const homeSEOData = {
   title: "Christian Children's Books by Maggie | Faith-Based Stories",
-  description: "Discover amazing Bible stories through Maggie's eyes! Christian children's books featuring Creation, Noah's Ark, Jonah, and God's Love. Perfect for teaching kids about faith, love, and God's wonderful world.",
+  description: "Bible stories through Maggie's eyes — Christian children's books featuring Creation, Noah's Ark, Jonah, and God's Love. Faith, love, and God's wonderful world.",
   keywords: [
     "children's bible stories",
     "christian children's books",
@@ -145,5 +167,5 @@ export const homeSEOData = {
     "christian books for toddlers",
     "bible stories with illustrations"
   ],
-  ogImage: "/lovable-uploads/maggie1.jpg"
+  ogImage: absoluteImage("/lovable-uploads/maggie1.jpg")
 };

@@ -1,0 +1,32 @@
+# Books by Maggie
+
+> Christian children's books narrated by Maggie the Yorkie Poo — Bible stories, faith-based adventures, and free downloads for families.
+
+Maggie's Bible Adventures publishes illustrated children's books that tell classic Bible stories (Creation, Noah's Ark, Jonah, God's Love, Christmas, Thanksgiving, Easter) and original adventures, available in English, Spanish, and Italian. The site also hosts a free online library, a kid-friendly Bible chatbot, and a video channel.
+
+## Pages
+
+- [Home](/): Overview of Maggie's books, videos, and activities.
+- [About](/about): About the author and Maggie the Yorkie Poo.
+- [Online Library](/online-library): Browse and read Maggie's books online.
+- [Videos](/videos): Maggie's video Bible adventures and storytime.
+- [Ask Maggie](/ask-maggie): Chat with Maggie about Bible stories and faith questions.
+- [Maggie's AI Adventures](/maggies-ai-adventures): Companion page for the AI Adventures book.
+- [Chapter Zero](/chapter-zero): Preview chapter content.
+
+## Books
+
+- [Creation](/books/creation): The story of God creating the world, told by Maggie.
+- [Noah's Ark](/books/noahs-ark): Noah, the animals, and the great flood.
+- [Jonah](/books/jonah): Jonah and the whale — obedience and forgiveness.
+- [God's Love](/books/gods-love): A picture book about God's unconditional love.
+- [AI Adventures](/books/ai-adventures): An age-appropriate introduction to AI with Maggie.
+- [Christmas](/books/christmas): The Nativity story through fulfilled prophecy.
+- [Thanksgiving](/books/thanksgiving): A Thanksgiving story with Maggie.
+- [Easter](/books/easter): Free downloadable Easter story PDF.
+
+## Optional
+
+- [Privacy Policy](/privacy-policy)
+- [Terms of Service](/terms-of-service)
+- [Cookie Policy](/cookie-policy)
