@@ -21,6 +21,7 @@ import ThanksgivingBook from "./pages/books/ThanksgivingBook";
 import EasterBook from "./pages/books/EasterBook";
 import About from "./pages/About";
 import OnlineLibrary from "./pages/OnlineLibrary";
+import BibleVersesGodsLove from "./pages/BibleVersesGodsLove";
 
 const queryClient = new QueryClient();
 
