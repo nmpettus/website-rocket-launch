@@ -21,7 +21,7 @@ const BookGiveaway = () => {
         <div className="md:w-1/3 p-4 mt-6 md:mt-0 flex justify-center">
           <div className="bg-white p-2 rounded-lg shadow-md w-48 h-48">
             <img 
-              src="/lovable-uploads/8eb8d306-89d0-44c9-9ad6-cb7068e47e38.png" 
+              src="/lovable-uploads/QR_Donation.png" 
               alt="QR Code for Free Book Giveaway" 
               className="w-full h-full object-contain"
             />
