@@ -49,6 +49,7 @@ const App = () => (
         <Route path="/books/easter" element={<EasterBook />} />
         <Route path="/about" element={<About />} />
         <Route path="/online-library" element={<OnlineLibrary />} />
+        <Route path="/resources/bible-verses-gods-love" element={<BibleVersesGodsLove />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
