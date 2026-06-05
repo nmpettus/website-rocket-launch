@@ -16,12 +16,15 @@ export const useSEO = (seoData: UseSEOProps) => {
   React.useEffect(() => {
     const baseUrl = window.location.origin;
     const currentUrl = window.location.href;
-    
+    const ogImage = seoData.ogImage
+      ? (seoData.ogImage.startsWith("http") ? seoData.ogImage : `${baseUrl}${seoData.ogImage}`)
+      : undefined;
+
     updateMetaTags({
       ...seoData,
       ogUrl: currentUrl,
       canonicalUrl: seoData.canonicalUrl || currentUrl,
-      ogImage: seoData.ogImage ? `${baseUrl}${seoData.ogImage}` : undefined
+      ogImage
     });
 
     // Cleanup function to restore default title when component unmounts
