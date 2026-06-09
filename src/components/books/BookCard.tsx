@@ -255,8 +255,7 @@ const BookCard = ({
               {appleBooksLink && (
                 <Button 
                   size="sm"
-                  variant="outline"
-                  className="w-full border-charcoal/30 text-charcoal hover:bg-charcoal hover:text-white font-medium rounded-full text-xs"
+                  className="w-full bg-charcoal hover:bg-charcoal/90 text-white font-medium rounded-full text-xs"
                   onClick={() => window.open(appleBooksLink, "_blank")}
                 >
                   <ExternalLink className="w-3 h-3 mr-1" />
