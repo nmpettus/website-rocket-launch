@@ -19,6 +19,7 @@ import NoahsArkBook from "./pages/books/NoahsArkBook";
 import ChristmasBook from "./pages/books/ChristmasBook";
 import ThanksgivingBook from "./pages/books/ThanksgivingBook";
 import EasterBook from "./pages/books/EasterBook";
+import IndependenceDayBook from "./pages/books/IndependenceDayBook";
 import About from "./pages/About";
 import OnlineLibrary from "./pages/OnlineLibrary";
 import BibleVersesGodsLove from "./pages/BibleVersesGodsLove";
@@ -47,6 +48,7 @@ const App = () => (
         <Route path="/books/christmas" element={<ChristmasBook />} />
         <Route path="/books/thanksgiving" element={<ThanksgivingBook />} />
         <Route path="/books/easter" element={<EasterBook />} />
+        <Route path="/books/independence-day" element={<IndependenceDayBook />} />
         <Route path="/about" element={<About />} />
         <Route path="/online-library" element={<OnlineLibrary />} />
         <Route path="/resources/bible-verses-gods-love" element={<BibleVersesGodsLove />} />
