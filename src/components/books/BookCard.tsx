@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe, Book, Eye, BookOpen, ShoppingCart, Download } from "lucide-react";
+import { Globe, Book, Eye, BookOpen, ShoppingCart, Download, ExternalLink } from "lucide-react";
 import { SamplePage } from "@/data/bookReviews";
 import { Link } from "react-router-dom";
 
