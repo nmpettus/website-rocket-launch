@@ -21,6 +21,7 @@ interface BookCardProps {
   reviewCount: number;
   amazonLink: string;
   kindleLink: string;
+  appleBooksLink?: string;
   bookId: string;
   isNew?: boolean;
   comingSoon?: boolean;
