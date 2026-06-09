@@ -14,7 +14,7 @@ import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
-import LaunchBanner from "@/components/LaunchBanner";
+
 import { useSEO } from "@/hooks/useSEO";
 import { homeSEOData } from "@/data/seoData";
 
@@ -41,7 +41,6 @@ const Index = () => {
 
   return (
     <>
-      <LaunchBanner />
       <Navigation />
       <Hero />
       <Books />
