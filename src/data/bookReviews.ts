@@ -178,6 +178,7 @@ export interface BookData {
   reviewCount: number;
   amazonLink: string;
   kindleLink: string;
+  appleBooksLink?: string;
   isNew?: boolean;
   comingSoon?: boolean;
   isFree?: boolean;
@@ -401,6 +402,7 @@ export const booksData: BookData[] = [
     reviewCount: 0,
     amazonLink: "https://a.co/d/03abDACO",
     kindleLink: "",
+    appleBooksLink: "https://books.apple.com/us/book/id6772001398",
     isNew: true,
     samplePages: [
       { src: "/images/ai-adventure-sample-1.png", pageNumber: 1, alt: "AI Adventures with Maggie - Title Page" },
@@ -421,6 +423,7 @@ export const booksData: BookData[] = [
     reviewCount: 0,
     amazonLink: "https://www.amazon.com/Independence-Day-told-Maggie-Matteo/dp/B0H3L5NVL7",
     kindleLink: "",
+    appleBooksLink: "https://books.apple.com/us/book/id6775633849",
     isNew: true,
     samplePages: []
   },

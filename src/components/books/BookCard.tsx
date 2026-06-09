@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe, Book, Eye, BookOpen, ShoppingCart, Download } from "lucide-react";
+import { Globe, Book, Eye, BookOpen, ShoppingCart, Download, ExternalLink } from "lucide-react";
 import { SamplePage } from "@/data/bookReviews";
 import { Link } from "react-router-dom";
 
@@ -21,6 +21,7 @@ interface BookCardProps {
   reviewCount: number;
   amazonLink: string;
   kindleLink: string;
+  appleBooksLink?: string;
   bookId: string;
   isNew?: boolean;
   comingSoon?: boolean;
@@ -41,6 +42,7 @@ const BookCard = ({
   reviewCount,
   amazonLink,
   kindleLink,
+  appleBooksLink,
   bookId,
   isNew = false,
   comingSoon = false,
@@ -225,26 +227,40 @@ const BookCard = ({
               </a>
             </Button>
           ) : bookId !== 'bible-heroes' && (
-            <div className={`grid ${kindleLink ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
-              <Button 
-                size="sm"
-                variant="outline"
-                className="border-sage text-sage hover:bg-sage hover:text-white font-medium rounded-full text-xs"
-                onClick={() => window.open(amazonLink, "_blank")}
-              >
-                <ShoppingCart className="w-3 h-3 mr-1" />
-                Amazon
-              </Button>
-              
-              {kindleLink && (
+            <div className="space-y-2">
+              <div className={`grid ${kindleLink ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
                 <Button 
                   size="sm"
                   variant="outline"
-                  className="border-charcoal/30 text-charcoal hover:bg-charcoal hover:text-white font-medium rounded-full text-xs"
-                  onClick={() => window.open(kindleLink, "_blank")}
+                  className="border-sage text-sage hover:bg-sage hover:text-white font-medium rounded-full text-xs"
+                  onClick={() => window.open(amazonLink, "_blank")}
                 >
-                  <Book className="w-3 h-3 mr-1" />
-                  Kindle
+                  <ShoppingCart className="w-3 h-3 mr-1" />
+                  Amazon
+                </Button>
+                
+                {kindleLink && (
+                  <Button 
+                    size="sm"
+                    variant="outline"
+                    className="border-charcoal/30 text-charcoal hover:bg-charcoal hover:text-white font-medium rounded-full text-xs"
+                    onClick={() => window.open(kindleLink, "_blank")}
+                  >
+                    <Book className="w-3 h-3 mr-1" />
+                    Kindle
+                  </Button>
+                )}
+              </div>
+              
+              {appleBooksLink && (
+                <Button 
+                  size="sm"
+                  variant="outline"
+                  className="w-full border-charcoal/30 text-charcoal hover:bg-charcoal hover:text-white font-medium rounded-full text-xs"
+                  onClick={() => window.open(appleBooksLink, "_blank")}
+                >
+                  <ExternalLink className="w-3 h-3 mr-1" />
+                  Apple Books
                 </Button>
               )}
             </div>

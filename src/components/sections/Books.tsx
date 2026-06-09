@@ -121,6 +121,7 @@ const Books = () => {
               reviewCount={book.reviewCount}
               amazonLink={book.amazonLink}
               kindleLink={book.kindleLink}
+              appleBooksLink={book.appleBooksLink}
               bookId={book.id}
               isNew={book.isNew}
               comingSoon={book.comingSoon}

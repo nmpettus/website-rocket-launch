@@ -161,6 +161,19 @@ const AIAdventuresBook = () => {
                     Buy on Amazon
                   </a>
                 </Button>
+
+                {book.appleBooksLink && (
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="w-full border-gray-300 hover:bg-gray-50 text-gray-800"
+                  >
+                    <a href={book.appleBooksLink} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Buy on Apple Books
+                    </a>
+                  </Button>
+                )}
               </div>
             </div>
           </div>
