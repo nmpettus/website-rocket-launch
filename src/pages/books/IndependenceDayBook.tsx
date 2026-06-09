@@ -120,7 +120,7 @@ const IndependenceDayBook = () => {
               <div className="space-y-3">
                 <Button
                   asChild
-                  className="w-full bg-gradient-to-r from-red-500 to-blue-500 hover:from-red-600 hover:to-blue-600 text-white"
+                  className="w-full bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white"
                 >
                   <a href={book.amazonLink} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="w-4 h-4 mr-2" />
