@@ -165,8 +165,7 @@ const AIAdventuresBook = () => {
                 {book.appleBooksLink && (
                   <Button
                     asChild
-                    variant="outline"
-                    className="w-full border-gray-300 hover:bg-gray-50 text-gray-800"
+                    className="w-full bg-charcoal hover:bg-charcoal/90 text-white"
                   >
                     <a href={book.appleBooksLink} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="w-4 h-4 mr-2" />
