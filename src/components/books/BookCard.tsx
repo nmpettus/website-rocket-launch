@@ -231,8 +231,7 @@ const BookCard = ({
               <div className={`grid ${kindleLink ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
                 <Button 
                   size="sm"
-                  variant="outline"
-                  className="border-sage text-sage hover:bg-sage hover:text-white font-medium rounded-full text-xs"
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-full text-xs"
                   onClick={() => window.open(amazonLink, "_blank")}
                 >
                   <ShoppingCart className="w-3 h-3 mr-1" />
