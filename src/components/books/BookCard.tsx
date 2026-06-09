@@ -42,6 +42,7 @@ const BookCard = ({
   reviewCount,
   amazonLink,
   kindleLink,
+  appleBooksLink,
   bookId,
   isNew = false,
   comingSoon = false,
