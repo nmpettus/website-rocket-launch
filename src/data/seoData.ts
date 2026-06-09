@@ -144,6 +144,25 @@ export const bookSEOData = {
       "resurrection story children"
     ],
     ogImage: absoluteImage("/lovable-uploads/easter-cover.png")
+  },
+  "independence-day": {
+    title: "Independence Day as told by Maggie to Matteo - Patriotic Fourth of July Book for Kids",
+    description: "Celebrate America's 250th birthday with Maggie and Matteo! A patriotic Fourth of July children's story about the Declaration of Independence, founding fathers, and the birth of America. Perfect for ages 4–10.",
+    keywords: [
+      "independence day book for kids",
+      "fourth of july children's book",
+      "patriotic story for children",
+      "american history kids book",
+      "declaration of independence kids",
+      "fourth of july picture book",
+      "america's 250th anniversary book",
+      "maggie independence day",
+      "patriotic bedtime story",
+      "children's american history book",
+      "founding fathers story kids",
+      "july 4th book for children"
+    ],
+    ogImage: absoluteImage("/lovable-uploads/independence-day-cover.jpg")
   }
 };
 
