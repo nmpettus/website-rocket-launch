@@ -106,6 +106,28 @@ const About = () => {
               We're also passionate about giving back. Through our book giveaway program, we work to ensure that children from all backgrounds have access to faith-based literature that can shape their lives for the better.
             </p>
           </div>
+
+          {/* Contact CTA */}
+          <div className="mt-12 text-center bg-card border border-border rounded-2xl p-8 md:p-10">
+            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Mail className="w-6 h-6 text-primary" />
+            </div>
+            <h2 className="text-2xl font-display font-bold text-foreground mb-2">
+              Get in Touch
+            </h2>
+            <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
+              Have a question, a kind word, or want to collaborate? We'd love to hear from you.
+            </p>
+            <Button
+              asChild
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              <a href="mailto:maggie@booksbymaggie.com?subject=Hello%20from%20BooksByMaggie.com">
+                <Mail className="w-4 h-4 mr-2" />
+                Email Maggie
+              </a>
+            </Button>
+          </div>
         </div>
       </section>
 
