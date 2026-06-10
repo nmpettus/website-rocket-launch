@@ -120,13 +120,19 @@ const About = () => {
             </p>
             <Button
               asChild
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground mb-3"
             >
               <a href="mailto:maggie@booksbymaggie.com?subject=Hello%20from%20BooksByMaggie.com">
                 <Mail className="w-4 h-4 mr-2" />
                 Email Maggie
               </a>
             </Button>
+            <p className="text-sm text-muted-foreground">
+              Or write to us at{" "}
+              <a href="mailto:maggie@booksbymaggie.com" className="text-primary hover:underline">
+                maggie@booksbymaggie.com
+              </a>
+            </p>
           </div>
         </div>
       </section>
