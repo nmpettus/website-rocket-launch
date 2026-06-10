@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Heart, BookOpen, Users } from "lucide-react";
+import { ArrowLeft, Heart, BookOpen, Users, Mail } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/sections/Footer";
+import { Button } from "@/components/ui/button";
 import { useSEO } from "@/hooks/useSEO";
 
 const About = () => {
