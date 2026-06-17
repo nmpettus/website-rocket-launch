@@ -4,7 +4,7 @@ import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Download, Gift } from "lucide-react";
+import { Download, Gift, Volume2, Square } from "lucide-react";
 import { booksData } from "@/data/bookReviews";
 import ImageViewer from "@/components/books/ImageViewer";
 import { useSEO } from "@/hooks/useSEO";
