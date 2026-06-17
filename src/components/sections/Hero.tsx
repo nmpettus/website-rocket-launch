@@ -38,12 +38,43 @@ const Hero = () => {
               Beautiful, illustrated Bible stories narrated by Maggie the dog. Perfect for bedtime reading, 
               family devotions, and nurturing faith in young hearts.
             </p>
-            
+
+            {/* Kid-facing greeting + big kid CTAs */}
+            <div className="bg-primary/5 border-2 border-primary/20 rounded-2xl p-5 space-y-4">
+              <p className="text-lg md:text-xl font-display font-semibold text-foreground">
+                Hi! I'm Maggie 🐾 Want to hear a Bible story?
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 h-16 text-lg flex-1 rounded-xl"
+                >
+                  <Link to="/online-library">
+                    <BookOpen className="w-6 h-6 mr-2" />
+                    Read a Story
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="font-bold px-6 h-16 text-lg flex-1 border-2 border-primary text-primary hover:bg-primary/10 rounded-xl"
+                >
+                  <Link to="/ask-maggie">
+                    <MessageCircle className="w-6 h-6 mr-2" />
+                    Ask Maggie
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 h-14 text-base"
+                variant="outline"
+                className="font-medium px-8 h-14 text-base border-2"
                 onClick={() => scrollToSection('books')}
               >
                 <BookOpen className="w-5 h-5 mr-2" />

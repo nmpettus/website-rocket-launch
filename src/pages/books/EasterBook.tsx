@@ -4,7 +4,7 @@ import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Download, Gift } from "lucide-react";
+import { Download, Gift, Volume2, Square } from "lucide-react";
 import { booksData } from "@/data/bookReviews";
 import ImageViewer from "@/components/books/ImageViewer";
 import { useSEO } from "@/hooks/useSEO";
@@ -15,6 +15,15 @@ const EasterBook = () => {
   const book = booksData.find(b => b.id === "easter");
   const [showImageViewer, setShowImageViewer] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState("");
+  const [isReading, setIsReading] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,6 +44,27 @@ const EasterBook = () => {
   };
 
   const downloadUrl = (book.pdfDownloadUrl ?? "/books/easter-story.pdf").replace(/^\.\//, "/");
+
+  const handleReadAloud = () => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      alert("Sorry, your browser doesn't support read-aloud. Try Chrome or Safari!");
+      return;
+    }
+    if (isReading) {
+      window.speechSynthesis.cancel();
+      setIsReading(false);
+      return;
+    }
+    const text = `Maggie's Easter Story. ${book.description ?? ""} Easter is a special time when we remember that Jesus loves us so much. He died on the cross for our sins, and three days later, he rose again! That's why we celebrate Easter with joy, hope, and lots of love. Happy Easter from Maggie!`;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.95;
+    utterance.pitch = 1.1;
+    utterance.onend = () => setIsReading(false);
+    utterance.onerror = () => setIsReading(false);
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+    setIsReading(true);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-green-50">
@@ -79,6 +109,24 @@ const EasterBook = () => {
                     <Gift className="w-4 h-4 mr-1" />
                     FREE Download
                   </a>
+                </Button>
+
+                <Button
+                  onClick={handleReadAloud}
+                  variant="outline"
+                  className="ml-2 mb-4 text-sm px-4 py-1 h-auto rounded-full border-2 border-purple-400 text-purple-700 hover:bg-purple-50"
+                >
+                  {isReading ? (
+                    <>
+                      <Square className="w-4 h-4 mr-1 fill-current" />
+                      Stop Reading
+                    </>
+                  ) : (
+                    <>
+                      <Volume2 className="w-4 h-4 mr-1" />
+                      Read Aloud to Me
+                    </>
+                  )}
                 </Button>
 
                 <p className="text-lg text-gray-600 leading-relaxed mb-4 mt-4">

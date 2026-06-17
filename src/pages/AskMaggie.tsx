@@ -182,10 +182,14 @@ const AskMaggie = () => {
               </p>
               <div className="flex flex-wrap gap-2 justify-center">
                 {[
-                  "Tell me about Creation",
-                  "Who was Noah?",
-                  "What's the story of Jonah?",
-                  "Tell me about Jesus",
+                  "Tell me about Creation 🌍",
+                  "Who was Noah? 🌈",
+                  "What's the story of Jonah? 🐳",
+                  "Why did Jesus rise on Easter? ✝️",
+                  "Tell me about baby Jesus 👶",
+                  "Does God love me? 💛",
+                  "Who is the Holy Spirit? 🕊️",
+                  "Say a bedtime prayer with me 🌙",
                 ].map((suggestion) => (
                   <Button
                     key={suggestion}
