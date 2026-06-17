@@ -15,6 +15,15 @@ const EasterBook = () => {
   const book = booksData.find(b => b.id === "easter");
   const [showImageViewer, setShowImageViewer] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState("");
+  const [isReading, setIsReading] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
