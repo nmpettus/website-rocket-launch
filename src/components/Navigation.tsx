@@ -8,7 +8,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
   { id: 'about', label: 'About', isRoute: true, route: '/about' },
-  { id: 'apps', label: 'Apps', isRoute: true, route: 'https://apps.booksbymaggie.com', isExternal: true },
+  
   { id: 'online-library', label: 'Online Library', isRoute: true, route: '/online-library' },
   { id: 'ai-adventures', label: 'AI Adventures', isRoute: true, route: '/maggies-ai-adventures' },
   { id: 'maggie', label: 'Meet Maggie', isRoute: false },
