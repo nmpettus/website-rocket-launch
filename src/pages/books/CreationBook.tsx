@@ -25,10 +25,36 @@ const CreationBook = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  // SEO optimization
+  // SEO optimization (Book + FAQPage structured data)
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What age group is this creation story book suitable for?",
+        "acceptedAnswer": { "@type": "Answer", "text": "This children's Bible book is perfect for ages 3-8, with simple language and beautiful illustrations that engage young readers." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this book available in other languages?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes! \"Creation as told by Maggie\" is available in English, Spanish, and Italian, making it accessible to diverse families." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can this book be used for Sunday school?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Absolutely! This creation story book is perfect for Sunday school lessons, homeschool curricula, and family devotions." }
+      },
+      {
+        "@type": "Question",
+        "name": "What makes Maggie's Bible stories special?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Maggie brings a unique, child-friendly perspective to Bible stories, making them relatable and engaging for young minds while maintaining biblical accuracy." }
+      }
+    ]
+  };
   useSEO({
     ...bookSEOData.creation,
-    structuredData: book ? createBookStructuredData(book) : null
+    structuredData: book ? [createBookStructuredData(book), faqStructuredData] : faqStructuredData
   });
 
   // Language links for Creation book

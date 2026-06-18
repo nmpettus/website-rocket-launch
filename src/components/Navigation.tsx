@@ -210,8 +210,9 @@ const Navigation = () => {
           <div className="lg:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-foreground hover:bg-muted">
+                <Button variant="ghost" size="icon" aria-label="Open menu" className="text-foreground hover:bg-muted">
                   <Menu className="h-6 w-6" />
+                  <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[350px] p-0 bg-background border-l border-border">

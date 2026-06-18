@@ -6,10 +6,24 @@ import { Input } from "@/components/ui/input";
 import { allVideos, videoCategories, VideoData } from "@/data/videosData";
 import Navigation from "@/components/Navigation";
 import VideoVoting from "@/components/VideoVoting";
+import { useSEO } from "@/hooks/useSEO";
 
 const Videos = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+
+  useSEO({
+    title: "Kids Bible Videos | Maggie's Faith Adventures",
+    description: "Watch Maggie's collection of Christian children's videos — Bible stories, faith songs, and fun learning adventures the whole family will love.",
+    keywords: ["kids bible videos", "christian children's videos", "maggie videos", "faith videos for kids"],
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Maggie's Kids Bible Videos",
+      "description": "Curated collection of Christian children's videos and Bible story adventures.",
+      "numberOfItems": allVideos.length,
+    },
+  });
 
   // Scroll to top when component mounts
   useEffect(() => {

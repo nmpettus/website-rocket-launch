@@ -91,7 +91,7 @@ export const bookSEOData = {
     ogImage: absoluteImage("/lovable-uploads/AI-Adventures-with-Maggie-new-cover.png")
   },
   "christmas": {
-    title: "Christmas as told by Maggie - Children's Christian Christmas Book",
+    title: "Christmas as told by Maggie - Kids Christian Book",
     description: "The Christmas story through God's promises with Maggie! See how every prophecy came true on that holy night — perfect for teaching kids about Jesus' birth.",
     keywords: [
       "christmas story for children",
@@ -146,8 +146,8 @@ export const bookSEOData = {
     ogImage: absoluteImage("/lovable-uploads/easter-cover.png")
   },
   "independence-day": {
-    title: "Independence Day as told by Maggie to Matteo - Patriotic Fourth of July Book for Kids",
-    description: "Celebrate America's 250th birthday with Maggie and Matteo! A patriotic Fourth of July children's story about the Declaration of Independence, founding fathers, and the birth of America. Perfect for ages 4–10.",
+    title: "Independence Day by Maggie - Fourth of July Kids Book",
+    description: "Celebrate America's 250th birthday with Maggie and Matteo! A patriotic Fourth of July story about the Declaration of Independence — perfect for ages 4–10.",
     keywords: [
       "independence day book for kids",
       "fourth of july children's book",
