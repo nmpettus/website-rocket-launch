@@ -149,7 +149,7 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-0.5">
             {NAV_LINKS.map(link => (
-              link.isExternal ? (
+              (link as any).isExternal ? (
                 <a 
                   key={link.id}
                   href={link.route}
@@ -240,7 +240,7 @@ const Navigation = () => {
                   <nav className="flex flex-col p-4 space-y-1 flex-1">
                     {NAV_LINKS.map(link => (
                       <SheetClose asChild key={link.id}>
-                        {link.isExternal ? (
+                        {(link as any).isExternal ? (
                           <a 
                             href={link.route}
                             target="_blank"
