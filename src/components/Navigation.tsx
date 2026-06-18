@@ -8,7 +8,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
   { id: 'about', label: 'About', isRoute: true, route: '/about' },
-  { id: 'apps', label: 'Apps', isRoute: true, route: 'https://apps.booksbymaggie.com', isExternal: true },
+  
   { id: 'online-library', label: 'Online Library', isRoute: true, route: '/online-library' },
   { id: 'ai-adventures', label: 'AI Adventures', isRoute: true, route: '/maggies-ai-adventures' },
   { id: 'maggie', label: 'Meet Maggie', isRoute: false },
@@ -149,7 +149,7 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-0.5">
             {NAV_LINKS.map(link => (
-              link.isExternal ? (
+              (link as any).isExternal ? (
                 <a 
                   key={link.id}
                   href={link.route}
@@ -240,7 +240,7 @@ const Navigation = () => {
                   <nav className="flex flex-col p-4 space-y-1 flex-1">
                     {NAV_LINKS.map(link => (
                       <SheetClose asChild key={link.id}>
-                        {link.isExternal ? (
+                        {(link as any).isExternal ? (
                           <a 
                             href={link.route}
                             target="_blank"
