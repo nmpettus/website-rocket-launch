@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Star, Sparkles, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useSEO } from "@/hooks/useSEO";
 
 const bookRoutes: Record<string, string> = {
   "gods-love": "/books/gods-love",
@@ -21,6 +22,22 @@ const bookRoutes: Record<string, string> = {
 };
 
 const OnlineLibrary = () => {
+  useSEO({
+    title: "Online Library | Free Bible Stories for Kids by Maggie",
+    description: "Browse Maggie's online library of Christian children's books — read free stories, featured titles, and faith-based adventures for kids of all ages.",
+    keywords: ["online library", "free christian children's books", "bible stories for kids", "maggie library"],
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Maggie's Online Library",
+      "description": "Collection of Christian children's books by Maggie, including free and featured titles.",
+      "hasPart": booksData.map((b) => ({
+        "@type": "Book",
+        "name": b.title,
+        "image": b.coverImage,
+      })),
+    },
+  });
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

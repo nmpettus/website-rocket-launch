@@ -3,8 +3,14 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { useSEO } from '@/hooks/useSEO';
 
 const TermsOfService = () => {
+  useSEO({
+    title: "Terms of Service | Books By Maggie",
+    description: "The terms and conditions for using the Books By Maggie website, online library, and free downloadable children's stories.",
+    keywords: ["terms of service", "books by maggie", "terms and conditions"],
+  });
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

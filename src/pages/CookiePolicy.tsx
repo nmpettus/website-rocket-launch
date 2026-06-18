@@ -3,8 +3,14 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { useSEO } from '@/hooks/useSEO';
 
 const CookiePolicy = () => {
+  useSEO({
+    title: "Cookie Policy | Books By Maggie",
+    description: "How Books By Maggie uses cookies and similar technologies to improve your experience on our children's book website.",
+    keywords: ["cookie policy", "books by maggie", "privacy"],
+  });
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

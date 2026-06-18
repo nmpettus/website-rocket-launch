@@ -11,6 +11,20 @@ const About = () => {
     title: "About the Authors | Books By Maggie",
     description: "Meet Norm and Marianna, the husband-and-wife team behind Books By Maggie. Learn about their mission to share faith-based stories with children everywhere.",
     keywords: ["about", "authors", "Norm", "Marianna", "faith-based children's books", "mission"],
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "name": "About the Authors | Books By Maggie",
+      "description": "Meet Norm and Marianna, the husband-and-wife team behind Books By Maggie.",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "Books By Maggie",
+        "founder": [
+          { "@type": "Person", "name": "Norm Pettus" },
+          { "@type": "Person", "name": "Marianna Pettus" }
+        ]
+      }
+    }
   });
 
   return (

@@ -3,8 +3,14 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { useSEO } from '@/hooks/useSEO';
 
 const PrivacyPolicy = () => {
+  useSEO({
+    title: "Privacy Policy | Books By Maggie",
+    description: "Read the Books By Maggie privacy policy — how we collect, use, and protect information from families and young readers.",
+    keywords: ["privacy policy", "books by maggie", "data protection"],
+  });
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
