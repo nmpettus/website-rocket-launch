@@ -75,12 +75,13 @@ interface ActivityItemCardProps {
 
 const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed, onView, onPrint }) => {
   return (
-    <Card className="overflow-hidden border border-gray-200 bg-white"> {/* Added bg-white for better contrast if card itself has a bg */}
+    <Card className="overflow-hidden border border-gray-200 bg-white flex flex-col w-full h-full">
       <CardHeader className="p-3">
-        <CardTitle className="text-base font-medium">{activity.title}</CardTitle>
-        <CardDescription className="text-xs">{activity.description}</CardDescription>
+        <CardTitle className="text-base font-medium min-h-[2.5rem]">{activity.title}</CardTitle>
+        <CardDescription className="text-xs min-h-[2rem]">{activity.description}</CardDescription>
       </CardHeader>
-      <CardContent className="p-3 pt-0">
+      <CardContent className="p-3 pt-0 flex-grow">
+
         <Dialog>
           <DialogTrigger asChild>
             {/* Changed h-32 to h-28 for the image container */}
