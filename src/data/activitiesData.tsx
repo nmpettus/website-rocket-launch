@@ -98,5 +98,20 @@ export const getActivities = (): ActivityCategory[] => [
         viewText: "View Facts"
       }
     ]
+  },
+  {
+    id: "good-samaritan-word-search",
+    title: "The Good Samaritan Word Search",
+    description: "A Bible word search puzzle based on the story of the Good Samaritan",
+    icon: <Search className="h-10 w-10 text-rose-500" />,
+    items: [
+      {
+        id: "good-samaritan-search",
+        title: "The Good Samaritan Word Search",
+        description: "Find words from the Good Samaritan story in this fun Bible word search",
+        imagePath: "/lovable-uploads/8b65e3fb-e245-481e-b3a4-c49e6889363d.png",
+        viewText: "View Word Search"
+      }
+    ]
   }
 ];
