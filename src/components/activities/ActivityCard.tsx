@@ -41,18 +41,17 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   const firstActivityItem = items.length > 0 ? items[0] : null;
 
   return (
-    <Card className={`transition-all duration-300 hover:shadow-lg flex flex-col ${className}`}>
+    <Card className={`transition-all duration-300 hover:shadow-lg flex flex-col h-full ${className}`}>
       <CardHeader className="flex items-center">
         <div className="p-3 rounded-full bg-gray-100 mb-4">
           {category.icon}
         </div>
-        {/* Changed text-xl to text-lg for CardTitle */}
-        <CardTitle className="text-lg font-['Comic_Neue'] text-center">{category.title}</CardTitle>
-        <CardDescription className="text-center">{category.description}</CardDescription>
+        <CardTitle className="text-lg font-['Comic_Neue'] text-center min-h-[3.5rem] flex items-center justify-center">{category.title}</CardTitle>
+        <CardDescription className="text-center min-h-[2.5rem]">{category.description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-grow px-4 pb-4 pt-0"> {/* Adjusted padding */}
+      <CardContent className="flex-grow flex px-4 pb-4 pt-0">
         {firstActivityItem && (
-          <div className="mt-2"> {/* Adjusted margin */}
+          <div className="mt-2 w-full flex">
             <ActivityItemCard 
               key={firstActivityItem.id}
               activity={firstActivityItem}
@@ -63,10 +62,6 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
           </div>
         )}
       </CardContent>
-      {/* CardFooter can be removed if not needed or kept for consistent spacing */}
-      <CardFooter className="pt-0 pb-4"> 
-        {/* Intentionally empty or can be used for other elements if needed in future */}
-      </CardFooter>
     </Card>
   );
 };
