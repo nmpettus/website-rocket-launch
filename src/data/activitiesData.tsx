@@ -113,5 +113,20 @@ export const getActivities = (): ActivityCategory[] => [
         viewText: "View Word Search"
       }
     ]
+  },
+  {
+    id: "lost-sheep-maze",
+    title: "The Lost Sheep Maze",
+    description: "Help the shepherd find his lost sheep in this fun Bible maze",
+    icon: <Map className="h-10 w-10 text-sky-500" />,
+    items: [
+      {
+        id: "lost-sheep-maze",
+        title: "The Lost Sheep Maze",
+        description: "Help the shepherd find his lost sheep",
+        imagePath: "/lovable-uploads/lost-sheep-maze.png",
+        viewText: "View Maze"
+      }
+    ]
   }
 ];
