@@ -2,9 +2,8 @@
 import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, Maximize2, Printer } from "lucide-react"; // Removed ChevronDown, ChevronUp
+import { Check, Maximize2, Printer } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export interface ActivityItem {
   id: string;
