@@ -2,9 +2,8 @@
 import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, Maximize2, Printer } from "lucide-react"; // Removed ChevronDown, ChevronUp
+import { Check, Maximize2, Printer } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export interface ActivityItem {
   id: string;
@@ -74,6 +73,13 @@ interface ActivityItemCardProps {
 }
 
 const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed, onView, onPrint }) => {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  const handleViewClick = () => {
+    onView();
+    setDialogOpen(true);
+  };
+
   return (
     <Card className="overflow-hidden border border-gray-200 bg-white flex flex-col w-full h-full">
       <CardHeader className="p-3">
@@ -82,9 +88,8 @@ const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed,
       </CardHeader>
       <CardContent className="p-3 pt-0 flex-grow">
 
-        <Dialog>
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            {/* Changed h-32 to h-28 for the image container */}
             <div className="h-28 bg-gray-200 rounded-md flex items-center justify-center mb-3 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity">
               <img 
                 src={activity.imagePath} 
@@ -93,19 +98,27 @@ const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed,
               />
             </div>
           </DialogTrigger>
-          <DialogContent className="max-w-3xl w-[90vw]">
-            <DialogTitle>{activity.title} Preview</DialogTitle>
-            <DialogDescription>
-              Preview of {activity.title}
-            </DialogDescription>
-            <AspectRatio ratio={4/3} className="bg-muted">
+          <DialogContent className="max-w-6xl w-[95vw] max-h-[95vh] p-0 overflow-hidden flex flex-col">
+            <div className="p-6 pb-0">
+              <DialogTitle>{activity.title} Preview</DialogTitle>
+              <DialogDescription>
+                Preview of {activity.title}
+              </DialogDescription>
+            </div>
+            <div className="flex-grow p-6 pt-4 overflow-auto flex items-center justify-center">
               <img 
                 src={activity.imagePath} 
                 alt={activity.title} 
-                className="w-full h-full object-contain"
+                className="max-w-full max-h-[70vh] object-contain rounded-md shadow-lg"
               />
-            </AspectRatio>
-            <div className="mt-4 flex justify-end">
+            </div>
+            <div className="p-6 pt-0 flex justify-end gap-3">
+              <Button 
+                variant="outline" 
+                onClick={() => setDialogOpen(false)}
+              >
+                Close
+              </Button>
               <Button 
                 variant="outline" 
                 className="flex items-center gap-2"
@@ -121,8 +134,8 @@ const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed,
       <CardFooter className="flex flex-col gap-2 p-3 pt-0">
         <Button 
           size="sm"
-          className={`w-full flex items-center justify-center gap-2 ${isViewed ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-indigo-500 hover:bg-indigo-600 text-white'}`} // Updated default colors for View button
-          onClick={onView}
+          className={`w-full flex items-center justify-center gap-2 ${isViewed ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-indigo-500 hover:bg-indigo-600 text-white'}`}
+          onClick={handleViewClick}
         >
           {isViewed ? (
             <>
