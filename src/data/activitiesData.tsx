@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Puzzle, BookText, PenSquare, Search } from "lucide-react";
+import { Puzzle, BookText, PenSquare, Search, Map } from "lucide-react";
 import { ActivityCategory } from "@/components/activities/ActivityCard";
 
 export const getActivities = (): ActivityCategory[] => [
@@ -31,13 +31,6 @@ export const getActivities = (): ActivityCategory[] => [
         imagePath: "/lovable-uploads/3f1f64aa-45fc-4001-acf4-8c05095ad3d0.png",
         viewText: "View Maze"
       },
-      {
-        id: "lost-sheep-maze",
-        title: "The Lost Sheep Maze",
-        description: "Help the shepherd find his lost sheep",
-        imagePath: "/lovable-uploads/lost-sheep-maze.png",
-        viewText: "View Maze"
-      }
     ]
   },
   {
@@ -118,6 +111,21 @@ export const getActivities = (): ActivityCategory[] => [
         description: "Find words from the Good Samaritan story in this fun Bible word search",
         imagePath: "/lovable-uploads/8b65e3fb-e245-481e-b3a4-c49e6889363d.png",
         viewText: "View Word Search"
+      }
+    ]
+  },
+  {
+    id: "lost-sheep-maze",
+    title: "The Lost Sheep Maze",
+    description: "Help the shepherd find his lost sheep in this fun Bible maze",
+    icon: <Map className="h-10 w-10 text-sky-500" />,
+    items: [
+      {
+        id: "lost-sheep-maze",
+        title: "The Lost Sheep Maze",
+        description: "Help the shepherd find his lost sheep",
+        imagePath: "/lovable-uploads/lost-sheep-maze.png",
+        viewText: "View Maze"
       }
     ]
   }
