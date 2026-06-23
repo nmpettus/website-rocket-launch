@@ -31,13 +31,6 @@ export const getActivities = (): ActivityCategory[] => [
         imagePath: "/lovable-uploads/3f1f64aa-45fc-4001-acf4-8c05095ad3d0.png",
         viewText: "View Maze"
       },
-      {
-        id: "lost-sheep-maze",
-        title: "The Lost Sheep Maze",
-        description: "Help the shepherd find his lost sheep",
-        imagePath: "/lovable-uploads/lost-sheep-maze.png",
-        viewText: "View Maze"
-      }
     ]
   },
   {
