@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, Maximize2, Printer } from "lucide-react";
+import { Check, Maximize2, Printer, ZoomIn, ZoomOut, Fullscreen } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 
 export interface ActivityItem {
