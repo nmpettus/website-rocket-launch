@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, Maximize2, Printer } from "lucide-react";
+import { Check, Maximize2, Printer, ZoomIn, ZoomOut, Fullscreen } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 
 export interface ActivityItem {
@@ -74,11 +74,17 @@ interface ActivityItemCardProps {
 
 const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed, onView, onPrint }) => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [zoom, setZoom] = React.useState(1);
 
   const handleViewClick = () => {
     onView();
+    setZoom(1);
     setDialogOpen(true);
   };
+
+  const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.25, 3));
+  const handleZoomOut = () => setZoom(prev => Math.max(prev - 0.25, 0.5));
+  const handleFitToScreen = () => setZoom(1);
 
   return (
     <Card className="overflow-hidden border border-gray-200 bg-white flex flex-col w-full h-full">
@@ -109,24 +115,59 @@ const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed,
               <img 
                 src={activity.imagePath} 
                 alt={activity.title} 
-                className="max-w-full max-h-[70vh] object-contain rounded-md shadow-lg"
+                className="object-contain rounded-md shadow-lg transition-transform duration-200 ease-out origin-center"
+                style={{ 
+                  transform: `scale(${zoom})`,
+                  maxWidth: '100%',
+                  maxHeight: '70vh'
+                }}
               />
             </div>
-            <div className="p-6 pt-0 flex justify-end gap-3">
-              <Button 
-                variant="outline" 
-                onClick={() => setDialogOpen(false)}
-              >
-                Close
-              </Button>
-              <Button 
-                variant="outline" 
-                className="flex items-center gap-2"
-                onClick={onPrint}
-              >
-                <Printer size={16} />
-                Print Page
-              </Button>
+            <div className="p-6 pt-0 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={handleZoomOut}
+                  disabled={zoom <= 0.5}
+                >
+                  <ZoomOut size={16} />
+                </Button>
+                <span className="text-sm font-medium min-w-[3rem] text-center">{Math.round(zoom * 100)}%</span>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={handleZoomIn}
+                  disabled={zoom >= 3}
+                >
+                  <ZoomIn size={16} />
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="flex items-center gap-1"
+                  onClick={handleFitToScreen}
+                >
+                  <Fullscreen size={14} />
+                  Fit
+                </Button>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setDialogOpen(false)}
+                >
+                  Close
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="flex items-center gap-2"
+                  onClick={onPrint}
+                >
+                  <Printer size={16} />
+                  Print Page
+                </Button>
+              </div>
             </div>
           </DialogContent>
         </Dialog>
