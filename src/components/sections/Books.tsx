@@ -86,9 +86,20 @@ const Books = () => {
         </div>
         
 
+        {/* Free Online Library Link */}
+        <div className="flex justify-center mb-10">
+          <Link to="/online-library">
+            <button className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-medium px-6 py-3 rounded-full shadow-md transition-colors">
+              <BookOpen className="w-4 h-4" />
+              Read Free Books Online
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </Link>
+        </div>
+
         {/* Books Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {booksData.map(book => (
+          {booksData.filter(book => !book.isFree).map(book => (
             <BookCard
               key={book.id}
               coverImage={book.coverImage}
