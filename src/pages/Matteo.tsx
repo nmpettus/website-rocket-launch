@@ -8,7 +8,13 @@ import { useSEO } from "@/hooks/useSEO";
 // Add new Matteo photos here as they are uploaded.
 // Example: { src: "/lovable-uploads/matteo-playing.jpg", alt: "Matteo playing in the yard" }
 const photos: { src: string; alt: string }[] = [
-  { src: "/lovable-uploads/MatteoFront.png", alt: "Matteo the Yorkie puppy" },
+  { src: "/lovable-uploads/MatteoFront.png", alt: "Matteo the Yorkie puppy facing forward" },
+  { src: "/lovable-uploads/MatteoJump.png", alt: "Matteo the Yorkie puppy jumping happily" },
+  { src: "/lovable-uploads/MatteoWag.png", alt: "Matteo the Yorkie puppy wagging his tail" },
+  { src: "/lovable-uploads/MatteoLookUp.png", alt: "Matteo the Yorkie puppy looking up" },
+  { src: "/lovable-uploads/MatteoThought.png", alt: "Matteo the Yorkie puppy in a thoughtful pose" },
+  { src: "/lovable-uploads/MatteoLeftSide.png", alt: "Matteo the Yorkie puppy side profile" },
+  { src: "/lovable-uploads/MatteoSheet.png", alt: "Matteo the Yorkie puppy character sheet with multiple poses" },
 ];
 
 // Add new Matteo videos here as they are uploaded.
