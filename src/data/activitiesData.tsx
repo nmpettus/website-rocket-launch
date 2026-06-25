@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Puzzle, BookText, PenSquare, Search, Map } from "lucide-react";
+import { Puzzle, BookText, PenSquare, Search, Map, FileText } from "lucide-react";
 import { ActivityCategory } from "@/components/activities/ActivityCard";
 
 export const getActivities = (): ActivityCategory[] => [
@@ -111,6 +111,21 @@ export const getActivities = (): ActivityCategory[] => [
         description: "Find words from the Good Samaritan story in this fun Bible word search",
         imagePath: "/lovable-uploads/8b65e3fb-e245-481e-b3a4-c49e6889363d.png",
         viewText: "View Word Search"
+      }
+    ]
+  },
+  {
+    id: "psalm-23-fill-in",
+    title: "Psalm 23 Fill-in-the-Blank",
+    description: "Complete Psalm 23 using the word bank in this Bible activity for kids",
+    icon: <FileText className="h-10 w-10 text-emerald-600" />,
+    items: [
+      {
+        id: "psalm-23-fill-in",
+        title: "Psalm 23 Fill-in-the-Blank",
+        description: "Fill in the blanks to complete Psalm 23 and read it aloud!",
+        imagePath: "/lovable-uploads/psalm-23-fill-in.png",
+        viewText: "View Activity"
       }
     ]
   },
