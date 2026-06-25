@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Puzzle, BookText, PenSquare, Search, Map } from "lucide-react";
+import { Puzzle, BookText, PenSquare, Search, Map, FileText } from "lucide-react";
 import { ActivityCategory } from "@/components/activities/ActivityCard";
 
 export const getActivities = (): ActivityCategory[] => [
