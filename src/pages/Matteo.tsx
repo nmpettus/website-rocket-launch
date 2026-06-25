@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Heart, Camera, Video } from "lucide-react";
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import Footer from "@/components/sections/Footer";
 import { useSEO } from "@/hooks/useSEO";
 
 // Add new Matteo photos here as they are uploaded.
@@ -20,6 +20,7 @@ const Matteo = () => {
     title: "Meet Matteo the Yorkie Puppy | Books by Maggie",
     description:
       "Meet Matteo, the adorable Yorkie puppy joining Maggie on her adventures. See photos and videos of Matteo as he grows.",
+    keywords: ["Matteo", "Yorkie puppy", "Maggie", "Books by Maggie", "puppy photos", "puppy videos"],
     canonicalUrl: "https://booksbymaggie.com/matteo",
   });
 
