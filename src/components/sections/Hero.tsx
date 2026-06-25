@@ -148,8 +148,12 @@ const Hero = () => {
                 </div>
 
                 {/* Matteo - puppy successor */}
-                <div className="absolute -bottom-6 -right-6 md:-bottom-8 md:-right-8 w-40 h-40 md:w-52 md:h-52">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/30 to-primary/20" />
+                <Link
+                  to="/matteo"
+                  aria-label="Meet Matteo the Yorkie puppy"
+                  className="absolute -bottom-6 -right-6 md:-bottom-8 md:-right-8 w-40 h-40 md:w-52 md:h-52 block group"
+                >
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/30 to-primary/20 transition-transform group-hover:scale-105" />
                   <div className="absolute inset-2 rounded-full overflow-hidden border-4 border-background shadow-xl bg-background flex items-center justify-center">
                     <img
                       src="/lovable-uploads/MatteoFront.png"
@@ -162,7 +166,7 @@ const Hero = () => {
                   <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full shadow-md whitespace-nowrap">
                     Meet Matteo!
                   </div>
-                </div>
+                </Link>
               </div>
               
             </div>

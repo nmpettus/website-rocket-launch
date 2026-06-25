@@ -23,6 +23,7 @@ import IndependenceDayBook from "./pages/books/IndependenceDayBook";
 import About from "./pages/About";
 import OnlineLibrary from "./pages/OnlineLibrary";
 import BibleVersesGodsLove from "./pages/BibleVersesGodsLove";
+import Matteo from "./pages/Matteo";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const App = () => (
         <Route path="/about" element={<About />} />
         <Route path="/online-library" element={<OnlineLibrary />} />
         <Route path="/resources/bible-verses-gods-love" element={<BibleVersesGodsLove />} />
+        <Route path="/matteo" element={<Matteo />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
