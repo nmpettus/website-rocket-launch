@@ -38,9 +38,9 @@ const Matteo = () => {
         <div className="container mx-auto px-6 max-w-6xl">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium mb-8"
+            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 active:text-primary/60 font-medium mb-8 px-3 py-2 -ml-3 rounded-lg transition-colors min-h-[44px]"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-5 h-5" />
             Back to Home
           </Link>
 
