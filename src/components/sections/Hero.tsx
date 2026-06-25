@@ -133,19 +133,29 @@ const Hero = () => {
           {/* Hero Image */}
           <div className="relative flex justify-center lg:justify-start order-1 lg:order-2 pt-4 lg:pt-12">
             <div className="relative">
-              {/* Main image container */}
-              <div className="relative w-72 h-72 md:w-96 md:h-96">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20" />
-                <div className="absolute inset-4 rounded-full overflow-hidden border-4 border-background shadow-2xl">
-                  <img 
-                    src="/lovable-uploads/MaggieNewNBP.png"
-                    alt="Maggie the dog - Your faith adventure guide"
-                    className="w-full h-full object-cover object-top"
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                  />
-                </div>
+                {/* Main image container */}
+                <div className="relative w-72 h-72 md:w-96 md:h-96">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20" />
+                  <a
+                    href="#maggie"
+                    className="absolute inset-4 rounded-full overflow-hidden border-4 border-background shadow-2xl block group"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection('maggie');
+                    }}
+                  >
+                    <img
+                      src="/lovable-uploads/MaggieNewNBP.png"
+                      alt="Maggie the dog - Your faith adventure guide"
+                      className="w-full h-full object-cover object-top"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
+                    />
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full shadow-md whitespace-nowrap">
+                      Meet Maggie!
+                    </div>
+                  </a>
 
                 {/* Matteo - puppy successor */}
                 <Link
