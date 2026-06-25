@@ -115,6 +115,21 @@ export const getActivities = (): ActivityCategory[] => [
     ]
   },
   {
+    id: "psalm-23-fill-in",
+    title: "Psalm 23 Fill-in-the-Blank",
+    description: "Complete Psalm 23 using the word bank in this Bible activity for kids",
+    icon: <FileText className="h-10 w-10 text-emerald-600" />,
+    items: [
+      {
+        id: "psalm-23-fill-in",
+        title: "Psalm 23 Fill-in-the-Blank",
+        description: "Fill in the blanks to complete Psalm 23 and read it aloud!",
+        imagePath: "/lovable-uploads/psalm-23-fill-in.png",
+        viewText: "View Activity"
+      }
+    ]
+  },
+  {
     id: "lost-sheep-maze",
     title: "The Lost Sheep Maze",
     description: "Help the shepherd find his lost sheep in this fun Bible maze",
