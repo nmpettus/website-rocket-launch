@@ -61,10 +61,16 @@ const App = () => (
         <Route path="/online-library" element={<OnlineLibrary />} />
         <Route path="/resources/bible-verses-gods-love" element={<BibleVersesGodsLove />} />
         <Route path="/matteo" element={<Matteo />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/join" element={<Join />} />
+        <Route path="/members" element={<Members />} />
+        <Route path="/read/:slug" element={<BookReader />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </HashRouter>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
 export default App;
+
