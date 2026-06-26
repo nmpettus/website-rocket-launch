@@ -13,7 +13,9 @@ const NAV_LINKS = [
   { id: 'videos', label: 'Videos', isRoute: true, route: '/videos' },
   { id: 'activities', label: 'Activities', isRoute: false },
   { id: 'games', label: 'Games', isRoute: false },
+  { id: 'reading-club', label: "Reading Club", isRoute: true, route: '/join' },
 ];
+
 
 const Navigation = () => {
   const [activeSection, setActiveSection] = useState('home');
