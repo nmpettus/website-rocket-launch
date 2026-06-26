@@ -29,10 +29,17 @@ export default function Members() {
   }, [authLoading, user, navigate]);
 
   useEffect(() => {
-    supabase.from("books").select("*").order("sort_order").then(({ data }) => {
-      setBooks(data || []);
+    (async () => {
+      const { data } = await supabase.from("books").select("*").order("sort_order");
+      const rows = (data || []) as Book[];
+      const resolved = await Promise.all(rows.map(async (b) => {
+        if (!b.cover_image_url || b.cover_image_url.startsWith("http") || b.cover_image_url.startsWith("/")) return b;
+        const { data: signed } = await supabase.storage.from("book-pages").createSignedUrl(b.cover_image_url, 3600);
+        return { ...b, cover_image_url: signed?.signedUrl ?? b.cover_image_url };
+      }));
+      setBooks(resolved);
       setLoading(false);
-    });
+    })();
   }, []);
 
   const handleSignOut = async () => {

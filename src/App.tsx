@@ -28,6 +28,7 @@ import Auth from "./pages/Auth";
 import Join from "./pages/Join";
 import Members from "./pages/Members";
 import BookReader from "./pages/BookReader";
+import AdminBooks from "./pages/AdminBooks";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -65,6 +66,7 @@ const App = () => (
         <Route path="/join" element={<Join />} />
         <Route path="/members" element={<Members />} />
         <Route path="/read/:slug" element={<BookReader />} />
+        <Route path="/admin/books" element={<AdminBooks />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </HashRouter>
