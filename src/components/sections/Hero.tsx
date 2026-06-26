@@ -69,6 +69,18 @@ const Hero = () => {
               </div>
             </div>
 
+            {/* Reading Club CTA */}
+            <div className="bg-gradient-to-r from-accent/20 to-primary/10 border-2 border-accent/40 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex-1">
+                <p className="font-bold text-foreground text-lg">📚 Join Maggie's Reading Club</p>
+                <p className="text-sm text-muted-foreground">Read every book online with read-aloud — 7-day free trial.</p>
+              </div>
+              <Button asChild size="lg" className="font-bold whitespace-nowrap">
+                <Link to="/join">Try Free</Link>
+              </Button>
+            </div>
+
+
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
