@@ -66,6 +66,7 @@ const App = () => (
         <Route path="/join" element={<Join />} />
         <Route path="/members" element={<Members />} />
         <Route path="/read/:slug" element={<BookReader />} />
+        <Route path="/admin/books" element={<AdminBooks />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </HashRouter>
