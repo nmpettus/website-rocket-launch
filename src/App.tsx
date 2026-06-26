@@ -24,14 +24,21 @@ import About from "./pages/About";
 import OnlineLibrary from "./pages/OnlineLibrary";
 import BibleVersesGodsLove from "./pages/BibleVersesGodsLove";
 import Matteo from "./pages/Matteo";
+import Auth from "./pages/Auth";
+import Join from "./pages/Join";
+import Members from "./pages/Members";
+import BookReader from "./pages/BookReader";
+import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <AuthProvider>
     <Toaster />
     <HashRouter>
       <Routes>
+
         <Route path="/" element={<Index />} />
         <Route path="/videos" element={<Videos />} />
         <Route path="/chapter-zero" element={<ChapterZero />} />
