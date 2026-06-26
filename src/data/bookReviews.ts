@@ -415,6 +415,18 @@ export const booksData: BookData[] = [
     ]
   },
   {
+    id: "ai-adventures-book2",
+    coverImage: "/lovable-uploads/ai-adventures-book2-cover.jpg",
+    title: "Maggie's AI Adventure - Book 2: AI Talking and Thinking: A Guide to Speech, Language and How Computers Communicate",
+    languages: ["English"],
+    description: "The smartest dog in the world is back — and this time she's cracking the code on how computers talk and think! When Riley's robot friend Artie suddenly learns to speak, Maggie the Yorkie detective has a brand-new mystery to solve: How can a machine with no ears hear, and no mouth talk? Together, Maggie, Riley, and Artie uncover the science behind speech, language, and the AI tools kids use every day — from voice assistants and translation apps to closed captions and chatbots. Ages 7–12.",
+    reviewCount: 0,
+    amazonLink: "https://a.co/d/058bbbN3",
+    kindleLink: "",
+    isNew: true,
+    samplePages: []
+  },
+  {
     id: "independence-day",
     coverImage: "/lovable-uploads/independence-day-cover.jpg",
     title: "Independence Day as told by Maggie to Matteo: A Patriotic Fourth of July Story for Kids | America's 250th Anniversary Edition",
