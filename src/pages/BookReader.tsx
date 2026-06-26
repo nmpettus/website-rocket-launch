@@ -28,7 +28,14 @@ export default function BookReader() {
       if (!b) { setLoading(false); return; }
       setBook(b as Book);
       const { data: p } = await supabase.from("book_pages").select("*").eq("book_id", b.id).order("page_number");
-      setPages((p || []) as Page[]);
+      const rows = (p || []) as Page[];
+      // Resolve storage paths to signed URLs (for private bucket uploads)
+      const resolved = await Promise.all(rows.map(async (row) => {
+        if (!row.image_url || row.image_url.startsWith("http") || row.image_url.startsWith("/")) return row;
+        const { data: signed } = await supabase.storage.from("book-pages").createSignedUrl(row.image_url, 3600);
+        return { ...row, image_url: signed?.signedUrl ?? row.image_url };
+      }));
+      setPages(resolved);
       setLoading(false);
     })();
     return () => { window.speechSynthesis.cancel(); };
