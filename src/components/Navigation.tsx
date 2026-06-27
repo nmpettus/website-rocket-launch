@@ -191,6 +191,20 @@ const Navigation = () => {
               )
             ))}
             
+            {isAdmin && (
+              <Link 
+                to="/admin/books"
+                className={cn(
+                  "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
+                  location.pathname === '/admin/books'
+                    ? "text-primary bg-primary/10"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                )}
+              >
+                Admin
+              </Link>
+            )}
+            
             {/* Shop Books CTA */}
             <Button 
               className="ml-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-4 py-1.5 text-xs rounded-lg transition-colors duration-200"
