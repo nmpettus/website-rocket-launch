@@ -121,7 +121,7 @@ export default function BookReader() {
             <div
               className={
                 spread
-                  ? "mx-auto flex max-h-[85vh] max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl"
+                  ? `mx-auto flex max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`
                   : "flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-2xl"
               }
             >
