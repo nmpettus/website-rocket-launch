@@ -19,9 +19,11 @@ export default function BookReader() {
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
   const [speaking, setSpeaking] = useState(false);
+  const [loadingAudio, setLoadingAudio] = useState(false);
   const [spread, setSpread] = useState(false);
   const [fit, setFit] = useState<"contain" | "cover">("contain");
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioCacheRef = useRef<Map<string, string>>(new Map());
 
   useEffect(() => {
     (async () => {
@@ -31,7 +33,6 @@ export default function BookReader() {
       setBook(b as Book);
       const { data: p } = await supabase.from("book_pages").select("*").eq("book_id", b.id).order("page_number");
       const rows = (p || []) as Page[];
-      // Resolve storage paths to signed URLs (for private bucket uploads)
       const resolved = await Promise.all(rows.map(async (row) => {
         if (!row.image_url || row.image_url.startsWith("http") || row.image_url.startsWith("/")) return row;
         const { data: signed } = await supabase.storage.from("book-pages").createSignedUrl(row.image_url, 3600);
@@ -40,22 +41,46 @@ export default function BookReader() {
       setPages(resolved);
       setLoading(false);
     })();
-    return () => { window.speechSynthesis.cancel(); };
+    return () => { stopSpeech(); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
-  const stopSpeech = () => { window.speechSynthesis.cancel(); setSpeaking(false); };
+  const stopSpeech = () => {
+    if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
+    setSpeaking(false);
+  };
 
-  const speakCurrent = () => {
+  const speakCurrent = async () => {
     const page = pages[current];
     if (!page?.narration_text) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(page.narration_text);
-    u.rate = 0.9;
-    u.onend = () => setSpeaking(false);
-    utteranceRef.current = u;
-    window.speechSynthesis.speak(u);
-    setSpeaking(true);
+    stopSpeech();
+    try {
+      setLoadingAudio(true);
+      const cacheKey = `${page.id}`;
+      let url = audioCacheRef.current.get(cacheKey);
+      if (!url) {
+        const { data, error } = await supabase.functions.invoke("azure-tts", {
+          body: { text: page.narration_text, voice: "en-US-SaraNeural" },
+        });
+        if (error) throw error;
+        const blob = data as Blob;
+        url = URL.createObjectURL(blob);
+        audioCacheRef.current.set(cacheKey, url);
+      }
+      const audio = new Audio(url);
+      audioRef.current = audio;
+      audio.onended = () => setSpeaking(false);
+      audio.onerror = () => setSpeaking(false);
+      await audio.play();
+      setSpeaking(true);
+    } catch (e) {
+      console.error("TTS error", e);
+      setSpeaking(false);
+    } finally {
+      setLoadingAudio(false);
+    }
   };
+
 
   const goPage = (n: number) => {
     stopSpeech();
@@ -147,8 +172,8 @@ export default function BookReader() {
 
             <div className="flex items-center gap-2 flex-wrap justify-center">
               {!speaking ? (
-                <Button onClick={speakCurrent} disabled={!page?.narration_text}>
-                  <Play className="w-4 h-4 mr-1" /> Read Aloud
+                <Button onClick={speakCurrent} disabled={!page?.narration_text || loadingAudio}>
+                  <Play className="w-4 h-4 mr-1" /> {loadingAudio ? "Loading..." : "Read Aloud"}
                 </Button>
               ) : (
                 <Button onClick={stopSpeech} variant="destructive">
