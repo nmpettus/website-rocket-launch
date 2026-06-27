@@ -9,7 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Upload, Trash2 } from "lucide-react";
+import { ArrowLeft, Loader2, Upload, Trash2, FileUp } from "lucide-react";
+import { pdfToPageImages, epubToPageImages } from "@/lib/bookImport";
 
 interface PendingPage {
   file: File;
@@ -33,6 +34,7 @@ export default function AdminBooks() {
   const [isFree, setIsFree] = useState(false);
   const [pages, setPages] = useState<PendingPage[]>([]);
   const [working, setWorking] = useState(false);
+  const [importProgress, setImportProgress] = useState<string | null>(null);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth?next=/admin/books");
@@ -54,6 +56,45 @@ export default function AdminBooks() {
       narration: "",
     }));
     setPages(mapped);
+  };
+
+  const handleDocumentImport = async (file: File | null) => {
+    if (!file) return;
+    const name = file.name.toLowerCase();
+    const isPdf = name.endsWith(".pdf") || file.type === "application/pdf";
+    const isEpub = name.endsWith(".epub") || file.type === "application/epub+zip";
+    if (!isPdf && !isEpub) {
+      toast.error("Please choose a .pdf or .epub file");
+      return;
+    }
+    setWorking(true);
+    setImportProgress("Reading document…");
+    try {
+      const imported = isPdf
+        ? await pdfToPageImages(file, {
+            onProgress: (d, t) => setImportProgress(`Rendering PDF page ${d}/${t}…`),
+          })
+        : await epubToPageImages(file, {
+            onProgress: (d, t) => setImportProgress(`Extracting EPUB ${d}/${t}…`),
+          });
+      const mapped: PendingPage[] = imported.map((p) => ({
+        file: p.file,
+        pageNumber: p.pageNumber,
+        previewUrl: URL.createObjectURL(p.file),
+        status: "pending",
+        narration: "",
+      }));
+      setPages(mapped);
+      if (!title) setTitle(file.name.replace(/\.(pdf|epub)$/i, ""));
+      if (!slug) setSlug(slugify(file.name.replace(/\.(pdf|epub)$/i, "")));
+      toast.success(`Imported ${mapped.length} pages from ${isPdf ? "PDF" : "EPUB"}`);
+    } catch (e) {
+      console.error(e);
+      toast.error("Import failed: " + (e instanceof Error ? e.message : String(e)));
+    } finally {
+      setImportProgress(null);
+      setWorking(false);
+    }
   };
 
   const removePage = (idx: number) => {
@@ -212,10 +253,33 @@ export default function AdminBooks() {
           </div>
         </div>
 
-        <div className="bg-card border rounded-xl p-6 mb-6">
-          <Label htmlFor="pages" className="text-lg font-semibold">Page images (PNGs)</Label>
-          <p className="text-sm text-muted-foreground mb-3">Select all PNGs at once. They sort by filename — name them <code>01.png, 02.png, …</code></p>
-          <Input id="pages" type="file" accept="image/*" multiple onChange={(e) => handlePageFiles(e.target.files)} />
+        <div className="bg-card border rounded-xl p-6 mb-6 space-y-5">
+          <div>
+            <Label htmlFor="doc" className="text-lg font-semibold flex items-center gap-2">
+              <FileUp className="w-4 h-4" /> Import a PDF or EPUB
+            </Label>
+            <p className="text-sm text-muted-foreground mb-3">
+              Upload a complete book file — each PDF page (or EPUB image) becomes a page automatically.
+            </p>
+            <Input
+              id="doc"
+              type="file"
+              accept=".pdf,.epub,application/pdf,application/epub+zip"
+              onChange={(e) => handleDocumentImport(e.target.files?.[0] ?? null)}
+              disabled={working}
+            />
+            {importProgress && (
+              <p className="text-sm text-primary mt-2 flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" /> {importProgress}
+              </p>
+            )}
+          </div>
+
+          <div className="border-t pt-5">
+            <Label htmlFor="pages" className="text-lg font-semibold">…or upload page images (PNGs)</Label>
+            <p className="text-sm text-muted-foreground mb-3">Select all PNGs at once. They sort by filename — name them <code>01.png, 02.png, …</code></p>
+            <Input id="pages" type="file" accept="image/*" multiple onChange={(e) => handlePageFiles(e.target.files)} />
+          </div>
           {pages.length > 0 && (
             <div className="mt-4 flex gap-2 flex-wrap">
               <Button onClick={ocrAll} disabled={working} variant="secondary">
