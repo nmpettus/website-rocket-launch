@@ -116,33 +116,28 @@ export default function BookReader() {
       </div>
 
       <div className="flex-1 flex items-center justify-center px-2 pb-4">
-        <div className={`w-full ${spread ? "max-w-[1600px]" : "max-w-5xl"} flex flex-col h-full`}>
+        <div className={`w-full ${spread ? "max-w-[95vw]" : "max-w-5xl"} flex flex-col`}>
           {page && (
             <div
               className={
                 spread
-                  ? "mx-auto flex h-[75vh] max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl"
-                  : "flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl bg-white shadow-2xl"
+                  ? "mx-auto flex max-h-[85vh] max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl"
+                  : "flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-2xl"
               }
             >
-              <div className={spread ? "flex h-full shrink-0" : "flex min-h-0 flex-1"}>
+              <div className={spread ? "flex max-h-[85vh] shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}>
                 <img
                   src={page.image_url}
                   alt={`Page ${page.page_number}`}
-                  className={
-                    spread
-                      ? `block h-full w-auto max-w-[50vw] ${fit === "cover" ? "object-cover" : "object-contain"}`
-                      : `h-full w-full ${fit === "cover" ? "object-cover" : "object-contain"}`
-                  }
-                  style={spread ? undefined : { maxHeight: "75vh" }}
+                  className={`block max-h-[85vh] w-auto max-w-full object-contain`}
                 />
               </div>
               {spread && pages[current + 1] && (
-                <div className="flex h-full shrink-0">
+                <div className="flex max-h-[85vh] shrink-0">
                   <img
                     src={pages[current + 1].image_url}
                     alt={`Page ${pages[current + 1].page_number}`}
-                    className={`block h-full w-auto max-w-[50vw] ${fit === "cover" ? "object-cover" : "object-contain"}`}
+                    className={`block max-h-[85vh] w-auto max-w-[50vw] object-contain`}
                   />
                 </div>
               )}
