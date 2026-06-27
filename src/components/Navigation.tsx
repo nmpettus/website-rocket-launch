@@ -24,6 +24,7 @@ const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAdmin } = useIsAdmin();
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof NAV_LINKS[0]) => {
     if (link.isRoute) {
