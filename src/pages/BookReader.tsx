@@ -47,35 +47,73 @@ export default function BookReader() {
 
   const stopSpeech = () => {
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
+    try { window.speechSynthesis?.cancel(); } catch {}
     setSpeaking(false);
+  };
+
+  const speakWithBrowser = (text: string) => {
+    try {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "en-US";
+      utter.onend = () => setSpeaking(false);
+      utter.onerror = () => setSpeaking(false);
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utter);
+      setSpeaking(true);
+    } catch (e) {
+      console.error("Browser TTS error", e);
+      setSpeaking(false);
+    }
   };
 
   const speakCurrent = async () => {
     const page = pages[current];
-    if (!page?.narration_text) return;
+    const text = page?.narration_text?.trim();
+    if (!text) {
+      console.warn("No narration text on this page");
+      return;
+    }
     stopSpeech();
     try {
       setLoadingAudio(true);
       const cacheKey = `${page.id}`;
       let url = audioCacheRef.current.get(cacheKey);
       if (!url) {
-        const { data, error } = await supabase.functions.invoke("azure-tts", {
-          body: { text: page.narration_text, voice: "en-US-SaraNeural" },
+        const SUPABASE_URL = (import.meta as any).env.VITE_SUPABASE_URL;
+        const ANON = (import.meta as any).env.VITE_SUPABASE_PUBLISHABLE_KEY;
+        const resp = await fetch(`${SUPABASE_URL}/functions/v1/azure-tts`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: ANON,
+            Authorization: `Bearer ${ANON}`,
+          },
+          body: JSON.stringify({ text, voice: "en-US-SaraNeural" }),
         });
-        if (error) throw error;
-        const blob = data as Blob;
+        const ct = resp.headers.get("Content-Type") || "";
+        if (!resp.ok || ct.includes("application/json")) {
+          const errBody = await resp.text().catch(() => "");
+          console.warn("Azure TTS failed, using browser fallback:", resp.status, errBody);
+          setLoadingAudio(false);
+          speakWithBrowser(text);
+          return;
+        }
+        const blob = await resp.blob();
         url = URL.createObjectURL(blob);
         audioCacheRef.current.set(cacheKey, url);
       }
       const audio = new Audio(url);
       audioRef.current = audio;
       audio.onended = () => setSpeaking(false);
-      audio.onerror = () => setSpeaking(false);
+      audio.onerror = () => {
+        console.warn("Audio playback failed, using browser fallback");
+        speakWithBrowser(text);
+      };
       await audio.play();
       setSpeaking(true);
     } catch (e) {
-      console.error("TTS error", e);
-      setSpeaking(false);
+      console.error("TTS error, falling back to browser", e);
+      speakWithBrowser(text);
     } finally {
       setLoadingAudio(false);
     }
