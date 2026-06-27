@@ -1,0 +1,1 @@
+DELETE FROM public.book_pages WHERE book_id = 'd99802a2-01d7-44b7-bc64-7a1aa2356b71'; DELETE FROM public.books WHERE id = 'd99802a2-01d7-44b7-bc64-7a1aa2356b71';
