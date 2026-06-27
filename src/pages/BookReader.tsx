@@ -93,22 +93,31 @@ export default function BookReader() {
       <div className="flex-1 flex items-center justify-center px-2 pb-4">
         <div className={`w-full ${spread ? "max-w-[1600px]" : "max-w-5xl"} flex flex-col h-full`}>
           {page && (
-            <div className={`bg-white overflow-hidden shadow-2xl flex ${spread ? "flex-row rounded-none" : "flex-col rounded-xl"} flex-1 min-h-0`}>
-              <div className="flex-1 min-h-0 flex">
+            <div
+              className={
+                spread
+                  ? "mx-auto flex h-[75vh] max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl"
+                  : "flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl bg-white shadow-2xl"
+              }
+            >
+              <div className={spread ? "flex h-full shrink-0" : "flex min-h-0 flex-1"}>
                 <img
                   src={page.image_url}
                   alt={`Page ${page.page_number}`}
-                  className={`w-full h-full ${fit === "cover" ? "object-cover" : "object-contain"}`}
-                  style={{ maxHeight: "75vh" }}
+                  className={
+                    spread
+                      ? `block h-full w-auto max-w-[50vw] ${fit === "cover" ? "object-cover" : "object-contain"}`
+                      : `h-full w-full ${fit === "cover" ? "object-cover" : "object-contain"}`
+                  }
+                  style={spread ? undefined : { maxHeight: "75vh" }}
                 />
               </div>
               {spread && pages[current + 1] && (
-                <div className="flex-1 min-h-0 flex">
+                <div className="flex h-full shrink-0">
                   <img
                     src={pages[current + 1].image_url}
                     alt={`Page ${pages[current + 1].page_number}`}
-                    className={`w-full h-full ${fit === "cover" ? "object-cover" : "object-contain"}`}
-                    style={{ maxHeight: "75vh" }}
+                    className={`block h-full w-auto max-w-[50vw] ${fit === "cover" ? "object-cover" : "object-contain"}`}
                   />
                 </div>
               )}
