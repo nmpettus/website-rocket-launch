@@ -69,8 +69,8 @@ export default function BookReader() {
   );
 
   const page = pages[current];
-  const isPreviewPage = !!page && page.page_number <= 3;
-  const needsPaywall = !isActive && !book.is_free && !!page && page.page_number > 3;
+  const isPreviewPage = !!page && page.page_number >= 4 && page.page_number <= 6;
+  const needsPaywall = !isActive && !book.is_free && !!page && (page.page_number < 4 || page.page_number > 6);
   // If page beyond preview & user not subscribed, RLS returns no row.
   // We can detect this: pages array may be shorter than book.page_count.
   const visiblePages = pages.length;
