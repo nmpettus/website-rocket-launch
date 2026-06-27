@@ -359,7 +359,7 @@ export default function AdminBooks() {
               <img src={p.previewUrl} alt={`Page ${p.pageNumber}`} className="w-24 h-24 object-cover rounded" />
               <div className="flex-1">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="font-medium">Page {p.pageNumber} {p.pageNumber <= 3 && <span className="text-xs text-primary">(free preview)</span>}</span>
+                  <span className="font-medium">Page {p.pageNumber} {p.pageNumber >= 4 && p.pageNumber <= 6 && <span className="text-xs text-primary">(free preview)</span>}</span>
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-muted-foreground">{p.status}</span>
                     <Button size="icon" variant="ghost" onClick={() => removePage(idx)} disabled={working}>
