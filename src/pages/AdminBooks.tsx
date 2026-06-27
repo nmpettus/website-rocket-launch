@@ -35,6 +35,8 @@ export default function AdminBooks() {
   const [pages, setPages] = useState<PendingPage[]>([]);
   const [working, setWorking] = useState(false);
   const [importProgress, setImportProgress] = useState<string | null>(null);
+  const [saveState, setSaveState] = useState<"unsaved" | "draft" | "published">("unsaved");
+
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth?next=/admin/books");
