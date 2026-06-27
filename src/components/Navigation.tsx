@@ -4,6 +4,7 @@ import { Menu, BookOpen } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
