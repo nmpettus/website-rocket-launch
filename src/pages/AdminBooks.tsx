@@ -290,7 +290,12 @@ export default function AdminBooks() {
         <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4">
           <ArrowLeft className="w-4 h-4" /> Home
         </Link>
-        <h1 className="text-3xl font-bold mb-6">Book Uploader</h1>
+        <h1 className="text-3xl font-bold mb-2">Book Uploader</h1>
+        <p className="text-sm text-muted-foreground mb-4">
+          Fill in the details, add pages (PDF/EPUB import or PNGs), then click <strong>Publish</strong> to save to the library. Use <strong>Save draft</strong> to store metadata without pages.
+        </p>
+        <ActionBar />
+
 
         <div className="space-y-4 bg-card border rounded-xl p-6 mb-6">
           <div>
