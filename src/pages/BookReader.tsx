@@ -125,19 +125,19 @@ export default function BookReader() {
                   : "flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-2xl"
               }
             >
-              <div className={spread ? "flex max-h-[85vh] shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}>
+              <div className={spread ? "flex shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}>
                 <img
                   src={page.image_url}
                   alt={`Page ${page.page_number}`}
-                  className={`block max-h-[85vh] w-auto max-w-full object-contain`}
+                  className={`block w-auto max-w-full object-contain ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`}
                 />
               </div>
               {spread && pages[current + 1] && (
-                <div className="flex max-h-[85vh] shrink-0">
+                <div className="flex shrink-0">
                   <img
                     src={pages[current + 1].image_url}
                     alt={`Page ${pages[current + 1].page_number}`}
-                    className={`block max-h-[85vh] w-auto max-w-[50vw] object-contain`}
+                    className={`block w-auto max-w-[50vw] object-contain ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`}
                   />
                 </div>
               )}
