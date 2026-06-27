@@ -58,6 +58,45 @@ export default function AdminBooks() {
     setPages(mapped);
   };
 
+  const handleDocumentImport = async (file: File | null) => {
+    if (!file) return;
+    const name = file.name.toLowerCase();
+    const isPdf = name.endsWith(".pdf") || file.type === "application/pdf";
+    const isEpub = name.endsWith(".epub") || file.type === "application/epub+zip";
+    if (!isPdf && !isEpub) {
+      toast.error("Please choose a .pdf or .epub file");
+      return;
+    }
+    setWorking(true);
+    setImportProgress("Reading document…");
+    try {
+      const imported = isPdf
+        ? await pdfToPageImages(file, {
+            onProgress: (d, t) => setImportProgress(`Rendering PDF page ${d}/${t}…`),
+          })
+        : await epubToPageImages(file, {
+            onProgress: (d, t) => setImportProgress(`Extracting EPUB ${d}/${t}…`),
+          });
+      const mapped: PendingPage[] = imported.map((p) => ({
+        file: p.file,
+        pageNumber: p.pageNumber,
+        previewUrl: URL.createObjectURL(p.file),
+        status: "pending",
+        narration: "",
+      }));
+      setPages(mapped);
+      if (!title) setTitle(file.name.replace(/\.(pdf|epub)$/i, ""));
+      if (!slug) setSlug(slugify(file.name.replace(/\.(pdf|epub)$/i, "")));
+      toast.success(`Imported ${mapped.length} pages from ${isPdf ? "PDF" : "EPUB"}`);
+    } catch (e) {
+      console.error(e);
+      toast.error("Import failed: " + (e instanceof Error ? e.message : String(e)));
+    } finally {
+      setImportProgress(null);
+      setWorking(false);
+    }
+  };
+
   const removePage = (idx: number) => {
     setPages((p) => p.filter((_, i) => i !== idx).map((pp, i) => ({ ...pp, pageNumber: i + 1 })));
   };
