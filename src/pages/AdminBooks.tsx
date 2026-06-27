@@ -141,6 +141,39 @@ export default function AdminBooks() {
     toast.success("OCR complete. Review and edit narration text.");
   };
 
+  const saveDraft = async () => {
+    if (!title || !slug) return toast.error("Title and slug are required");
+    setWorking(true);
+    try {
+      let coverUrl: string | null = null;
+      if (coverFile) {
+        const ext = coverFile.name.split(".").pop() || "jpg";
+        const path = `${slug}/cover.${ext}`;
+        const { error } = await supabase.storage.from("book-pages").upload(path, coverFile, { upsert: true });
+        if (error) throw error;
+        coverUrl = path;
+      }
+      const { error: bookErr } = await supabase
+        .from("books")
+        .upsert({
+          slug,
+          title,
+          description,
+          ...(coverUrl ? { cover_image_url: coverUrl } : {}),
+          page_count: pages.length,
+          is_free: isFree,
+        }, { onConflict: "slug" });
+      if (bookErr) throw bookErr;
+      setSaveState("draft");
+      toast.success("Draft saved");
+    } catch (e) {
+      console.error(e);
+      toast.error("Save failed: " + String(e));
+    } finally {
+      setWorking(false);
+    }
+  };
+
   const publish = async () => {
     if (!title || !slug) return toast.error("Title and slug are required");
     if (!pages.length) return toast.error("Add at least one page");
@@ -195,6 +228,7 @@ export default function AdminBooks() {
         setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "done", storagePath: path } : pp));
       }
 
+      setSaveState("published");
       toast.success(`"${title}" published to the library!`);
       navigate(`/read/${slug}`);
     } catch (e) {
@@ -204,6 +238,32 @@ export default function AdminBooks() {
       setWorking(false);
     }
   };
+
+  const ActionBar = () => (
+    <div className="bg-card border rounded-xl p-4 mb-6 flex flex-wrap items-center gap-3 sticky top-2 z-10 shadow-sm">
+      <Button onClick={saveDraft} disabled={working || !title || !slug} variant="secondary">
+        {working ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+        Save draft
+      </Button>
+      <Button onClick={ocrAll} disabled={working || !pages.length} variant="secondary">
+        Auto-extract narration (AI)
+      </Button>
+      <Button
+        onClick={publish}
+        disabled={working || !pages.length || !title || !slug}
+        title={!pages.length ? "Add pages first" : undefined}
+      >
+        <Upload className="w-4 h-4 mr-2" />
+        {working ? `Publishing ${progress}…` : `Publish${pages.length ? ` ${pages.length} pages` : ""}`}
+      </Button>
+      <span className="text-xs text-muted-foreground ml-auto">
+        {saveState === "unsaved" && "Not saved yet"}
+        {saveState === "draft" && "Draft saved"}
+        {saveState === "published" && `Published — ${pages.length} pages`}
+      </span>
+    </div>
+  );
+
 
   const progress = useMemo(() => {
     const done = pages.filter((p) => p.status === "done").length;
