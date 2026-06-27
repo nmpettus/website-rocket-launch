@@ -35,6 +35,8 @@ export default function AdminBooks() {
   const [pages, setPages] = useState<PendingPage[]>([]);
   const [working, setWorking] = useState(false);
   const [importProgress, setImportProgress] = useState<string | null>(null);
+  const [saveState, setSaveState] = useState<"unsaved" | "draft" | "published">("unsaved");
+
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth?next=/admin/books");
@@ -139,6 +141,39 @@ export default function AdminBooks() {
     toast.success("OCR complete. Review and edit narration text.");
   };
 
+  const saveDraft = async () => {
+    if (!title || !slug) return toast.error("Title and slug are required");
+    setWorking(true);
+    try {
+      let coverUrl: string | null = null;
+      if (coverFile) {
+        const ext = coverFile.name.split(".").pop() || "jpg";
+        const path = `${slug}/cover.${ext}`;
+        const { error } = await supabase.storage.from("book-pages").upload(path, coverFile, { upsert: true });
+        if (error) throw error;
+        coverUrl = path;
+      }
+      const { error: bookErr } = await supabase
+        .from("books")
+        .upsert({
+          slug,
+          title,
+          description,
+          ...(coverUrl ? { cover_image_url: coverUrl } : {}),
+          page_count: pages.length,
+          is_free: isFree,
+        }, { onConflict: "slug" });
+      if (bookErr) throw bookErr;
+      setSaveState("draft");
+      toast.success("Draft saved");
+    } catch (e) {
+      console.error(e);
+      toast.error("Save failed: " + String(e));
+    } finally {
+      setWorking(false);
+    }
+  };
+
   const publish = async () => {
     if (!title || !slug) return toast.error("Title and slug are required");
     if (!pages.length) return toast.error("Add at least one page");
@@ -193,6 +228,7 @@ export default function AdminBooks() {
         setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "done", storagePath: path } : pp));
       }
 
+      setSaveState("published");
       toast.success(`"${title}" published to the library!`);
       navigate(`/read/${slug}`);
     } catch (e) {
@@ -202,6 +238,32 @@ export default function AdminBooks() {
       setWorking(false);
     }
   };
+
+  const ActionBar = () => (
+    <div className="bg-card border rounded-xl p-4 mb-6 flex flex-wrap items-center gap-3 sticky top-2 z-10 shadow-sm">
+      <Button onClick={saveDraft} disabled={working || !title || !slug} variant="secondary">
+        {working ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+        Save draft
+      </Button>
+      <Button onClick={ocrAll} disabled={working || !pages.length} variant="secondary">
+        Auto-extract narration (AI)
+      </Button>
+      <Button
+        onClick={publish}
+        disabled={working || !pages.length || !title || !slug}
+        title={!pages.length ? "Add pages first" : undefined}
+      >
+        <Upload className="w-4 h-4 mr-2" />
+        {working ? `Publishing ${progress}…` : `Publish${pages.length ? ` ${pages.length} pages` : ""}`}
+      </Button>
+      <span className="text-xs text-muted-foreground ml-auto">
+        {saveState === "unsaved" && "Not saved yet"}
+        {saveState === "draft" && "Draft saved"}
+        {saveState === "published" && `Published — ${pages.length} pages`}
+      </span>
+    </div>
+  );
+
 
   const progress = useMemo(() => {
     const done = pages.filter((p) => p.status === "done").length;
@@ -228,7 +290,12 @@ export default function AdminBooks() {
         <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4">
           <ArrowLeft className="w-4 h-4" /> Home
         </Link>
-        <h1 className="text-3xl font-bold mb-6">Book Uploader</h1>
+        <h1 className="text-3xl font-bold mb-2">Book Uploader</h1>
+        <p className="text-sm text-muted-foreground mb-4">
+          Fill in the details, add pages (PDF/EPUB import or PNGs), then click <strong>Publish</strong> to save to the library. Use <strong>Save draft</strong> to store metadata without pages.
+        </p>
+        <ActionBar />
+
 
         <div className="space-y-4 bg-card border rounded-xl p-6 mb-6">
           <div>
@@ -280,19 +347,11 @@ export default function AdminBooks() {
             <p className="text-sm text-muted-foreground mb-3">Select all PNGs at once. They sort by filename — name them <code>01.png, 02.png, …</code></p>
             <Input id="pages" type="file" accept="image/*" multiple onChange={(e) => handlePageFiles(e.target.files)} />
           </div>
-          {pages.length > 0 && (
-            <div className="mt-4 flex gap-2 flex-wrap">
-              <Button onClick={ocrAll} disabled={working} variant="secondary">
-                {working ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-                Auto-extract narration (AI)
-              </Button>
-              <Button onClick={publish} disabled={working}>
-                <Upload className="w-4 h-4 mr-2" />
-                {working ? `Publishing ${progress}…` : `Publish ${pages.length} pages`}
-              </Button>
-            </div>
-          )}
         </div>
+
+        <ActionBar />
+
+
 
         <div className="space-y-3">
           {pages.map((p, idx) => (
@@ -300,7 +359,7 @@ export default function AdminBooks() {
               <img src={p.previewUrl} alt={`Page ${p.pageNumber}`} className="w-24 h-24 object-cover rounded" />
               <div className="flex-1">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="font-medium">Page {p.pageNumber} {p.pageNumber <= 3 && <span className="text-xs text-primary">(free preview)</span>}</span>
+                  <span className="font-medium">Page {p.pageNumber} {p.pageNumber >= 4 && p.pageNumber <= 6 && <span className="text-xs text-primary">(free preview)</span>}</span>
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-muted-foreground">{p.status}</span>
                     <Button size="icon" variant="ghost" onClick={() => removePage(idx)} disabled={working}>

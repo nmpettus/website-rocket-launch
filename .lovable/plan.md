@@ -1,16 +1,17 @@
-Add a conditional "Admin" link to the app navigation that routes to `/#/admin/books`, visible only when the logged-in user has the `admin` role.
+## Problem
+The Admin uploader has no obvious "Save" — the **Publish** button is the save action, but it's hidden until at least one page is added, and it sits inside the import card so users miss it. The free-preview chip on each page row also still says "(free preview)" for pages 1–3 instead of 4–6.
 
-## What to build
+## Changes to `src/pages/AdminBooks.tsx`
 
-1. **Update `src/components/Navigation.tsx`**:
-   - Import `useIsAdmin` from `@/hooks/useIsAdmin`.
-   - Call `useIsAdmin()` inside the `Navigation` component.
-   - In the **desktop nav bar** (`hidden lg:flex`), after the existing links, conditionally render a `<Link>` to `/admin/books` with label "Admin" when `isAdmin` is true.
-   - In the **mobile menu** (`lg:hidden` Sheet), after the existing `NAV_LINKS` loop, conditionally render the same admin link when `isAdmin` is true.
-   - Style the admin link the same as other route links (using the existing `isActiveLink` logic for active-state highlighting).
+1. **Always-visible action bar** pinned at the top of the form (and a duplicate at the bottom) with two buttons:
+   - **Save draft** — upserts the book row (title, slug, description, cover, is_free) without requiring pages. Lets the author save metadata progress and come back later.
+   - **Publish N pages** — current full publish flow (uploads pages + narration). Disabled with a tooltip ("Add pages first") when `pages.length === 0`, instead of being hidden.
+   - **Auto-extract narration (AI)** stays next to Publish.
 
-## Files changed
-- `src/components/Navigation.tsx`
+2. **Status line** under the buttons: "Not saved yet" / "Draft saved" / "Published — N pages" so the user can see state.
 
-## No database or routing changes required
-The `/admin/books` route already exists in `App.tsx`. The `useIsAdmin` hook and `user_roles` table already exist.
+3. **Fix free-preview label**: change `p.pageNumber <= 3` to `p.pageNumber >= 4 && p.pageNumber <= 6` so the chip matches the actual preview window (pages 4–6).
+
+4. **Helper text** at the top of the page: one short line explaining "Fill in the details, add pages (PDF/EPUB import or PNGs), then click Publish to save to the library."
+
+No backend, schema, or routing changes — purely UX on the existing admin page.
