@@ -19,6 +19,8 @@ export default function BookReader() {
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
   const [speaking, setSpeaking] = useState(false);
+  const [spread, setSpread] = useState(false);
+  const [fit, setFit] = useState<"contain" | "cover">("contain");
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   useEffect(() => {
