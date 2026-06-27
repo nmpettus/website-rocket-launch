@@ -161,7 +161,6 @@ const Hero = () => {
                       alt="Maggie the dog - Your faith adventure guide"
                       className="w-full h-full object-cover object-top"
                       loading="eager"
-                      fetchPriority="high"
                       decoding="async"
                     />
                     <div className="absolute top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full shadow-md whitespace-nowrap">
