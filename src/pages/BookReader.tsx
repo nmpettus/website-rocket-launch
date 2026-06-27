@@ -172,8 +172,8 @@ export default function BookReader() {
 
             <div className="flex items-center gap-2 flex-wrap justify-center">
               {!speaking ? (
-                <Button onClick={speakCurrent} disabled={!page?.narration_text}>
-                  <Play className="w-4 h-4 mr-1" /> Read Aloud
+                <Button onClick={speakCurrent} disabled={!page?.narration_text || loadingAudio}>
+                  <Play className="w-4 h-4 mr-1" /> {loadingAudio ? "Loading..." : "Read Aloud"}
                 </Button>
               ) : (
                 <Button onClick={stopSpeech} variant="destructive">
