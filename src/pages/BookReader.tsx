@@ -94,7 +94,7 @@ export default function BookReader() {
         <div className={`w-full ${spread ? "max-w-[1600px]" : "max-w-5xl"} flex flex-col h-full`}>
           {page && (
             <div className={`bg-white rounded-xl overflow-hidden shadow-2xl flex ${spread ? "flex-row" : "flex-col"} flex-1 min-h-0`}>
-              <div className={`flex-1 min-h-0 bg-muted flex ${spread ? "border-r border-neutral-300" : ""}`}>
+              <div className="flex-1 min-h-0 bg-muted flex">
                 <img
                   src={page.image_url}
                   alt={`Page ${page.page_number}`}
