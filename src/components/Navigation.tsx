@@ -293,6 +293,22 @@ const Navigation = () => {
                         )}
                       </SheetClose>
                     ))}
+                    
+                    {isAdmin && (
+                      <SheetClose asChild>
+                        <Link 
+                          to="/admin/books"
+                          className={cn(
+                            "block text-base py-3 px-4 rounded-lg transition-colors duration-200 font-medium",
+                            location.pathname === '/admin/books'
+                              ? "bg-primary text-primary-foreground"
+                              : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                          )}
+                        >
+                          Admin
+                        </Link>
+                      </SheetClose>
+                    )}
                   </nav>
                   
                   {/* Mobile Footer CTA */}
