@@ -93,8 +93,8 @@ export default function BookReader() {
       <div className="flex-1 flex items-center justify-center px-2 pb-4">
         <div className={`w-full ${spread ? "max-w-[1600px]" : "max-w-5xl"} flex flex-col h-full`}>
           {page && (
-            <div className={`bg-white rounded-xl overflow-hidden shadow-2xl flex ${spread ? "flex-row" : "flex-col"} flex-1 min-h-0`}>
-              <div className="flex-1 min-h-0 bg-muted flex">
+            <div className={`bg-white overflow-hidden shadow-2xl flex ${spread ? "flex-row rounded-none" : "flex-col rounded-xl"} flex-1 min-h-0`}>
+              <div className="flex-1 min-h-0 flex">
                 <img
                   src={page.image_url}
                   alt={`Page ${page.page_number}`}
@@ -103,7 +103,7 @@ export default function BookReader() {
                 />
               </div>
               {spread && pages[current + 1] && (
-                <div className="flex-1 min-h-0 bg-muted flex">
+                <div className="flex-1 min-h-0 flex">
                   <img
                     src={pages[current + 1].image_url}
                     alt={`Page ${pages[current + 1].page_number}`}
