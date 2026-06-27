@@ -19,6 +19,8 @@ export default function BookReader() {
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
   const [speaking, setSpeaking] = useState(false);
+  const [spread, setSpread] = useState(false);
+  const [fit, setFit] = useState<"contain" | "cover">("contain");
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   useEffect(() => {
@@ -88,14 +90,29 @@ export default function BookReader() {
         <div className="w-20" />
       </div>
 
-      <div className="flex-1 flex items-center justify-center px-4 pb-4">
-        <div className="w-full max-w-3xl">
+      <div className="flex-1 flex items-center justify-center px-2 pb-4">
+        <div className={`w-full ${spread ? "max-w-[1600px]" : "max-w-5xl"} flex flex-col h-full`}>
           {page && (
-            <div className="bg-white rounded-xl overflow-hidden shadow-2xl">
-              <div className="aspect-square bg-muted">
-                <img src={page.image_url} alt={`Page ${page.page_number}`} className="w-full h-full object-contain" />
+            <div className={`bg-white rounded-xl overflow-hidden shadow-2xl flex ${spread ? "flex-row" : "flex-col"} flex-1 min-h-0`}>
+              <div className={`flex-1 min-h-0 bg-muted flex ${spread ? "border-r border-neutral-300" : ""}`}>
+                <img
+                  src={page.image_url}
+                  alt={`Page ${page.page_number}`}
+                  className={`w-full h-full ${fit === "cover" ? "object-cover" : "object-contain"}`}
+                  style={{ maxHeight: "75vh" }}
+                />
               </div>
-              {page.narration_text && (
+              {spread && pages[current + 1] && (
+                <div className="flex-1 min-h-0 bg-muted flex">
+                  <img
+                    src={pages[current + 1].image_url}
+                    alt={`Page ${pages[current + 1].page_number}`}
+                    className={`w-full h-full ${fit === "cover" ? "object-cover" : "object-contain"}`}
+                    style={{ maxHeight: "75vh" }}
+                  />
+                </div>
+              )}
+              {!spread && page.narration_text && (
                 <div className="p-6 text-foreground text-lg leading-relaxed">
                   {page.narration_text}
                 </div>
@@ -115,11 +132,11 @@ export default function BookReader() {
           )}
 
           <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
-            <Button variant="secondary" disabled={current === 0} onClick={() => goPage(current - 1)}>
+            <Button variant="secondary" disabled={current === 0} onClick={() => goPage(current - (spread ? 2 : 1))}>
               <ChevronLeft className="w-4 h-4 mr-1" /> Previous
             </Button>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap justify-center">
               {!speaking ? (
                 <Button onClick={speakCurrent} disabled={!page?.narration_text}>
                   <Play className="w-4 h-4 mr-1" /> Read Aloud
@@ -129,9 +146,15 @@ export default function BookReader() {
                   <Square className="w-4 h-4 mr-1" /> Stop
                 </Button>
               )}
+              <Button variant="outline" onClick={() => setSpread((s) => !s)} className="text-foreground">
+                {spread ? "Single Page" : "Two-Page Spread"}
+              </Button>
+              <Button variant="outline" onClick={() => setFit((f) => (f === "contain" ? "cover" : "contain"))} className="text-foreground">
+                {fit === "contain" ? "Fill Page" : "Fit Page"}
+              </Button>
             </div>
 
-            <Button variant="secondary" disabled={current >= visiblePages - 1} onClick={() => goPage(current + 1)}>
+            <Button variant="secondary" disabled={current >= visiblePages - 1} onClick={() => goPage(current + (spread ? 2 : 1))}>
               Next <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
