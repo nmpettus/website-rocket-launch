@@ -68,15 +68,28 @@ export default function BookReader() {
 
   const speakCurrent = async () => {
     const page = pages[current];
-    const text = page?.narration_text?.trim();
-    if (!text) {
-      console.warn("No narration text on this page");
-      return;
-    }
+    if (!page) return;
     stopSpeech();
+    setLoadingAudio(true);
     try {
-      setLoadingAudio(true);
-      const cacheKey = `${page.id}`;
+      let text = page.narration_text?.trim() || "";
+      if (!text) {
+        // Auto-extract narration from page image via OCR
+        const { data: ocr, error: ocrErr } = await supabase.functions.invoke("ocr-page", {
+          body: { imageUrl: page.image_url },
+        });
+        if (ocrErr) console.warn("OCR error", ocrErr);
+        text = (ocr?.text ?? "").toString().trim();
+        if (text) {
+          // Persist so next time it's instant
+          await supabase.from("book_pages").update({ narration_text: text }).eq("id", page.id);
+          setPages((prev) => prev.map((p) => (p.id === page.id ? { ...p, narration_text: text } : p)));
+        }
+      }
+      if (!text) {
+        speakWithBrowser("No narration text could be found on this page.");
+        return;
+      }
       let url = audioCacheRef.current.get(cacheKey);
       if (!url) {
         const SUPABASE_URL = (import.meta as any).env.VITE_SUPABASE_URL;
