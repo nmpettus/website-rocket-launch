@@ -71,17 +71,16 @@ export default function BookReader() {
     if (!page) return;
     stopSpeech();
     setLoadingAudio(true);
+    let text = "";
     try {
-      let text = page.narration_text?.trim() || "";
+      text = page.narration_text?.trim() || "";
       if (!text) {
-        // Auto-extract narration from page image via OCR
         const { data: ocr, error: ocrErr } = await supabase.functions.invoke("ocr-page", {
           body: { imageUrl: page.image_url },
         });
         if (ocrErr) console.warn("OCR error", ocrErr);
         text = (ocr?.text ?? "").toString().trim();
         if (text) {
-          // Persist so next time it's instant
           await supabase.from("book_pages").update({ narration_text: text }).eq("id", page.id);
           setPages((prev) => prev.map((p) => (p.id === page.id ? { ...p, narration_text: text } : p)));
         }
@@ -90,6 +89,7 @@ export default function BookReader() {
         speakWithBrowser("No narration text could be found on this page.");
         return;
       }
+      const cacheKey = page.id;
       let url = audioCacheRef.current.get(cacheKey);
       if (!url) {
         const SUPABASE_URL = (import.meta as any).env.VITE_SUPABASE_URL;
@@ -107,7 +107,6 @@ export default function BookReader() {
         if (!resp.ok || ct.includes("application/json")) {
           const errBody = await resp.text().catch(() => "");
           console.warn("Azure TTS failed, using browser fallback:", resp.status, errBody);
-          setLoadingAudio(false);
           speakWithBrowser(text);
           return;
         }
@@ -126,7 +125,7 @@ export default function BookReader() {
       setSpeaking(true);
     } catch (e) {
       console.error("TTS error, falling back to browser", e);
-      speakWithBrowser(text);
+      if (text) speakWithBrowser(text);
     } finally {
       setLoadingAudio(false);
     }
