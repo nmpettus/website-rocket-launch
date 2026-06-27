@@ -1,35 +1,16 @@
-## Admin Book Uploader
+Add a conditional "Admin" link to the app navigation that routes to `/#/admin/books`, visible only when the logged-in user has the `admin` role.
 
-Build a password-protected admin page where you drag-and-drop a folder of PNG pages for a book, and the app uploads them, OCRs each page for narration text, and registers the book in the reader library.
+## What to build
 
-### What you'll do
-1. Visit `/#/admin/books`, sign in with your admin email.
-2. Fill in book title, slug, description, cover, and toggle "first 3 pages free preview".
-3. Drag a folder of PNGs (named `01.png`, `02.png`, … to set page order).
-4. Click **Upload**. Progress bar shows upload + OCR per page.
-5. Edit any auto-extracted narration text inline before saving.
-6. Book appears immediately in `/#/members` and is readable via `/#/read/<slug>`.
+1. **Update `src/components/Navigation.tsx`**:
+   - Import `useIsAdmin` from `@/hooks/useIsAdmin`.
+   - Call `useIsAdmin()` inside the `Navigation` component.
+   - In the **desktop nav bar** (`hidden lg:flex`), after the existing links, conditionally render a `<Link>` to `/admin/books` with label "Admin" when `isAdmin` is true.
+   - In the **mobile menu** (`lg:hidden` Sheet), after the existing `NAV_LINKS` loop, conditionally render the same admin link when `isAdmin` is true.
+   - Style the admin link the same as other route links (using the existing `isActiveLink` logic for active-state highlighting).
 
-### Backend changes
-- **Storage bucket** `book-pages` (private). RLS on `storage.objects`:
-  - Admins: full read/write.
-  - Authenticated subscribers + anon: read via signed URLs only (reader already gates by `page_number`).
-- **`user_roles` table + `app_role` enum + `has_role()` security-definer function** (per workspace pattern). Seed your account as `admin`.
-- **`books` / `book_pages` RLS update**: add admin INSERT/UPDATE/DELETE policies using `has_role(auth.uid(),'admin')`.
-- **Edge function `ocr-page`**: receives a page image URL, calls Lovable AI Gateway (Gemini vision) to extract narration text, returns it. Used during upload to pre-fill `narration_text`.
+## Files changed
+- `src/components/Navigation.tsx`
 
-### Frontend changes
-- New route `/admin/books` (gated by `has_role` check; non-admins redirected to `/`).
-- `AdminBookForm` component: book metadata + cover upload.
-- `PageUploader` component: drag-drop, sorts by filename, uploads to `book-pages/<slug>/<n>.png`, calls `ocr-page` for each, shows editable narration textarea per page, then inserts rows into `books` + `book_pages`.
-- Reader (`BookReader.tsx`) already works — no changes needed; it'll just pick up the new rows.
-
-### File naming convention
-Name your PNGs with zero-padded page numbers so order is unambiguous: `01.png, 02.png, 03.png, …`. The uploader sorts alphabetically.
-
-### Out of scope (can add later)
-- Editing an already-published book's pages (v1 is upload-once; re-upload replaces).
-- Bulk re-OCR.
-- Two-page spreads.
-
-Ready to build?
+## No database or routing changes required
+The `/admin/books` route already exists in `App.tsx`. The `useIsAdmin` hook and `user_roles` table already exist.

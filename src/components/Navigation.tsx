@@ -4,6 +4,7 @@ import { Menu, BookOpen } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
@@ -23,6 +24,7 @@ const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAdmin } = useIsAdmin();
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof NAV_LINKS[0]) => {
     if (link.isRoute) {
@@ -189,6 +191,20 @@ const Navigation = () => {
               )
             ))}
             
+            {isAdmin && (
+              <Link 
+                to="/admin/books"
+                className={cn(
+                  "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
+                  location.pathname === '/admin/books'
+                    ? "text-primary bg-primary/10"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                )}
+              >
+                Admin
+              </Link>
+            )}
+            
             {/* Shop Books CTA */}
             <Button 
               className="ml-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-4 py-1.5 text-xs rounded-lg transition-colors duration-200"
@@ -277,6 +293,22 @@ const Navigation = () => {
                         )}
                       </SheetClose>
                     ))}
+                    
+                    {isAdmin && (
+                      <SheetClose asChild>
+                        <Link 
+                          to="/admin/books"
+                          className={cn(
+                            "block text-base py-3 px-4 rounded-lg transition-colors duration-200 font-medium",
+                            location.pathname === '/admin/books'
+                              ? "bg-primary text-primary-foreground"
+                              : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                          )}
+                        >
+                          Admin
+                        </Link>
+                      </SheetClose>
+                    )}
                   </nav>
                   
                   {/* Mobile Footer CTA */}
