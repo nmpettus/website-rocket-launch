@@ -47,6 +47,7 @@ export default function BookReader() {
 
   const stopSpeech = () => {
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
+    try { window.speechSynthesis?.cancel(); } catch {}
     setSpeaking(false);
   };
 
