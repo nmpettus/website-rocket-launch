@@ -66,31 +66,44 @@ export default function BookReader() {
     }
   };
 
+  const extractTextForPage = async (page: Page): Promise<string> => {
+    let text = page.narration_text?.trim() || "";
+    if (!text) {
+      const { data: ocr, error: ocrErr } = await supabase.functions.invoke("ocr-page", {
+        body: { imageUrl: page.image_url },
+      });
+      if (ocrErr) console.warn("OCR error", ocrErr);
+      text = (ocr?.text ?? "").toString().trim();
+      if (text) {
+        await supabase.from("book_pages").update({ narration_text: text }).eq("id", page.id);
+        setPages((prev) => prev.map((p) => (p.id === page.id ? { ...p, narration_text: text } : p)));
+      }
+    }
+    return text;
+  };
+
   const speakCurrent = async () => {
     const page = pages[current];
     if (!page) return;
     stopSpeech();
     setLoadingAudio(true);
     let text = "";
+    let cacheKey = page.id;
     try {
-      text = page.narration_text?.trim() || "";
-      if (!text) {
-        const { data: ocr, error: ocrErr } = await supabase.functions.invoke("ocr-page", {
-          body: { imageUrl: page.image_url },
-        });
-        if (ocrErr) console.warn("OCR error", ocrErr);
-        text = (ocr?.text ?? "").toString().trim();
-        if (text) {
-          await supabase.from("book_pages").update({ narration_text: text }).eq("id", page.id);
-          setPages((prev) => prev.map((p) => (p.id === page.id ? { ...p, narration_text: text } : p)));
-        }
+      const leftText = await extractTextForPage(page);
+      let combined = leftText;
+      if (spread && pages[current + 1]) {
+        const rightText = await extractTextForPage(pages[current + 1]);
+        if (rightText) combined = leftText ? `${leftText}\n\n${rightText}` : rightText;
+        cacheKey = `${page.id}+${pages[current + 1].id}`;
       }
+      text = combined;
       if (!text) {
         speakWithBrowser("No narration text could be found on this page.");
         return;
       }
-      const cacheKey = page.id;
       let url = audioCacheRef.current.get(cacheKey);
+
       if (!url) {
         const SUPABASE_URL = (import.meta as any).env.VITE_SUPABASE_URL;
         const ANON = (import.meta as any).env.VITE_SUPABASE_PUBLISHABLE_KEY;
