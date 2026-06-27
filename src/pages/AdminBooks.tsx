@@ -347,19 +347,11 @@ export default function AdminBooks() {
             <p className="text-sm text-muted-foreground mb-3">Select all PNGs at once. They sort by filename — name them <code>01.png, 02.png, …</code></p>
             <Input id="pages" type="file" accept="image/*" multiple onChange={(e) => handlePageFiles(e.target.files)} />
           </div>
-          {pages.length > 0 && (
-            <div className="mt-4 flex gap-2 flex-wrap">
-              <Button onClick={ocrAll} disabled={working} variant="secondary">
-                {working ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-                Auto-extract narration (AI)
-              </Button>
-              <Button onClick={publish} disabled={working}>
-                <Upload className="w-4 h-4 mr-2" />
-                {working ? `Publishing ${progress}…` : `Publish ${pages.length} pages`}
-              </Button>
-            </div>
-          )}
         </div>
+
+        <ActionBar />
+
+
 
         <div className="space-y-3">
           {pages.map((p, idx) => (
