@@ -20,10 +20,35 @@ export default function BookReader() {
   const [loading, setLoading] = useState(true);
   const [speaking, setSpeaking] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
-  const [spread, setSpread] = useState(false);
+  const [layoutMode, setLayoutMode] = useState<"auto" | "single" | "spread">("auto");
   const [fit, setFit] = useState<"contain" | "cover">("contain");
+  const [aspects, setAspects] = useState<Record<string, number>>({});
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCacheRef = useRef<Map<string, string>>(new Map());
+
+  const isPortrait = (id?: string) => {
+    if (!id) return false;
+    const a = aspects[id];
+    return a !== undefined && a < 1.1;
+  };
+  const isWide = (id?: string) => {
+    if (!id) return false;
+    const a = aspects[id];
+    return a !== undefined && a >= 1.4;
+  };
+  const recordAspect = (id: string, w: number, h: number) => {
+    if (!h) return;
+    setAspects((prev) => (prev[id] ? prev : { ...prev, [id]: w / h }));
+  };
+
+  const autoSpread = (() => {
+    const cur = pages[current];
+    const nxt = pages[current + 1];
+    if (!cur || !nxt) return false;
+    if (isWide(cur.id)) return false; // already a spread image
+    return isPortrait(cur.id) && isPortrait(nxt.id);
+  })();
+  const spread = layoutMode === "spread" || (layoutMode === "auto" && autoSpread);
 
   useEffect(() => {
     (async () => {
