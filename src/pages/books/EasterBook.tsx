@@ -76,7 +76,7 @@ const EasterBook = () => {
           <nav className="mb-6 text-sm text-gray-600">
             <Link to="/" className="hover:text-purple-600">Home</Link>
             <span className="mx-2">›</span>
-            <a href="/#books" className="hover:text-purple-600">Books</a>
+            <Link to={{ pathname: "/", hash: "#books" }} className="hover:text-purple-600">Books</Link>
             <span className="mx-2">›</span>
             <span className="text-gray-800">Maggie's Easter Story</span>
           </nav>

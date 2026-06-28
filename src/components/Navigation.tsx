@@ -53,13 +53,20 @@ const Navigation = () => {
   useEffect(() => {
     if (location.pathname === '/') {
       if (location.hash) {
-        window.history.replaceState(null, '', '/');
+        setTimeout(() => {
+          const section = document.getElementById(location.hash.replace('#', ''));
+          if (section) {
+            const navbarHeight = 80;
+            const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+            window.scrollTo({ top: sectionTop, behavior: 'auto' });
+          }
+        }, 100);
+      } else {
+        window.scrollTo({
+          top: 0,
+          behavior: 'auto'
+        });
       }
-      
-      window.scrollTo({
-        top: 0,
-        behavior: 'auto'
-      });
       setActiveSection('home');
       setIsInitialLoad(false);
     } else {
@@ -177,7 +184,7 @@ const Navigation = () => {
               ) : (
                 <a 
                   key={link.id}
-                  href={`/#${link.id}`} 
+                  href={`#/#${link.id}`} 
                   onClick={(e) => handleNavClick(e, link)} 
                   className={cn(
                     "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
@@ -213,7 +220,7 @@ const Navigation = () => {
                 if (booksSection) {
                   booksSection.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                  window.location.href = '/#books';
+                  navigate('/#books');
                 }
               }}
             >
@@ -279,7 +286,7 @@ const Navigation = () => {
                           </Link>
                         ) : (
                           <a 
-                            href={`/#${link.id}`} 
+                            href={`#/#${link.id}`} 
                             onClick={(e) => handleNavClick(e, link)}
                             className={cn(
                               "block text-base py-3 px-4 rounded-lg transition-colors duration-200 font-medium",
@@ -321,7 +328,7 @@ const Navigation = () => {
                           if (booksSection) {
                             booksSection.scrollIntoView({ behavior: 'smooth' });
                           } else {
-                            window.location.href = '/#books';
+                            navigate('/#books');
                           }
                         }}
                       >

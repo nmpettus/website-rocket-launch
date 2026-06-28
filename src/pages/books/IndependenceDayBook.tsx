@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
@@ -43,9 +44,9 @@ const IndependenceDayBook = () => {
         <div className="max-w-4xl mx-auto">
           {/* Breadcrumb Navigation */}
           <nav className="mb-6 text-sm text-gray-600">
-            <a href="/" className="hover:text-red-600">Home</a>
+            <Link to="/" className="hover:text-red-600">Home</Link>
             <span className="mx-2">&#8250;</span>
-            <a href="/#books" className="hover:text-red-600">Books</a>
+            <Link to={{ pathname: "/", hash: "#books" }} className="hover:text-red-600">Books</Link>
             <span className="mx-2">&#8250;</span>
             <span className="text-gray-800">Independence Day as told by Maggie to Matteo</span>
           </nav>
