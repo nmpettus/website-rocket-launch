@@ -234,11 +234,6 @@ export default function BookReader() {
                   />
                 </div>
               )}
-              {!spread && page.narration_text && (
-                <div className="p-6 text-foreground text-lg leading-relaxed">
-                  {page.narration_text}
-                </div>
-              )}
             </div>
           )}
 
