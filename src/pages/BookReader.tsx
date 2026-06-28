@@ -137,12 +137,8 @@ export default function BookReader() {
   };
 
 
-  const autoSpread = (() => {
-    // Only allow a page to start one pair. If the previous page already pairs
-    // with this one, do not create an overlapping 3-page chain.
-    if (current > 0 && canAutoPairAt(current - 1)) return false;
-    return canAutoPairAt(current);
-  })();
+  const autoSpread = canAutoPairAt(current);
+
   const page = pages[current];
   const currentIsWide = isWide(page?.id);
   const manualSpread = layoutMode === "spread" && !!pages[current + 1] && !currentIsWide;
