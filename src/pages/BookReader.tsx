@@ -20,10 +20,35 @@ export default function BookReader() {
   const [loading, setLoading] = useState(true);
   const [speaking, setSpeaking] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
-  const [spread, setSpread] = useState(false);
+  const [layoutMode, setLayoutMode] = useState<"auto" | "single" | "spread">("auto");
   const [fit, setFit] = useState<"contain" | "cover">("contain");
+  const [aspects, setAspects] = useState<Record<string, number>>({});
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCacheRef = useRef<Map<string, string>>(new Map());
+
+  const isPortrait = (id?: string) => {
+    if (!id) return false;
+    const a = aspects[id];
+    return a !== undefined && a < 1.1;
+  };
+  const isWide = (id?: string) => {
+    if (!id) return false;
+    const a = aspects[id];
+    return a !== undefined && a >= 1.4;
+  };
+  const recordAspect = (id: string, w: number, h: number) => {
+    if (!h) return;
+    setAspects((prev) => (prev[id] ? prev : { ...prev, [id]: w / h }));
+  };
+
+  const autoSpread = (() => {
+    const cur = pages[current];
+    const nxt = pages[current + 1];
+    if (!cur || !nxt) return false;
+    if (isWide(cur.id)) return false; // already a spread image
+    return isPortrait(cur.id) && isPortrait(nxt.id);
+  })();
+  const spread = layoutMode === "spread" || (layoutMode === "auto" && autoSpread);
 
   useEffect(() => {
     (async () => {
@@ -222,6 +247,7 @@ export default function BookReader() {
                 <img
                   src={page.image_url}
                   alt={`Page ${page.page_number}`}
+                  onLoad={(e) => recordAspect(page.id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
                   className={`block w-auto max-w-full object-contain ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`}
                 />
               </div>
@@ -230,6 +256,7 @@ export default function BookReader() {
                   <img
                     src={pages[current + 1].image_url}
                     alt={`Page ${pages[current + 1].page_number}`}
+                    onLoad={(e) => recordAspect(pages[current + 1].id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
                     className={`block w-auto max-w-[50vw] object-contain ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`}
                   />
                 </div>
@@ -263,8 +290,13 @@ export default function BookReader() {
                   <Square className="w-4 h-4 mr-1" /> Stop
                 </Button>
               )}
-              <Button variant="outline" onClick={() => setSpread((s) => !s)} className="text-foreground">
-                {spread ? "Single Page" : "Two-Page Spread"}
+              <Button
+                variant="outline"
+                onClick={() => setLayoutMode((m) => (m === "auto" ? "single" : m === "single" ? "spread" : "auto"))}
+                className="text-foreground"
+                title="Layout: Auto detects spreads from page shape"
+              >
+                {layoutMode === "auto" ? `Auto (${spread ? "Spread" : "Single"})` : layoutMode === "spread" ? "Two-Page Spread" : "Single Page"}
               </Button>
               <Button variant="outline" onClick={() => setFit((f) => (f === "contain" ? "cover" : "contain"))} className="text-foreground">
                 {fit === "contain" ? "Fill Page" : "Fit Page"}
