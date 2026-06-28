@@ -1,4 +1,6 @@
-const clientToken = import.meta.env.VITE_PAYMENTS_CLIENT_TOKEN;
+import { stripeClientToken } from "@/lib/publicConfig";
+
+const clientToken = stripeClientToken;
 
 export function PaymentTestModeBanner() {
   if (!clientToken) {

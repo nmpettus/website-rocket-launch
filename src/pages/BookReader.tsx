@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseAnonKey, supabaseUrl } from "@/lib/publicConfig";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
@@ -256,14 +257,12 @@ export default function BookReader() {
 
   const fetchOneChunk = async (text: string): Promise<string | null> => {
     try {
-      const SUPABASE_URL = (import.meta as any).env.VITE_SUPABASE_URL;
-      const ANON = (import.meta as any).env.VITE_SUPABASE_PUBLISHABLE_KEY;
-      const resp = await fetch(`${SUPABASE_URL}/functions/v1/azure-tts`, {
+      const resp = await fetch(`${supabaseUrl}/functions/v1/azure-tts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          apikey: ANON,
-          Authorization: `Bearer ${ANON}`,
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
         },
         body: JSON.stringify({ text, voice: "en-US-SaraNeural" }),
       });
