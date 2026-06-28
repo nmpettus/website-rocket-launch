@@ -30,7 +30,7 @@ export default function BookReader() {
   const isPortrait = (id?: string) => {
     if (!id) return false;
     const a = aspects[id];
-    return a !== undefined && a < 1.1;
+    return a !== undefined && a < 1.2;
   };
   const isWide = (id?: string) => {
     if (!id) return false;
@@ -56,9 +56,23 @@ export default function BookReader() {
           img.src = src;
         });
       const [l, r] = await Promise.all([load(leftUrl), load(rightUrl)]);
+      const [leftId, rightId] = key.split("|");
+      setAspects((prev) => {
+        let changed = false;
+        const next = { ...prev };
+        if (leftId && next[leftId] === undefined && l.naturalHeight) {
+          next[leftId] = l.naturalWidth / l.naturalHeight;
+          changed = true;
+        }
+        if (rightId && next[rightId] === undefined && r.naturalHeight) {
+          next[rightId] = r.naturalWidth / r.naturalHeight;
+          changed = true;
+        }
+        return changed ? next : prev;
+      });
       const sampleEdge = (img: HTMLImageElement, side: "left" | "right") => {
-        const h = 64;
-        const w = 8;
+        const h = 96;
+        const w = 12;
         const c = document.createElement("canvas");
         c.width = w; c.height = h;
         const ctx = c.getContext("2d");
@@ -68,15 +82,40 @@ export default function BookReader() {
         ctx.drawImage(img, sx, 0, sw, img.naturalHeight, 0, 0, w, h);
         const data = ctx.getImageData(0, 0, w, h).data;
         let rr = 0, gg = 0, bb = 0, n = 0;
-        for (let i = 0; i < data.length; i += 4) { rr += data[i]; gg += data[i + 1]; bb += data[i + 2]; n++; }
-        return { r: rr / n, g: gg / n, b: bb / n };
+        const rows: Array<{ r: number; g: number; b: number }> = [];
+        for (let y = 0; y < h; y++) {
+          let rowR = 0, rowG = 0, rowB = 0;
+          for (let x = 0; x < w; x++) {
+            const i = (y * w + x) * 4;
+            rowR += data[i]; rowG += data[i + 1]; rowB += data[i + 2];
+          }
+          rows.push({ r: rowR / w, g: rowG / w, b: rowB / w });
+          rr += rowR; gg += rowG; bb += rowB; n += w;
+        }
+        const avg = { r: rr / n, g: gg / n, b: bb / n };
+        let variance = 0;
+        for (let i = 0; i < data.length; i += 4) {
+          variance += Math.abs(data[i] - avg.r) + Math.abs(data[i + 1] - avg.g) + Math.abs(data[i + 2] - avg.b);
+        }
+        const brightness = (avg.r + avg.g + avg.b) / 3;
+        const saturation = Math.max(avg.r, avg.g, avg.b) - Math.min(avg.r, avg.g, avg.b);
+        return { ...avg, rows, variance: variance / n / 3, brightness, saturation };
       };
       const a = sampleEdge(l, "right");
       const b = sampleEdge(r, "left");
       if (!a || !b) return;
-      const diff = Math.sqrt((a.r - b.r) ** 2 + (a.g - b.g) ** 2 + (a.b - b.b) ** 2);
-      // ~0–441 range; under ~35 means the edges visually continue.
-      setPairs((prev) => ({ ...prev, [key]: diff < 35 }));
+      const averageDiff = Math.sqrt((a.r - b.r) ** 2 + (a.g - b.g) ** 2 + (a.b - b.b) ** 2);
+      const profileDiff = a.rows.reduce((total, row, i) => {
+        const other = b.rows[i];
+        return total + Math.sqrt((row.r - other.r) ** 2 + (row.g - other.g) ** 2 + (row.b - other.b) ** 2);
+      }, 0) / a.rows.length;
+      const blankLeft = a.brightness > 238 && a.saturation < 18 && a.variance < 12;
+      const blankRight = b.brightness > 238 && b.saturation < 18 && b.variance < 12;
+      // Avoid false spreads caused by matching white page margins. A natural
+      // spread should have edge colors that match down the seam and at least
+      // one edge should contain real artwork/detail instead of blank paper.
+      const isNaturalSpread = averageDiff < 30 && profileDiff < 34 && !(blankLeft && blankRight);
+      setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
     } catch {
       // CORS or load failure — leave undefined; fall back to aspect heuristic.
     }
@@ -84,17 +123,27 @@ export default function BookReader() {
 
   const pairKey = (a?: string, b?: string) => (a && b ? `${a}|${b}` : "");
 
-  const autoSpread = (() => {
-    const cur = pages[current];
-    const nxt = pages[current + 1];
+  const canAutoPairAt = (index: number) => {
+    const cur = pages[index];
+    const nxt = pages[index + 1];
     if (!cur || !nxt) return false;
-    if (isWide(cur.id)) return false; // already a spread image
+    if (isWide(cur.id) || isWide(nxt.id)) return false;
     if (!isPortrait(cur.id) || !isPortrait(nxt.id)) return false;
-    const detected = pairs[pairKey(cur.id, nxt.id)];
-    // Default to spread only when edges blend; if detection hasn't run yet, stay single.
-    return detected === true;
+    return pairs[pairKey(cur.id, nxt.id)] === true;
+  };
+
+  const autoSpread = (() => {
+    // Only allow a page to start one pair. If the previous page already pairs
+    // with this one, do not create an overlapping 3-page chain.
+    if (current > 0 && canAutoPairAt(current - 1)) return false;
+    return canAutoPairAt(current);
   })();
-  const spread = layoutMode === "spread" || (layoutMode === "auto" && autoSpread);
+  const page = pages[current];
+  const currentIsWide = isWide(page?.id);
+  const manualSpread = layoutMode === "spread" && !!pages[current + 1] && !currentIsWide;
+  const spread = manualSpread || (layoutMode === "auto" && autoSpread);
+  const pairedSpread = spread && !!pages[current + 1] && !currentIsWide;
+  const displayAsSpread = pairedSpread || currentIsWide;
 
   // Run edge-pair detection whenever current page changes.
   useEffect(() => {
@@ -262,6 +311,17 @@ export default function BookReader() {
     setCurrent(Math.max(0, Math.min(pages.length - 1, n)));
   };
 
+  const previousPageIndex = () => {
+    if (layoutMode === "auto") {
+      if (current > 0 && canAutoPairAt(current - 1)) return current - 1;
+      if (current > 1 && canAutoPairAt(current - 2)) return current - 2;
+      return current - 1;
+    }
+    return current - (pairedSpread ? 2 : 1);
+  };
+
+  const nextPageIndex = () => current + (pairedSpread ? 2 : 1);
+
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   if (!book) return (
     <div className="min-h-screen flex items-center justify-center flex-col gap-4">
@@ -270,7 +330,6 @@ export default function BookReader() {
     </div>
   );
 
-  const page = pages[current];
   const isPreviewPage = !!page && page.page_number >= 4 && page.page_number <= 6;
   const needsPaywall = !isActive && !book.is_free && !!page && (page.page_number < 4 || page.page_number > 6);
   // If page beyond preview & user not subscribed, RLS returns no row.
@@ -291,16 +350,16 @@ export default function BookReader() {
       </div>
 
       <div className="flex-1 flex items-center justify-center px-2 pb-4">
-        <div className={`w-full ${spread ? "max-w-[95vw]" : "max-w-5xl"} flex flex-col`}>
+        <div className={`w-full ${displayAsSpread ? "max-w-[95vw]" : "max-w-5xl"} flex flex-col`}>
           {page && (
             <div
               className={
-                spread
+                displayAsSpread
                   ? `mx-auto flex max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`
                   : "flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-2xl"
               }
             >
-              <div className={spread ? "flex shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}>
+              <div className={displayAsSpread ? "flex shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}>
                 <img
                   src={page.image_url}
                   alt={`Page ${page.page_number}`}
@@ -308,7 +367,7 @@ export default function BookReader() {
                   className={`block w-auto max-w-full object-contain ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`}
                 />
               </div>
-              {spread && pages[current + 1] && (
+              {pairedSpread && pages[current + 1] && (
                 <div className="flex shrink-0">
                   <img
                     src={pages[current + 1].image_url}
@@ -333,7 +392,7 @@ export default function BookReader() {
           )}
 
           <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
-            <Button variant="secondary" disabled={current === 0} onClick={() => goPage(current - (spread ? 2 : 1))}>
+            <Button variant="secondary" disabled={current === 0} onClick={() => goPage(previousPageIndex())}>
               <ChevronLeft className="w-4 h-4 mr-1" /> Previous
             </Button>
 
@@ -353,14 +412,14 @@ export default function BookReader() {
                 className="text-foreground"
                 title="Layout: Auto detects spreads from page shape"
               >
-                {layoutMode === "auto" ? `Auto (${spread ? "Spread" : "Single"})` : layoutMode === "spread" ? "Two-Page Spread" : "Single Page"}
+                {layoutMode === "auto" ? `Auto (${displayAsSpread ? "Spread" : "Single"})` : layoutMode === "spread" ? "Two-Page Spread" : "Single Page"}
               </Button>
               <Button variant="outline" onClick={() => setFit((f) => (f === "contain" ? "cover" : "contain"))} className="text-foreground">
                 {fit === "contain" ? "Fill Page" : "Fit Page"}
               </Button>
             </div>
 
-            <Button variant="secondary" disabled={current >= visiblePages - 1} onClick={() => goPage(current + (spread ? 2 : 1))}>
+            <Button variant="secondary" disabled={current >= visiblePages - 1} onClick={() => goPage(nextPageIndex())}>
               Next <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
