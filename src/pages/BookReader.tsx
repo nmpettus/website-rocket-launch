@@ -71,50 +71,54 @@ export default function BookReader() {
         return changed ? next : prev;
       });
       const sampleEdge = (img: HTMLImageElement, side: "left" | "right") => {
-        const h = 96;
-        const w = 12;
+        const h = 128;
+        const w = 16;
         const c = document.createElement("canvas");
         c.width = w; c.height = h;
         const ctx = c.getContext("2d");
         if (!ctx) return null;
-        const sx = side === "right" ? img.naturalWidth - Math.max(2, Math.floor(img.naturalWidth * 0.03)) : 0;
-        const sw = Math.max(2, Math.floor(img.naturalWidth * 0.03));
-        ctx.drawImage(img, sx, 0, sw, img.naturalHeight, 0, 0, w, h);
+        const stripW = Math.max(2, Math.floor(img.naturalWidth * 0.04));
+        const sx = side === "right" ? img.naturalWidth - stripW : 0;
+        ctx.drawImage(img, sx, 0, stripW, img.naturalHeight, 0, 0, w, h);
         const data = ctx.getImageData(0, 0, w, h).data;
-        let rr = 0, gg = 0, bb = 0, n = 0;
         const rows: Array<{ r: number; g: number; b: number }> = [];
+        let rr = 0, gg = 0, bb = 0;
         for (let y = 0; y < h; y++) {
           let rowR = 0, rowG = 0, rowB = 0;
           for (let x = 0; x < w; x++) {
             const i = (y * w + x) * 4;
             rowR += data[i]; rowG += data[i + 1]; rowB += data[i + 2];
           }
-          rows.push({ r: rowR / w, g: rowG / w, b: rowB / w });
-          rr += rowR; gg += rowG; bb += rowB; n += w;
+          rowR /= w; rowG /= w; rowB /= w;
+          rows.push({ r: rowR, g: rowG, b: rowB });
+          rr += rowR; gg += rowG; bb += rowB;
         }
-        const avg = { r: rr / n, g: gg / n, b: bb / n };
-        let variance = 0;
-        for (let i = 0; i < data.length; i += 4) {
-          variance += Math.abs(data[i] - avg.r) + Math.abs(data[i + 1] - avg.g) + Math.abs(data[i + 2] - avg.b);
-        }
+        const avg = { r: rr / h, g: gg / h, b: bb / h };
         const brightness = (avg.r + avg.g + avg.b) / 3;
         const saturation = Math.max(avg.r, avg.g, avg.b) - Math.min(avg.r, avg.g, avg.b);
-        return { ...avg, rows, variance: variance / n / 3, brightness, saturation };
+        let variance = 0;
+        for (const row of rows) {
+          variance += Math.abs(row.r - avg.r) + Math.abs(row.g - avg.g) + Math.abs(row.b - avg.b);
+        }
+        variance /= rows.length;
+        return { ...avg, rows, brightness, saturation, variance };
       };
       const a = sampleEdge(l, "right");
       const b = sampleEdge(r, "left");
       if (!a || !b) return;
-      const averageDiff = Math.sqrt((a.r - b.r) ** 2 + (a.g - b.g) ** 2 + (a.b - b.b) ** 2);
-      const profileDiff = a.rows.reduce((total, row, i) => {
-        const other = b.rows[i];
-        return total + Math.sqrt((row.r - other.r) ** 2 + (row.g - other.g) ** 2 + (row.b - other.b) ** 2);
-      }, 0) / a.rows.length;
-      const blankLeft = a.brightness > 238 && a.saturation < 18 && a.variance < 12;
-      const blankRight = b.brightness > 238 && b.saturation < 18 && b.variance < 12;
-      // Avoid false spreads caused by matching white page margins. A natural
-      // spread should have edge colors that match down the seam and at least
-      // one edge should contain real artwork/detail instead of blank paper.
-      const isNaturalSpread = averageDiff < 30 && profileDiff < 34 && !(blankLeft && blankRight);
+      // Per-row color distance, normalized to maximum RGB distance (~441).
+      const MAX_DIST = Math.sqrt(255 * 255 * 3);
+      let rowMatchSum = 0;
+      for (let i = 0; i < a.rows.length; i++) {
+        const ra = a.rows[i], rb = b.rows[i];
+        const d = Math.sqrt((ra.r - rb.r) ** 2 + (ra.g - rb.g) ** 2 + (ra.b - rb.b) ** 2);
+        rowMatchSum += 1 - d / MAX_DIST;
+      }
+      const matchPercent = rowMatchSum / a.rows.length;
+      // Skip if BOTH edges are blank white margins (false positive).
+      const blankLeft = a.brightness > 240 && a.saturation < 14 && a.variance < 8;
+      const blankRight = b.brightness > 240 && b.saturation < 14 && b.variance < 8;
+      const isNaturalSpread = matchPercent > 0.5 && !(blankLeft && blankRight);
       setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
     } catch {
       // CORS or load failure — leave undefined; fall back to aspect heuristic.
@@ -127,10 +131,11 @@ export default function BookReader() {
     const cur = pages[index];
     const nxt = pages[index + 1];
     if (!cur || !nxt) return false;
+    // Already-merged wide spreads stay solo; otherwise allow any aspect.
     if (isWide(cur.id) || isWide(nxt.id)) return false;
-    if (!isPortrait(cur.id) || !isPortrait(nxt.id)) return false;
     return pairs[pairKey(cur.id, nxt.id)] === true;
   };
+
 
   const autoSpread = (() => {
     // Only allow a page to start one pair. If the previous page already pairs
