@@ -21,7 +21,8 @@ export async function pdfToPageImages(
   const buf = await file.arrayBuffer();
   const pdf = await (pdfjsLib as any).getDocument({ data: buf }).promise;
   const results: ImportedPage[] = [];
-  for (let i = 1; i <= pdf.numPages; i++) {
+
+  const renderPageToBlob = async (i: number, attempt: number): Promise<Blob> => {
     const page = await pdf.getPage(i);
     const baseViewport = page.getViewport({ scale: 1 });
     const scale = targetWidth / baseViewport.width;
@@ -30,10 +31,37 @@ export async function pdfToPageImages(
     canvas.width = Math.ceil(viewport.width);
     canvas.height = Math.ceil(viewport.height);
     const ctx = canvas.getContext("2d")!;
-    await page.render({ canvasContext: ctx, viewport, canvas }).promise;
-    const blob: Blob = await new Promise((res) =>
+    // Paint white background so transparent PDFs aren't saved as blank.
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    await page.render({
+      canvasContext: ctx,
+      viewport,
+      canvas,
+      background: "#ffffff",
+    } as any).promise;
+    // Blank-page guard: sample pixels; if nothing was drawn, re-render once.
+    const sample = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let nonWhite = 0;
+    const step = Math.max(1, Math.floor(sample.length / 4 / 4000));
+    for (let p = 0; p < sample.length; p += 4 * step) {
+      if (sample[p] < 248 || sample[p + 1] < 248 || sample[p + 2] < 248) {
+        nonWhite++;
+        if (nonWhite > 10) break;
+      }
+    }
+    if (nonWhite <= 10 && attempt < 2) {
+      // Give fonts/images a tick to settle, then retry once.
+      await new Promise((r) => setTimeout(r, 250));
+      return renderPageToBlob(i, attempt + 1);
+    }
+    return await new Promise<Blob>((res) =>
       canvas.toBlob((b) => res(b!), "image/png")
     );
+  };
+
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const blob = await renderPageToBlob(i, 0);
     const pageFile = new File(
       [blob],
       `${String(i).padStart(3, "0")}.png`,
