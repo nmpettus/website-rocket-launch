@@ -247,6 +247,7 @@ export default function BookReader() {
                 <img
                   src={page.image_url}
                   alt={`Page ${page.page_number}`}
+                  onLoad={(e) => recordAspect(page.id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
                   className={`block w-auto max-w-full object-contain ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`}
                 />
               </div>
@@ -255,6 +256,7 @@ export default function BookReader() {
                   <img
                     src={pages[current + 1].image_url}
                     alt={`Page ${pages[current + 1].page_number}`}
+                    onLoad={(e) => recordAspect(pages[current + 1].id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
                     className={`block w-auto max-w-[50vw] object-contain ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`}
                   />
                 </div>
