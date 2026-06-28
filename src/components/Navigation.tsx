@@ -53,13 +53,20 @@ const Navigation = () => {
   useEffect(() => {
     if (location.pathname === '/') {
       if (location.hash) {
-        window.history.replaceState(null, '', '/');
+        setTimeout(() => {
+          const section = document.getElementById(location.hash.replace('#', ''));
+          if (section) {
+            const navbarHeight = 80;
+            const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+            window.scrollTo({ top: sectionTop, behavior: 'auto' });
+          }
+        }, 100);
+      } else {
+        window.scrollTo({
+          top: 0,
+          behavior: 'auto'
+        });
       }
-      
-      window.scrollTo({
-        top: 0,
-        behavior: 'auto'
-      });
       setActiveSection('home');
       setIsInitialLoad(false);
     } else {
