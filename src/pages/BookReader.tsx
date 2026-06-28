@@ -315,6 +315,7 @@ export default function BookReader() {
     if (layoutMode === "auto") {
       if (current > 0 && canAutoPairAt(current - 1)) return current - 1;
       if (current > 1 && canAutoPairAt(current - 2)) return current - 2;
+      return current - 1;
     }
     return current - (pairedSpread ? 2 : 1);
   };
