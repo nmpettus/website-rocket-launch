@@ -204,10 +204,12 @@ export default function BookReader() {
   }, [slug]);
 
   const stopSpeech = () => {
+    if ((audioRef as any).__cancelChain) { try { (audioRef as any).__cancelChain(); } catch {} }
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
     try { window.speechSynthesis?.cancel(); } catch {}
     setSpeaking(false);
   };
+
 
   const speakWithBrowser = (text: string) => {
     try {
