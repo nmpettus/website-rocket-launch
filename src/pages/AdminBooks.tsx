@@ -332,6 +332,39 @@ export default function AdminBooks() {
         <p className="text-sm text-muted-foreground mb-4">
           Fill in the details, add pages (PDF/EPUB import or PNGs), then click <strong>Publish</strong> to save to the library. Use <strong>Save draft</strong> to store metadata without pages.
         </p>
+
+        <div className="bg-card border rounded-xl p-4 mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-semibold">Existing Books ({existingBooks.length})</h2>
+            <Button size="sm" variant="ghost" onClick={loadExistingBooks}>Refresh</Button>
+          </div>
+          {existingBooks.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No books yet.</p>
+          ) : (
+            <ul className="divide-y">
+              {existingBooks.map((b) => (
+                <li key={b.id} className="py-2 flex items-center gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium truncate">{b.title}</div>
+                    <div className="text-xs text-muted-foreground">
+                      /read/{b.slug} · {b.page_count ?? 0} pages {b.is_free ? "· free" : ""}
+                    </div>
+                  </div>
+                  <Link to={`/read/${b.slug}`} className="text-xs text-primary hover:underline">Open</Link>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => deleteBook(b)}
+                    disabled={deletingId === b.id}
+                  >
+                    {deletingId === b.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
         <ActionBar />
 
 
