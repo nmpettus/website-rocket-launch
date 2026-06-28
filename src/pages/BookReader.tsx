@@ -25,7 +25,9 @@ export default function BookReader() {
   const [aspects, setAspects] = useState<Record<string, number>>({});
   const [pairs, setPairs] = useState<Record<string, boolean>>({});
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const audioCacheRef = useRef<Map<string, string>>(new Map());
+  const audioCacheRef = useRef<Map<string, (string | null)[]>>(new Map());
+  const inflightAudioRef = useRef<Map<string, Promise<string | null>[]>>(new Map());
+
   // Per-page edge samples — sampled once, reused for every adjacency check.
   type EdgeSample = { rows: Array<{ r: number; g: number; b: number }>; brightness: number; saturation: number; variance: number };
   const edgeCacheRef = useRef<Map<string, { left: EdgeSample; right: EdgeSample; aspect: number }>>(new Map());
