@@ -23,6 +23,7 @@ export default function BookReader() {
   const [layoutMode, setLayoutMode] = useState<"auto" | "single" | "spread">("auto");
   const [fit, setFit] = useState<"contain" | "cover">("contain");
   const [aspects, setAspects] = useState<Record<string, number>>({});
+  const [pairs, setPairs] = useState<Record<string, boolean>>({});
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCacheRef = useRef<Map<string, string>>(new Map());
 
@@ -41,14 +42,70 @@ export default function BookReader() {
     setAspects((prev) => (prev[id] ? prev : { ...prev, [id]: w / h }));
   };
 
+  // Edge-similarity detection: load left & right images, sample inner edge strips,
+  // and compare average color + variance. If the seam blends, they are a natural spread.
+  const detectPair = async (leftUrl: string, rightUrl: string, key: string) => {
+    if (pairs[key] !== undefined) return;
+    try {
+      const load = (src: string) =>
+        new Promise<HTMLImageElement>((res, rej) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.onload = () => res(img);
+          img.onerror = rej;
+          img.src = src;
+        });
+      const [l, r] = await Promise.all([load(leftUrl), load(rightUrl)]);
+      const sampleEdge = (img: HTMLImageElement, side: "left" | "right") => {
+        const h = 64;
+        const w = 8;
+        const c = document.createElement("canvas");
+        c.width = w; c.height = h;
+        const ctx = c.getContext("2d");
+        if (!ctx) return null;
+        const sx = side === "right" ? img.naturalWidth - Math.max(2, Math.floor(img.naturalWidth * 0.03)) : 0;
+        const sw = Math.max(2, Math.floor(img.naturalWidth * 0.03));
+        ctx.drawImage(img, sx, 0, sw, img.naturalHeight, 0, 0, w, h);
+        const data = ctx.getImageData(0, 0, w, h).data;
+        let rr = 0, gg = 0, bb = 0, n = 0;
+        for (let i = 0; i < data.length; i += 4) { rr += data[i]; gg += data[i + 1]; bb += data[i + 2]; n++; }
+        return { r: rr / n, g: gg / n, b: bb / n };
+      };
+      const a = sampleEdge(l, "right");
+      const b = sampleEdge(r, "left");
+      if (!a || !b) return;
+      const diff = Math.sqrt((a.r - b.r) ** 2 + (a.g - b.g) ** 2 + (a.b - b.b) ** 2);
+      // ~0–441 range; under ~35 means the edges visually continue.
+      setPairs((prev) => ({ ...prev, [key]: diff < 35 }));
+    } catch {
+      // CORS or load failure — leave undefined; fall back to aspect heuristic.
+    }
+  };
+
+  const pairKey = (a?: string, b?: string) => (a && b ? `${a}|${b}` : "");
+
   const autoSpread = (() => {
     const cur = pages[current];
     const nxt = pages[current + 1];
     if (!cur || !nxt) return false;
     if (isWide(cur.id)) return false; // already a spread image
-    return isPortrait(cur.id) && isPortrait(nxt.id);
+    if (!isPortrait(cur.id) || !isPortrait(nxt.id)) return false;
+    const detected = pairs[pairKey(cur.id, nxt.id)];
+    // Default to spread only when edges blend; if detection hasn't run yet, stay single.
+    return detected === true;
   })();
   const spread = layoutMode === "spread" || (layoutMode === "auto" && autoSpread);
+
+  // Run edge-pair detection whenever current page changes.
+  useEffect(() => {
+    const cur = pages[current];
+    const nxt = pages[current + 1];
+    if (cur && nxt) detectPair(cur.image_url, nxt.image_url, pairKey(cur.id, nxt.id));
+    // also look one further ahead so navigation feels instant
+    const nxt2 = pages[current + 2];
+    if (nxt && nxt2) detectPair(nxt.image_url, nxt2.image_url, pairKey(nxt.id, nxt2.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, pages]);
 
   useEffect(() => {
     (async () => {
