@@ -4,8 +4,19 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Lock, ArrowLeft, Settings, LogOut } from "lucide-react";
+import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle } from "lucide-react";
 import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface Book {
   id: string;
@@ -19,10 +30,11 @@ interface Book {
 
 export default function Members() {
   const { user, loading: authLoading, signOut } = useAuth();
-  const { isActive, subscription } = useSubscription();
+  const { isActive, subscription, refetch } = useSubscription();
   const navigate = useNavigate();
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
+  const [canceling, setCanceling] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");
@@ -60,7 +72,27 @@ export default function Members() {
     }
   };
 
+  const cancelSubscription = async () => {
+    setCanceling(true);
+    try {
+      const { getStripeEnvironment } = await import("@/lib/stripe");
+      const { data, error } = await supabase.functions.invoke("cancel-subscription", {
+        body: { environment: getStripeEnvironment(), immediate: false },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      toast.success("Subscription canceled. You'll keep access until the end of your billing period.");
+      await refetch();
+    } catch (e: any) {
+      toast.error(e.message || "Could not cancel subscription");
+    } finally {
+      setCanceling(false);
+    }
+  };
+
   if (authLoading || !user) return null;
+
+  const showCancelButton = isActive && !subscription?.cancel_at_period_end;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/5 to-background">
@@ -68,7 +100,34 @@ export default function Members() {
         <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground">
           <ArrowLeft className="w-4 h-4" /> Back to Home
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap justify-end">
+          {showCancelButton && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
+                  <XCircle className="w-4 h-4 mr-2" /> Cancel Subscription
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    You'll keep full access to the library until the end of your current billing period
+                    {subscription?.current_period_end
+                      ? ` (${new Date(subscription.current_period_end).toLocaleDateString()})`
+                      : ""}
+                    . After that your subscription will end and you won't be charged again. You can resubscribe anytime.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Keep subscription</AlertDialogCancel>
+                  <AlertDialogAction onClick={cancelSubscription} disabled={canceling}>
+                    {canceling ? "Canceling..." : "Yes, cancel"}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
           {isActive && (
             <Button variant="outline" size="sm" onClick={openPortal}>
               <Settings className="w-4 h-4 mr-2" /> Manage Subscription
