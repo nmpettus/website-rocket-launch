@@ -24,7 +24,7 @@ const Hero = () => {
           <div className="space-y-8 max-w-xl order-2 lg:order-1">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full">
-              <span className="text-sm font-medium text-primary">Faith-Based Children's Books</span>
+              <span className="text-sm font-medium text-primary">Faith-Based Children's Books and Stories</span>
             </div>
             
             {/* Main Headline */}
