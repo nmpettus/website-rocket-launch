@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
@@ -48,9 +49,9 @@ const NoahsArkBook = () => {
         <div className="max-w-4xl mx-auto">
           {/* Breadcrumb Navigation */}
           <nav className="mb-6 text-sm text-gray-600">
-            <a href="/" className="hover:text-blue-600">Home</a>
+            <Link to="/" className="hover:text-blue-600">Home</Link>
             <span className="mx-2">›</span>
-            <a href="/#books" className="hover:text-blue-600">Books</a>
+            <Link to={{ pathname: "/", hash: "#books" }} className="hover:text-blue-600">Books</Link>
             <span className="mx-2">›</span>
             <span className="text-gray-800">Noah's Ark as told by Maggie</span>
           </nav>
@@ -178,18 +179,18 @@ const NoahsArkBook = () => {
           <div className="mt-12 bg-white rounded-lg p-6 shadow-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">More Bible Adventures with Maggie</h2>
             <div className="grid md:grid-cols-3 gap-4">
-              <a href="/books/creation" className="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+              <Link to="/books/creation" className="block p-4 border rounded-lg hover:shadow-md transition-shadow">
                 <h3 className="font-semibold text-blue-600">Creation Story</h3>
                 <p className="text-sm text-gray-600">Discover how God created the world</p>
-              </a>
-              <a href="/books/jonah" className="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+              </Link>
+              <Link to="/books/jonah" className="block p-4 border rounded-lg hover:shadow-md transition-shadow">
                 <h3 className="font-semibold text-blue-600">Jonah and the Whale</h3>
                 <p className="text-sm text-gray-600">Learn about obedience and forgiveness</p>
-              </a>
-              <a href="/books/gods-love" className="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+              </Link>
+              <Link to="/books/gods-love" className="block p-4 border rounded-lg hover:shadow-md transition-shadow">
                 <h3 className="font-semibold text-blue-600">God's Love</h3>
                 <p className="text-sm text-gray-600">Experience God's amazing love</p>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

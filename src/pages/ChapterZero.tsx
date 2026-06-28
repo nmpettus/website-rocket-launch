@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
@@ -288,9 +289,9 @@ const ChapterZero = () => {
           <div className="mt-16 pt-8 border-t border-gray-200">
             <p className="text-sm text-gray-500 font-lora">
               For parent resources, author information, and more books, visit{" "}
-              <a href="/" className="text-blue-600 hover:underline">
+              <Link to="/" className="text-blue-600 hover:underline">
                 booksbymaggie.com
-              </a>
+              </Link>
             </p>
           </div>
         </div>
