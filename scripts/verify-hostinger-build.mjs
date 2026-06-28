@@ -28,6 +28,14 @@ if (!htaccess.includes("Options -MultiViews")) {
   fail("dist/.htaccess must include Options -MultiViews for Hostinger.");
 }
 
+if (!htaccess.includes("no-cache, no-store, must-revalidate")) {
+  fail("dist/.htaccess must disable cache for html/js/css so Hostinger does not serve stale broken bundles.");
+}
+
+if (!html.includes("Loading Books by Maggie")) {
+  fail("dist/index.html is missing the visible loading/deployment fallback.");
+}
+
 const assetRefs = [...html.matchAll(/(?:src|href)="\.\/(assets\/[^"]+)"/g)].map((match) => match[1]);
 if (assetRefs.length === 0) fail("No built asset references were found in dist/index.html.");
 
@@ -42,6 +50,8 @@ if (!existsSync(assetsDir)) fail("dist/assets is missing. Upload the entire cont
 const assetFiles = readdirSync(assetsDir).filter((file) => statSync(join(assetsDir, file)).isFile());
 if (!assetFiles.some((file) => file.endsWith(".js"))) fail("dist/assets does not contain the app JavaScript file.");
 if (!assetFiles.some((file) => file.endsWith(".css"))) fail("dist/assets does not contain the app CSS file.");
+if (!existsSync(join(assetsDir, "app.js"))) fail("dist/assets/app.js is missing. Stable Hostinger filenames are required.");
+if (!existsSync(join(assetsDir, "app.css"))) fail("dist/assets/app.css is missing. Stable Hostinger filenames are required.");
 
 pass("Hostinger build is complete.");
 pass("Upload everything INSIDE dist/ to public_html, including the assets folder and .htaccess.");
