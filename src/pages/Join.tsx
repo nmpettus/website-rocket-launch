@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Check, BookOpen, Volume2, Sparkles, ArrowLeft } from "lucide-react";
+import { Check, BookOpen, Volume2, Sparkles, ArrowLeft, CheckCircle2, AlertCircle, Info } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
@@ -8,7 +8,7 @@ import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 
 export default function Join() {
   const { user } = useAuth();
-  const { isActive } = useSubscription();
+  const { subscription, isActive, loading: subLoading } = useSubscription();
   const navigate = useNavigate();
   const { openCheckout, checkoutElement, isOpen, closeCheckout } = useStripeCheckout();
 
