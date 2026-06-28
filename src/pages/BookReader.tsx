@@ -30,7 +30,7 @@ export default function BookReader() {
   const isPortrait = (id?: string) => {
     if (!id) return false;
     const a = aspects[id];
-    return a !== undefined && a < 1.1;
+    return a !== undefined && a < 1.2;
   };
   const isWide = (id?: string) => {
     if (!id) return false;
@@ -56,6 +56,20 @@ export default function BookReader() {
           img.src = src;
         });
       const [l, r] = await Promise.all([load(leftUrl), load(rightUrl)]);
+      const [leftId, rightId] = key.split("|");
+      setAspects((prev) => {
+        let changed = false;
+        const next = { ...prev };
+        if (leftId && next[leftId] === undefined && l.naturalHeight) {
+          next[leftId] = l.naturalWidth / l.naturalHeight;
+          changed = true;
+        }
+        if (rightId && next[rightId] === undefined && r.naturalHeight) {
+          next[rightId] = r.naturalWidth / r.naturalHeight;
+          changed = true;
+        }
+        return changed ? next : prev;
+      });
       const sampleEdge = (img: HTMLImageElement, side: "left" | "right") => {
         const h = 64;
         const w = 8;
@@ -84,17 +98,27 @@ export default function BookReader() {
 
   const pairKey = (a?: string, b?: string) => (a && b ? `${a}|${b}` : "");
 
-  const autoSpread = (() => {
-    const cur = pages[current];
-    const nxt = pages[current + 1];
+  const canAutoPairAt = (index: number) => {
+    const cur = pages[index];
+    const nxt = pages[index + 1];
     if (!cur || !nxt) return false;
-    if (isWide(cur.id)) return false; // already a spread image
+    if (isWide(cur.id) || isWide(nxt.id)) return false;
     if (!isPortrait(cur.id) || !isPortrait(nxt.id)) return false;
-    const detected = pairs[pairKey(cur.id, nxt.id)];
-    // Default to spread only when edges blend; if detection hasn't run yet, stay single.
-    return detected === true;
+    return pairs[pairKey(cur.id, nxt.id)] === true;
+  };
+
+  const autoSpread = (() => {
+    // Only allow a page to start one pair. If the previous page already pairs
+    // with this one, do not create an overlapping 3-page chain.
+    if (current > 0 && canAutoPairAt(current - 1)) return false;
+    return canAutoPairAt(current);
   })();
-  const spread = layoutMode === "spread" || (layoutMode === "auto" && autoSpread);
+  const page = pages[current];
+  const currentIsWide = isWide(page?.id);
+  const manualSpread = layoutMode === "spread" && !!pages[current + 1] && !currentIsWide;
+  const spread = manualSpread || (layoutMode === "auto" && autoSpread);
+  const pairedSpread = spread && !!pages[current + 1] && !currentIsWide;
+  const displayAsSpread = pairedSpread || currentIsWide;
 
   // Run edge-pair detection whenever current page changes.
   useEffect(() => {
@@ -270,7 +294,6 @@ export default function BookReader() {
     </div>
   );
 
-  const page = pages[current];
   const isPreviewPage = !!page && page.page_number >= 4 && page.page_number <= 6;
   const needsPaywall = !isActive && !book.is_free && !!page && (page.page_number < 4 || page.page_number > 6);
   // If page beyond preview & user not subscribed, RLS returns no row.
@@ -291,16 +314,16 @@ export default function BookReader() {
       </div>
 
       <div className="flex-1 flex items-center justify-center px-2 pb-4">
-        <div className={`w-full ${spread ? "max-w-[95vw]" : "max-w-5xl"} flex flex-col`}>
+        <div className={`w-full ${displayAsSpread ? "max-w-[95vw]" : "max-w-5xl"} flex flex-col`}>
           {page && (
             <div
               className={
-                spread
+                displayAsSpread
                   ? `mx-auto flex max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`
                   : "flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-2xl"
               }
             >
-              <div className={spread ? "flex shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}>
+              <div className={displayAsSpread ? "flex shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}>
                 <img
                   src={page.image_url}
                   alt={`Page ${page.page_number}`}
@@ -308,7 +331,7 @@ export default function BookReader() {
                   className={`block w-auto max-w-full object-contain ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`}
                 />
               </div>
-              {spread && pages[current + 1] && (
+              {pairedSpread && pages[current + 1] && (
                 <div className="flex shrink-0">
                   <img
                     src={pages[current + 1].image_url}
@@ -333,7 +356,7 @@ export default function BookReader() {
           )}
 
           <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
-            <Button variant="secondary" disabled={current === 0} onClick={() => goPage(current - (spread ? 2 : 1))}>
+            <Button variant="secondary" disabled={current === 0} onClick={() => goPage(current - (pairedSpread ? 2 : 1))}>
               <ChevronLeft className="w-4 h-4 mr-1" /> Previous
             </Button>
 
@@ -353,14 +376,14 @@ export default function BookReader() {
                 className="text-foreground"
                 title="Layout: Auto detects spreads from page shape"
               >
-                {layoutMode === "auto" ? `Auto (${spread ? "Spread" : "Single"})` : layoutMode === "spread" ? "Two-Page Spread" : "Single Page"}
+                {layoutMode === "auto" ? `Auto (${displayAsSpread ? "Spread" : "Single"})` : layoutMode === "spread" ? "Two-Page Spread" : "Single Page"}
               </Button>
               <Button variant="outline" onClick={() => setFit((f) => (f === "contain" ? "cover" : "contain"))} className="text-foreground">
                 {fit === "contain" ? "Fill Page" : "Fit Page"}
               </Button>
             </div>
 
-            <Button variant="secondary" disabled={current >= visiblePages - 1} onClick={() => goPage(current + (spread ? 2 : 1))}>
+            <Button variant="secondary" disabled={current >= visiblePages - 1} onClick={() => goPage(current + (pairedSpread ? 2 : 1))}>
               Next <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
