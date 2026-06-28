@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { ArrowLeft, Loader2, Upload, Trash2, FileUp } from "lucide-react";
-import { pdfToPageImages, epubToPageImages } from "@/lib/bookImport";
 
 interface PendingPage {
   file: File;
@@ -110,6 +109,7 @@ export default function AdminBooks() {
     setWorking(true);
     setImportProgress("Reading document…");
     try {
+      const { pdfToPageImages, epubToPageImages } = await import("@/lib/bookImport");
       const imported = isPdf
         ? await pdfToPageImages(file, {
             onProgress: (d, t) => setImportProgress(`Rendering PDF page ${d}/${t}…`),

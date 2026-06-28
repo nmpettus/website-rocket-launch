@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
@@ -28,10 +29,10 @@ import Auth from "./pages/Auth";
 import Join from "./pages/Join";
 import Members from "./pages/Members";
 import BookReader from "./pages/BookReader";
-import AdminBooks from "./pages/AdminBooks";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
+const AdminBooks = lazy(() => import("./pages/AdminBooks"));
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -66,7 +67,14 @@ const App = () => (
         <Route path="/join" element={<Join />} />
         <Route path="/members" element={<Members />} />
         <Route path="/read/:slug" element={<BookReader />} />
-        <Route path="/admin/books" element={<AdminBooks />} />
+        <Route
+          path="/admin/books"
+          element={
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading admin…</div>}>
+              <AdminBooks />
+            </Suspense>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </HashRouter>
