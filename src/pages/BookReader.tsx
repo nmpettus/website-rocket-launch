@@ -290,8 +290,13 @@ export default function BookReader() {
                   <Square className="w-4 h-4 mr-1" /> Stop
                 </Button>
               )}
-              <Button variant="outline" onClick={() => setSpread((s) => !s)} className="text-foreground">
-                {spread ? "Single Page" : "Two-Page Spread"}
+              <Button
+                variant="outline"
+                onClick={() => setLayoutMode((m) => (m === "auto" ? "single" : m === "single" ? "spread" : "auto"))}
+                className="text-foreground"
+                title="Layout: Auto detects spreads from page shape"
+              >
+                {layoutMode === "auto" ? `Auto (${spread ? "Spread" : "Single"})` : layoutMode === "spread" ? "Two-Page Spread" : "Single Page"}
               </Button>
               <Button variant="outline" onClick={() => setFit((f) => (f === "contain" ? "cover" : "contain"))} className="text-foreground">
                 {fit === "contain" ? "Fill Page" : "Fit Page"}
