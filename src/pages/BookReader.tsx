@@ -82,50 +82,79 @@ export default function BookReader() {
     return text;
   };
 
+  const fetchAudioUrl = async (cacheKey: string, text: string): Promise<string | null> => {
+    const cached = audioCacheRef.current.get(cacheKey);
+    if (cached) return cached;
+    try {
+      const SUPABASE_URL = (import.meta as any).env.VITE_SUPABASE_URL;
+      const ANON = (import.meta as any).env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      const resp = await fetch(`${SUPABASE_URL}/functions/v1/azure-tts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: ANON,
+          Authorization: `Bearer ${ANON}`,
+        },
+        body: JSON.stringify({ text, voice: "en-US-SaraNeural" }),
+      });
+      const ct = resp.headers.get("Content-Type") || "";
+      if (!resp.ok || ct.includes("application/json")) return null;
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      audioCacheRef.current.set(cacheKey, url);
+      return url;
+    } catch {
+      return null;
+    }
+  };
+
+  const buildSpeech = async (): Promise<{ cacheKey: string; text: string } | null> => {
+    const page = pages[current];
+    if (!page) return null;
+    const leftText = await extractTextForPage(page);
+    let combined = leftText;
+    let cacheKey = page.id;
+    if (spread && pages[current + 1]) {
+      const rightText = await extractTextForPage(pages[current + 1]);
+      if (rightText) combined = leftText ? `${leftText}\n\n${rightText}` : rightText;
+      cacheKey = `${page.id}+${pages[current + 1].id}`;
+    }
+    if (!combined) return null;
+    return { cacheKey, text: combined };
+  };
+
+  // Prefetch audio for current page as soon as it changes so playback starts instantly.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (!pages[current]) return;
+      const built = await buildSpeech();
+      if (cancelled || !built) return;
+      if (!audioCacheRef.current.has(built.cacheKey)) {
+        fetchAudioUrl(built.cacheKey, built.text);
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, spread, pages]);
+
   const speakCurrent = async () => {
     const page = pages[current];
     if (!page) return;
     stopSpeech();
     setLoadingAudio(true);
     let text = "";
-    let cacheKey = page.id;
     try {
-      const leftText = await extractTextForPage(page);
-      let combined = leftText;
-      if (spread && pages[current + 1]) {
-        const rightText = await extractTextForPage(pages[current + 1]);
-        if (rightText) combined = leftText ? `${leftText}\n\n${rightText}` : rightText;
-        cacheKey = `${page.id}+${pages[current + 1].id}`;
-      }
-      text = combined;
-      if (!text) {
+      const built = await buildSpeech();
+      if (!built) {
         speakWithBrowser("No narration text could be found on this page.");
         return;
       }
-      let url = audioCacheRef.current.get(cacheKey);
-
+      text = built.text;
+      const url = await fetchAudioUrl(built.cacheKey, built.text);
       if (!url) {
-        const SUPABASE_URL = (import.meta as any).env.VITE_SUPABASE_URL;
-        const ANON = (import.meta as any).env.VITE_SUPABASE_PUBLISHABLE_KEY;
-        const resp = await fetch(`${SUPABASE_URL}/functions/v1/azure-tts`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: ANON,
-            Authorization: `Bearer ${ANON}`,
-          },
-          body: JSON.stringify({ text, voice: "en-US-SaraNeural" }),
-        });
-        const ct = resp.headers.get("Content-Type") || "";
-        if (!resp.ok || ct.includes("application/json")) {
-          const errBody = await resp.text().catch(() => "");
-          console.warn("Azure TTS failed, using browser fallback:", resp.status, errBody);
-          speakWithBrowser(text);
-          return;
-        }
-        const blob = await resp.blob();
-        url = URL.createObjectURL(blob);
-        audioCacheRef.current.set(cacheKey, url);
+        speakWithBrowser(text);
+        return;
       }
       const audio = new Audio(url);
       audioRef.current = audio;
@@ -143,6 +172,7 @@ export default function BookReader() {
       setLoadingAudio(false);
     }
   };
+
 
 
   const goPage = (n: number) => {
