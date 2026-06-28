@@ -311,6 +311,16 @@ export default function BookReader() {
     setCurrent(Math.max(0, Math.min(pages.length - 1, n)));
   };
 
+  const previousPageIndex = () => {
+    if (layoutMode === "auto") {
+      if (current > 0 && canAutoPairAt(current - 1)) return current - 1;
+      if (current > 1 && canAutoPairAt(current - 2)) return current - 2;
+    }
+    return current - (pairedSpread ? 2 : 1);
+  };
+
+  const nextPageIndex = () => current + (pairedSpread ? 2 : 1);
+
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   if (!book) return (
     <div className="min-h-screen flex items-center justify-center flex-col gap-4">
@@ -381,7 +391,7 @@ export default function BookReader() {
           )}
 
           <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
-            <Button variant="secondary" disabled={current === 0} onClick={() => goPage(current - (pairedSpread ? 2 : 1))}>
+            <Button variant="secondary" disabled={current === 0} onClick={() => goPage(previousPageIndex())}>
               <ChevronLeft className="w-4 h-4 mr-1" /> Previous
             </Button>
 
@@ -408,7 +418,7 @@ export default function BookReader() {
               </Button>
             </div>
 
-            <Button variant="secondary" disabled={current >= visiblePages - 1} onClick={() => goPage(current + (pairedSpread ? 2 : 1))}>
+            <Button variant="secondary" disabled={current >= visiblePages - 1} onClick={() => goPage(nextPageIndex())}>
               Next <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
