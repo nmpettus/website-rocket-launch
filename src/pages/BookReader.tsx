@@ -26,6 +26,11 @@ export default function BookReader() {
   const [pairs, setPairs] = useState<Record<string, boolean>>({});
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCacheRef = useRef<Map<string, string>>(new Map());
+  // Per-page edge samples — sampled once, reused for every adjacency check.
+  type EdgeSample = { rows: Array<{ r: number; g: number; b: number }>; brightness: number; saturation: number; variance: number };
+  const edgeCacheRef = useRef<Map<string, { left: EdgeSample; right: EdgeSample; aspect: number }>>(new Map());
+  const samplingRef = useRef<Map<string, Promise<void>>>(new Map());
+
 
   const isPortrait = (id?: string) => {
     if (!id) return false;
@@ -42,87 +47,94 @@ export default function BookReader() {
     setAspects((prev) => (prev[id] ? prev : { ...prev, [id]: w / h }));
   };
 
-  // Edge-similarity detection: load left & right images, sample inner edge strips,
-  // and compare average color + variance. If the seam blends, they are a natural spread.
+  // Sample both edges of one page exactly once, cache the result.
+  const samplePage = (pageId: string, url: string): Promise<void> => {
+    if (edgeCacheRef.current.has(pageId)) return Promise.resolve();
+    const existing = samplingRef.current.get(pageId);
+    if (existing) return existing;
+    const p = (async () => {
+      try {
+        const img = await new Promise<HTMLImageElement>((res, rej) => {
+          const im = new Image();
+          im.crossOrigin = "anonymous";
+          im.onload = () => res(im);
+          im.onerror = rej;
+          im.src = url;
+        });
+        const sampleEdge = (side: "left" | "right"): EdgeSample | null => {
+          const h = 96, w = 12;
+          const c = document.createElement("canvas");
+          c.width = w; c.height = h;
+          const ctx = c.getContext("2d");
+          if (!ctx) return null;
+          const stripW = Math.max(2, Math.floor(img.naturalWidth * 0.04));
+          const sx = side === "right" ? img.naturalWidth - stripW : 0;
+          ctx.drawImage(img, sx, 0, stripW, img.naturalHeight, 0, 0, w, h);
+          const data = ctx.getImageData(0, 0, w, h).data;
+          const rows: Array<{ r: number; g: number; b: number }> = [];
+          let rr = 0, gg = 0, bb = 0;
+          for (let y = 0; y < h; y++) {
+            let rR = 0, rG = 0, rB = 0;
+            for (let x = 0; x < w; x++) {
+              const i = (y * w + x) * 4;
+              rR += data[i]; rG += data[i + 1]; rB += data[i + 2];
+            }
+            rR /= w; rG /= w; rB /= w;
+            rows.push({ r: rR, g: rG, b: rB });
+            rr += rR; gg += rG; bb += rB;
+          }
+          const avg = { r: rr / h, g: gg / h, b: bb / h };
+          const brightness = (avg.r + avg.g + avg.b) / 3;
+          const saturation = Math.max(avg.r, avg.g, avg.b) - Math.min(avg.r, avg.g, avg.b);
+          let variance = 0;
+          for (const row of rows) variance += Math.abs(row.r - avg.r) + Math.abs(row.g - avg.g) + Math.abs(row.b - avg.b);
+          variance /= rows.length;
+          return { rows, brightness, saturation, variance };
+        };
+        const left = sampleEdge("left");
+        const right = sampleEdge("right");
+        if (!left || !right) return;
+        const aspect = img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1;
+        edgeCacheRef.current.set(pageId, { left, right, aspect });
+        setAspects((prev) => (prev[pageId] !== undefined ? prev : { ...prev, [pageId]: aspect }));
+      } catch {
+        // ignore
+      } finally {
+        samplingRef.current.delete(pageId);
+      }
+    })();
+    samplingRef.current.set(pageId, p);
+    return p;
+  };
+
+  const computePairFromCache = (leftId: string, rightId: string, key: string) => {
+    if (pairs[key] !== undefined) return;
+    const a = edgeCacheRef.current.get(leftId);
+    const b = edgeCacheRef.current.get(rightId);
+    if (!a || !b) return;
+    const MAX_DIST = Math.sqrt(255 * 255 * 3);
+    const ar = a.right.rows, br = b.left.rows;
+    let sum = 0;
+    for (let i = 0; i < ar.length; i++) {
+      const ra = ar[i], rb = br[i];
+      const d = Math.sqrt((ra.r - rb.r) ** 2 + (ra.g - rb.g) ** 2 + (ra.b - rb.b) ** 2);
+      sum += 1 - d / MAX_DIST;
+    }
+    const matchPercent = sum / ar.length;
+    const blankLeft = a.right.brightness > 240 && a.right.saturation < 14 && a.right.variance < 8;
+    const blankRight = b.left.brightness > 240 && b.left.saturation < 14 && b.left.variance < 8;
+    const isNaturalSpread = matchPercent > 0.5 && !(blankLeft && blankRight);
+    setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
+  };
+
   const detectPair = async (leftUrl: string, rightUrl: string, key: string) => {
     if (pairs[key] !== undefined) return;
-    try {
-      const load = (src: string) =>
-        new Promise<HTMLImageElement>((res, rej) => {
-          const img = new Image();
-          img.crossOrigin = "anonymous";
-          img.onload = () => res(img);
-          img.onerror = rej;
-          img.src = src;
-        });
-      const [l, r] = await Promise.all([load(leftUrl), load(rightUrl)]);
-      const [leftId, rightId] = key.split("|");
-      setAspects((prev) => {
-        let changed = false;
-        const next = { ...prev };
-        if (leftId && next[leftId] === undefined && l.naturalHeight) {
-          next[leftId] = l.naturalWidth / l.naturalHeight;
-          changed = true;
-        }
-        if (rightId && next[rightId] === undefined && r.naturalHeight) {
-          next[rightId] = r.naturalWidth / r.naturalHeight;
-          changed = true;
-        }
-        return changed ? next : prev;
-      });
-      const sampleEdge = (img: HTMLImageElement, side: "left" | "right") => {
-        const h = 128;
-        const w = 16;
-        const c = document.createElement("canvas");
-        c.width = w; c.height = h;
-        const ctx = c.getContext("2d");
-        if (!ctx) return null;
-        const stripW = Math.max(2, Math.floor(img.naturalWidth * 0.04));
-        const sx = side === "right" ? img.naturalWidth - stripW : 0;
-        ctx.drawImage(img, sx, 0, stripW, img.naturalHeight, 0, 0, w, h);
-        const data = ctx.getImageData(0, 0, w, h).data;
-        const rows: Array<{ r: number; g: number; b: number }> = [];
-        let rr = 0, gg = 0, bb = 0;
-        for (let y = 0; y < h; y++) {
-          let rowR = 0, rowG = 0, rowB = 0;
-          for (let x = 0; x < w; x++) {
-            const i = (y * w + x) * 4;
-            rowR += data[i]; rowG += data[i + 1]; rowB += data[i + 2];
-          }
-          rowR /= w; rowG /= w; rowB /= w;
-          rows.push({ r: rowR, g: rowG, b: rowB });
-          rr += rowR; gg += rowG; bb += rowB;
-        }
-        const avg = { r: rr / h, g: gg / h, b: bb / h };
-        const brightness = (avg.r + avg.g + avg.b) / 3;
-        const saturation = Math.max(avg.r, avg.g, avg.b) - Math.min(avg.r, avg.g, avg.b);
-        let variance = 0;
-        for (const row of rows) {
-          variance += Math.abs(row.r - avg.r) + Math.abs(row.g - avg.g) + Math.abs(row.b - avg.b);
-        }
-        variance /= rows.length;
-        return { ...avg, rows, brightness, saturation, variance };
-      };
-      const a = sampleEdge(l, "right");
-      const b = sampleEdge(r, "left");
-      if (!a || !b) return;
-      // Per-row color distance, normalized to maximum RGB distance (~441).
-      const MAX_DIST = Math.sqrt(255 * 255 * 3);
-      let rowMatchSum = 0;
-      for (let i = 0; i < a.rows.length; i++) {
-        const ra = a.rows[i], rb = b.rows[i];
-        const d = Math.sqrt((ra.r - rb.r) ** 2 + (ra.g - rb.g) ** 2 + (ra.b - rb.b) ** 2);
-        rowMatchSum += 1 - d / MAX_DIST;
-      }
-      const matchPercent = rowMatchSum / a.rows.length;
-      // Skip if BOTH edges are blank white margins (false positive).
-      const blankLeft = a.brightness > 240 && a.saturation < 14 && a.variance < 8;
-      const blankRight = b.brightness > 240 && b.saturation < 14 && b.variance < 8;
-      const isNaturalSpread = matchPercent > 0.5 && !(blankLeft && blankRight);
-      setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
-    } catch {
-      // CORS or load failure — leave undefined; fall back to aspect heuristic.
-    }
+    const [leftId, rightId] = key.split("|");
+    const lp = pages.find((p) => p.id === leftId);
+    const rp = pages.find((p) => p.id === rightId);
+    if (!lp || !rp) return;
+    await Promise.all([samplePage(leftId, lp.image_url), samplePage(rightId, rp.image_url)]);
+    computePairFromCache(leftId, rightId, key);
   };
 
   const pairKey = (a?: string, b?: string) => (a && b ? `${a}|${b}` : "");
@@ -131,11 +143,9 @@ export default function BookReader() {
     const cur = pages[index];
     const nxt = pages[index + 1];
     if (!cur || !nxt) return false;
-    // Already-merged wide spreads stay solo; otherwise allow any aspect.
     if (isWide(cur.id) || isWide(nxt.id)) return false;
     return pairs[pairKey(cur.id, nxt.id)] === true;
   };
-
 
   const autoSpread = canAutoPairAt(current);
 
@@ -146,16 +156,29 @@ export default function BookReader() {
   const pairedSpread = spread && !!pages[current + 1] && !currentIsWide;
   const displayAsSpread = pairedSpread || currentIsWide;
 
+  // Pre-sample ALL pages and compute ALL adjacent pairs in the background as
+  // soon as pages load. After that every navigation is instant from cache.
   useEffect(() => {
-    const prev = pages[current - 1];
-    const cur = pages[current];
-    const nxt = pages[current + 1];
-    const nxt2 = pages[current + 2];
-    if (prev && cur) detectPair(prev.image_url, cur.image_url, pairKey(prev.id, cur.id));
-    if (cur && nxt) detectPair(cur.image_url, nxt.image_url, pairKey(cur.id, nxt.id));
-    if (nxt && nxt2) detectPair(nxt.image_url, nxt2.image_url, pairKey(nxt.id, nxt2.id));
+    if (pages.length === 0) return;
+    let cancelled = false;
+    (async () => {
+      // Prioritize nearby pages first.
+      const order = [...pages.keys()].sort((a, b) => Math.abs(a - current) - Math.abs(b - current));
+      for (const i of order) {
+        if (cancelled) return;
+        await samplePage(pages[i].id, pages[i].image_url);
+        // Compute any newly-possible pairs touching this index.
+        for (const j of [i - 1, i]) {
+          const a = pages[j], b = pages[j + 1];
+          if (a && b) computePairFromCache(a.id, b.id, pairKey(a.id, b.id));
+        }
+      }
+    })();
+    return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, pages]);
+  }, [pages]);
+
+
 
 
   useEffect(() => {
