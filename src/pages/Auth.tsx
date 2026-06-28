@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { BookOpen, ArrowLeft } from "lucide-react";
@@ -87,7 +88,7 @@ export default function Auth() {
             </div>
             <div>
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
+              <PasswordInput id="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <Button type="submit" disabled={loading} className="w-full" size="lg">
               {loading ? "Please wait..." : mode === "signup" ? "Create Account" : "Sign In"}
