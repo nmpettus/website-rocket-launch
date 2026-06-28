@@ -177,7 +177,7 @@ const Navigation = () => {
               ) : (
                 <a 
                   key={link.id}
-                  href={`/#${link.id}`} 
+                  href={`#/#${link.id}`} 
                   onClick={(e) => handleNavClick(e, link)} 
                   className={cn(
                     "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
@@ -213,7 +213,7 @@ const Navigation = () => {
                 if (booksSection) {
                   booksSection.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                  window.location.href = '/#books';
+                  navigate('/#books');
                 }
               }}
             >
@@ -279,7 +279,7 @@ const Navigation = () => {
                           </Link>
                         ) : (
                           <a 
-                            href={`/#${link.id}`} 
+                            href={`#/#${link.id}`} 
                             onClick={(e) => handleNavClick(e, link)}
                             className={cn(
                               "block text-base py-3 px-4 rounded-lg transition-colors duration-200 font-medium",
@@ -321,7 +321,7 @@ const Navigation = () => {
                           if (booksSection) {
                             booksSection.scrollIntoView({ behavior: 'smooth' });
                           } else {
-                            window.location.href = '/#books';
+                            navigate('/#books');
                           }
                         }}
                       >
