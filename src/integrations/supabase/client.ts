@@ -2,17 +2,17 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+// Public values — safe to commit. The anon/publishable key is designed to be
+// exposed to the browser; row-level security protects the data. Hardcoding
+// them as fallbacks lets standalone builds (e.g. Hostinger) work without a
+// local .env file. Env vars still take precedence when present.
+const FALLBACK_SUPABASE_URL = 'https://ppzpihpzmvgqumjvxuvb.supabase.co';
+const FALLBACK_SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwenBpaHB6bXZncXVtanZ4dXZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0NzI4NTksImV4cCI6MjA4NDA0ODg1OX0.oMELHAOPgOVDiFMopdYVBkmcaHvhHYPeDoEQZ8cM5B0';
 
-export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY);
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || FALLBACK_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || FALLBACK_SUPABASE_PUBLISHABLE_KEY;
 
-const supabaseUrl = SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseKey = SUPABASE_PUBLISHABLE_KEY || 'placeholder-anon-key';
-
-if (!isSupabaseConfigured && import.meta.env.DEV) {
-  console.warn('Supabase environment variables are missing. Public pages will load, but login, admin, and memberships will not work until VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY are configured.');
-}
+export const isSupabaseConfigured = true;
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
