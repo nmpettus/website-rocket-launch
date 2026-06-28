@@ -45,6 +45,88 @@ export default function Join() {
       </div>
 
       <div className="container mx-auto px-6 py-8 max-w-5xl">
+        {!subLoading && !isOpen && (() => {
+          const periodEnd = subscription?.current_period_end
+            ? new Date(subscription.current_period_end).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })
+            : null;
+
+          if (!user) {
+            return (
+              <div className="mb-8 flex items-start gap-3 rounded-xl border border-primary/30 bg-primary/5 p-4">
+                <Info className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                <div className="flex-1">
+                  <p className="font-semibold">You're not signed in</p>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Sign in or create a free account first — we'll bring you right back to start your trial.
+                  </p>
+                  <Button size="sm" onClick={() => navigate("/auth")}>Sign in to continue</Button>
+                </div>
+              </div>
+            );
+          }
+
+          if (isActive && subscription?.status === "canceled" && periodEnd) {
+            return (
+              <div className="mb-8 flex items-start gap-3 rounded-xl border border-amber-300 bg-amber-50 p-4 dark:bg-amber-950/30">
+                <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+                <div className="flex-1">
+                  <p className="font-semibold">Your subscription is canceled but still active</p>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    You have library access until <span className="font-medium">{periodEnd}</span>. Resubscribe anytime from the Members page.
+                  </p>
+                  <Button size="sm" onClick={() => navigate("/members")}>Go to library</Button>
+                </div>
+              </div>
+            );
+          }
+
+          if (isActive) {
+            return (
+              <div className="mb-8 flex items-start gap-3 rounded-xl border border-emerald-300 bg-emerald-50 p-4 dark:bg-emerald-950/30">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 mt-0.5 shrink-0" />
+                <div className="flex-1">
+                  <p className="font-semibold">
+                    You're already subscribed{subscription?.status === "trialing" ? " (free trial active)" : ""}
+                  </p>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    No need to sign up again.{periodEnd ? ` Your plan renews on ${periodEnd}.` : ""} Head to the library to start reading, or manage billing from the Members page.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <Button size="sm" onClick={() => navigate("/members")}>Go to library</Button>
+                    <Button size="sm" variant="outline" onClick={() => navigate("/members")}>Manage subscription</Button>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (subscription && ["canceled", "incomplete_expired", "unpaid"].includes(subscription.status)) {
+            return (
+              <div className="mb-8 flex items-start gap-3 rounded-xl border border-border bg-muted/40 p-4">
+                <Info className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                <div className="flex-1">
+                  <p className="font-semibold">Welcome back!</p>
+                  <p className="text-sm text-muted-foreground">
+                    Your previous subscription ended. Pick a plan below to start reading again.
+                  </p>
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div className="mb-8 flex items-start gap-3 rounded-xl border border-primary/30 bg-primary/5 p-4">
+              <Sparkles className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+              <div className="flex-1">
+                <p className="font-semibold">Ready when you are</p>
+                <p className="text-sm text-muted-foreground">
+                  You don't have an active subscription yet. Start your 7-day free trial below — cancel anytime.
+                </p>
+              </div>
+            </div>
+          );
+        })()}
+
         {isOpen ? (
           <div className="bg-card border rounded-2xl p-6 shadow-lg">
             <div className="flex justify-between items-center mb-4">
