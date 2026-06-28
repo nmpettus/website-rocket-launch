@@ -1,23 +1,38 @@
-## Root cause
+## Plan: Bulletproof Hostinger Build & Upload
 
-The live site is blank because `index.html` references JavaScript/CSS files under `/assets/`, but those exact files are missing on Hostinger and return 404 HTML pages. The browser therefore never starts the React app.
+### Problem
+Previous uploads have resulted in a blank white page on Hostinger. The root causes have been addressed (missing assets, Supabase config fallbacks, stable filenames, .htaccess), but the user needs a process that "just works" every time.
 
-The earlier `supabaseUrl is required` problem was also real, but the current live failure is an upload/build packaging issue: Hostinger has `index.html` from one build and an `assets` folder from another build (or no matching assets folder).
+### What I Will Do
 
-Confirmed: OpenRouter is not used anywhere in this project — it is not related.
+1. **Run `npm run build`** in the sandbox.
+   - This triggers the existing pipeline: Vite build → verification script → zip packaging.
+   - The verification script will confirm `dist/` contains `index.html`, `.htaccess`, `assets/app.js`, and `assets/app.css`.
 
-## Permanent safeguards
+2. **Inspect the built `dist/index.html`** to confirm:
+   - The dev entry `/src/main.tsx` has been replaced by `./assets/app.js`.
+   - No absolute root paths (`/assets/...`) leaked into the production HTML.
+   - The visible "Loading Books by Maggie…" fallback is present.
 
-1. Public Supabase fallbacks live in `src/lib/publicConfig.ts`, so Hostinger builds no longer depend on a local `.env` for the public anon key.
-2. Vite outputs stable main filenames: `dist/assets/app.js` and `dist/assets/app.css`, preventing the hashed filename mismatch that caused the blank page.
-3. `public/.htaccess` disables cache for HTML/JS/CSS and includes Hostinger SPA routing protections.
-4. `scripts/verify-hostinger-build.mjs` runs automatically after every build and fails if required Hostinger files are missing.
-5. `scripts/package-hostinger-upload.mjs` creates `hostinger-upload.zip` automatically. Upload this zip to `public_html` and extract it there so `index.html`, `.htaccess`, `assets/`, and uploads stay together.
+3. **If any build-time issue is found**, fix it immediately (e.g., broken `base` config, missing asset, or bad HTML preload).
 
-## Upload process
+4. **Deliver the upload artifact**:
+   - The `hostinger-upload.zip` file is generated automatically by the build script.
+   - I will provide a direct download path or confirm it exists in the project root.
 
-```
-npm run build
-```
+5. **Provide a concise, numbered upload checklist**:
+   - Log in to Hostinger hPanel → File Manager → `public_html`.
+   - **Delete everything** inside `public_html` (old `assets/`, old `index.html`, old `.htaccess`).
+   - Upload `hostinger-upload.zip` into `public_html`.
+   - Extract the zip **inside** `public_html` so `index.html` sits at `public_html/index.html`.
+   - Confirm `.htaccess` is visible (show hidden files if needed).
+   - Hard-refresh the live site.
 
-Then upload `hostinger-upload.zip` to Hostinger `public_html` and extract it there. Do not upload only `index.html`.
+### Technical Details
+- `vite.config.ts` already uses `base: './'` and stable filenames (`app.js`, `app.css`).
+- `App.tsx` already uses `HashRouter`.
+- `public/.htaccess` already handles SPA routing and cache-busting.
+- `src/lib/publicConfig.ts` already bakes in the Supabase URL and anon key so missing env vars cannot crash the site.
+
+### Outcome
+A single zip file the user can upload to Hostinger `public_html`, extract, and have the site work without blank pages.
