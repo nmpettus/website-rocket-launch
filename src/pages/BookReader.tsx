@@ -26,6 +26,11 @@ export default function BookReader() {
   const [pairs, setPairs] = useState<Record<string, boolean>>({});
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCacheRef = useRef<Map<string, string>>(new Map());
+  // Per-page edge samples — sampled once, reused for every adjacency check.
+  type EdgeSample = { rows: Array<{ r: number; g: number; b: number }>; brightness: number; saturation: number; variance: number };
+  const edgeCacheRef = useRef<Map<string, { left: EdgeSample; right: EdgeSample; aspect: number }>>(new Map());
+  const samplingRef = useRef<Map<string, Promise<void>>>(new Map());
+
 
   const isPortrait = (id?: string) => {
     if (!id) return false;
