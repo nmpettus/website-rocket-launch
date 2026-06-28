@@ -36,11 +36,49 @@ export default function AdminBooks() {
   const [working, setWorking] = useState(false);
   const [importProgress, setImportProgress] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<"unsaved" | "draft" | "published">("unsaved");
+  const [existingBooks, setExistingBooks] = useState<any[]>([]);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth?next=/admin/books");
   }, [authLoading, user, navigate]);
+
+  const loadExistingBooks = async () => {
+    const { data } = await supabase
+      .from("books")
+      .select("id, slug, title, page_count, is_free, created_at")
+      .order("created_at", { ascending: false });
+    setExistingBooks(data || []);
+  };
+
+  useEffect(() => {
+    if (isAdmin) loadExistingBooks();
+  }, [isAdmin]);
+
+  const deleteBook = async (book: { id: string; slug: string; title: string }) => {
+    if (!confirm(`Delete "${book.title}"? This removes the book, all its pages, and stored images. This cannot be undone.`)) return;
+    setDeletingId(book.id);
+    try {
+      // List & remove storage files under <slug>/
+      const { data: files } = await supabase.storage.from("book-pages").list(book.slug, { limit: 1000 });
+      if (files && files.length) {
+        const paths = files.map((f) => `${book.slug}/${f.name}`);
+        await supabase.storage.from("book-pages").remove(paths);
+      }
+      // Delete page rows then book row
+      await supabase.from("book_pages").delete().eq("book_id", book.id);
+      const { error } = await supabase.from("books").delete().eq("id", book.id);
+      if (error) throw error;
+      toast.success(`Deleted "${book.title}"`);
+      await loadExistingBooks();
+    } catch (e: any) {
+      console.error(e);
+      toast.error(e.message ?? "Failed to delete book");
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   const slugify = (s: string) =>
     s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -294,6 +332,39 @@ export default function AdminBooks() {
         <p className="text-sm text-muted-foreground mb-4">
           Fill in the details, add pages (PDF/EPUB import or PNGs), then click <strong>Publish</strong> to save to the library. Use <strong>Save draft</strong> to store metadata without pages.
         </p>
+
+        <div className="bg-card border rounded-xl p-4 mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-semibold">Existing Books ({existingBooks.length})</h2>
+            <Button size="sm" variant="ghost" onClick={loadExistingBooks}>Refresh</Button>
+          </div>
+          {existingBooks.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No books yet.</p>
+          ) : (
+            <ul className="divide-y">
+              {existingBooks.map((b) => (
+                <li key={b.id} className="py-2 flex items-center gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium truncate">{b.title}</div>
+                    <div className="text-xs text-muted-foreground">
+                      /read/{b.slug} · {b.page_count ?? 0} pages {b.is_free ? "· free" : ""}
+                    </div>
+                  </div>
+                  <Link to={`/read/${b.slug}`} className="text-xs text-primary hover:underline">Open</Link>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => deleteBook(b)}
+                    disabled={deletingId === b.id}
+                  >
+                    {deletingId === b.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
         <ActionBar />
 
 
