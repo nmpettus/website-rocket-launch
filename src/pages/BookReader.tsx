@@ -150,16 +150,17 @@ export default function BookReader() {
   const pairedSpread = spread && !!pages[current + 1] && !currentIsWide;
   const displayAsSpread = pairedSpread || currentIsWide;
 
-  // Run edge-pair detection whenever current page changes.
   useEffect(() => {
+    const prev = pages[current - 1];
     const cur = pages[current];
     const nxt = pages[current + 1];
-    if (cur && nxt) detectPair(cur.image_url, nxt.image_url, pairKey(cur.id, nxt.id));
-    // also look one further ahead so navigation feels instant
     const nxt2 = pages[current + 2];
+    if (prev && cur) detectPair(prev.image_url, cur.image_url, pairKey(prev.id, cur.id));
+    if (cur && nxt) detectPair(cur.image_url, nxt.image_url, pairKey(cur.id, nxt.id));
     if (nxt && nxt2) detectPair(nxt.image_url, nxt2.image_url, pairKey(nxt.id, nxt2.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, pages]);
+
 
   useEffect(() => {
     (async () => {
