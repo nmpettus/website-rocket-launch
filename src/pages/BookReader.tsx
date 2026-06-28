@@ -71,8 +71,8 @@ export default function BookReader() {
         return changed ? next : prev;
       });
       const sampleEdge = (img: HTMLImageElement, side: "left" | "right") => {
-        const h = 64;
-        const w = 8;
+        const h = 96;
+        const w = 12;
         const c = document.createElement("canvas");
         c.width = w; c.height = h;
         const ctx = c.getContext("2d");
@@ -82,15 +82,40 @@ export default function BookReader() {
         ctx.drawImage(img, sx, 0, sw, img.naturalHeight, 0, 0, w, h);
         const data = ctx.getImageData(0, 0, w, h).data;
         let rr = 0, gg = 0, bb = 0, n = 0;
-        for (let i = 0; i < data.length; i += 4) { rr += data[i]; gg += data[i + 1]; bb += data[i + 2]; n++; }
-        return { r: rr / n, g: gg / n, b: bb / n };
+        const rows: Array<{ r: number; g: number; b: number }> = [];
+        for (let y = 0; y < h; y++) {
+          let rowR = 0, rowG = 0, rowB = 0;
+          for (let x = 0; x < w; x++) {
+            const i = (y * w + x) * 4;
+            rowR += data[i]; rowG += data[i + 1]; rowB += data[i + 2];
+          }
+          rows.push({ r: rowR / w, g: rowG / w, b: rowB / w });
+          rr += rowR; gg += rowG; bb += rowB; n += w;
+        }
+        const avg = { r: rr / n, g: gg / n, b: bb / n };
+        let variance = 0;
+        for (let i = 0; i < data.length; i += 4) {
+          variance += Math.abs(data[i] - avg.r) + Math.abs(data[i + 1] - avg.g) + Math.abs(data[i + 2] - avg.b);
+        }
+        const brightness = (avg.r + avg.g + avg.b) / 3;
+        const saturation = Math.max(avg.r, avg.g, avg.b) - Math.min(avg.r, avg.g, avg.b);
+        return { ...avg, rows, variance: variance / n / 3, brightness, saturation };
       };
       const a = sampleEdge(l, "right");
       const b = sampleEdge(r, "left");
       if (!a || !b) return;
-      const diff = Math.sqrt((a.r - b.r) ** 2 + (a.g - b.g) ** 2 + (a.b - b.b) ** 2);
-      // ~0–441 range; under ~35 means the edges visually continue.
-      setPairs((prev) => ({ ...prev, [key]: diff < 35 }));
+      const averageDiff = Math.sqrt((a.r - b.r) ** 2 + (a.g - b.g) ** 2 + (a.b - b.b) ** 2);
+      const profileDiff = a.rows.reduce((total, row, i) => {
+        const other = b.rows[i];
+        return total + Math.sqrt((row.r - other.r) ** 2 + (row.g - other.g) ** 2 + (row.b - other.b) ** 2);
+      }, 0) / a.rows.length;
+      const blankLeft = a.brightness > 238 && a.saturation < 18 && a.variance < 12;
+      const blankRight = b.brightness > 238 && b.saturation < 18 && b.variance < 12;
+      // Avoid false spreads caused by matching white page margins. A natural
+      // spread should have edge colors that match down the seam and at least
+      // one edge should contain real artwork/detail instead of blank paper.
+      const isNaturalSpread = averageDiff < 30 && profileDiff < 34 && !(blankLeft && blankRight);
+      setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
     } catch {
       // CORS or load failure — leave undefined; fall back to aspect heuristic.
     }
