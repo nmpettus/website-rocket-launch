@@ -24,4 +24,4 @@ Use this every time so the site does not turn into a blank white page.
    - Windows: `Ctrl + Shift + R`
    - Mac: `Cmd + Shift + R`
 
-If `index.html` is uploaded without its matching `assets/index-*.js` file, the browser shows a blank white page.
+If `index.html` is uploaded without its matching JavaScript file in `assets/`, the browser shows a blank white page.
