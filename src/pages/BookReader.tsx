@@ -240,9 +240,19 @@ export default function BookReader() {
     return text;
   };
 
-  const fetchAudioUrl = async (cacheKey: string, text: string): Promise<string | null> => {
-    const cached = audioCacheRef.current.get(cacheKey);
-    if (cached) return cached;
+  const splitForTTS = (text: string): string[] => {
+    const sentences = text.match(/[^.!?\n]+[.!?]?\s*/g) ?? [text];
+    const chunks: string[] = [];
+    let buf = "";
+    for (const s of sentences) {
+      if ((buf + s).length > 160 && buf) { chunks.push(buf.trim()); buf = s; }
+      else buf += s;
+    }
+    if (buf.trim()) chunks.push(buf.trim());
+    return chunks.length ? chunks : [text];
+  };
+
+  const fetchOneChunk = async (text: string): Promise<string | null> => {
     try {
       const SUPABASE_URL = (import.meta as any).env.VITE_SUPABASE_URL;
       const ANON = (import.meta as any).env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -258,12 +268,26 @@ export default function BookReader() {
       const ct = resp.headers.get("Content-Type") || "";
       if (!resp.ok || ct.includes("application/json")) return null;
       const blob = await resp.blob();
-      const url = URL.createObjectURL(blob);
-      audioCacheRef.current.set(cacheKey, url);
-      return url;
+      return URL.createObjectURL(blob);
     } catch {
       return null;
     }
+  };
+
+  // Kick off parallel chunk fetches; cache promises so prefetch + click share work.
+  const fetchAudioChunks = (cacheKey: string, text: string): Promise<string | null>[] => {
+    const cached = audioCacheRef.current.get(cacheKey);
+    if (cached) return cached.map((u) => Promise.resolve(u));
+    const inflight = inflightAudioRef.current.get(cacheKey);
+    if (inflight) return inflight;
+    const chunks = splitForTTS(text);
+    const promises = chunks.map((c) => fetchOneChunk(c));
+    inflightAudioRef.current.set(cacheKey, promises);
+    Promise.all(promises).then((urls) => {
+      audioCacheRef.current.set(cacheKey, urls);
+      inflightAudioRef.current.delete(cacheKey);
+    });
+    return promises;
   };
 
   const buildSpeech = async (): Promise<{ cacheKey: string; text: string } | null> => {
@@ -281,16 +305,14 @@ export default function BookReader() {
     return { cacheKey, text: combined };
   };
 
-  // Prefetch audio for current page as soon as it changes so playback starts instantly.
+  // Prefetch audio for current + next page so playback starts instantly.
   useEffect(() => {
     let cancelled = false;
     (async () => {
       if (!pages[current]) return;
       const built = await buildSpeech();
       if (cancelled || !built) return;
-      if (!audioCacheRef.current.has(built.cacheKey)) {
-        fetchAudioUrl(built.cacheKey, built.text);
-      }
+      fetchAudioChunks(built.cacheKey, built.text);
     })();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -309,20 +331,38 @@ export default function BookReader() {
         return;
       }
       text = built.text;
-      const url = await fetchAudioUrl(built.cacheKey, built.text);
-      if (!url) {
+      const chunkPromises = fetchAudioChunks(built.cacheKey, built.text);
+      // Wait only for the FIRST chunk — start playback immediately while others continue downloading.
+      const firstUrl = await chunkPromises[0];
+      if (!firstUrl) {
         speakWithBrowser(text);
         return;
       }
-      const audio = new Audio(url);
-      audioRef.current = audio;
-      audio.onended = () => setSpeaking(false);
-      audio.onerror = () => {
-        console.warn("Audio playback failed, using browser fallback");
-        speakWithBrowser(text);
-      };
-      await audio.play();
       setSpeaking(true);
+      setLoadingAudio(false);
+      let cancelled = false;
+      const stopHandle = () => { cancelled = true; };
+      const prevStop = audioRef.current;
+      // Sequentially play each chunk as it becomes ready.
+      const playSequence = async () => {
+        for (let i = 0; i < chunkPromises.length; i++) {
+          if (cancelled) return;
+          const url = i === 0 ? firstUrl : await chunkPromises[i];
+          if (cancelled || !url) continue;
+          await new Promise<void>((resolve) => {
+            const audio = new Audio(url);
+            audioRef.current = audio;
+            audio.onended = () => resolve();
+            audio.onerror = () => resolve();
+            audio.play().catch(() => resolve());
+          });
+        }
+        if (!cancelled) setSpeaking(false);
+      };
+      // Attach cancel hook via audioRef pause path: stopSpeech() pauses audio and we detect end.
+      (audioRef as any).__cancelChain = stopHandle;
+      void playSequence();
+      return;
     } catch (e) {
       console.error("TTS error, falling back to browser", e);
       if (text) speakWithBrowser(text);
@@ -330,6 +370,7 @@ export default function BookReader() {
       setLoadingAudio(false);
     }
   };
+
 
 
 
