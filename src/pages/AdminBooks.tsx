@@ -36,11 +36,49 @@ export default function AdminBooks() {
   const [working, setWorking] = useState(false);
   const [importProgress, setImportProgress] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<"unsaved" | "draft" | "published">("unsaved");
+  const [existingBooks, setExistingBooks] = useState<any[]>([]);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth?next=/admin/books");
   }, [authLoading, user, navigate]);
+
+  const loadExistingBooks = async () => {
+    const { data } = await supabase
+      .from("books")
+      .select("id, slug, title, page_count, is_free, created_at")
+      .order("created_at", { ascending: false });
+    setExistingBooks(data || []);
+  };
+
+  useEffect(() => {
+    if (isAdmin) loadExistingBooks();
+  }, [isAdmin]);
+
+  const deleteBook = async (book: { id: string; slug: string; title: string }) => {
+    if (!confirm(`Delete "${book.title}"? This removes the book, all its pages, and stored images. This cannot be undone.`)) return;
+    setDeletingId(book.id);
+    try {
+      // List & remove storage files under <slug>/
+      const { data: files } = await supabase.storage.from("book-pages").list(book.slug, { limit: 1000 });
+      if (files && files.length) {
+        const paths = files.map((f) => `${book.slug}/${f.name}`);
+        await supabase.storage.from("book-pages").remove(paths);
+      }
+      // Delete page rows then book row
+      await supabase.from("book_pages").delete().eq("book_id", book.id);
+      const { error } = await supabase.from("books").delete().eq("id", book.id);
+      if (error) throw error;
+      toast.success(`Deleted "${book.title}"`);
+      await loadExistingBooks();
+    } catch (e: any) {
+      console.error(e);
+      toast.error(e.message ?? "Failed to delete book");
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   const slugify = (s: string) =>
     s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
