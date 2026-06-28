@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -6,9 +6,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { BookOpen, ArrowLeft } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Auth() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (submitted && user) navigate("/members", { replace: true });
+  }, [submitted, user, navigate]);
   const [mode, setMode] = useState<"signin" | "signup">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,12 +37,12 @@ export default function Auth() {
         });
         if (error) throw error;
         toast.success("Account created! You're signed in.");
-        navigate("/members");
+        setSubmitted(true);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success("Welcome back!");
-        navigate("/members");
+        setSubmitted(true);
       }
     } catch (err: any) {
       toast.error(err.message || "Something went wrong");
