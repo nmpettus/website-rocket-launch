@@ -26,6 +26,7 @@ import OnlineLibrary from "./pages/OnlineLibrary";
 import BibleVersesGodsLove from "./pages/BibleVersesGodsLove";
 import Matteo from "./pages/Matteo";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import Join from "./pages/Join";
 import Members from "./pages/Members";
 import BookReader from "./pages/BookReader";
