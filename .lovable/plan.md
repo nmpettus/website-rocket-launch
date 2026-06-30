@@ -1,35 +1,58 @@
-## Plan: Lock in Hostinger deployment rules as permanent memory + project knowledge
+## Plan: Verify complete Stripe subscription checkout works end-to-end
 
-### 1. Create a new memory file `mem://technical/hostinger-deployment`
+### What I'll check (read-only / verification only — no code changes unless something is broken)
 
-Type: `constraint` + `feature` (deployment rules that must never regress).
+**1. Configuration audit (already partially done)**
+- ✅ `supabase/config.toml` has `verify_jwt = false` for all 4 payment functions
+- ✅ `_shared/stripe.ts` uses connector gateway (`createStripeClient`), correct API version `2026-03-25.dahlia`, includes `verifyWebhook`
+- ✅ `create-checkout` uses `ui_mode: "embedded_page"`, resolves customer via `resolveOrCreateCustomer`, attaches `userId` to Session + Subscription + Customer, sets 7-day trial
+- ✅ `payments-webhook` handles `customer.subscription.created/updated/deleted`, gates on `?env=`, uses `lookup_key` precedence
+- ✅ `useSubscription` filters by env, orders by `created_at desc`, treats `canceled` with future period_end as active
+- ✅ `Join.tsx` shows status banner, short-circuits if already active, renders `<EmbeddedCheckout />` inline
+- ✅ `publicConfig.ts` reads `VITE_PAYMENTS_CLIENT_TOKEN`; `getStripeEnvironment()` throws if missing instead of defaulting to live
+- ✅ All required secrets present: `STRIPE_SANDBOX_API_KEY`, `STRIPE_LIVE_API_KEY`, `PAYMENTS_SANDBOX_WEBHOOK_SECRET`, `PAYMENTS_LIVE_WEBHOOK_SECRET`, `LOVABLE_API_KEY`
 
-Contents will cover the non-negotiables:
+**2. Verify products & prices exist in Stripe**
 
-- **Routing**: `App.tsx` must use `HashRouter` (not `BrowserRouter`). Hostinger shared hosting + the way this site is uploaded into `public_html` requires hash routing to avoid 404s on refresh.
-- **Vite config**: `base: './'` is required. Output filenames must stay stable: `assets/app.js` and `assets/app.css` (configured in `vite.config.ts` `rollupOptions.output`). Never switch to hashed filenames — the `.htaccess` no-cache rules and the verify script depend on these exact names.
-- **`.htaccess`**: `public/.htaccess` must exist and contain `Options -MultiViews`, SPA rewrite to `/index.html`, MIME types for `.js`/`.mjs`/`.css`, and no-cache headers for html/js/css. Never delete or weaken this file.
-- **Supabase fallbacks**: `src/lib/publicConfig.ts` must keep the hardcoded `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY` fallbacks. Without them, a missing `VITE_SUPABASE_*` env var at build time produces a blank white page on Hostinger.
-- **Error boundary + loading fallback**: `AppErrorBoundary` must wrap the app and `index.html` must keep the visible "Loading Books by Maggie…" fallback so a broken upload never shows a pure white page.
-- **Build verification**: `scripts/verify-hostinger-build.mjs` runs as part of `npm run build`. Never bypass it. If it fails, fix the root cause — do not delete the check.
-- **Packaging**: `scripts/package-hostinger-upload.mjs` produces `hostinger-upload.zip` containing the full `dist/` contents (including `.htaccess`). Upload the zip's contents into `public_html`, never just `index.html`.
-- **Internal links**: Use `<Link to="/...">` from react-router, not `<a href="/...">`, so HashRouter handles them.
-- **PDFs / public assets**: Use absolute paths from the site root so HashRouter doesn't mangle them.
+The most recent `create-checkout` log shows: `Error: Price not found at index.ts:65:36`. That means `stripe.prices.list({ lookup_keys: [priceId] })` returned 0 rows for `reading_club_monthly` or `reading_club_yearly` at the time of that call. I'll:
+- Call `payments--get_go_live_status` to confirm sandbox/live state.
+- Invoke `create-checkout` from a curl test with `reading_club_monthly` to confirm whether the lookup keys now resolve or still 400. If they don't resolve, recreate the two prices with `payments--create_product` (monthly) + `payments--create_price` (yearly).
 
-### 2. Update `mem://index.md` Core section
+**3. End-to-end Playwright test of the actual card-entry flow**
 
-Add one consolidated Core line so every future session sees it without opening the detail file:
+This is the real verification — drive a real browser through the flow and screenshot the Stripe iframe with the card form mounted:
 
-> Hostinger deploy: HashRouter + `base:'./'` + stable `app.js`/`app.css` + `public/.htaccess` + `publicConfig.ts` Supabase fallbacks + visible loading fallback. Never weaken `scripts/verify-hostinger-build.mjs`. See `mem://technical/hostinger-deployment`.
+1. Create a brand-new throwaway account via `supabase--insert` into `auth.users` is not available; instead, use the **sign-up form** at `/#/auth` with a unique random email (no existing subscription).
+2. Navigate to `/#/join`.
+3. Click **Start Free Trial** on the monthly plan.
+4. Wait for the embedded Stripe iframe (`iframe[name^="__privateStripeFrame"]`) to mount, screenshot the page so you can see the card-entry form rendered inline.
+5. Fill in the iframe with test card `4242 4242 4242 4242`, future expiry, any CVC, ZIP `12345`.
+6. Submit the form.
+7. Wait for redirect to `/#/members?checkout=success`.
+8. Screenshot the Members page showing the now-active subscription.
+9. Query `subscriptions` table via `supabase--read_query` to confirm the webhook fired and inserted the row with `environment='sandbox'`, `status='trialing'`, correct `user_id`, correct `price_id='reading_club_monthly'`.
 
-And add the detail file to the Memories list:
+**4. Verify cancellation path**
 
-> - [Hostinger Deployment](mem://technical/hostinger-deployment) — Non-negotiable rules: HashRouter, base './' , stable filenames, .htaccess, publicConfig fallbacks, verify script
+After confirming the subscription is active in the DB:
+- From the Playwright session, click **Cancel Subscription** on `/#/members`, confirm the AlertDialog, and verify the row updates with `cancel_at_period_end=true` via `supabase--read_query`.
 
-### 3. No code changes
+**5. Report**
 
-This is purely a memory/knowledge update. All the technical fixes are already in the repo from prior turns; this plan only makes the rules permanent across future sessions so I won't accidentally regress them (e.g. by switching to `BrowserRouter`, removing the publicConfig fallback, or letting hashed filenames sneak back in).
+Produce a checklist:
+- [ ] Products/prices exist
+- [ ] `create-checkout` returns valid `clientSecret`
+- [ ] Embedded card form mounts (screenshot)
+- [ ] Card submission completes
+- [ ] Return URL drops user at `/#/members?checkout=success`
+- [ ] Webhook wrote `subscriptions` row with correct env, status, user_id, price_id
+- [ ] `useSubscription` flips `isActive=true`
+- [ ] Cancel button schedules cancellation (`cancel_at_period_end=true`)
 
-### Outcome
+If any step fails, I'll fix the root cause and re-run that step. I will NOT mark anything green without a screenshot or DB query proving it.
 
-Every future session — mine or another agent's — will have these Hostinger rules in context automatically and treat them as constraints, not suggestions.
+### Constraints
+
+- Don't touch live mode — sandbox only (the preview uses `pk_test_`).
+- Don't reuse your real account; create a throwaway with a random email like `qa-stripe-<timestamp>@example.com` so we actually see the card form.
+- Won't modify any production code unless verification surfaces a real bug (most likely candidate: missing prices, in which case I'll create them via `payments--create_product` / `payments--create_price`).
