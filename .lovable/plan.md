@@ -1,38 +1,35 @@
-## Plan: Bulletproof Hostinger Build & Upload
+## Plan: Lock in Hostinger deployment rules as permanent memory + project knowledge
 
-### Problem
-Previous uploads have resulted in a blank white page on Hostinger. The root causes have been addressed (missing assets, Supabase config fallbacks, stable filenames, .htaccess), but the user needs a process that "just works" every time.
+### 1. Create a new memory file `mem://technical/hostinger-deployment`
 
-### What I Will Do
+Type: `constraint` + `feature` (deployment rules that must never regress).
 
-1. **Run `npm run build`** in the sandbox.
-   - This triggers the existing pipeline: Vite build → verification script → zip packaging.
-   - The verification script will confirm `dist/` contains `index.html`, `.htaccess`, `assets/app.js`, and `assets/app.css`.
+Contents will cover the non-negotiables:
 
-2. **Inspect the built `dist/index.html`** to confirm:
-   - The dev entry `/src/main.tsx` has been replaced by `./assets/app.js`.
-   - No absolute root paths (`/assets/...`) leaked into the production HTML.
-   - The visible "Loading Books by Maggie…" fallback is present.
+- **Routing**: `App.tsx` must use `HashRouter` (not `BrowserRouter`). Hostinger shared hosting + the way this site is uploaded into `public_html` requires hash routing to avoid 404s on refresh.
+- **Vite config**: `base: './'` is required. Output filenames must stay stable: `assets/app.js` and `assets/app.css` (configured in `vite.config.ts` `rollupOptions.output`). Never switch to hashed filenames — the `.htaccess` no-cache rules and the verify script depend on these exact names.
+- **`.htaccess`**: `public/.htaccess` must exist and contain `Options -MultiViews`, SPA rewrite to `/index.html`, MIME types for `.js`/`.mjs`/`.css`, and no-cache headers for html/js/css. Never delete or weaken this file.
+- **Supabase fallbacks**: `src/lib/publicConfig.ts` must keep the hardcoded `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY` fallbacks. Without them, a missing `VITE_SUPABASE_*` env var at build time produces a blank white page on Hostinger.
+- **Error boundary + loading fallback**: `AppErrorBoundary` must wrap the app and `index.html` must keep the visible "Loading Books by Maggie…" fallback so a broken upload never shows a pure white page.
+- **Build verification**: `scripts/verify-hostinger-build.mjs` runs as part of `npm run build`. Never bypass it. If it fails, fix the root cause — do not delete the check.
+- **Packaging**: `scripts/package-hostinger-upload.mjs` produces `hostinger-upload.zip` containing the full `dist/` contents (including `.htaccess`). Upload the zip's contents into `public_html`, never just `index.html`.
+- **Internal links**: Use `<Link to="/...">` from react-router, not `<a href="/...">`, so HashRouter handles them.
+- **PDFs / public assets**: Use absolute paths from the site root so HashRouter doesn't mangle them.
 
-3. **If any build-time issue is found**, fix it immediately (e.g., broken `base` config, missing asset, or bad HTML preload).
+### 2. Update `mem://index.md` Core section
 
-4. **Deliver the upload artifact**:
-   - The `hostinger-upload.zip` file is generated automatically by the build script.
-   - I will provide a direct download path or confirm it exists in the project root.
+Add one consolidated Core line so every future session sees it without opening the detail file:
 
-5. **Provide a concise, numbered upload checklist**:
-   - Log in to Hostinger hPanel → File Manager → `public_html`.
-   - **Delete everything** inside `public_html` (old `assets/`, old `index.html`, old `.htaccess`).
-   - Upload `hostinger-upload.zip` into `public_html`.
-   - Extract the zip **inside** `public_html` so `index.html` sits at `public_html/index.html`.
-   - Confirm `.htaccess` is visible (show hidden files if needed).
-   - Hard-refresh the live site.
+> Hostinger deploy: HashRouter + `base:'./'` + stable `app.js`/`app.css` + `public/.htaccess` + `publicConfig.ts` Supabase fallbacks + visible loading fallback. Never weaken `scripts/verify-hostinger-build.mjs`. See `mem://technical/hostinger-deployment`.
 
-### Technical Details
-- `vite.config.ts` already uses `base: './'` and stable filenames (`app.js`, `app.css`).
-- `App.tsx` already uses `HashRouter`.
-- `public/.htaccess` already handles SPA routing and cache-busting.
-- `src/lib/publicConfig.ts` already bakes in the Supabase URL and anon key so missing env vars cannot crash the site.
+And add the detail file to the Memories list:
+
+> - [Hostinger Deployment](mem://technical/hostinger-deployment) — Non-negotiable rules: HashRouter, base './' , stable filenames, .htaccess, publicConfig fallbacks, verify script
+
+### 3. No code changes
+
+This is purely a memory/knowledge update. All the technical fixes are already in the repo from prior turns; this plan only makes the rules permanent across future sessions so I won't accidentally regress them (e.g. by switching to `BrowserRouter`, removing the publicConfig fallback, or letting hashed filenames sneak back in).
 
 ### Outcome
-A single zip file the user can upload to Hostinger `public_html`, extract, and have the site work without blank pages.
+
+Every future session — mine or another agent's — will have these Hostinger rules in context automatically and treat them as constraints, not suggestions.
