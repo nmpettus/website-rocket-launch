@@ -228,6 +228,7 @@ export default function Members() {
               </p>
             </div>
           )}
+          {statusPanel}
         </div>
 
         {loading ? (
