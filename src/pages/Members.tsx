@@ -32,9 +32,34 @@ export default function Members() {
   const { user, loading: authLoading, signOut } = useAuth();
   const { isActive, subscription, refetch } = useSubscription();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [canceling, setCanceling] = useState(false);
+  const checkoutHandledRef = useRef(false);
+
+  useEffect(() => {
+    if (checkoutHandledRef.current) return;
+    if (searchParams.get("checkout") !== "success") return;
+    checkoutHandledRef.current = true;
+    toast.success("Subscription activated! Loading your library...");
+    let attempts = 0;
+    const interval = setInterval(async () => {
+      attempts += 1;
+      const result = await refetch();
+      const active = result?.data && ["active", "trialing", "past_due"].includes(result.data.status);
+      if (active || attempts >= 10) {
+        clearInterval(interval);
+      }
+    }, 1500);
+    // Strip the query param so a manual refresh doesn't retrigger.
+    const next = new URLSearchParams(searchParams);
+    next.delete("checkout");
+    next.delete("session_id");
+    setSearchParams(next, { replace: true });
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");
