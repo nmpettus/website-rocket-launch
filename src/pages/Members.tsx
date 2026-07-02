@@ -116,6 +116,44 @@ export default function Members() {
 
   const showCancelButton = isActive && !subscription?.cancel_at_period_end;
 
+  const statusPanel = subscription ? (
+    <div className="mt-4 bg-card border rounded-xl p-5 space-y-3 shadow-sm">
+      <div className="flex items-center gap-2">
+        <BadgeCheck className="w-5 h-5 text-primary" />
+        <h2 className="font-semibold text-lg">Subscription Status</h2>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="flex items-center gap-3">
+          <CreditCard className="w-4 h-4 text-muted-foreground" />
+          <div>
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">Plan</p>
+            <p className="font-medium text-sm">{subscription.price_id}</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <BadgeCheck className="w-4 h-4 text-muted-foreground" />
+          <div>
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">Status</p>
+            <p className="font-medium text-sm capitalize">{subscription.status}</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Calendar className="w-4 h-4 text-muted-foreground" />
+          <div>
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">
+              {subscription.status === "trialing" ? "Trial Ends" : "Renews"}
+            </p>
+            <p className="font-medium text-sm">
+              {subscription.current_period_end
+                ? new Date(subscription.current_period_end).toLocaleDateString()
+                : "N/A"}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : null;
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/5 to-background">
       <div className="container mx-auto px-6 py-6 flex items-center justify-between">
