@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle } from "lucide-react";
+import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck } from "lucide-react";
 import { toast } from "sonner";
 import {
   AlertDialog,
