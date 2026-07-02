@@ -46,11 +46,8 @@ export default function Members() {
     let attempts = 0;
     const interval = setInterval(async () => {
       attempts += 1;
-      const result = await refetch();
-      const active = result?.data && ["active", "trialing", "past_due"].includes(result.data.status);
-      if (active || attempts >= 10) {
-        clearInterval(interval);
-      }
+      await refetch();
+      if (attempts >= 10) clearInterval(interval);
     }, 1500);
     // Strip the query param so a manual refresh doesn't retrigger.
     const next = new URLSearchParams(searchParams);
