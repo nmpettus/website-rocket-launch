@@ -162,38 +162,6 @@ export default function Members() {
           <ArrowLeft className="w-4 h-4" /> Back to Home
         </Link>
         <div className="flex items-center gap-2 flex-wrap justify-end">
-          {showCancelButton && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
-                  <XCircle className="w-4 h-4 mr-2" /> Cancel Subscription
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    You'll keep full access to the library until the end of your current billing period
-                    {subscription?.current_period_end
-                      ? ` (${new Date(subscription.current_period_end).toLocaleDateString()})`
-                      : ""}
-                    . After that your subscription will end and you won't be charged again. You can resubscribe anytime.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Keep subscription</AlertDialogCancel>
-                  <AlertDialogAction onClick={cancelSubscription} disabled={canceling}>
-                    {canceling ? "Canceling..." : "Yes, cancel"}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
-          {isActive && (
-            <Button variant="outline" size="sm" onClick={openPortal}>
-              <Settings className="w-4 h-4 mr-2" /> Manage Subscription
-            </Button>
-          )}
           <Button variant="ghost" size="sm" onClick={handleSignOut}>
             <LogOut className="w-4 h-4 mr-2" /> Sign Out
           </Button>
