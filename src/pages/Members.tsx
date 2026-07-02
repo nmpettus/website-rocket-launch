@@ -6,6 +6,7 @@ import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck } from "lucide-react";
 import { toast } from "sonner";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   AlertDialog,
   AlertDialogAction,
