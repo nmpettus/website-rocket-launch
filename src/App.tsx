@@ -35,6 +35,20 @@ import { AuthProvider } from "./hooks/useAuth";
 const queryClient = new QueryClient();
 const AdminBooks = lazy(() => import("./pages/AdminBooks"));
 
+const isPasswordResetLink = () => {
+  if (typeof window === "undefined") return false;
+  const search = new URLSearchParams(window.location.search);
+  const hash = window.location.hash;
+  return (
+    search.get("reset-password") === "1" ||
+    hash.includes("type=recovery") ||
+    hash.includes("access_token=")
+  );
+};
+
+const HomeOrResetPassword = () => (isPasswordResetLink() ? <ResetPassword /> : <Index />);
+const NotFoundOrResetPassword = () => (isPasswordResetLink() ? <ResetPassword /> : <NotFound />);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
@@ -42,7 +56,7 @@ const App = () => (
     <HashRouter>
       <Routes>
 
-        <Route path="/" element={<Index />} />
+        <Route path="/" element={<HomeOrResetPassword />} />
         <Route path="/videos" element={<Videos />} />
         <Route path="/chapter-zero" element={<ChapterZero />} />
         <Route path="/ask-maggie" element={<AskMaggie />} />
@@ -77,7 +91,7 @@ const App = () => (
             </Suspense>
           }
         />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFoundOrResetPassword />} />
       </Routes>
     </HashRouter>
     </AuthProvider>
