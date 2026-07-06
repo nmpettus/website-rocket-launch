@@ -128,7 +128,7 @@ export default function Auth() {
                       setResetEmail(email);
                       setResetOpen(true);
                     }}
-                    className="text-xs text-primary hover:underline font-medium"
+                    className="text-sm text-primary hover:underline font-semibold"
                   >
                     Forgot password?
                   </button>
