@@ -143,7 +143,7 @@ export default function Join() {
                 <span className="text-sm font-medium text-primary">7-Day Free Trial</span>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-4">Maggie's Reading Club</h1>
-              <p className="text-lg text-foreground font-medium max-w-2xl mx-auto">
+              <p className="text-lg text-foreground font-semibold max-w-2xl mx-auto">
                 Unlimited online access to Maggie's full library — with read-aloud narration so kids can listen along.
               </p>
             </div>
@@ -155,7 +155,7 @@ export default function Join() {
                     <f.icon className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="font-bold mb-1">{f.title}</h3>
-                  <p className="text-sm text-foreground font-medium">{f.desc}</p>
+                  <p className="text-sm text-foreground font-semibold">{f.desc}</p>
                 </div>
               ))}
             </div>
@@ -165,9 +165,9 @@ export default function Join() {
                 <h3 className="text-xl font-bold mb-1">Monthly</h3>
                 <div className="flex items-baseline gap-1 mb-4">
                   <span className="text-4xl font-bold">$4.99</span>
-                  <span className="text-foreground font-medium">/month</span>
+                  <span className="text-foreground font-semibold">/month</span>
                 </div>
-                <ul className="space-y-2 mb-6 text-sm text-foreground font-medium">
+                <ul className="space-y-2 mb-6 text-sm text-foreground font-semibold">
                   <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> 7-day free trial</li>
                   <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> Cancel anytime</li>
                   <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> 3 new books at a time from the library</li>
