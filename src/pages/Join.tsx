@@ -88,7 +88,7 @@ export default function Join() {
                   <p className="font-semibold">
                     You're already subscribed{subscription?.status === "trialing" ? " (free trial active)" : ""}
                   </p>
-                  <p className="text-sm text-foreground mb-3">
+                  <p className="text-sm text-foreground font-semibold mb-3">
                     No need to sign up again.{periodEnd ? ` Your plan renews on ${periodEnd}.` : ""} Head to the library to start reading, or manage billing from the Members page.
                   </p>
                   <div className="flex flex-wrap gap-2">
