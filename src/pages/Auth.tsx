@@ -110,7 +110,7 @@ export default function Auth() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "signup" && (
               <div>
-                <Label htmlFor="fullName">Your Name</Label>
+                <Label htmlFor="fullName" className="text-base">Your Name</Label>
                 <Input id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Parent's name" />
               </div>
             )}
