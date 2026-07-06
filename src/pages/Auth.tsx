@@ -158,8 +158,8 @@ export default function Auth() {
       <Dialog open={resetOpen} onOpenChange={setResetOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Reset your password</DialogTitle>
-            <DialogDescription className="text-foreground font-semibold">
+            <DialogTitle className="text-xl">Reset your password</DialogTitle>
+            <DialogDescription className="text-base text-foreground font-semibold">
               Enter your email and we'll send you a link to set a new password.
             </DialogDescription>
           </DialogHeader>
