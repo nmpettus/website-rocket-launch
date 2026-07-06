@@ -100,7 +100,7 @@ export default function Auth() {
             <h1 className="text-2xl font-bold">
               {mode === "signup" ? "Join Maggie's Reading Club" : "Welcome Back"}
             </h1>
-            <p className="text-muted-foreground text-sm mt-2">
+            <p className="text-foreground text-sm font-semibold mt-2">
               {mode === "signup"
                 ? "Create your free account to start your 7-day trial."
                 : "Sign in to access your library."}
@@ -141,14 +141,14 @@ export default function Auth() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-muted-foreground">
+          <div className="mt-6 text-center text-sm text-foreground font-semibold">
             {mode === "signup" ? (
               <>Already have an account?{" "}
-                <button onClick={() => setMode("signin")} className="text-primary hover:underline font-medium">Sign in</button>
+                <button onClick={() => setMode("signin")} className="text-primary hover:underline font-semibold">Sign in</button>
               </>
             ) : (
               <>New here?{" "}
-                <button onClick={() => setMode("signup")} className="text-primary hover:underline font-medium">Create account</button>
+                <button onClick={() => setMode("signup")} className="text-primary hover:underline font-semibold">Create account</button>
               </>
             )}
           </div>
@@ -159,7 +159,7 @@ export default function Auth() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Reset your password</DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-foreground font-semibold">
               Enter your email and we'll send you a link to set a new password.
             </DialogDescription>
           </DialogHeader>
