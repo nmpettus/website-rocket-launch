@@ -175,9 +175,12 @@ export default function BookReader() {
   const page = pages[current];
   const currentIsWide = isWide(page?.id);
   const manualSpread = layoutMode === "spread" && !!pages[current + 1] && !currentIsWide;
-  const spread = manualSpread || (layoutMode === "auto" && autoSpread);
+  const landscapeAutoSpread =
+    preferLandscapeSpread && layoutMode === "auto" && !!pages[current + 1] && !currentIsWide;
+  const spread = manualSpread || landscapeAutoSpread || (layoutMode === "auto" && autoSpread);
   const pairedSpread = spread && !!pages[current + 1] && !currentIsWide;
   const displayAsSpread = pairedSpread || currentIsWide;
+
 
   // Pre-sample ALL pages and compute ALL adjacent pairs in the background as
   // soon as pages load. After that every navigation is instant from cache.
