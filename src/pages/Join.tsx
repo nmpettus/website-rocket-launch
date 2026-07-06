@@ -119,7 +119,7 @@ export default function Join() {
               <Sparkles className="w-5 h-5 text-primary mt-0.5 shrink-0" />
               <div className="flex-1">
                 <p className="font-semibold">Ready when you are</p>
-                <p className="text-sm text-foreground">
+                <p className="text-sm text-foreground font-semibold">
                   You don't have an active subscription yet. Start your 7-day free trial below — cancel anytime.
                 </p>
               </div>
