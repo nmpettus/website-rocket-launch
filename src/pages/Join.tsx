@@ -180,13 +180,13 @@ export default function Join() {
               </div>
 
               <div className="bg-card border-2 border-primary rounded-2xl p-8 relative">
-                <div className="absolute -top-3 right-4 bg-primary text-primary-foreground text-xs px-3 py-1 rounded-full font-medium">
+                <div className="absolute -top-3 right-4 bg-primary text-primary-foreground text-sm px-3 py-1 rounded-full font-medium">
                   Save 18%
                 </div>
-                <h3 className="text-xl font-bold mb-1">Yearly</h3>
+                <h3 className="text-2xl font-bold mb-1">Yearly</h3>
                 <div className="flex items-baseline gap-1 mb-4">
-                  <span className="text-4xl font-bold">$49</span>
-                  <span className="text-foreground font-semibold">/year</span>
+                  <span className="text-5xl font-bold">$49</span>
+                  <span className="text-lg text-foreground font-semibold">/year</span>
                 </div>
                 <ul className="space-y-2 mb-6 text-sm text-foreground font-semibold">
                   <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> 7-day free trial</li>
