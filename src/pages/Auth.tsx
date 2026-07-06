@@ -97,10 +97,10 @@ export default function Auth() {
             <div className="inline-flex items-center justify-center w-14 h-14 bg-primary/10 rounded-full mb-3">
               <BookOpen className="w-7 h-7 text-primary" />
             </div>
-            <h1 className="text-2xl font-bold">
+            <h1 className="text-3xl font-bold">
               {mode === "signup" ? "Join Maggie's Reading Club" : "Welcome Back"}
             </h1>
-            <p className="text-foreground text-sm font-semibold mt-2">
+            <p className="text-foreground text-base font-semibold mt-2">
               {mode === "signup"
                 ? "Create your free account to start your 7-day trial."
                 : "Sign in to access your library."}
