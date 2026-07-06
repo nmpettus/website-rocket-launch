@@ -120,7 +120,7 @@ export default function Auth() {
             </div>
             <div>
               <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-base">Password</Label>
                 {mode === "signin" && (
                   <button
                     type="button"
