@@ -227,6 +227,29 @@ export default function BookReader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
+  // Record reading history for signed-in members (per-book upsert + last page).
+  useEffect(() => {
+    if (!user || !book || !page) return;
+    const t = setTimeout(() => {
+      supabase
+        .from("reading_history")
+        .upsert(
+          {
+            user_id: user.id,
+            book_id: book.id,
+            last_page_read: page.page_number,
+            last_read_at: new Date().toISOString(),
+          },
+          { onConflict: "user_id,book_id" }
+        )
+        .then(({ error }) => {
+          if (error) console.warn("reading_history upsert failed", error);
+        });
+    }, 800);
+    return () => clearTimeout(t);
+  }, [user, book, page]);
+
+
   const stopSpeech = () => {
     if ((audioRef as any).__cancelChain) { try { (audioRef as any).__cancelChain(); } catch {} }
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
