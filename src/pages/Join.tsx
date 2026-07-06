@@ -201,7 +201,7 @@ export default function Join() {
               </div>
             </div>
 
-            <p className="text-center text-xs text-foreground font-semibold mt-8">
+            <p className="text-center text-sm text-foreground font-semibold mt-8">
               You won't be charged until your 7-day trial ends. Cancel anytime from your account page.
             </p>
           </>
