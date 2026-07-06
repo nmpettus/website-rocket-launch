@@ -56,7 +56,7 @@ export default function Join() {
                 <Info className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-semibold">You're not signed in</p>
-                  <p className="text-sm text-foreground mb-3">
+                  <p className="text-sm text-foreground font-semibold mb-3">
                     Sign in or create a free account first — we'll bring you right back to start your trial.
                   </p>
                   <Button size="sm" onClick={() => navigate("/auth")}>Sign in to continue</Button>
