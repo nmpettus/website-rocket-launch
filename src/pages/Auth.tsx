@@ -87,7 +87,7 @@ export default function Auth() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/5 to-background flex flex-col">
       <div className="container mx-auto px-6 py-6">
-        <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground">
+        <Link to="/" className="inline-flex items-center gap-2 text-foreground font-semibold hover:text-foreground/80">
           <ArrowLeft className="w-4 h-4" /> Back to Home
         </Link>
       </div>
