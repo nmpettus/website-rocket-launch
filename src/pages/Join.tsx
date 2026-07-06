@@ -55,8 +55,8 @@ export default function Join() {
               <div className="mb-8 flex items-start gap-3 rounded-xl border border-primary/30 bg-primary/5 p-4">
                 <Info className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                 <div className="flex-1">
-                  <p className="font-semibold">You're not signed in</p>
-                  <p className="text-sm text-foreground font-semibold mb-3">
+                  <p className="text-base font-semibold">You're not signed in</p>
+                  <p className="text-base text-foreground font-semibold mb-3">
                     Sign in or create a free account first — we'll bring you right back to start your trial.
                   </p>
                   <Button size="sm" onClick={() => navigate("/auth")}>Sign in to continue</Button>
@@ -70,8 +70,8 @@ export default function Join() {
               <div className="mb-8 flex items-start gap-3 rounded-xl border border-amber-300 bg-amber-50 p-4 dark:bg-amber-950/30">
                 <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
-                  <p className="font-semibold">Your subscription is canceled but still active</p>
-                  <p className="text-sm text-foreground font-semibold mb-3">
+                  <p className="text-base font-semibold">Your subscription is canceled but still active</p>
+                  <p className="text-base text-foreground font-semibold mb-3">
                     You have library access until <span className="font-medium">{periodEnd}</span>. Resubscribe anytime from the Members page.
                   </p>
                   <Button size="sm" onClick={() => navigate("/members")}>Go to library</Button>
@@ -85,10 +85,10 @@ export default function Join() {
               <div className="mb-8 flex items-start gap-3 rounded-xl border border-emerald-300 bg-emerald-50 p-4 dark:bg-emerald-950/30">
                 <CheckCircle2 className="w-5 h-5 text-emerald-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
-                  <p className="font-semibold">
+                  <p className="text-base font-semibold">
                     You're already subscribed{subscription?.status === "trialing" ? " (free trial active)" : ""}
                   </p>
-                  <p className="text-sm text-foreground font-semibold mb-3">
+                  <p className="text-base text-foreground font-semibold mb-3">
                     No need to sign up again.{periodEnd ? ` Your plan renews on ${periodEnd}.` : ""} Head to the library to start reading, or manage billing from the Members page.
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -105,8 +105,8 @@ export default function Join() {
               <div className="mb-8 flex items-start gap-3 rounded-xl border border-border bg-muted/40 p-4">
                 <Info className="w-5 h-5 text-foreground mt-0.5 shrink-0" />
                 <div className="flex-1">
-                  <p className="font-semibold">Welcome back!</p>
-                  <p className="text-sm text-foreground font-semibold">
+                  <p className="text-base font-semibold">Welcome back!</p>
+                  <p className="text-base text-foreground font-semibold">
                     Your previous subscription ended. Pick a plan below to start reading again.
                   </p>
                 </div>
@@ -118,8 +118,8 @@ export default function Join() {
             <div className="mb-8 flex items-start gap-3 rounded-xl border border-primary/30 bg-primary/5 p-4">
               <Sparkles className="w-5 h-5 text-primary mt-0.5 shrink-0" />
               <div className="flex-1">
-                <p className="font-semibold">Ready when you are</p>
-                <p className="text-sm text-foreground font-semibold">
+                <p className="text-base font-semibold">Ready when you are</p>
+                <p className="text-base text-foreground font-semibold">
                   You don't have an active subscription yet. Start your 7-day free trial below — cancel anytime.
                 </p>
               </div>
