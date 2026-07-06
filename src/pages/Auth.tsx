@@ -141,7 +141,7 @@ export default function Auth() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-foreground font-semibold">
+          <div className="mt-6 text-center text-base text-foreground font-semibold">
             {mode === "signup" ? (
               <>Already have an account?{" "}
                 <button onClick={() => setMode("signin")} className="text-primary hover:underline font-semibold">Sign in</button>
