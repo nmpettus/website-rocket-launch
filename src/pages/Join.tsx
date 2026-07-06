@@ -191,8 +191,10 @@ export default function Join() {
                 <ul className="space-y-2 mb-6 text-sm">
                   <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> 7-day free trial</li>
                   <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> Two months free</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> Full library access</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> Unlimited access to every book in Maggie's library</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> All future book releases included</li>
                 </ul>
+
                 <Button onClick={() => handleJoin("reading_club_yearly")} className="w-full" size="lg">
                   Start Free Trial
                 </Button>
