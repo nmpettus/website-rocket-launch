@@ -112,6 +112,47 @@ export type Database = {
         }
         Relationships: []
       }
+      reading_history: {
+        Row: {
+          book_id: string
+          created_at: string
+          first_read_at: string
+          id: string
+          last_page_read: number
+          last_read_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          book_id: string
+          created_at?: string
+          first_read_at?: string
+          id?: string
+          last_page_read?: number
+          last_read_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          book_id?: string
+          created_at?: string
+          first_read_at?: string
+          id?: string
+          last_page_read?: number
+          last_read_at?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reading_history_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscriptions: {
         Row: {
           cancel_at_period_end: boolean | null
