@@ -87,7 +87,7 @@ export default function Auth() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/5 to-background flex flex-col">
       <div className="container mx-auto px-6 py-6">
-        <Link to="/" className="inline-flex items-center gap-2 text-foreground font-semibold hover:text-foreground/80">
+        <Link to="/" className="inline-flex items-center gap-2 text-base text-foreground font-semibold hover:text-foreground/80">
           <ArrowLeft className="w-4 h-4" /> Back to Home
         </Link>
       </div>
@@ -97,10 +97,10 @@ export default function Auth() {
             <div className="inline-flex items-center justify-center w-14 h-14 bg-primary/10 rounded-full mb-3">
               <BookOpen className="w-7 h-7 text-primary" />
             </div>
-            <h1 className="text-2xl font-bold">
+            <h1 className="text-3xl font-bold">
               {mode === "signup" ? "Join Maggie's Reading Club" : "Welcome Back"}
             </h1>
-            <p className="text-foreground text-sm font-semibold mt-2">
+            <p className="text-foreground text-base font-semibold mt-2">
               {mode === "signup"
                 ? "Create your free account to start your 7-day trial."
                 : "Sign in to access your library."}
@@ -110,17 +110,17 @@ export default function Auth() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "signup" && (
               <div>
-                <Label htmlFor="fullName">Your Name</Label>
+                <Label htmlFor="fullName" className="text-base">Your Name</Label>
                 <Input id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Parent's name" />
               </div>
             )}
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-base">Email</Label>
               <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div>
               <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-base">Password</Label>
                 {mode === "signin" && (
                   <button
                     type="button"
@@ -128,7 +128,7 @@ export default function Auth() {
                       setResetEmail(email);
                       setResetOpen(true);
                     }}
-                    className="text-xs text-primary hover:underline font-medium"
+                    className="text-sm text-primary hover:underline font-semibold"
                   >
                     Forgot password?
                   </button>
@@ -141,7 +141,7 @@ export default function Auth() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-foreground font-semibold">
+          <div className="mt-6 text-center text-base text-foreground font-semibold">
             {mode === "signup" ? (
               <>Already have an account?{" "}
                 <button onClick={() => setMode("signin")} className="text-primary hover:underline font-semibold">Sign in</button>
@@ -158,8 +158,8 @@ export default function Auth() {
       <Dialog open={resetOpen} onOpenChange={setResetOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Reset your password</DialogTitle>
-            <DialogDescription className="text-foreground font-semibold">
+            <DialogTitle className="text-xl">Reset your password</DialogTitle>
+            <DialogDescription className="text-base text-foreground font-semibold">
               Enter your email and we'll send you a link to set a new password.
             </DialogDescription>
           </DialogHeader>
