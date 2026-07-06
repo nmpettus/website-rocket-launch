@@ -143,7 +143,7 @@ export default function Join() {
                 <span className="text-xl font-extrabold text-primary">7-Day Free Trial</span>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-4">Maggie's Reading Club</h1>
-              <p className="text-lg text-foreground font-semibold max-w-2xl mx-auto">
+              <p className="text-xl text-foreground font-semibold max-w-2xl mx-auto">
                 Unlimited online access to Maggie's full library — with read-aloud narration so kids can listen along.
               </p>
             </div>
@@ -154,24 +154,24 @@ export default function Join() {
                   <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
                     <f.icon className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-bold mb-1">{f.title}</h3>
-                  <p className="text-sm text-foreground font-semibold">{f.desc}</p>
+                  <h3 className="text-lg font-bold mb-1">{f.title}</h3>
+                  <p className="text-base text-foreground font-semibold">{f.desc}</p>
                 </div>
               ))}
             </div>
 
             <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
               <div className="bg-card border-2 rounded-2xl p-8">
-                <h3 className="text-xl font-bold mb-1">Monthly</h3>
+                <h3 className="text-2xl font-bold mb-1">Monthly</h3>
                 <div className="flex items-baseline gap-1 mb-4">
-                  <span className="text-4xl font-bold">$4.99</span>
-                  <span className="text-foreground font-semibold">/month</span>
+                  <span className="text-5xl font-bold">$4.99</span>
+                  <span className="text-lg text-foreground font-semibold">/month</span>
                 </div>
-                <ul className="space-y-2 mb-6 text-sm text-foreground font-semibold">
-                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> 7-day free trial</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> Cancel anytime</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> 3 new books at a time from the library</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> Keep access to every book you've read in past months</li>
+                <ul className="space-y-2 mb-6 text-base text-foreground font-semibold">
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> 7-day free trial</li>
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Cancel anytime</li>
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> 3 new books at a time from the library</li>
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Keep access to every book you've read in past months</li>
                 </ul>
 
                 <Button onClick={() => handleJoin("reading_club_monthly")} className="w-full" size="lg">
