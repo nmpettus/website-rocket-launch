@@ -106,7 +106,7 @@ export default function Join() {
                 <Info className="w-5 h-5 text-foreground mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-semibold">Welcome back!</p>
-                  <p className="text-sm text-foreground">
+                  <p className="text-sm text-foreground font-semibold">
                     Your previous subscription ended. Pick a plan below to start reading again.
                   </p>
                 </div>
