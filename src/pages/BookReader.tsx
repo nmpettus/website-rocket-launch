@@ -29,6 +29,26 @@ export default function BookReader() {
   const audioCacheRef = useRef<Map<string, (string | null)[]>>(new Map());
   const inflightAudioRef = useRef<Map<string, Promise<string | null>[]>>(new Map());
 
+  // Track viewport orientation so mobile devices auto-show two-page spreads in landscape.
+  const [viewport, setViewport] = useState(() => ({
+    w: typeof window !== "undefined" ? window.innerWidth : 1024,
+    h: typeof window !== "undefined" ? window.innerHeight : 768,
+  }));
+  useEffect(() => {
+    const onResize = () => setViewport({ w: window.innerWidth, h: window.innerHeight });
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+    };
+  }, []);
+  const isLandscape = viewport.w > viewport.h;
+  const isSmallScreen = viewport.w < 1024;
+  // On phones/tablets in landscape, prefer a spread automatically.
+  const preferLandscapeSpread = isSmallScreen && isLandscape;
+
+
   // Per-page edge samples — sampled once, reused for every adjacency check.
   type EdgeSample = { rows: Array<{ r: number; g: number; b: number }>; brightness: number; saturation: number; variance: number };
   const edgeCacheRef = useRef<Map<string, { left: EdgeSample; right: EdgeSample; aspect: number }>>(new Map());
@@ -155,9 +175,12 @@ export default function BookReader() {
   const page = pages[current];
   const currentIsWide = isWide(page?.id);
   const manualSpread = layoutMode === "spread" && !!pages[current + 1] && !currentIsWide;
-  const spread = manualSpread || (layoutMode === "auto" && autoSpread);
+  const landscapeAutoSpread =
+    preferLandscapeSpread && layoutMode === "auto" && !!pages[current + 1] && !currentIsWide;
+  const spread = manualSpread || landscapeAutoSpread || (layoutMode === "auto" && autoSpread);
   const pairedSpread = spread && !!pages[current + 1] && !currentIsWide;
   const displayAsSpread = pairedSpread || currentIsWide;
+
 
   // Pre-sample ALL pages and compute ALL adjacent pairs in the background as
   // soon as pages load. After that every navigation is instant from cache.
@@ -419,35 +442,44 @@ export default function BookReader() {
       </div>
 
       <div className="flex-1 flex items-center justify-center px-2 pb-4">
-        <div className={`w-full ${displayAsSpread ? "max-w-[95vw]" : "max-w-5xl"} flex flex-col`}>
-          {page && (
-            <div
-              className={
-                displayAsSpread
-                  ? `mx-auto flex max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`
-                  : "flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-2xl"
-              }
-            >
-              <div className={displayAsSpread ? "flex shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}>
-                <img
-                  src={page.image_url}
-                  alt={`Page ${page.page_number}`}
-                  onLoad={(e) => recordAspect(page.id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
-                  className={`block w-auto max-w-full object-contain ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`}
-                />
-              </div>
-              {pairedSpread && pages[current + 1] && (
-                <div className="flex shrink-0">
+        <div className={`w-full ${displayAsSpread ? "max-w-[100vw]" : "max-w-5xl"} flex flex-col`}>
+          {page && (() => {
+            // Use extra vertical space when the device is in landscape (esp. mobile),
+            // so two-page spreads fill the screen.
+            const heightClass = preferLandscapeSpread
+              ? (fit === "cover" ? "max-h-[92svh]" : "max-h-[88svh]")
+              : (fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]");
+            const halfWidthClass = preferLandscapeSpread ? "max-w-[50vw]" : "max-w-[50vw]";
+            return (
+              <div
+                className={
+                  displayAsSpread
+                    ? `mx-auto flex max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl ${heightClass}`
+                    : "flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-2xl"
+                }
+              >
+                <div className={displayAsSpread ? "flex shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}>
                   <img
-                    src={pages[current + 1].image_url}
-                    alt={`Page ${pages[current + 1].page_number}`}
-                    onLoad={(e) => recordAspect(pages[current + 1].id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
-                    className={`block w-auto max-w-[50vw] object-contain ${fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]"}`}
+                    src={page.image_url}
+                    alt={`Page ${page.page_number}`}
+                    onLoad={(e) => recordAspect(page.id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
+                    className={`block w-auto max-w-full object-contain ${heightClass}`}
                   />
                 </div>
-              )}
-            </div>
-          )}
+                {pairedSpread && pages[current + 1] && (
+                  <div className="flex shrink-0">
+                    <img
+                      src={pages[current + 1].image_url}
+                      alt={`Page ${pages[current + 1].page_number}`}
+                      onLoad={(e) => recordAspect(pages[current + 1].id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
+                      className={`block w-auto ${halfWidthClass} object-contain ${heightClass}`}
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+
 
           {showPaywallNext && (
             <div className="mt-4 bg-primary text-primary-foreground rounded-xl p-6 text-center">
