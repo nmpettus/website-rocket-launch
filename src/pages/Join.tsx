@@ -188,11 +188,11 @@ export default function Join() {
                   <span className="text-5xl font-bold">$49</span>
                   <span className="text-lg text-foreground font-semibold">/year</span>
                 </div>
-                <ul className="space-y-2 mb-6 text-sm text-foreground font-semibold">
-                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> 7-day free trial</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> Two months free</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> Unlimited access to every book in Maggie's library</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5" /> All future book releases included</li>
+                <ul className="space-y-2 mb-6 text-base text-foreground font-semibold">
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> 7-day free trial</li>
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Two months free</li>
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Unlimited access to every book in Maggie's library</li>
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> All future book releases included</li>
                 </ul>
 
                 <Button onClick={() => handleJoin("reading_club_yearly")} className="w-full" size="lg">
