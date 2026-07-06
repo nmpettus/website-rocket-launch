@@ -29,6 +29,26 @@ export default function BookReader() {
   const audioCacheRef = useRef<Map<string, (string | null)[]>>(new Map());
   const inflightAudioRef = useRef<Map<string, Promise<string | null>[]>>(new Map());
 
+  // Track viewport orientation so mobile devices auto-show two-page spreads in landscape.
+  const [viewport, setViewport] = useState(() => ({
+    w: typeof window !== "undefined" ? window.innerWidth : 1024,
+    h: typeof window !== "undefined" ? window.innerHeight : 768,
+  }));
+  useEffect(() => {
+    const onResize = () => setViewport({ w: window.innerWidth, h: window.innerHeight });
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+    };
+  }, []);
+  const isLandscape = viewport.w > viewport.h;
+  const isSmallScreen = viewport.w < 1024;
+  // On phones/tablets in landscape, prefer a spread automatically.
+  const preferLandscapeSpread = isSmallScreen && isLandscape;
+
+
   // Per-page edge samples — sampled once, reused for every adjacency check.
   type EdgeSample = { rows: Array<{ r: number; g: number; b: number }>; brightness: number; saturation: number; variance: number };
   const edgeCacheRef = useRef<Map<string, { left: EdgeSample; right: EdgeSample; aspect: number }>>(new Map());
