@@ -71,7 +71,7 @@ export default function Join() {
                 <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
                 <div className="flex-1">
                   <p className="font-semibold">Your subscription is canceled but still active</p>
-                  <p className="text-sm text-foreground mb-3">
+                  <p className="text-sm text-foreground font-semibold mb-3">
                     You have library access until <span className="font-medium">{periodEnd}</span>. Resubscribe anytime from the Members page.
                   </p>
                   <Button size="sm" onClick={() => navigate("/members")}>Go to library</Button>
