@@ -138,9 +138,9 @@ export default function Join() {
         ) : (
           <>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full mb-4">
-                <Sparkles className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium text-primary">7-Day Free Trial</span>
+              <div className="inline-flex items-center gap-2 bg-primary/10 px-5 py-3 rounded-full mb-4">
+                <Sparkles className="w-5 h-5 text-primary" />
+                <span className="text-xl font-extrabold text-primary">7-Day Free Trial</span>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-4">Maggie's Reading Club</h1>
               <p className="text-lg text-foreground font-semibold max-w-2xl mx-auto">
