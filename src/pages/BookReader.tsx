@@ -183,18 +183,19 @@ export default function BookReader() {
   const displayAsSpread = pairedSpread || currentIsWide;
 
 
-  // Pre-sample ALL pages and compute ALL adjacent pairs in the background as
-  // soon as pages load. After that every navigation is instant from cache.
+  // On-demand: only sample pages around the current view when in auto mode.
+  // Avoids downloading all 51 images just to detect spreads.
   useEffect(() => {
     if (pages.length === 0) return;
+    if (layoutMode !== "auto") return;
     let cancelled = false;
     (async () => {
-      // Prioritize nearby pages first.
-      const order = [...pages.keys()].sort((a, b) => Math.abs(a - current) - Math.abs(b - current));
-      for (const i of order) {
+      const indices = [current - 1, current, current + 1, current + 2].filter(
+        (i) => i >= 0 && i < pages.length
+      );
+      for (const i of indices) {
         if (cancelled) return;
         await samplePage(pages[i].id, pages[i].image_url);
-        // Compute any newly-possible pairs touching this index.
         for (const j of [i - 1, i]) {
           const a = pages[j], b = pages[j + 1];
           if (a && b) computePairFromCache(a.id, b.id, pairKey(a.id, b.id));
@@ -203,7 +204,19 @@ export default function BookReader() {
     })();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pages]);
+  }, [pages, current, layoutMode]);
+
+  // Preload next 1-2 images so page turns are instant.
+  useEffect(() => {
+    for (const offset of [1, 2]) {
+      const p = pages[current + offset];
+      if (!p) continue;
+      const img = new Image();
+      img.decoding = "async";
+      img.src = p.image_url;
+    }
+  }, [current, pages]);
+
 
 
 
