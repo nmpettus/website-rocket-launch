@@ -82,6 +82,47 @@ export default function AdminBooks() {
     }
   };
 
+  const cancelEdit = () => {
+    setEditingId(null);
+    setOriginalSlug(null);
+    setExistingCoverUrl(null);
+    setTitle("");
+    setSlug("");
+    setDescription("");
+    setCoverFile(null);
+    setIsFree(false);
+    setPages([]);
+    setSaveState("unsaved");
+  };
+
+  const startEdit = async (bookId: string) => {
+    setWorking(true);
+    try {
+      const { data: book, error } = await supabase
+        .from("books")
+        .select("id, slug, title, description, cover_image_url, is_free, page_count")
+        .eq("id", bookId)
+        .single();
+      if (error) throw error;
+      setEditingId(book.id);
+      setOriginalSlug(book.slug);
+      setTitle(book.title ?? "");
+      setSlug(book.slug ?? "");
+      setDescription(book.description ?? "");
+      setIsFree(!!book.is_free);
+      setExistingCoverUrl(book.cover_image_url ?? null);
+      setCoverFile(null);
+      setPages([]);
+      setSaveState("draft");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      toast.success(`Editing "${book.title}". Upload a new cover or manuscript to replace — leave empty to keep existing.`);
+    } catch (e: any) {
+      toast.error(e.message ?? "Failed to load book");
+    } finally {
+      setWorking(false);
+    }
+  };
+
   const slugify = (s: string) =>
     s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
