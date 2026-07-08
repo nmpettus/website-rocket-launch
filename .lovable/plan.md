@@ -1,60 +1,32 @@
-## Goal
-Add a custom "forgot password" email sent through your existing Hostinger PHP mailer, with a large, clearly visible button — without touching any of the working email flows (Contact, Newsletter, Letter to Maggie).
+## Problem
 
-## Isolation Guarantees (why existing email won't break)
+`src/pages/BookReader.tsx` loads slowly for God's Love (51 pages) because of three compounding issues:
 
-All new code lives in **new files only**. No existing files that handle email are modified:
+1. **Background sampling loop downloads every full-size page image.** As soon as `pages` load, `useEffect` on line 188 iterates all 51 pages sequentially and does `new Image()` with `crossOrigin="anonymous"` on the full-resolution originals just to sample edge pixels for spread detection. That's ~51 large image downloads competing with the current page.
+2. **Cache-bust query defeats HTTP caching.** Line 220 appends `?v=<updated_at OR Date.now()>`. When `updated_at` is missing it uses `Date.now()`, giving every visit a fresh URL and forcing re-download every time.
+3. **No prioritization / neighbor preload.** The visible page image has no `fetchpriority`/`decoding` hints and there's no small preload of just the next page — so the reader competes with 50 background canvas fetches.
 
-- `api/config.php` — untouched (SMTP creds reused read-only)
-- `api/contact.php` — untouched
-- `api/newsletter.php` — untouched
-- `api/letter-to-maggie.php` — untouched
-- `api/vendor/` (PHPMailer) — untouched
-- `src/utils/titanEmailUtils.ts` — untouched
-- `src/components/activities/LetterToMaggie.tsx` — untouched
-- `src/components/sections/NewsLetter.tsx` — untouched
-- `src/components/sections/Contact.tsx` — untouched
+## Fix (frontend only, single file: `src/pages/BookReader.tsx`)
 
-The only existing file modified is `src/pages/Auth.tsx`, and only the "Forgot password" click handler — the sign-in and sign-up logic stays exactly as it is.
+1. **Kill the "sample everything" loop.** Replace the effect on lines 188–206 with an on-demand sampler that only samples the current page and its immediate neighbors (`current-1`, `current`, `current+1`, `current+2`) when needed for auto-spread detection. This drops parallel/background network use from 51 images to at most 3–4.
+2. **Stable cache key, no per-load busting.** In the URL resolver (lines 220–232), only append `?v=` when `row.updated_at` exists (use its ISO string). Never fall back to `Date.now()`. Result: browser + CDN cache the image across page turns and sessions.
+3. **Preload only current + next image.** After `pages` load and whenever `current` changes, `new Image().src = pages[current+1].image_url` (and `current+2` if spread). Add `decoding="async"` and `fetchpriority="high"` (via `{...({ fetchpriority: "high" } as any)}`) to the currently-visible `<img>`, and `fetchpriority="low"` + `decoding="async"` to the right-hand spread image.
+4. **Skip the canvas edge-sample entirely when it isn't needed.** In `single` layout mode (which is now the default per the recent change), never call `samplePage` — spread detection is unused. Only run sampling in `auto` mode for the visible pair.
+5. **Lower-res edge sampling.** When `samplePage` does run, request a smaller intrinsic size by drawing from the already-loaded `<img>` element (via a ref map) instead of a second `new Image()` fetch, so it reuses the current display request.
 
-## New Files
+## Not changing
 
-1. **`api/password-reset.php`** — new PHP endpoint, mirrors the exact pattern of `letter-to-maggie.php` (same PHPMailer setup, same CORS headers, same config.php include). Accepts `{ recipient_email, reset_link, user_name? }` and sends a branded HTML email with a large light-colored button.
+- No backend/storage/RLS changes.
+- No changes to signed-URL generation TTL, layout, styling, or the reader UI.
+- Spread auto-detect still works for the current spread — just no longer eagerly computed for all 51 pages.
 
-2. **`supabase/functions/send-password-reset/index.ts`** — new edge function that:
-   - Takes `{ email }` from the client
-   - Uses Supabase admin client to call `generateLink({ type: 'recovery', ... })` with the correct redirect URL (`https://booksbymaggie.com/?reset-password=1#/reset-password`)
-   - POSTs to `https://booksbymaggie.com/api/password-reset.php` with the generated link
-   - Returns success/failure
+## Technical notes
 
-3. **`supabase/config.toml`** — add the new function entry (append only, existing functions untouched).
+- Effect at lines 188–206: delete; replace with a small effect keyed on `[current, layoutMode, pages.length]` that samples only `pages[current-1..current+2]`.
+- `bust()` helper (lines 220–223): return `url` unchanged when `!row.updated_at`.
+- `<img>` at line 495 gets `fetchpriority="high"` + `decoding="async"`; the spread partner at line 504 gets `fetchpriority="low"` + `decoding="async"` + `loading="eager"`.
+- Add a hidden preloader effect: `useEffect(() => { [1,2].forEach(o => { const p = pages[current+o]; if (p) { const i = new Image(); i.decoding = "async"; i.src = p.image_url; } }); }, [current, pages]);`
 
-## Modified File (minimal)
+## Expected result
 
-**`src/pages/Auth.tsx`** — replace the single line that calls `supabase.auth.resetPasswordForEmail(...)` inside the forgot-password handler with a call to `supabase.functions.invoke('send-password-reset', { body: { email } })`. Nothing else changes.
-
-## Email Design
-
-- Large heading, friendly copy matching your brand voice
-- **Big button**: light background (e.g. your accent color), dark bold text, ~16px padding, 8px radius, minimum 200px wide — impossible to miss
-- Plain-text fallback link below the button
-- Maggie logo at top
-- "From: Maggie <maggie@booksbymaggie.com>"
-
-## Deployment Steps (after you approve)
-
-1. I create the files above.
-2. You upload the new `api/password-reset.php` to Hostinger (single file, drops into your existing `api/` folder alongside the working ones).
-3. Edge function auto-deploys.
-4. Test: click "Forgot password" on Auth page → check inbox → confirm big visible button → click → reset works.
-
-## What Stays Exactly the Same
-
-- Supabase's default password reset email still exists but is no longer triggered from your app.
-- All other Supabase auth emails (signup confirmation, etc.) continue using Supabase defaults — unchanged.
-- Contact form, newsletter signup, and Letter to Maggie continue using their existing PHP endpoints — unchanged.
-- SMTP credentials, PHPMailer version, `api/config.php` — unchanged.
-
-## Rollback
-
-If anything looks off, revert `src/pages/Auth.tsx` (one function) and the forgot-password flow falls back to Supabase's default email instantly. The new PHP file and edge function can sit unused with zero side effects.
+First page renders as fast as one image download. Page turns become near-instant once the next image is preloaded. No more 51-image background fetch storm on open.
