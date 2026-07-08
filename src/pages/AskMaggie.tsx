@@ -173,11 +173,11 @@ const AskMaggie = () => {
                 />
                 <Sparkles className="absolute -top-2 -right-2 w-8 h-8 text-gold animate-pulse" />
               </div>
-              <h2 className="font-heading text-2xl font-bold text-charcoal mb-3">
+              <h2 className="font-heading text-3xl font-extrabold text-charcoal mb-3">
                 Hi there! I'm Maggie! 🐕
               </h2>
-              <p className="text-muted-foreground max-w-md mb-6">
-                I love telling Bible stories to children! Ask me anything about the Bible, 
+              <p className="text-lg md:text-xl font-semibold text-charcoal max-w-md mb-6 leading-relaxed">
+                I love telling Bible stories to children! Ask me anything about the Bible,
                 God's love, or any of my favorite stories like Noah's Ark or Creation!
               </p>
               <div className="flex flex-wrap gap-2 justify-center">
@@ -194,12 +194,11 @@ const AskMaggie = () => {
                   <Button
                     key={suggestion}
                     variant="outline"
-                    size="sm"
                     onClick={() => {
                       setInput(suggestion);
                       inputRef.current?.focus();
                     }}
-                    className="border-sage/30 hover:bg-sage/10 hover:border-sage text-charcoal"
+                    className="border-sage/40 hover:bg-sage/10 hover:border-sage text-charcoal text-base font-semibold"
                   >
                     {suggestion}
                   </Button>
@@ -225,7 +224,7 @@ const AskMaggie = () => {
                   )}
                   <div
                     className={cn(
-                      "rounded-2xl px-4 py-3 max-w-[80%] shadow-sm",
+                      "rounded-2xl px-5 py-4 max-w-[80%] shadow-sm",
                       msg.role === "user"
                         ? "bg-sage text-white rounded-br-md"
                         : "bg-white border border-sage/20 text-charcoal rounded-bl-md font-fredoka"
@@ -234,8 +233,8 @@ const AskMaggie = () => {
                     <p className={cn(
                       "leading-relaxed whitespace-pre-wrap",
                       msg.role === "assistant"
-                        ? "text-lg font-semibold text-charcoal"
-                        : "text-base font-semibold"
+                        ? "text-xl md:text-2xl font-bold text-charcoal"
+                        : "text-lg md:text-xl font-bold text-white"
                     )}>
                       {msg.role === "assistant" ? renderMessageWithLinks(msg.content) : msg.content}
                     </p>
@@ -250,9 +249,9 @@ const AskMaggie = () => {
                     className="w-8 h-8 rounded-full object-cover border border-rose/30 flex-shrink-0 mt-1"
                   />
                   <div className="bg-white border border-sage/20 rounded-2xl rounded-bl-md px-4 py-3 shadow-sm">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span className="text-sm">Maggie is thinking...</span>
+                    <div className="flex items-center gap-2 text-charcoal">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span className="text-lg font-semibold">Maggie is thinking...</span>
                     </div>
                   </div>
                 </div>
@@ -277,7 +276,7 @@ const AskMaggie = () => {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask Maggie a Bible question..."
             disabled={isLoading}
-            className="flex-1 border-sage/30 focus-visible:ring-sage bg-white"
+            className="flex-1 border-sage/30 focus-visible:ring-sage bg-white text-lg font-semibold text-charcoal placeholder:text-charcoal/60 h-12"
           />
           <Button
             type="submit"
