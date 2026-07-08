@@ -229,11 +229,14 @@ export default function BookReader() {
       setBook(b as Book);
       const { data: p } = await supabase.from("book_pages").select("*").eq("book_id", b.id).order("page_number");
       const rows = (p || []) as Page[];
-      // Cache-bust so a re-uploaded page never shows the previous image.
+      // Only add a version query when we have a real updated_at, so the browser/CDN
+      // can cache across visits. Never use Date.now() (would bust cache every load).
       const bust = (url: string, row: Page) => {
-        const v = encodeURIComponent(row.updated_at || String(Date.now()));
+        if (!row.updated_at) return url;
+        const v = encodeURIComponent(row.updated_at);
         return url.includes("?") ? `${url}&v=${v}` : `${url}?v=${v}`;
       };
+
       const resolved = await Promise.all(rows.map(async (row) => {
         if (!row.image_url) return row;
         if (row.image_url.startsWith("http") || row.image_url.startsWith("/")) {
