@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, ArrowLeft, Play, Pause, Square, Lock } from "lucide-react";
 
 interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; }
-interface Page { id: string; page_number: number; image_url: string; narration_text: string | null; }
+interface Page { id: string; page_number: number; image_url: string; narration_text: string | null; updated_at?: string | null; }
 
 export default function BookReader() {
   const { slug } = useParams<{ slug: string }>();
@@ -215,10 +215,19 @@ export default function BookReader() {
       setBook(b as Book);
       const { data: p } = await supabase.from("book_pages").select("*").eq("book_id", b.id).order("page_number");
       const rows = (p || []) as Page[];
+      // Cache-bust so a re-uploaded page never shows the previous image.
+      const bust = (url: string, row: Page) => {
+        const v = encodeURIComponent(row.updated_at || String(Date.now()));
+        return url.includes("?") ? `${url}&v=${v}` : `${url}?v=${v}`;
+      };
       const resolved = await Promise.all(rows.map(async (row) => {
-        if (!row.image_url || row.image_url.startsWith("http") || row.image_url.startsWith("/")) return row;
+        if (!row.image_url) return row;
+        if (row.image_url.startsWith("http") || row.image_url.startsWith("/")) {
+          return { ...row, image_url: bust(row.image_url, row) };
+        }
         const { data: signed } = await supabase.storage.from("book-pages").createSignedUrl(row.image_url, 3600);
-        return { ...row, image_url: signed?.signedUrl ?? row.image_url };
+        const signedUrl = signed?.signedUrl ?? row.image_url;
+        return { ...row, image_url: bust(signedUrl, row) };
       }));
       setPages(resolved);
       setLoading(false);
