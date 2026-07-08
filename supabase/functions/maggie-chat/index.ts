@@ -155,7 +155,7 @@ Isn't that amazing? God's love is the most wonderful thing! Would you like to he
     }
 
     // Call Google Gemini API directly
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse&key=${GOOGLE_GEMINI_API_KEY}`;
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?alt=sse&key=${GOOGLE_GEMINI_API_KEY}`;
     
     const geminiMessages = convertToGeminiFormat(messages);
     
