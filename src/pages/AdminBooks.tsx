@@ -478,8 +478,11 @@ export default function AdminBooks() {
             <Textarea id="desc" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
           </div>
           <div>
-            <Label htmlFor="cover">Cover image (optional)</Label>
+            <Label htmlFor="cover">Cover image {editingId ? "(leave empty to keep existing)" : "(optional)"}</Label>
             <Input id="cover" type="file" accept="image/*" onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)} />
+            {editingId && existingCoverUrl && !coverFile && (
+              <p className="text-xs text-muted-foreground mt-1">Current cover will be kept: <code>{existingCoverUrl}</code></p>
+            )}
           </div>
           <div className="flex items-center gap-3">
             <Switch id="free" checked={isFree} onCheckedChange={setIsFree} />
