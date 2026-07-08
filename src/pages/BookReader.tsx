@@ -512,6 +512,8 @@ export default function BookReader() {
                     src={page.image_url}
                     alt={`Page ${page.page_number}`}
                     onLoad={(e) => recordAspect(page.id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
+                    decoding="async"
+                    {...({ fetchpriority: "high" } as any)}
                     className={`block w-auto max-w-full object-contain ${heightClass}`}
                   />
                 </div>
@@ -521,10 +523,13 @@ export default function BookReader() {
                       src={pages[current + 1].image_url}
                       alt={`Page ${pages[current + 1].page_number}`}
                       onLoad={(e) => recordAspect(pages[current + 1].id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
+                      decoding="async"
+                      {...({ fetchpriority: "low" } as any)}
                       className={`block w-auto ${halfWidthClass} object-contain ${heightClass}`}
                     />
                   </div>
                 )}
+
               </div>
             );
           })()}
