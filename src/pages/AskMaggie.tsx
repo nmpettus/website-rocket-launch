@@ -249,9 +249,9 @@ const AskMaggie = () => {
                     className="w-8 h-8 rounded-full object-cover border border-rose/30 flex-shrink-0 mt-1"
                   />
                   <div className="bg-white border border-sage/20 rounded-2xl rounded-bl-md px-4 py-3 shadow-sm">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span className="text-sm">Maggie is thinking...</span>
+                    <div className="flex items-center gap-2 text-charcoal">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span className="text-lg font-semibold">Maggie is thinking...</span>
                     </div>
                   </div>
                 </div>
