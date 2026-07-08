@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Upload, Trash2, FileUp } from "lucide-react";
+import { ArrowLeft, Loader2, Upload, Trash2, FileUp, Pencil, X } from "lucide-react";
 
 interface PendingPage {
   file: File;
@@ -37,6 +37,9 @@ export default function AdminBooks() {
   const [saveState, setSaveState] = useState<"unsaved" | "draft" | "published">("unsaved");
   const [existingBooks, setExistingBooks] = useState<any[]>([]);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [existingCoverUrl, setExistingCoverUrl] = useState<string | null>(null);
+  const [originalSlug, setOriginalSlug] = useState<string | null>(null);
 
 
   useEffect(() => {
@@ -76,6 +79,47 @@ export default function AdminBooks() {
       toast.error(e.message ?? "Failed to delete book");
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setOriginalSlug(null);
+    setExistingCoverUrl(null);
+    setTitle("");
+    setSlug("");
+    setDescription("");
+    setCoverFile(null);
+    setIsFree(false);
+    setPages([]);
+    setSaveState("unsaved");
+  };
+
+  const startEdit = async (bookId: string) => {
+    setWorking(true);
+    try {
+      const { data: book, error } = await supabase
+        .from("books")
+        .select("id, slug, title, description, cover_image_url, is_free, page_count")
+        .eq("id", bookId)
+        .single();
+      if (error) throw error;
+      setEditingId(book.id);
+      setOriginalSlug(book.slug);
+      setTitle(book.title ?? "");
+      setSlug(book.slug ?? "");
+      setDescription(book.description ?? "");
+      setIsFree(!!book.is_free);
+      setExistingCoverUrl(book.cover_image_url ?? null);
+      setCoverFile(null);
+      setPages([]);
+      setSaveState("draft");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      toast.success(`Editing "${book.title}". Upload a new cover or manuscript to replace — leave empty to keep existing.`);
+    } catch (e: any) {
+      toast.error(e.message ?? "Failed to load book");
+    } finally {
+      setWorking(false);
     }
   };
 
@@ -191,19 +235,29 @@ export default function AdminBooks() {
         if (error) throw error;
         coverUrl = path;
       }
-      const { error: bookErr } = await supabase
-        .from("books")
-        .upsert({
-          slug,
-          title,
-          description,
-          ...(coverUrl ? { cover_image_url: coverUrl } : {}),
-          page_count: pages.length,
-          is_free: isFree,
-        }, { onConflict: "slug" });
-      if (bookErr) throw bookErr;
+      if (editingId) {
+        const patch: any = { slug, title, description, is_free: isFree };
+        if (coverUrl) patch.cover_image_url = coverUrl;
+        const { error: bookErr } = await supabase.from("books").update(patch).eq("id", editingId);
+        if (bookErr) throw bookErr;
+        setOriginalSlug(slug);
+        if (coverUrl) setExistingCoverUrl(coverUrl);
+      } else {
+        const { error: bookErr } = await supabase
+          .from("books")
+          .upsert({
+            slug,
+            title,
+            description,
+            ...(coverUrl ? { cover_image_url: coverUrl } : {}),
+            page_count: pages.length,
+            is_free: isFree,
+          }, { onConflict: "slug" });
+        if (bookErr) throw bookErr;
+      }
       setSaveState("draft");
       toast.success("Draft saved");
+      await loadExistingBooks();
     } catch (e) {
       console.error(e);
       toast.error("Save failed: " + String(e));
@@ -214,7 +268,7 @@ export default function AdminBooks() {
 
   const publish = async () => {
     if (!title || !slug) return toast.error("Title and slug are required");
-    if (!pages.length) return toast.error("Add at least one page");
+    if (!editingId && !pages.length) return toast.error("Add at least one page");
     setWorking(true);
     try {
       // Upload cover (if provided) to book-pages/<slug>/cover.<ext>
@@ -227,47 +281,68 @@ export default function AdminBooks() {
         coverUrl = path; // stored as path; reader will sign
       }
 
-      // Insert/upsert book by slug
-      const { data: bookRow, error: bookErr } = await supabase
-        .from("books")
-        .upsert({
-          slug,
-          title,
-          description,
-          cover_image_url: coverUrl,
-          page_count: pages.length,
-          is_free: isFree,
-        }, { onConflict: "slug" })
-        .select()
-        .single();
-      if (bookErr) throw bookErr;
+      let bookRow: { id: string; slug: string };
+      if (editingId) {
+        const patch: any = { slug, title, description, is_free: isFree };
+        if (coverUrl) patch.cover_image_url = coverUrl;
+        if (pages.length) patch.page_count = pages.length;
+        const { data, error: bookErr } = await supabase
+          .from("books")
+          .update(patch)
+          .eq("id", editingId)
+          .select()
+          .single();
+        if (bookErr) throw bookErr;
+        bookRow = data;
+      } else {
+        const { data, error: bookErr } = await supabase
+          .from("books")
+          .upsert({
+            slug,
+            title,
+            description,
+            cover_image_url: coverUrl,
+            page_count: pages.length,
+            is_free: isFree,
+          }, { onConflict: "slug" })
+          .select()
+          .single();
+        if (bookErr) throw bookErr;
+        bookRow = data;
+      }
 
-      // Remove existing pages for this book (re-upload replaces)
-      await supabase.from("book_pages").delete().eq("book_id", bookRow.id);
+      // Only replace pages if new pages were provided (edit mode allows metadata/cover-only updates)
+      if (pages.length) {
+        await supabase.from("book_pages").delete().eq("book_id", bookRow.id);
 
-      // Upload pages and insert rows
-      for (let i = 0; i < pages.length; i++) {
-        const p = pages[i];
-        setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "uploading" } : pp));
-        const ext = p.file.name.split(".").pop() || "png";
-        const path = `${slug}/${String(p.pageNumber).padStart(3, "0")}.${ext}`;
-        const { error: upErr } = await supabase.storage
-          .from("book-pages")
-          .upload(path, p.file, { upsert: true, contentType: p.file.type || "image/png" });
-        if (upErr) throw upErr;
+        for (let i = 0; i < pages.length; i++) {
+          const p = pages[i];
+          setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "uploading" } : pp));
+          const ext = p.file.name.split(".").pop() || "png";
+          const path = `${slug}/${String(p.pageNumber).padStart(3, "0")}.${ext}`;
+          const { error: upErr } = await supabase.storage
+            .from("book-pages")
+            .upload(path, p.file, { upsert: true, contentType: p.file.type || "image/png" });
+          if (upErr) throw upErr;
 
-        const { error: insErr } = await supabase.from("book_pages").insert({
-          book_id: bookRow.id,
-          page_number: p.pageNumber,
-          image_url: path,
-          narration_text: p.narration || null,
-        });
-        if (insErr) throw insErr;
-        setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "done", storagePath: path } : pp));
+          const { error: insErr } = await supabase.from("book_pages").insert({
+            book_id: bookRow.id,
+            page_number: p.pageNumber,
+            image_url: path,
+            narration_text: p.narration || null,
+          });
+          if (insErr) throw insErr;
+          setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "done", storagePath: path } : pp));
+        }
       }
 
       setSaveState("published");
-      toast.success(`"${title}" published to the library!`);
+      toast.success(
+        editingId
+          ? `"${title}" updated${pages.length ? ` — ${pages.length} pages replaced` : coverFile ? " — cover replaced" : ""}`
+          : `"${title}" published to the library!`
+      );
+      await loadExistingBooks();
       navigate(`/read/${slug}`);
     } catch (e) {
       console.error(e);
@@ -288,13 +363,25 @@ export default function AdminBooks() {
       </Button>
       <Button
         onClick={publish}
-        disabled={working || !pages.length || !title || !slug}
-        title={!pages.length ? "Add pages first" : undefined}
+        disabled={working || (!editingId && !pages.length) || !title || !slug}
+        title={!editingId && !pages.length ? "Add pages first" : undefined}
       >
         <Upload className="w-4 h-4 mr-2" />
-        {working ? `Publishing ${progress}…` : `Publish${pages.length ? ` ${pages.length} pages` : ""}`}
+        {working
+          ? `${editingId ? "Updating" : "Publishing"} ${progress}…`
+          : editingId
+            ? pages.length
+              ? `Update & replace ${pages.length} pages`
+              : "Update book"
+            : `Publish${pages.length ? ` ${pages.length} pages` : ""}`}
       </Button>
+      {editingId && (
+        <Button onClick={cancelEdit} variant="ghost" disabled={working}>
+          <X className="w-4 h-4 mr-1" /> Cancel edit
+        </Button>
+      )}
       <span className="text-xs text-muted-foreground ml-auto">
+        {editingId && <span className="text-primary font-medium">Editing existing book · </span>}
         {saveState === "unsaved" && "Not saved yet"}
         {saveState === "draft" && "Draft saved"}
         {saveState === "published" && `Published — ${pages.length} pages`}
@@ -353,6 +440,15 @@ export default function AdminBooks() {
                   <Link to={`/read/${b.slug}`} className="text-xs text-primary hover:underline">Open</Link>
                   <Button
                     size="sm"
+                    variant="outline"
+                    onClick={() => startEdit(b.id)}
+                    disabled={working || editingId === b.id}
+                    title="Edit this book — replace cover, metadata, or manuscript"
+                  >
+                    <Pencil className="w-4 h-4 mr-1" /> {editingId === b.id ? "Editing" : "Edit"}
+                  </Button>
+                  <Button
+                    size="sm"
                     variant="destructive"
                     onClick={() => deleteBook(b)}
                     disabled={deletingId === b.id}
@@ -382,8 +478,11 @@ export default function AdminBooks() {
             <Textarea id="desc" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
           </div>
           <div>
-            <Label htmlFor="cover">Cover image (optional)</Label>
+            <Label htmlFor="cover">Cover image {editingId ? "(leave empty to keep existing)" : "(optional)"}</Label>
             <Input id="cover" type="file" accept="image/*" onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)} />
+            {editingId && existingCoverUrl && !coverFile && (
+              <p className="text-xs text-muted-foreground mt-1">Current cover will be kept: <code>{existingCoverUrl}</code></p>
+            )}
           </div>
           <div className="flex items-center gap-3">
             <Switch id="free" checked={isFree} onCheckedChange={setIsFree} />
