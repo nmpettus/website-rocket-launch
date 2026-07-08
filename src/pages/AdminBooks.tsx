@@ -440,6 +440,15 @@ export default function AdminBooks() {
                   <Link to={`/read/${b.slug}`} className="text-xs text-primary hover:underline">Open</Link>
                   <Button
                     size="sm"
+                    variant="outline"
+                    onClick={() => startEdit(b.id)}
+                    disabled={working || editingId === b.id}
+                    title="Edit this book — replace cover, metadata, or manuscript"
+                  >
+                    <Pencil className="w-4 h-4 mr-1" /> {editingId === b.id ? "Editing" : "Edit"}
+                  </Button>
+                  <Button
+                    size="sm"
                     variant="destructive"
                     onClick={() => deleteBook(b)}
                     disabled={deletingId === b.id}
