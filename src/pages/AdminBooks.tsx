@@ -363,13 +363,25 @@ export default function AdminBooks() {
       </Button>
       <Button
         onClick={publish}
-        disabled={working || !pages.length || !title || !slug}
-        title={!pages.length ? "Add pages first" : undefined}
+        disabled={working || (!editingId && !pages.length) || !title || !slug}
+        title={!editingId && !pages.length ? "Add pages first" : undefined}
       >
         <Upload className="w-4 h-4 mr-2" />
-        {working ? `Publishing ${progress}…` : `Publish${pages.length ? ` ${pages.length} pages` : ""}`}
+        {working
+          ? `${editingId ? "Updating" : "Publishing"} ${progress}…`
+          : editingId
+            ? pages.length
+              ? `Update & replace ${pages.length} pages`
+              : "Update book"
+            : `Publish${pages.length ? ` ${pages.length} pages` : ""}`}
       </Button>
+      {editingId && (
+        <Button onClick={cancelEdit} variant="ghost" disabled={working}>
+          <X className="w-4 h-4 mr-1" /> Cancel edit
+        </Button>
+      )}
       <span className="text-xs text-muted-foreground ml-auto">
+        {editingId && <span className="text-primary font-medium">Editing existing book · </span>}
         {saveState === "unsaved" && "Not saved yet"}
         {saveState === "draft" && "Draft saved"}
         {saveState === "published" && `Published — ${pages.length} pages`}
