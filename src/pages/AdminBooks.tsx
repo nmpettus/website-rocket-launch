@@ -235,19 +235,29 @@ export default function AdminBooks() {
         if (error) throw error;
         coverUrl = path;
       }
-      const { error: bookErr } = await supabase
-        .from("books")
-        .upsert({
-          slug,
-          title,
-          description,
-          ...(coverUrl ? { cover_image_url: coverUrl } : {}),
-          page_count: pages.length,
-          is_free: isFree,
-        }, { onConflict: "slug" });
-      if (bookErr) throw bookErr;
+      if (editingId) {
+        const patch: any = { slug, title, description, is_free: isFree };
+        if (coverUrl) patch.cover_image_url = coverUrl;
+        const { error: bookErr } = await supabase.from("books").update(patch).eq("id", editingId);
+        if (bookErr) throw bookErr;
+        setOriginalSlug(slug);
+        if (coverUrl) setExistingCoverUrl(coverUrl);
+      } else {
+        const { error: bookErr } = await supabase
+          .from("books")
+          .upsert({
+            slug,
+            title,
+            description,
+            ...(coverUrl ? { cover_image_url: coverUrl } : {}),
+            page_count: pages.length,
+            is_free: isFree,
+          }, { onConflict: "slug" });
+        if (bookErr) throw bookErr;
+      }
       setSaveState("draft");
       toast.success("Draft saved");
+      await loadExistingBooks();
     } catch (e) {
       console.error(e);
       toast.error("Save failed: " + String(e));
@@ -258,7 +268,7 @@ export default function AdminBooks() {
 
   const publish = async () => {
     if (!title || !slug) return toast.error("Title and slug are required");
-    if (!pages.length) return toast.error("Add at least one page");
+    if (!editingId && !pages.length) return toast.error("Add at least one page");
     setWorking(true);
     try {
       // Upload cover (if provided) to book-pages/<slug>/cover.<ext>
@@ -271,47 +281,68 @@ export default function AdminBooks() {
         coverUrl = path; // stored as path; reader will sign
       }
 
-      // Insert/upsert book by slug
-      const { data: bookRow, error: bookErr } = await supabase
-        .from("books")
-        .upsert({
-          slug,
-          title,
-          description,
-          cover_image_url: coverUrl,
-          page_count: pages.length,
-          is_free: isFree,
-        }, { onConflict: "slug" })
-        .select()
-        .single();
-      if (bookErr) throw bookErr;
+      let bookRow: { id: string; slug: string };
+      if (editingId) {
+        const patch: any = { slug, title, description, is_free: isFree };
+        if (coverUrl) patch.cover_image_url = coverUrl;
+        if (pages.length) patch.page_count = pages.length;
+        const { data, error: bookErr } = await supabase
+          .from("books")
+          .update(patch)
+          .eq("id", editingId)
+          .select()
+          .single();
+        if (bookErr) throw bookErr;
+        bookRow = data;
+      } else {
+        const { data, error: bookErr } = await supabase
+          .from("books")
+          .upsert({
+            slug,
+            title,
+            description,
+            cover_image_url: coverUrl,
+            page_count: pages.length,
+            is_free: isFree,
+          }, { onConflict: "slug" })
+          .select()
+          .single();
+        if (bookErr) throw bookErr;
+        bookRow = data;
+      }
 
-      // Remove existing pages for this book (re-upload replaces)
-      await supabase.from("book_pages").delete().eq("book_id", bookRow.id);
+      // Only replace pages if new pages were provided (edit mode allows metadata/cover-only updates)
+      if (pages.length) {
+        await supabase.from("book_pages").delete().eq("book_id", bookRow.id);
 
-      // Upload pages and insert rows
-      for (let i = 0; i < pages.length; i++) {
-        const p = pages[i];
-        setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "uploading" } : pp));
-        const ext = p.file.name.split(".").pop() || "png";
-        const path = `${slug}/${String(p.pageNumber).padStart(3, "0")}.${ext}`;
-        const { error: upErr } = await supabase.storage
-          .from("book-pages")
-          .upload(path, p.file, { upsert: true, contentType: p.file.type || "image/png" });
-        if (upErr) throw upErr;
+        for (let i = 0; i < pages.length; i++) {
+          const p = pages[i];
+          setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "uploading" } : pp));
+          const ext = p.file.name.split(".").pop() || "png";
+          const path = `${slug}/${String(p.pageNumber).padStart(3, "0")}.${ext}`;
+          const { error: upErr } = await supabase.storage
+            .from("book-pages")
+            .upload(path, p.file, { upsert: true, contentType: p.file.type || "image/png" });
+          if (upErr) throw upErr;
 
-        const { error: insErr } = await supabase.from("book_pages").insert({
-          book_id: bookRow.id,
-          page_number: p.pageNumber,
-          image_url: path,
-          narration_text: p.narration || null,
-        });
-        if (insErr) throw insErr;
-        setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "done", storagePath: path } : pp));
+          const { error: insErr } = await supabase.from("book_pages").insert({
+            book_id: bookRow.id,
+            page_number: p.pageNumber,
+            image_url: path,
+            narration_text: p.narration || null,
+          });
+          if (insErr) throw insErr;
+          setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "done", storagePath: path } : pp));
+        }
       }
 
       setSaveState("published");
-      toast.success(`"${title}" published to the library!`);
+      toast.success(
+        editingId
+          ? `"${title}" updated${pages.length ? ` — ${pages.length} pages replaced` : coverFile ? " — cover replaced" : ""}`
+          : `"${title}" published to the library!`
+      );
+      await loadExistingBooks();
       navigate(`/read/${slug}`);
     } catch (e) {
       console.error(e);
