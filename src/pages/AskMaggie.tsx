@@ -276,7 +276,7 @@ const AskMaggie = () => {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask Maggie a Bible question..."
             disabled={isLoading}
-            className="flex-1 border-sage/30 focus-visible:ring-sage bg-white text-lg font-semibold text-charcoal placeholder:text-charcoal/60 h-12"
+            className="flex-1 border-sage/30 focus-visible:ring-sage bg-white text-lg font-semibold text-black placeholder:text-gray-600 h-12"
           />
           <Button
             type="submit"
