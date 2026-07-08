@@ -37,6 +37,9 @@ export default function AdminBooks() {
   const [saveState, setSaveState] = useState<"unsaved" | "draft" | "published">("unsaved");
   const [existingBooks, setExistingBooks] = useState<any[]>([]);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [existingCoverUrl, setExistingCoverUrl] = useState<string | null>(null);
+  const [originalSlug, setOriginalSlug] = useState<string | null>(null);
 
 
   useEffect(() => {
