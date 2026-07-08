@@ -173,11 +173,11 @@ const AskMaggie = () => {
                 />
                 <Sparkles className="absolute -top-2 -right-2 w-8 h-8 text-gold animate-pulse" />
               </div>
-              <h2 className="font-heading text-2xl font-bold text-charcoal mb-3">
+              <h2 className="font-heading text-3xl font-extrabold text-charcoal mb-3">
                 Hi there! I'm Maggie! 🐕
               </h2>
-              <p className="text-muted-foreground max-w-md mb-6">
-                I love telling Bible stories to children! Ask me anything about the Bible, 
+              <p className="text-lg md:text-xl font-semibold text-charcoal max-w-md mb-6 leading-relaxed">
+                I love telling Bible stories to children! Ask me anything about the Bible,
                 God's love, or any of my favorite stories like Noah's Ark or Creation!
               </p>
               <div className="flex flex-wrap gap-2 justify-center">
@@ -194,12 +194,11 @@ const AskMaggie = () => {
                   <Button
                     key={suggestion}
                     variant="outline"
-                    size="sm"
                     onClick={() => {
                       setInput(suggestion);
                       inputRef.current?.focus();
                     }}
-                    className="border-sage/30 hover:bg-sage/10 hover:border-sage text-charcoal"
+                    className="border-sage/40 hover:bg-sage/10 hover:border-sage text-charcoal text-base font-semibold"
                   >
                     {suggestion}
                   </Button>
