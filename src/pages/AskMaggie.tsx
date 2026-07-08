@@ -233,7 +233,9 @@ const AskMaggie = () => {
                   >
                     <p className={cn(
                       "leading-relaxed whitespace-pre-wrap",
-                      msg.role === "assistant" ? "text-base" : "text-sm"
+                      msg.role === "assistant"
+                        ? "text-lg font-semibold text-charcoal"
+                        : "text-base font-semibold"
                     )}>
                       {msg.role === "assistant" ? renderMessageWithLinks(msg.content) : msg.content}
                     </p>
