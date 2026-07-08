@@ -224,7 +224,7 @@ const AskMaggie = () => {
                   )}
                   <div
                     className={cn(
-                      "rounded-2xl px-4 py-3 max-w-[80%] shadow-sm",
+                      "rounded-2xl px-5 py-4 max-w-[80%] shadow-sm",
                       msg.role === "user"
                         ? "bg-sage text-white rounded-br-md"
                         : "bg-white border border-sage/20 text-charcoal rounded-bl-md font-fredoka"
@@ -233,8 +233,8 @@ const AskMaggie = () => {
                     <p className={cn(
                       "leading-relaxed whitespace-pre-wrap",
                       msg.role === "assistant"
-                        ? "text-lg font-semibold text-charcoal"
-                        : "text-base font-semibold"
+                        ? "text-xl md:text-2xl font-bold text-charcoal"
+                        : "text-lg md:text-xl font-bold text-white"
                     )}>
                       {msg.role === "assistant" ? renderMessageWithLinks(msg.content) : msg.content}
                     </p>
