@@ -37,10 +37,22 @@ Deno.serve(async (req) => {
 
     if (!resp.ok) {
       const errText = await resp.text();
-      return new Response(JSON.stringify({ error: `Azure TTS failed: ${resp.status} ${errText}` }), {
-        status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+      // For throttling / upstream errors, return 200 JSON with a fallback flag so
+      // the client can silently switch to browser speech synthesis instead of
+      // surfacing a 502 to the user.
+      const isFallbackable = resp.status === 429 || resp.status >= 500;
+      return new Response(
+        JSON.stringify({
+          error: `Azure TTS failed: ${resp.status} ${errText}`,
+          fallback: isFallbackable,
+        }),
+        {
+          status: isFallbackable ? 200 : 502,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        },
+      );
     }
+
 
     return new Response(resp.body, {
       status: 200,
