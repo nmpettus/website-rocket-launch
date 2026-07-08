@@ -540,14 +540,23 @@ export default function BookReader() {
                   <Square className="w-4 h-4 mr-1" /> Stop
                 </Button>
               )}
-              <Button
+              <ToggleGroup
+                type="single"
+                value={layoutMode}
+                onValueChange={(v) => { if (v) setLayoutMode(v as "auto" | "single" | "spread"); }}
                 variant="outline"
-                onClick={() => setLayoutMode((m) => (m === "auto" ? "single" : m === "single" ? "spread" : "auto"))}
-                className="text-foreground"
-                title="Layout: Auto detects spreads from page shape"
+                className="flex-wrap justify-center"
               >
-                {layoutMode === "auto" ? `Auto (${displayAsSpread ? "Spread" : "Single"})` : layoutMode === "spread" ? "Two-Page Spread" : "Single Page"}
-              </Button>
+                <ToggleGroupItem value="auto" aria-label="Auto layout" title="Auto detects spreads from page shape">
+                  <LayoutTemplate className="w-4 h-4 mr-1" /> Auto
+                </ToggleGroupItem>
+                <ToggleGroupItem value="single" aria-label="Single page">
+                  <FileText className="w-4 h-4 mr-1" /> Single Page
+                </ToggleGroupItem>
+                <ToggleGroupItem value="spread" aria-label="Two-page spread">
+                  <BookOpen className="w-4 h-4 mr-1" /> Two-Page Spread
+                </ToggleGroupItem>
+              </ToggleGroup>
               <Button variant="outline" onClick={() => setFit((f) => (f === "contain" ? "cover" : "contain"))} className="text-foreground">
                 {fit === "contain" ? "Fill Page" : "Fit Page"}
               </Button>
