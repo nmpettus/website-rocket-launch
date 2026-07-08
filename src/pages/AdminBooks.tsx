@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Upload, Trash2, FileUp } from "lucide-react";
+import { ArrowLeft, Loader2, Upload, Trash2, FileUp, Pencil, X } from "lucide-react";
 
 interface PendingPage {
   file: File;
