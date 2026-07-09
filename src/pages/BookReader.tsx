@@ -208,17 +208,34 @@ export default function BookReader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pages, current, layoutMode]);
 
-  // Preload upcoming images so page turns are instant. Preload more when in
-  // spread mode so both pages of the *next* spread are ready together.
+  // Persistent image cache — resolve each page URL to a cached blob URL from
+  // IndexedDB so revisits load instantly with no network fetch.
+  const [resolvedUrls, setResolvedUrls] = useState<Record<string, string>>({});
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      for (const p of pages) {
+        if (cancelled) return;
+        if (!p.image_url || resolvedUrls[p.id]) continue;
+        const url = await getCachedImageUrl(p.image_url);
+        if (cancelled) return;
+        setResolvedUrls((prev) => (prev[p.id] ? prev : { ...prev, [p.id]: url }));
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pages]);
+  const urlFor = (p: Page) => resolvedUrls[p.id] || p.image_url;
+
+  // Preload upcoming images (via the persistent cache) so page turns are instant.
   useEffect(() => {
     const offsets = displayAsSpread ? [1, 2, 3, 4] : [1, 2];
+    const urls: string[] = [];
     for (const offset of offsets) {
       const p = pages[current + offset];
-      if (!p) continue;
-      const img = new Image();
-      img.decoding = "async";
-      img.src = p.image_url;
+      if (p?.image_url) urls.push(p.image_url);
     }
+    prefetchImages(urls);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, pages, displayAsSpread]);
 
