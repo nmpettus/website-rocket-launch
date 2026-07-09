@@ -517,28 +517,45 @@ export default function BookReader() {
               <div
                 className={
                   displayAsSpread
-                    ? `mx-auto flex max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl ${heightClass}`
-                    : "flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-2xl"
+                    ? `mx-auto flex max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl ${heightClass} relative`
+                    : "flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-2xl relative"
                 }
               >
-                <div className={displayAsSpread ? "flex shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}>
+                {(!spreadReady) && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-neutral-900/40 z-10 pointer-events-none">
+                    <div className="h-8 w-8 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                  </div>
+                )}
+                <div
+                  className={displayAsSpread ? "flex shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}
+                  style={{ visibility: spreadReady ? "visible" : "hidden" }}
+                >
                   <img
                     src={page.image_url}
                     alt={`Page ${page.page_number}`}
-                    onLoad={(e) => recordAspect(page.id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
+                    onLoad={(e) => {
+                      recordAspect(page.id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight);
+                      markLoaded(page.id);
+                    }}
                     decoding="async"
                     {...({ fetchpriority: "high" } as any)}
                     className={`block w-auto max-w-full object-contain ${heightClass}`}
                   />
                 </div>
-                {pairedSpread && pages[current + 1] && (
-                  <div className="flex shrink-0">
+                {pairedSpread && rightPage && (
+                  <div
+                    className="flex shrink-0"
+                    style={{ visibility: spreadReady ? "visible" : "hidden" }}
+                  >
                     <img
-                      src={pages[current + 1].image_url}
-                      alt={`Page ${pages[current + 1].page_number}`}
-                      onLoad={(e) => recordAspect(pages[current + 1].id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)}
+                      src={rightPage.image_url}
+                      alt={`Page ${rightPage.page_number}`}
+                      onLoad={(e) => {
+                        recordAspect(rightPage.id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight);
+                        markLoaded(rightPage.id);
+                      }}
                       decoding="async"
-                      {...({ fetchpriority: "low" } as any)}
+                      {...({ fetchpriority: "high" } as any)}
                       className={`block w-auto ${halfWidthClass} object-contain ${heightClass}`}
                     />
                   </div>
@@ -547,6 +564,8 @@ export default function BookReader() {
               </div>
             );
           })()}
+
+
 
 
           {showPaywallNext && (
