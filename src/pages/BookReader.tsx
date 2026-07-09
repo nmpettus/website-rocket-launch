@@ -207,16 +207,30 @@ export default function BookReader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pages, current, layoutMode]);
 
-  // Preload next 1-2 images so page turns are instant.
+  // Preload upcoming images so page turns are instant. Preload more when in
+  // spread mode so both pages of the *next* spread are ready together.
   useEffect(() => {
-    for (const offset of [1, 2]) {
+    const offsets = displayAsSpread ? [1, 2, 3, 4] : [1, 2];
+    for (const offset of offsets) {
       const p = pages[current + offset];
       if (!p) continue;
       const img = new Image();
       img.decoding = "async";
       img.src = p.image_url;
     }
-  }, [current, pages]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, pages, displayAsSpread]);
+
+  // Track which page images have finished loading so a two-page spread can
+  // reveal both halves at the same instant instead of popping in one-by-one.
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+  const markLoaded = (id: string) =>
+    setLoadedImages((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
+  const leftLoaded = page ? !!loadedImages[page.id] : false;
+  const rightPage = pairedSpread ? pages[current + 1] : null;
+  const rightLoaded = rightPage ? !!loadedImages[rightPage.id] : true;
+  const spreadReady = leftLoaded && rightLoaded;
+
 
 
 
