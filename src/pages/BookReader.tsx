@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, ArrowLeft, Play, Pause, Square, Lock, BookOpen, FileText, LayoutTemplate } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "@/hooks/use-toast";
+import { getCachedImageUrl, prefetchImages } from "@/lib/imageCache";
 
 interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; }
 interface Page { id: string; page_number: number; image_url: string; narration_text: string | null; updated_at?: string | null; }
@@ -207,17 +208,34 @@ export default function BookReader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pages, current, layoutMode]);
 
-  // Preload upcoming images so page turns are instant. Preload more when in
-  // spread mode so both pages of the *next* spread are ready together.
+  // Persistent image cache — resolve each page URL to a cached blob URL from
+  // IndexedDB so revisits load instantly with no network fetch.
+  const [resolvedUrls, setResolvedUrls] = useState<Record<string, string>>({});
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      for (const p of pages) {
+        if (cancelled) return;
+        if (!p.image_url || resolvedUrls[p.id]) continue;
+        const url = await getCachedImageUrl(p.image_url);
+        if (cancelled) return;
+        setResolvedUrls((prev) => (prev[p.id] ? prev : { ...prev, [p.id]: url }));
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pages]);
+  const urlFor = (p: Page) => resolvedUrls[p.id] || p.image_url;
+
+  // Preload upcoming images (via the persistent cache) so page turns are instant.
   useEffect(() => {
     const offsets = displayAsSpread ? [1, 2, 3, 4] : [1, 2];
+    const urls: string[] = [];
     for (const offset of offsets) {
       const p = pages[current + offset];
-      if (!p) continue;
-      const img = new Image();
-      img.decoding = "async";
-      img.src = p.image_url;
+      if (p?.image_url) urls.push(p.image_url);
     }
+    prefetchImages(urls);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, pages, displayAsSpread]);
 
@@ -531,7 +549,7 @@ export default function BookReader() {
                   style={{ visibility: spreadReady ? "visible" : "hidden" }}
                 >
                   <img
-                    src={page.image_url}
+                    src={urlFor(page)}
                     alt={`Page ${page.page_number}`}
                     onLoad={(e) => {
                       recordAspect(page.id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight);
@@ -548,7 +566,7 @@ export default function BookReader() {
                     style={{ visibility: spreadReady ? "visible" : "hidden" }}
                   >
                     <img
-                      src={rightPage.image_url}
+                      src={urlFor(rightPage)}
                       alt={`Page ${rightPage.page_number}`}
                       onLoad={(e) => {
                         recordAspect(rightPage.id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight);
