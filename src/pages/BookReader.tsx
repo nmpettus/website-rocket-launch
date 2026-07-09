@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, ArrowLeft, Play, Pause, Square, Lock, BookOpen, FileText, LayoutTemplate } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "@/hooks/use-toast";
+import { getCachedImageUrl, prefetchImages } from "@/lib/imageCache";
 
 interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; }
 interface Page { id: string; page_number: number; image_url: string; narration_text: string | null; updated_at?: string | null; }
