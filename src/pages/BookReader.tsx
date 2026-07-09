@@ -549,7 +549,7 @@ export default function BookReader() {
                   style={{ visibility: spreadReady ? "visible" : "hidden" }}
                 >
                   <img
-                    src={page.image_url}
+                    src={urlFor(page)}
                     alt={`Page ${page.page_number}`}
                     onLoad={(e) => {
                       recordAspect(page.id, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight);
