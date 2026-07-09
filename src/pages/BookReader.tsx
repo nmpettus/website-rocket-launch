@@ -7,6 +7,7 @@ import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, ArrowLeft, Play, Pause, Square, Lock, BookOpen, FileText, LayoutTemplate } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { toast } from "@/hooks/use-toast";
 
 interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; }
 interface Page { id: string; page_number: number; image_url: string; narration_text: string | null; updated_at?: string | null; }
@@ -400,22 +401,20 @@ export default function BookReader() {
     try {
       const built = await buildSpeech();
       if (!built) {
-        speakWithBrowser("No narration text could be found on this page.");
+        toast({ title: "No narration", description: "No narration text could be found on this page.", variant: "destructive" });
         return;
       }
       text = built.text;
       const chunkPromises = fetchAudioChunks(built.cacheKey, built.text);
-      // Wait only for the FIRST chunk — start playback immediately while others continue downloading.
       const firstUrl = await chunkPromises[0];
       if (!firstUrl) {
-        speakWithBrowser(text);
+        toast({ title: "Narration unavailable", description: "Azure voice service is temporarily unavailable. Please try again shortly.", variant: "destructive" });
         return;
       }
       setSpeaking(true);
       setLoadingAudio(false);
       let cancelled = false;
       const stopHandle = () => { cancelled = true; };
-      const prevStop = audioRef.current;
       // Sequentially play each chunk as it becomes ready.
       const playSequence = async () => {
         for (let i = 0; i < chunkPromises.length; i++) {
@@ -432,17 +431,18 @@ export default function BookReader() {
         }
         if (!cancelled) setSpeaking(false);
       };
-      // Attach cancel hook via audioRef pause path: stopSpeech() pauses audio and we detect end.
       (audioRef as any).__cancelChain = stopHandle;
       void playSequence();
       return;
     } catch (e) {
-      console.error("TTS error, falling back to browser", e);
-      if (text) speakWithBrowser(text);
+      console.error("Azure TTS error", e);
+      toast({ title: "Narration failed", description: "Could not load Azure narration. Please try again.", variant: "destructive" });
+      setSpeaking(false);
     } finally {
       setLoadingAudio(false);
     }
   };
+
 
 
 
