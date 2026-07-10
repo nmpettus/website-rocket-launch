@@ -690,6 +690,21 @@ export default function BookReader() {
               <Button variant="outline" onClick={() => setFit((f) => (f === "contain" ? "cover" : "contain"))} className="text-foreground">
                 {fit === "contain" ? "Fill Page" : "Fit Page"}
               </Button>
+              <Button
+                variant="outline"
+                onClick={downloadForOffline}
+                disabled={downloading || bookOfflineReady}
+                className="text-foreground"
+                title="Cache every page in this book for offline reading"
+              >
+                {bookOfflineReady ? (
+                  <><CheckCircle2 className="w-4 h-4 mr-1" /> Saved Offline</>
+                ) : downloading ? (
+                  <><CloudDownload className="w-4 h-4 mr-1 animate-pulse" /> Saving {downloadProgress.done}/{downloadProgress.total}</>
+                ) : (
+                  <><CloudDownload className="w-4 h-4 mr-1" /> Save for Offline</>
+                )}
+              </Button>
             </div>
 
             <Button variant="secondary" disabled={current >= visiblePages - 1} onClick={() => goPage(nextPageIndex())}>
