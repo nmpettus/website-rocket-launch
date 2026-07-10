@@ -143,3 +143,33 @@ export function prefetchImages(urls: string[]): void {
     if (url) void getCachedImageUrl(url);
   }
 }
+
+/** Check whether an image URL is already stored in IndexedDB (fresh). */
+export async function hasCachedImage(url: string): Promise<boolean> {
+  if (!url) return false;
+  const key = cacheKeyFor(url);
+  if (blobUrlCache.has(key)) return true;
+  const entry = await idbGet(key);
+  return !!entry && Date.now() - entry.savedAt < MAX_AGE_MS;
+}
+
+/**
+ * Cache many URLs sequentially with progress reporting. Resolves when every
+ * URL has been fetched into IndexedDB (or failed). Useful for a
+ * "download for offline" action.
+ */
+export async function cacheAllImages(
+  urls: string[],
+  onProgress?: (done: number, total: number) => void,
+): Promise<void> {
+  const total = urls.length;
+  let done = 0;
+  onProgress?.(0, total);
+  for (const url of urls) {
+    if (url) {
+      try { await getCachedImageUrl(url); } catch { /* noop */ }
+    }
+    done += 1;
+    onProgress?.(done, total);
+  }
+}

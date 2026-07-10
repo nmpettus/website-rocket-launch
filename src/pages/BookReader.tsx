@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, ArrowLeft, Play, Pause, Square, Lock, BookOpen, FileText, LayoutTemplate } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "@/hooks/use-toast";
-import { getCachedImageUrl, prefetchImages } from "@/lib/imageCache";
+import { getCachedImageUrl, prefetchImages, hasCachedImage, cacheAllImages } from "@/lib/imageCache";
+import { CloudDownload, CheckCircle2 } from "lucide-react";
 
 interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; }
 interface Page { id: string; page_number: number; image_url: string; narration_text: string | null; updated_at?: string | null; }
@@ -238,6 +239,58 @@ export default function BookReader() {
     prefetchImages(urls);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, pages, displayAsSpread]);
+
+  // Track whether the current spread + next spread are fully cached in
+  // IndexedDB so the user knows they can safely go offline.
+  const [spreadOfflineReady, setSpreadOfflineReady] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    const offsets = displayAsSpread ? [0, 1, 2, 3] : [0, 1];
+    const targets = offsets
+      .map((o) => pages[current + o]?.image_url)
+      .filter(Boolean) as string[];
+    if (targets.length === 0) { setSpreadOfflineReady(false); return; }
+    (async () => {
+      // Ensure targets are cached, then re-check status.
+      await cacheAllImages(targets);
+      if (cancelled) return;
+      const results = await Promise.all(targets.map(hasCachedImage));
+      if (!cancelled) setSpreadOfflineReady(results.every(Boolean));
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, pages, displayAsSpread]);
+
+  // Whole-book offline download state.
+  const [downloading, setDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState({ done: 0, total: 0 });
+  const [bookOfflineReady, setBookOfflineReady] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (pages.length === 0) { setBookOfflineReady(false); return; }
+      const results = await Promise.all(
+        pages.map((p) => (p.image_url ? hasCachedImage(p.image_url) : Promise.resolve(true))),
+      );
+      if (!cancelled) setBookOfflineReady(results.every(Boolean));
+    })();
+    return () => { cancelled = true; };
+  }, [pages, downloadProgress.done]);
+
+  const downloadForOffline = async () => {
+    if (downloading || pages.length === 0) return;
+    setDownloading(true);
+    const urls = pages.map((p) => p.image_url).filter(Boolean) as string[];
+    setDownloadProgress({ done: 0, total: urls.length });
+    try {
+      await cacheAllImages(urls, (done, total) => setDownloadProgress({ done, total }));
+      toast({ title: "Ready offline", description: "This whole book is now saved for offline reading." });
+    } catch {
+      toast({ title: "Download incomplete", description: "Some pages could not be cached. Try again.", variant: "destructive" });
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   // Track which page images have finished loading so a two-page spread can
   // reveal both halves at the same instant instead of popping in one-by-one.
@@ -516,8 +569,13 @@ export default function BookReader() {
         <Link to="/members" className="inline-flex items-center gap-2 text-white/70 hover:text-white">
           <ArrowLeft className="w-4 h-4" /> Library
         </Link>
-        <div className="text-sm text-white/70">
-          {book.title} — Page {page?.page_number ?? 0} of {book.page_count}
+        <div className="text-sm text-white/70 flex items-center gap-3">
+          <span>{book.title} — Page {page?.page_number ?? 0} of {book.page_count}</span>
+          {spreadOfflineReady && (
+            <span className="inline-flex items-center gap-1 text-emerald-400" title="Current & next spread cached for offline">
+              <CheckCircle2 className="w-4 h-4" /> Offline ready
+            </span>
+          )}
         </div>
         <div className="w-20" />
       </div>
@@ -631,6 +689,21 @@ export default function BookReader() {
               </ToggleGroup>
               <Button variant="outline" onClick={() => setFit((f) => (f === "contain" ? "cover" : "contain"))} className="text-foreground">
                 {fit === "contain" ? "Fill Page" : "Fit Page"}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={downloadForOffline}
+                disabled={downloading || bookOfflineReady}
+                className="text-foreground"
+                title="Cache every page in this book for offline reading"
+              >
+                {bookOfflineReady ? (
+                  <><CheckCircle2 className="w-4 h-4 mr-1" /> Saved Offline</>
+                ) : downloading ? (
+                  <><CloudDownload className="w-4 h-4 mr-1 animate-pulse" /> Saving {downloadProgress.done}/{downloadProgress.total}</>
+                ) : (
+                  <><CloudDownload className="w-4 h-4 mr-1" /> Save for Offline</>
+                )}
               </Button>
             </div>
 
