@@ -15,6 +15,8 @@ const AMAZON_PAPERBACK_LINKS: Record<string, string> = {
   g: "https://a.co/d/a1KplpW",
   i: "https://www.amazon.com/Independence-Day-told-Maggie-Matteo/dp/B0H3L5NVL7",
   "maggie-s-ai-adventure-a-guide-to-pixels-patterns-and-how-computers-learn-book-1-ai-basics": "https://a.co/d/03abDACO",
+  "christmas-as-told-by-maggie-discovering-the-christmas-story-through-god-s-promises-maggie-s-story-library": "https://a.co/d/6Xkd4Ut",
+  "maggie-s-ai-adventures-book-2-8-75-x-8-75-in": "https://a.co/d/058bbbN3",
 };
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
