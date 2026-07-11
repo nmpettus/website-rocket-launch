@@ -312,11 +312,9 @@ export default function AdminBooks() {
       // Only replace pages if new pages were provided (edit mode allows metadata/cover-only updates)
       if (pages.length) {
         if (editingId) {
-          const confirmText = prompt(`Replacing pages for "${title}" will remove the current page records for this book. Type REPLACE to continue.`);
+          const confirmText = prompt(`Replacing pages for "${title}" will update page records without deleting the old library book. Type REPLACE to continue.`);
           if (confirmText !== "REPLACE") throw new Error("Page replacement cancelled");
         }
-        await supabase.from("book_pages").delete().eq("book_id", bookRow.id);
-
         for (let i = 0; i < pages.length; i++) {
           const p = pages[i];
           setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "uploading" } : pp));
@@ -327,12 +325,14 @@ export default function AdminBooks() {
             .upload(path, p.file, { upsert: true, contentType: p.file.type || "image/png" });
           if (upErr) throw upErr;
 
-          const { error: insErr } = await supabase.from("book_pages").insert({
-            book_id: bookRow.id,
-            page_number: p.pageNumber,
-            image_url: path,
-            narration_text: p.narration || null,
-          });
+          const { error: insErr } = await supabase
+            .from("book_pages")
+            .upsert({
+              book_id: bookRow.id,
+              page_number: p.pageNumber,
+              image_url: path,
+              narration_text: p.narration || null,
+            }, { onConflict: "book_id,page_number" });
           if (insErr) throw insErr;
           setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "done", storagePath: path } : pp));
         }

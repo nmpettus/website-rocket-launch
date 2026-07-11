@@ -313,7 +313,12 @@ export default function BookReader() {
       const { data: b } = await supabase.from("books").select("*").eq("slug", slug).maybeSingle();
       if (!b) { setLoading(false); return; }
       setBook(b as Book);
-      const { data: p } = await supabase.from("book_pages").select("*").eq("book_id", b.id).order("page_number");
+      const { data: p } = await supabase
+        .from("book_pages")
+        .select("*")
+        .eq("book_id", b.id)
+        .lte("page_number", b.page_count)
+        .order("page_number");
       const rows = (p || []) as Page[];
       // Only add a version query when we have a real updated_at, so the browser/CDN
       // can cache across visits. Never use Date.now() (would bust cache every load).
