@@ -4,7 +4,18 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck } from "lucide-react";
+import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck, ShoppingCart } from "lucide-react";
+
+// Amazon paperback links for library books (keyed by Supabase book slug)
+const AMAZON_PAPERBACK_LINKS: Record<string, string> = {
+  c: "https://a.co/d/8DoEE31",
+  n: "https://a.co/d/5czEdgO",
+  t: "https://a.co/d/7Eqcogw",
+  j: "https://a.co/d/1NfnyaE",
+  g: "https://a.co/d/a1KplpW",
+  i: "https://www.amazon.com/Independence-Day-told-Maggie-Matteo/dp/B0H3L5NVL7",
+  "maggie-s-ai-adventure-a-guide-to-pixels-patterns-and-how-computers-learn-book-1-ai-basics": "https://a.co/d/03abDACO",
+};
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
@@ -214,31 +225,52 @@ export default function Members() {
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {books.map((book) => {
                   const locked = !isActive && !book.is_free;
+                  const amazonUrl = AMAZON_PAPERBACK_LINKS[book.slug];
                   return (
-                    <Link
+                    <div
                       key={book.id}
-                      to={`/read/${book.slug}`}
-                      className="group bg-card border rounded-xl overflow-hidden hover:shadow-lg transition-all"
+                      className="group bg-card border rounded-xl overflow-hidden hover:shadow-lg transition-all flex flex-col"
                     >
-                      <div className="aspect-square bg-muted relative">
-                        {book.cover_image_url && (
-                          <img src={book.cover_image_url} alt={book.title} className="w-full h-full object-cover" />
-                        )}
-                        {locked && (
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                            <div className="bg-white/90 rounded-full p-3">
-                              <Lock className="w-6 h-6 text-foreground" />
+                      <Link to={`/read/${book.slug}`} className="block">
+                        <div className="aspect-square bg-muted relative">
+                          {book.cover_image_url && (
+                            <img src={book.cover_image_url} alt={book.title} className="w-full h-full object-cover" />
+                          )}
+                          {locked && (
+                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                              <div className="bg-white/90 rounded-full p-3">
+                                <Lock className="w-6 h-6 text-foreground" />
+                              </div>
                             </div>
-                          </div>
-                        )}
-                      </div>
-                      <div className="p-4">
-                        <h3 className="font-bold mb-1 line-clamp-1">{book.title}</h3>
-                        <p className="text-xs text-muted-foreground">
-                          {book.page_count} pages {locked && "• Preview only"}
-                        </p>
-                      </div>
-                    </Link>
+                          )}
+                        </div>
+                        <div className="p-4">
+                          <h3 className="font-bold mb-1 line-clamp-1">{book.title}</h3>
+                          <p className="text-xs text-muted-foreground">
+                            {book.page_count} pages {locked && "• Preview only"}
+                          </p>
+                        </div>
+                      </Link>
+                      {amazonUrl && (
+                        <div className="px-4 pb-4 mt-auto">
+                          <Button
+                            asChild
+                            size="sm"
+                            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-full"
+                          >
+                            <a
+                              href={amazonUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`Buy ${book.title} paperback on Amazon`}
+                            >
+                              <ShoppingCart className="w-3.5 h-3.5 mr-1.5" />
+                              Buy Paperback on Amazon
+                            </a>
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   );
                 })}
               </div>
