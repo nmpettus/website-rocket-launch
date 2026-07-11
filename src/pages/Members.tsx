@@ -234,7 +234,7 @@ export default function Members() {
                       className="group bg-card border rounded-xl overflow-hidden hover:shadow-lg transition-all flex flex-col"
                     >
                       <Link to={`/read/${book.slug}`} className="block">
-                        <div className="aspect-square bg-muted relative">
+                        <div className="aspect-square bg-muted relative border border-black">
                           {book.cover_image_url && (
                             <img src={book.cover_image_url} alt={book.title} className="w-full h-full object-cover" />
                           )}
