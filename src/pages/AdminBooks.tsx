@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Upload, Trash2, FileUp, Pencil, X } from "lucide-react";
+import { ArrowLeft, Loader2, Upload, Trash2, FileUp, Pencil, X, ShieldAlert } from "lucide-react";
 
 interface PendingPage {
   file: File;
@@ -36,7 +36,6 @@ export default function AdminBooks() {
   const [importProgress, setImportProgress] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<"unsaved" | "draft" | "published">("unsaved");
   const [existingBooks, setExistingBooks] = useState<any[]>([]);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [existingCoverUrl, setExistingCoverUrl] = useState<string | null>(null);
   const [originalSlug, setOriginalSlug] = useState<string | null>(null);
@@ -58,28 +57,8 @@ export default function AdminBooks() {
     if (isAdmin) loadExistingBooks();
   }, [isAdmin]);
 
-  const deleteBook = async (book: { id: string; slug: string; title: string }) => {
-    if (!confirm(`Delete "${book.title}"? This removes the book, all its pages, and stored images. This cannot be undone.`)) return;
-    setDeletingId(book.id);
-    try {
-      // List & remove storage files under <slug>/
-      const { data: files } = await supabase.storage.from("book-pages").list(book.slug, { limit: 1000 });
-      if (files && files.length) {
-        const paths = files.map((f) => `${book.slug}/${f.name}`);
-        await supabase.storage.from("book-pages").remove(paths);
-      }
-      // Delete page rows then book row
-      await supabase.from("book_pages").delete().eq("book_id", book.id);
-      const { error } = await supabase.from("books").delete().eq("id", book.id);
-      if (error) throw error;
-      toast.success(`Deleted "${book.title}"`);
-      await loadExistingBooks();
-    } catch (e: any) {
-      console.error(e);
-      toast.error(e.message ?? "Failed to delete book");
-    } finally {
-      setDeletingId(null);
-    }
+  const showDeleteProtected = (title: string) => {
+    toast.error(`"${title}" was not deleted. Library books are protected from accidental removal.`);
   };
 
   const cancelEdit = () => {
@@ -125,6 +104,23 @@ export default function AdminBooks() {
 
   const slugify = (s: string) =>
     s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+  const findBookBySlug = async (nextSlug: string) => {
+    const { data, error } = await supabase
+      .from("books")
+      .select("id, title, slug")
+      .eq("slug", nextSlug)
+      .maybeSingle();
+    if (error) throw error;
+    return data as { id: string; title: string; slug: string } | null;
+  };
+
+  const ensureSlugCanBeSaved = async () => {
+    const existing = await findBookBySlug(slug);
+    if (existing && existing.id !== editingId) {
+      throw new Error(`The slug "${slug}" already belongs to "${existing.title}". Choose a different slug so no book can be overwritten.`);
+    }
+  };
 
   const handlePageFiles = (files: FileList | null) => {
     if (!files) return;
@@ -227,6 +223,7 @@ export default function AdminBooks() {
     if (!title || !slug) return toast.error("Title and slug are required");
     setWorking(true);
     try {
+      await ensureSlugCanBeSaved();
       let coverUrl: string | null = null;
       if (coverFile) {
         const ext = coverFile.name.split(".").pop() || "jpg";
@@ -243,17 +240,22 @@ export default function AdminBooks() {
         setOriginalSlug(slug);
         if (coverUrl) setExistingCoverUrl(coverUrl);
       } else {
-        const { error: bookErr } = await supabase
+        const { data: bookRow, error: bookErr } = await supabase
           .from("books")
-          .upsert({
+          .insert({
             slug,
             title,
             description,
             ...(coverUrl ? { cover_image_url: coverUrl } : {}),
             page_count: pages.length,
             is_free: isFree,
-          }, { onConflict: "slug" });
+          })
+          .select("id, slug, cover_image_url")
+          .single();
         if (bookErr) throw bookErr;
+        setEditingId(bookRow.id);
+        setOriginalSlug(bookRow.slug);
+        if (bookRow.cover_image_url) setExistingCoverUrl(bookRow.cover_image_url);
       }
       setSaveState("draft");
       toast.success("Draft saved");
@@ -271,6 +273,7 @@ export default function AdminBooks() {
     if (!editingId && !pages.length) return toast.error("Add at least one page");
     setWorking(true);
     try {
+      await ensureSlugCanBeSaved();
       // Upload cover (if provided) to book-pages/<slug>/cover.<ext>
       let coverUrl: string | null = null;
       if (coverFile) {
@@ -297,14 +300,14 @@ export default function AdminBooks() {
       } else {
         const { data, error: bookErr } = await supabase
           .from("books")
-          .upsert({
+          .insert({
             slug,
             title,
             description,
             cover_image_url: coverUrl,
             page_count: pages.length,
             is_free: isFree,
-          }, { onConflict: "slug" })
+          })
           .select()
           .single();
         if (bookErr) throw bookErr;
@@ -313,8 +316,10 @@ export default function AdminBooks() {
 
       // Only replace pages if new pages were provided (edit mode allows metadata/cover-only updates)
       if (pages.length) {
-        await supabase.from("book_pages").delete().eq("book_id", bookRow.id);
-
+        if (editingId) {
+          const confirmText = prompt(`Replacing pages for "${title}" will update page records without deleting the old library book. Type REPLACE to continue.`);
+          if (confirmText !== "REPLACE") throw new Error("Page replacement cancelled");
+        }
         for (let i = 0; i < pages.length; i++) {
           const p = pages[i];
           setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "uploading" } : pp));
@@ -325,12 +330,14 @@ export default function AdminBooks() {
             .upload(path, p.file, { upsert: true, contentType: p.file.type || "image/png" });
           if (upErr) throw upErr;
 
-          const { error: insErr } = await supabase.from("book_pages").insert({
-            book_id: bookRow.id,
-            page_number: p.pageNumber,
-            image_url: path,
-            narration_text: p.narration || null,
-          });
+          const { error: insErr } = await supabase
+            .from("book_pages")
+            .upsert({
+              book_id: bookRow.id,
+              page_number: p.pageNumber,
+              image_url: path,
+              narration_text: p.narration || null,
+            }, { onConflict: "book_id,page_number" });
           if (insErr) throw insErr;
           setPages((prev) => prev.map((pp, idx) => idx === i ? { ...pp, status: "done", storagePath: path } : pp));
         }
@@ -449,11 +456,11 @@ export default function AdminBooks() {
                   </Button>
                   <Button
                     size="sm"
-                    variant="destructive"
-                    onClick={() => deleteBook(b)}
-                    disabled={deletingId === b.id}
+                    variant="outline"
+                    onClick={() => showDeleteProtected(b.title)}
+                    title="Protected: books cannot be deleted from this uploader"
                   >
-                    {deletingId === b.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                    <ShieldAlert className="w-4 h-4" />
                   </Button>
                 </li>
               ))}
