@@ -240,7 +240,7 @@ export default function AdminBooks() {
         setOriginalSlug(slug);
         if (coverUrl) setExistingCoverUrl(coverUrl);
       } else {
-        const { error: bookErr } = await supabase
+        const { data: bookRow, error: bookErr } = await supabase
           .from("books")
           .insert({
             slug,
@@ -249,8 +249,13 @@ export default function AdminBooks() {
             ...(coverUrl ? { cover_image_url: coverUrl } : {}),
             page_count: pages.length,
             is_free: isFree,
-          });
+          })
+          .select("id, slug, cover_image_url")
+          .single();
         if (bookErr) throw bookErr;
+        setEditingId(bookRow.id);
+        setOriginalSlug(bookRow.slug);
+        if (bookRow.cover_image_url) setExistingCoverUrl(bookRow.cover_image_url);
       }
       setSaveState("draft");
       toast.success("Draft saved");
