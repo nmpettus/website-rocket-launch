@@ -138,6 +138,11 @@ export default function Auth() {
                 )}
               </div>
               <PasswordInput id="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
+              {mode === "signup" && (
+                <p className="text-sm text-muted-foreground mt-1.5">
+                  Must be at least 6 characters. Click the eye icon to show what you typed.
+                </p>
+              )}
             </div>
             <Button type="submit" disabled={loading} className="w-full" size="lg">
               {loading ? "Please wait..." : mode === "signup" ? "Create Account" : "Sign In"}
