@@ -230,6 +230,60 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
+      {/* Reading Club subscription check modal */}
+      <Dialog open={showReadingClubModal} onOpenChange={setShowReadingClubModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Maggie's Reading Club</DialogTitle>
+            <DialogDescription>
+              Let's check your account so we can get you to the right place.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="py-4">
+            {isChecking ? (
+              <div className="flex items-center gap-3 text-muted-foreground">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <span>Checking your account...</span>
+              </div>
+            ) : !user ? (
+              <div className="space-y-3">
+                <p className="text-foreground font-medium">
+                  Sign in first and we'll check whether you already have a Reading Club subscription.
+                </p>
+              </div>
+            ) : isActive ? (
+              <div className="space-y-3">
+                <p className="text-foreground font-medium">
+                  You already have an active subscription. Enjoy the library!
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-foreground font-medium">
+                  You don't have an active subscription yet. Start your 7-day free trial today.
+                </p>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter>
+            {isChecking ? (
+              <Button disabled>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </Button>
+            ) : !user ? (
+              <Button onClick={handleSignIn}>Sign In</Button>
+            ) : isActive ? (
+              <Button onClick={handleGoToLibrary}>Go to Library</Button>
+            ) : (
+              <Button onClick={handleStartTrial}>Start Free Trial</Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
