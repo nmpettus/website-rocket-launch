@@ -111,8 +111,8 @@ const Hero = () => {
                 <p className="font-bold text-foreground text-lg">📚 Join Maggie's Reading Club</p>
                 <p className="text-sm text-muted-foreground">Read every book online with read-aloud — 7-day free trial.</p>
               </div>
-              <Button asChild size="lg" className="font-bold whitespace-nowrap">
-                <Link to="/join">Try Free</Link>
+              <Button size="lg" className="font-bold whitespace-nowrap" onClick={handleReadingClubClick}>
+                Try Free
               </Button>
             </div>
 
