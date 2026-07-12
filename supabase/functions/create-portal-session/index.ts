@@ -1,5 +1,6 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { type StripeEnv, createStripeClient } from "../_shared/stripe.ts";
+import { enforceSandboxIsAdmin } from "../_shared/adminGuard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -22,6 +23,9 @@ Deno.serve(async (req) => {
 
     const { returnUrl, environment } = await req.json();
     if (environment !== "sandbox" && environment !== "live") throw new Error("Invalid environment");
+
+    await enforceSandboxIsAdmin(req, environment);
+
 
     const { data: sub } = await supabase
       .from("subscriptions")

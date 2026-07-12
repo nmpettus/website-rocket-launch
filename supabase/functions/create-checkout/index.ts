@@ -1,4 +1,5 @@
 import { type StripeEnv, createStripeClient } from "../_shared/stripe.ts";
+import { enforceSandboxIsAdmin } from "../_shared/adminGuard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -46,6 +47,8 @@ Deno.serve(async (req) => {
     const { priceId, customerEmail, userId, returnUrl, environment } = await req.json();
     if (!priceId || !/^[a-zA-Z0-9_-]+$/.test(priceId)) throw new Error("Invalid priceId");
     if (environment !== "sandbox" && environment !== "live") throw new Error("Invalid environment");
+
+    await enforceSandboxIsAdmin(req, environment);
 
     const stripe = createStripeClient(environment as StripeEnv);
     const prices = await stripe.prices.list({ lookup_keys: [priceId] });
