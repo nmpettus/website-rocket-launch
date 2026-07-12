@@ -1,19 +1,20 @@
-import { stripeClientToken } from "@/lib/publicConfig";
-
-const clientToken = stripeClientToken;
+import { getStripeEnvironment } from "@/lib/stripe";
 
 export function PaymentTestModeBanner() {
-  if (!clientToken) {
+  let env: "sandbox" | "live";
+  try {
+    env = getStripeEnvironment();
+  } catch {
     return (
       <div className="w-full bg-red-100 border-b border-red-300 px-4 py-2 text-center text-sm text-red-800">
-        Production checkout is not configured yet. Complete go-live in your Lovable project to accept real payments.
+        Payments are not configured yet.
       </div>
     );
   }
-  if (clientToken.startsWith("pk_test_")) {
+  if (env === "sandbox") {
     return (
       <div className="w-full bg-orange-100 border-b border-orange-300 px-4 py-2 text-center text-sm text-orange-800">
-        Test mode — payments in the preview are not real charges.
+        Test mode — payments are not real charges. Use Stripe test cards only.
       </div>
     );
   }

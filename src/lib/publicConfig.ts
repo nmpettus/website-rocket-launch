@@ -4,3 +4,7 @@ export const PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey
 export const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || PUBLIC_SUPABASE_URL;
 export const supabaseAnonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || PUBLIC_SUPABASE_ANON_KEY;
 export const stripeClientToken = import.meta.env.VITE_PAYMENTS_CLIENT_TOKEN || "";
+
+// Stripe TEST publishable key — safe to ship in code (publishable keys are public).
+// Used only when an admin toggles into test mode via AdminStripeModeToggle.
+export const STRIPE_TEST_PUBLISHABLE_KEY = "pk_test_51TmZCnATrxoOAkwNzdKn2AIc86cZ4ljzUcR7rLDHAymPeZ30wTMghupzyqbLZJ7xG24AjzysWkensTJ4sjjNQxE200ENTlDWFA";

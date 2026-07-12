@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
+import { AdminStripeModeToggle } from "@/components/AdminStripeModeToggle";
 
 export default function Join() {
   const { user } = useAuth();
@@ -38,6 +39,7 @@ export default function Join() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/5 to-background">
       <PaymentTestModeBanner />
+      <AdminStripeModeToggle floating />
       <div className="container mx-auto px-6 py-6">
         <Link to="/" className="inline-flex items-center gap-2 text-base text-foreground font-semibold hover:text-foreground/80">
           <ArrowLeft className="w-4 h-4" /> Back to Home
