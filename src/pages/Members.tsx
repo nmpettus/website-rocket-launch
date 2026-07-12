@@ -170,6 +170,8 @@ export default function Members() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/5 to-background">
+      <PaymentTestModeBanner />
+      <AdminStripeModeToggle floating />
       <div className="container mx-auto px-6 py-6 flex items-center justify-between">
         <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground">
           <ArrowLeft className="w-4 h-4" /> Back to Home
