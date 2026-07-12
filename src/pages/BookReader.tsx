@@ -561,12 +561,12 @@ export default function BookReader() {
     </div>
   );
 
-  const isPreviewPage = !!page && page.page_number >= 4 && page.page_number <= 6;
-  const needsPaywall = !isActive && !book.is_free && !!page && (page.page_number < 4 || page.page_number > 6);
-  // If page beyond preview & user not subscribed, RLS returns no row.
-  // We can detect this: pages array may be shorter than book.page_count.
-  const visiblePages = pages.length;
-  const showPaywallNext = !isActive && !book.is_free && current === visiblePages - 1 && visiblePages < book.page_count;
+  // Non-subscribers may only see the first 3 pages of paid books.
+  const PREVIEW_LIMIT = 3;
+  const gated = !isActive && !book.is_free;
+  const visiblePagesArr = gated ? pages.slice(0, PREVIEW_LIMIT) : pages;
+  const visiblePages = visiblePagesArr.length;
+  const showPaywallNext = gated && current >= visiblePages - 1 && book.page_count > PREVIEW_LIMIT;
 
   return (
     <div className="min-h-screen bg-neutral-900 text-white flex flex-col">
