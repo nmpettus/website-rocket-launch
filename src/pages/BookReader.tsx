@@ -14,6 +14,8 @@ import { CloudDownload, CheckCircle2 } from "lucide-react";
 interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; }
 interface Page { id: string; page_number: number; image_url: string; narration_text: string | null; updated_at?: string | null; }
 
+const PREVIEW_LIMIT = 3;
+
 export default function BookReader() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -32,6 +34,11 @@ export default function BookReader() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCacheRef = useRef<Map<string, (string | null)[]>>(new Map());
   const inflightAudioRef = useRef<Map<string, Promise<string | null>[]>>(new Map());
+  const gated = !!book && !isActive && !book.is_free;
+  const readablePages = gated
+    ? pages.filter((p) => p.page_number >= 1 && p.page_number <= PREVIEW_LIMIT)
+    : pages;
+  const visiblePages = readablePages.length;
 
   // Track viewport orientation so mobile devices auto-show two-page spreads in landscape.
   const [viewport, setViewport] = useState(() => ({
@@ -157,8 +164,8 @@ export default function BookReader() {
   const detectPair = async (leftUrl: string, rightUrl: string, key: string) => {
     if (pairs[key] !== undefined) return;
     const [leftId, rightId] = key.split("|");
-    const lp = pages.find((p) => p.id === leftId);
-    const rp = pages.find((p) => p.id === rightId);
+    const lp = readablePages.find((p) => p.id === leftId);
+    const rp = readablePages.find((p) => p.id === rightId);
     if (!lp || !rp) return;
     await Promise.all([samplePage(leftId, lp.image_url), samplePage(rightId, rp.image_url)]);
     computePairFromCache(leftId, rightId, key);
@@ -167,8 +174,8 @@ export default function BookReader() {
   const pairKey = (a?: string, b?: string) => (a && b ? `${a}|${b}` : "");
 
   const canAutoPairAt = (index: number) => {
-    const cur = pages[index];
-    const nxt = pages[index + 1];
+    const cur = readablePages[index];
+    const nxt = readablePages[index + 1];
     if (!cur || !nxt) return false;
     if (isWide(cur.id) || isWide(nxt.id)) return false;
     return pairs[pairKey(cur.id, nxt.id)] === true;
@@ -176,38 +183,38 @@ export default function BookReader() {
 
   const autoSpread = canAutoPairAt(current);
 
-  const page = pages[current];
+  const page = readablePages[current];
   const currentIsWide = isWide(page?.id);
-  const manualSpread = layoutMode === "spread" && !!pages[current + 1] && !currentIsWide;
+  const manualSpread = layoutMode === "spread" && !!readablePages[current + 1] && !currentIsWide;
   const landscapeAutoSpread =
-    preferLandscapeSpread && layoutMode === "auto" && !!pages[current + 1] && !currentIsWide;
+    preferLandscapeSpread && layoutMode === "auto" && !!readablePages[current + 1] && !currentIsWide;
   const spread = manualSpread || landscapeAutoSpread || (layoutMode === "auto" && autoSpread);
-  const pairedSpread = spread && !!pages[current + 1] && !currentIsWide;
+  const pairedSpread = spread && !!readablePages[current + 1] && !currentIsWide;
   const displayAsSpread = pairedSpread || currentIsWide;
 
 
   // On-demand: only sample pages around the current view when in auto mode.
   // Avoids downloading all 51 images just to detect spreads.
   useEffect(() => {
-    if (pages.length === 0) return;
+    if (readablePages.length === 0) return;
     if (layoutMode !== "auto") return;
     let cancelled = false;
     (async () => {
       const indices = [current - 1, current, current + 1, current + 2].filter(
-        (i) => i >= 0 && i < pages.length
+        (i) => i >= 0 && i < readablePages.length
       );
       for (const i of indices) {
         if (cancelled) return;
-        await samplePage(pages[i].id, pages[i].image_url);
+        await samplePage(readablePages[i].id, readablePages[i].image_url);
         for (const j of [i - 1, i]) {
-          const a = pages[j], b = pages[j + 1];
+          const a = readablePages[j], b = readablePages[j + 1];
           if (a && b) computePairFromCache(a.id, b.id, pairKey(a.id, b.id));
         }
       }
     })();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pages, current, layoutMode]);
+  }, [readablePages, current, layoutMode]);
 
   // Persistent image cache — resolve each page URL to a cached blob URL from
   // IndexedDB so revisits load instantly with no network fetch.
@@ -215,7 +222,7 @@ export default function BookReader() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      for (const p of pages) {
+      for (const p of readablePages) {
         if (cancelled) return;
         if (!p.image_url || resolvedUrls[p.id]) continue;
         const url = await getCachedImageUrl(p.image_url);
@@ -225,7 +232,7 @@ export default function BookReader() {
     })();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pages]);
+  }, [readablePages]);
   const urlFor = (p: Page) => resolvedUrls[p.id] || p.image_url;
 
   // Preload upcoming images (via the persistent cache) so page turns are instant.
@@ -233,12 +240,12 @@ export default function BookReader() {
     const offsets = displayAsSpread ? [1, 2, 3, 4] : [1, 2];
     const urls: string[] = [];
     for (const offset of offsets) {
-      const p = pages[current + offset];
+      const p = readablePages[current + offset];
       if (p?.image_url) urls.push(p.image_url);
     }
     prefetchImages(urls);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, pages, displayAsSpread]);
+  }, [current, readablePages, displayAsSpread]);
 
   // Track whether the current spread + next spread are fully cached in
   // IndexedDB so the user knows they can safely go offline.
