@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { Menu, BookOpen } from "lucide-react";
+import { Menu, BookOpen, Loader2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { useAuth } from "@/hooks/useAuth";
+import { useSubscription } from "@/hooks/useSubscription";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
@@ -25,6 +35,31 @@ const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAdmin } = useIsAdmin();
+  const { user, loading: authLoading } = useAuth();
+  const { isActive, loading: subLoading } = useSubscription();
+  const [showReadingClubModal, setShowReadingClubModal] = useState(false);
+
+  const handleReadingClubClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowReadingClubModal(true);
+  };
+
+  const handleSignIn = () => {
+    setShowReadingClubModal(false);
+    navigate("/auth");
+  };
+
+  const handleGoToLibrary = () => {
+    setShowReadingClubModal(false);
+    navigate("/members");
+  };
+
+  const handleStartTrial = () => {
+    setShowReadingClubModal(false);
+    navigate("/join");
+  };
+
+  const isChecking = authLoading || subLoading;
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof NAV_LINKS[0]) => {
     if (link.isRoute) {
@@ -168,6 +203,19 @@ const Navigation = () => {
                 >
                   {link.label}
                 </a>
+              ) : link.id === 'reading-club' ? (
+                <button
+                  key={link.id}
+                  onClick={handleReadingClubClick}
+                  className={cn(
+                    "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
+                    isActiveLink(link)
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  )}
+                >
+                  {link.label}
+                </button>
               ) : link.isRoute && link.route ? (
                 <Link 
                   key={link.id}
@@ -272,6 +320,18 @@ const Navigation = () => {
                           >
                             {link.label}
                           </a>
+                        ) : link.id === 'reading-club' ? (
+                          <button
+                            onClick={handleReadingClubClick}
+                            className={cn(
+                              "block text-left text-base py-3 px-4 rounded-lg transition-colors duration-200 font-medium",
+                              isActiveLink(link)
+                                ? "bg-primary text-primary-foreground"
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                            )}
+                          >
+                            {link.label}
+                          </button>
                         ) : link.isRoute && link.route ? (
                           <Link 
                             to={link.route}
@@ -343,6 +403,60 @@ const Navigation = () => {
           </div>
         </div>
       </div>
+
+      {/* Reading Club subscription check modal */}
+      <Dialog open={showReadingClubModal} onOpenChange={setShowReadingClubModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Maggie's Reading Club</DialogTitle>
+            <DialogDescription>
+              Let's check your account so we can get you to the right place.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="py-4">
+            {isChecking ? (
+              <div className="flex items-center gap-3 text-muted-foreground">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <span>Checking your account...</span>
+              </div>
+            ) : !user ? (
+              <div className="space-y-3">
+                <p className="text-foreground font-medium">
+                  Sign in first and we'll check whether you already have a Reading Club subscription.
+                </p>
+              </div>
+            ) : isActive ? (
+              <div className="space-y-3">
+                <p className="text-foreground font-medium">
+                  You already have an active subscription. Enjoy the library!
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-foreground font-medium">
+                  You don't have an active subscription yet. Start your 7-day free trial today.
+                </p>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter>
+            {isChecking ? (
+              <Button disabled>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </Button>
+            ) : !user ? (
+              <Button onClick={handleSignIn}>Sign In</Button>
+            ) : isActive ? (
+              <Button onClick={handleGoToLibrary}>Go to Library</Button>
+            ) : (
+              <Button onClick={handleStartTrial}>Start Free Trial</Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </nav>
   );
 };
