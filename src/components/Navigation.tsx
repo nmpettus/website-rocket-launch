@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { Menu, BookOpen } from "lucide-react";
+import { Menu, BookOpen, Loader2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { useAuth } from "@/hooks/useAuth";
+import { useSubscription } from "@/hooks/useSubscription";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
