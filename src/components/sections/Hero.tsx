@@ -1,7 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { BookOpen, Mail, MessageCircle, ArrowRight } from "lucide-react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { BookOpen, Mail, MessageCircle, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { useSubscription } from "@/hooks/useSubscription";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Hero = () => {
   const scrollToSection = (sectionId: string) => {
