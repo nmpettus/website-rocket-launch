@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { supabaseAnonKey, supabaseUrl } from "@/lib/publicConfig";
@@ -14,11 +14,13 @@ import { CloudDownload, CheckCircle2 } from "lucide-react";
 interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; }
 interface Page { id: string; page_number: number; image_url: string; narration_text: string | null; updated_at?: string | null; }
 
+const PREVIEW_LIMIT = 3;
+
 export default function BookReader() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const { isActive } = useSubscription();
+  const { user, loading: authLoading } = useAuth();
+  const { isActive, loading: subscriptionLoading } = useSubscription();
   const [book, setBook] = useState<Book | null>(null);
   const [pages, setPages] = useState<Page[]>([]);
   const [current, setCurrent] = useState(0);
@@ -32,6 +34,14 @@ export default function BookReader() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCacheRef = useRef<Map<string, (string | null)[]>>(new Map());
   const inflightAudioRef = useRef<Map<string, Promise<string | null>[]>>(new Map());
+  const gated = !!book && !isActive && !book.is_free;
+  const readablePages = useMemo(
+    () => gated
+      ? pages.filter((p) => p.page_number >= 1 && p.page_number <= PREVIEW_LIMIT)
+      : pages,
+    [gated, pages],
+  );
+  const visiblePages = readablePages.length;
 
   // Track viewport orientation so mobile devices auto-show two-page spreads in landscape.
   const [viewport, setViewport] = useState(() => ({
@@ -157,8 +167,8 @@ export default function BookReader() {
   const detectPair = async (leftUrl: string, rightUrl: string, key: string) => {
     if (pairs[key] !== undefined) return;
     const [leftId, rightId] = key.split("|");
-    const lp = pages.find((p) => p.id === leftId);
-    const rp = pages.find((p) => p.id === rightId);
+    const lp = readablePages.find((p) => p.id === leftId);
+    const rp = readablePages.find((p) => p.id === rightId);
     if (!lp || !rp) return;
     await Promise.all([samplePage(leftId, lp.image_url), samplePage(rightId, rp.image_url)]);
     computePairFromCache(leftId, rightId, key);
@@ -167,8 +177,8 @@ export default function BookReader() {
   const pairKey = (a?: string, b?: string) => (a && b ? `${a}|${b}` : "");
 
   const canAutoPairAt = (index: number) => {
-    const cur = pages[index];
-    const nxt = pages[index + 1];
+    const cur = readablePages[index];
+    const nxt = readablePages[index + 1];
     if (!cur || !nxt) return false;
     if (isWide(cur.id) || isWide(nxt.id)) return false;
     return pairs[pairKey(cur.id, nxt.id)] === true;
@@ -176,38 +186,38 @@ export default function BookReader() {
 
   const autoSpread = canAutoPairAt(current);
 
-  const page = pages[current];
+  const page = readablePages[current];
   const currentIsWide = isWide(page?.id);
-  const manualSpread = layoutMode === "spread" && !!pages[current + 1] && !currentIsWide;
+  const manualSpread = layoutMode === "spread" && !!readablePages[current + 1] && !currentIsWide;
   const landscapeAutoSpread =
-    preferLandscapeSpread && layoutMode === "auto" && !!pages[current + 1] && !currentIsWide;
+    preferLandscapeSpread && layoutMode === "auto" && !!readablePages[current + 1] && !currentIsWide;
   const spread = manualSpread || landscapeAutoSpread || (layoutMode === "auto" && autoSpread);
-  const pairedSpread = spread && !!pages[current + 1] && !currentIsWide;
+  const pairedSpread = spread && !!readablePages[current + 1] && !currentIsWide;
   const displayAsSpread = pairedSpread || currentIsWide;
 
 
   // On-demand: only sample pages around the current view when in auto mode.
   // Avoids downloading all 51 images just to detect spreads.
   useEffect(() => {
-    if (pages.length === 0) return;
+    if (readablePages.length === 0) return;
     if (layoutMode !== "auto") return;
     let cancelled = false;
     (async () => {
       const indices = [current - 1, current, current + 1, current + 2].filter(
-        (i) => i >= 0 && i < pages.length
+        (i) => i >= 0 && i < readablePages.length
       );
       for (const i of indices) {
         if (cancelled) return;
-        await samplePage(pages[i].id, pages[i].image_url);
+        await samplePage(readablePages[i].id, readablePages[i].image_url);
         for (const j of [i - 1, i]) {
-          const a = pages[j], b = pages[j + 1];
+          const a = readablePages[j], b = readablePages[j + 1];
           if (a && b) computePairFromCache(a.id, b.id, pairKey(a.id, b.id));
         }
       }
     })();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pages, current, layoutMode]);
+  }, [readablePages, current, layoutMode]);
 
   // Persistent image cache — resolve each page URL to a cached blob URL from
   // IndexedDB so revisits load instantly with no network fetch.
@@ -215,7 +225,7 @@ export default function BookReader() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      for (const p of pages) {
+      for (const p of readablePages) {
         if (cancelled) return;
         if (!p.image_url || resolvedUrls[p.id]) continue;
         const url = await getCachedImageUrl(p.image_url);
@@ -225,20 +235,28 @@ export default function BookReader() {
     })();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pages]);
+  }, [readablePages]);
   const urlFor = (p: Page) => resolvedUrls[p.id] || p.image_url;
+
+  useEffect(() => {
+    if (visiblePages === 0) {
+      if (current !== 0) setCurrent(0);
+      return;
+    }
+    if (current > visiblePages - 1) setCurrent(visiblePages - 1);
+  }, [current, visiblePages]);
 
   // Preload upcoming images (via the persistent cache) so page turns are instant.
   useEffect(() => {
     const offsets = displayAsSpread ? [1, 2, 3, 4] : [1, 2];
     const urls: string[] = [];
     for (const offset of offsets) {
-      const p = pages[current + offset];
+      const p = readablePages[current + offset];
       if (p?.image_url) urls.push(p.image_url);
     }
     prefetchImages(urls);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, pages, displayAsSpread]);
+  }, [current, readablePages, displayAsSpread]);
 
   // Track whether the current spread + next spread are fully cached in
   // IndexedDB so the user knows they can safely go offline.
@@ -247,7 +265,7 @@ export default function BookReader() {
     let cancelled = false;
     const offsets = displayAsSpread ? [0, 1, 2, 3] : [0, 1];
     const targets = offsets
-      .map((o) => pages[current + o]?.image_url)
+      .map((o) => readablePages[current + o]?.image_url)
       .filter(Boolean) as string[];
     if (targets.length === 0) { setSpreadOfflineReady(false); return; }
     (async () => {
@@ -259,7 +277,7 @@ export default function BookReader() {
     })();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, pages, displayAsSpread]);
+  }, [current, readablePages, displayAsSpread]);
 
   // Whole-book offline download state.
   const [downloading, setDownloading] = useState(false);
@@ -268,19 +286,19 @@ export default function BookReader() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      if (pages.length === 0) { setBookOfflineReady(false); return; }
+      if (readablePages.length === 0) { setBookOfflineReady(false); return; }
       const results = await Promise.all(
-        pages.map((p) => (p.image_url ? hasCachedImage(p.image_url) : Promise.resolve(true))),
+        readablePages.map((p) => (p.image_url ? hasCachedImage(p.image_url) : Promise.resolve(true))),
       );
       if (!cancelled) setBookOfflineReady(results.every(Boolean));
     })();
     return () => { cancelled = true; };
-  }, [pages, downloadProgress.done]);
+  }, [readablePages, downloadProgress.done]);
 
   const downloadForOffline = async () => {
-    if (downloading || pages.length === 0) return;
+    if (downloading || readablePages.length === 0) return;
     setDownloading(true);
-    const urls = pages.map((p) => p.image_url).filter(Boolean) as string[];
+    const urls = readablePages.map((p) => p.image_url).filter(Boolean) as string[];
     setDownloadProgress({ done: 0, total: urls.length });
     try {
       await cacheAllImages(urls, (done, total) => setDownloadProgress({ done, total }));
@@ -298,7 +316,7 @@ export default function BookReader() {
   const markLoaded = (id: string) =>
     setLoadedImages((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
   const leftLoaded = page ? !!loadedImages[page.id] : false;
-  const rightPage = pairedSpread ? pages[current + 1] : null;
+  const rightPage = pairedSpread ? readablePages[current + 1] : null;
   const rightLoaded = rightPage ? !!loadedImages[rightPage.id] : true;
   const spreadReady = leftLoaded && rightLoaded;
 
@@ -455,15 +473,15 @@ export default function BookReader() {
   };
 
   const buildSpeech = async (): Promise<{ cacheKey: string; text: string } | null> => {
-    const page = pages[current];
+    const page = readablePages[current];
     if (!page) return null;
     const leftText = await extractTextForPage(page);
     let combined = leftText;
     let cacheKey = page.id;
-    if (spread && pages[current + 1]) {
-      const rightText = await extractTextForPage(pages[current + 1]);
+    if (spread && readablePages[current + 1]) {
+      const rightText = await extractTextForPage(readablePages[current + 1]);
       if (rightText) combined = leftText ? `${leftText}\n\n${rightText}` : rightText;
-      cacheKey = `${page.id}+${pages[current + 1].id}`;
+      cacheKey = `${page.id}+${readablePages[current + 1].id}`;
     }
     if (!combined) return null;
     return { cacheKey, text: combined };
@@ -473,17 +491,17 @@ export default function BookReader() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      if (!pages[current]) return;
+      if (!readablePages[current]) return;
       const built = await buildSpeech();
       if (cancelled || !built) return;
       fetchAudioChunks(built.cacheKey, built.text);
     })();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, spread, pages]);
+  }, [current, spread, readablePages]);
 
   const speakCurrent = async () => {
-    const page = pages[current];
+    const page = readablePages[current];
     if (!page) return;
     stopSpeech();
     setLoadingAudio(true);
@@ -539,7 +557,7 @@ export default function BookReader() {
 
   const goPage = (n: number) => {
     stopSpeech();
-    setCurrent(Math.max(0, Math.min(pages.length - 1, n)));
+    setCurrent(Math.max(0, Math.min(visiblePages - 1, n)));
   };
 
   const previousPageIndex = () => {
@@ -553,7 +571,7 @@ export default function BookReader() {
 
   const nextPageIndex = () => current + (pairedSpread ? 2 : 1);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (loading || authLoading || subscriptionLoading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   if (!book) return (
     <div className="min-h-screen flex items-center justify-center flex-col gap-4">
       <p>Book not found.</p>
@@ -561,11 +579,6 @@ export default function BookReader() {
     </div>
   );
 
-  // Non-subscribers may only see the first 3 pages of paid books.
-  const PREVIEW_LIMIT = 3;
-  const gated = !isActive && !book.is_free;
-  const visiblePagesArr = gated ? pages.slice(0, PREVIEW_LIMIT) : pages;
-  const visiblePages = visiblePagesArr.length;
   const showPaywallNext = gated && current >= visiblePages - 1 && book.page_count > PREVIEW_LIMIT;
 
   return (

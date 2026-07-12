@@ -1,32 +1,20 @@
-## Problem
+## Plan
 
-`src/pages/BookReader.tsx` loads slowly for God's Love (51 pages) because of three compounding issues:
+1. **Correct the preview page rule**
+   - Update the backend page-access rule so non-subscribers can read pages **1, 2, and 3**, not pages 4–6.
+   - Keep free books fully readable.
+   - Keep active subscribers fully readable.
 
-1. **Background sampling loop downloads every full-size page image.** As soon as `pages` load, `useEffect` on line 188 iterates all 51 pages sequentially and does `new Image()` with `crossOrigin="anonymous"` on the full-resolution originals just to sample edge pixels for spread detection. That's ~51 large image downloads competing with the current page.
-2. **Cache-bust query defeats HTTP caching.** Line 220 appends `?v=<updated_at OR Date.now()>`. When `updated_at` is missing it uses `Date.now()`, giving every visit a fresh URL and forcing re-download every time.
-3. **No prioritization / neighbor preload.** The visible page image has no `fetchpriority`/`decoding` hints and there's no small preload of just the next page — so the reader competes with 50 background canvas fetches.
+2. **Harden the reader UI**
+   - Make `BookReader` use the already-computed preview list for display/navigation so an unsubscribed user cannot render page 4 even if the backend returns extra rows.
+   - If a non-subscriber lands on or is restored to a page past page 3, automatically clamp them back to page 3 and show the paywall.
+   - Ensure image preloading/offline caching only targets the allowed preview pages for non-subscribers.
 
-## Fix (frontend only, single file: `src/pages/BookReader.tsx`)
-
-1. **Kill the "sample everything" loop.** Replace the effect on lines 188–206 with an on-demand sampler that only samples the current page and its immediate neighbors (`current-1`, `current`, `current+1`, `current+2`) when needed for auto-spread detection. This drops parallel/background network use from 51 images to at most 3–4.
-2. **Stable cache key, no per-load busting.** In the URL resolver (lines 220–232), only append `?v=` when `row.updated_at` exists (use its ISO string). Never fall back to `Date.now()`. Result: browser + CDN cache the image across page turns and sessions.
-3. **Preload only current + next image.** After `pages` load and whenever `current` changes, `new Image().src = pages[current+1].image_url` (and `current+2` if spread). Add `decoding="async"` and `fetchpriority="high"` (via `{...({ fetchpriority: "high" } as any)}`) to the currently-visible `<img>`, and `fetchpriority="low"` + `decoding="async"` to the right-hand spread image.
-4. **Skip the canvas edge-sample entirely when it isn't needed.** In `single` layout mode (which is now the default per the recent change), never call `samplePage` — spread detection is unused. Only run sampling in `auto` mode for the visible pair.
-5. **Lower-res edge sampling.** When `samplePage` does run, request a smaller intrinsic size by drawing from the already-loaded `<img>` element (via a ref map) instead of a second `new Image()` fetch, so it reuses the current display request.
-
-## Not changing
-
-- No backend/storage/RLS changes.
-- No changes to signed-URL generation TTL, layout, styling, or the reader UI.
-- Spread auto-detect still works for the current spread — just no longer eagerly computed for all 51 pages.
+3. **Update the existing paywall test**
+   - Add coverage for the regression where the backend returns pages starting at 4.
+   - Verify an unsubscribed user sees only pages 1–3 and cannot advance past page 3.
 
 ## Technical notes
 
-- Effect at lines 188–206: delete; replace with a small effect keyed on `[current, layoutMode, pages.length]` that samples only `pages[current-1..current+2]`.
-- `bust()` helper (lines 220–223): return `url` unchanged when `!row.updated_at`.
-- `<img>` at line 495 gets `fetchpriority="high"` + `decoding="async"`; the spread partner at line 504 gets `fetchpriority="low"` + `decoding="async"` + `loading="eager"`.
-- Add a hidden preloader effect: `useEffect(() => { [1,2].forEach(o => { const p = pages[current+o]; if (p) { const i = new Image(); i.decoding = "async"; i.src = p.image_url; } }); }, [current, pages]);`
-
-## Expected result
-
-First page renders as fast as one image download. Page turns become near-instant once the next image is preloaded. No more 51-image background fetch storm on open.
+- The current access policy contains `page_number = ANY (ARRAY[4, 5, 6])`, which matches the reported behavior.
+- The UI also calculates `visiblePagesArr` but still renders from the full `pages` array, so it needs to consistently render from the gated page list.
