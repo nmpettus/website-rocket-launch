@@ -320,6 +320,18 @@ const Navigation = () => {
                           >
                             {link.label}
                           </a>
+                        ) : link.id === 'reading-club' ? (
+                          <button
+                            onClick={handleReadingClubClick}
+                            className={cn(
+                              "block text-left text-base py-3 px-4 rounded-lg transition-colors duration-200 font-medium",
+                              isActiveLink(link)
+                                ? "bg-primary text-primary-foreground"
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                            )}
+                          >
+                            {link.label}
+                          </button>
                         ) : link.isRoute && link.route ? (
                           <Link 
                             to={link.route}
