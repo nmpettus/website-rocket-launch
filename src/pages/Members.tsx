@@ -5,6 +5,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck, ShoppingCart } from "lucide-react";
+import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
+import { AdminStripeModeToggle } from "@/components/AdminStripeModeToggle";
 
 // Amazon paperback links for library books (keyed by Supabase book slug)
 const AMAZON_PAPERBACK_LINKS: Record<string, string> = {
