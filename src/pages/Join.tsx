@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
+import { AdminStripeModeToggle } from "@/components/AdminStripeModeToggle";
 
 export default function Join() {
   const { user } = useAuth();
