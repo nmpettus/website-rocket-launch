@@ -203,6 +203,19 @@ const Navigation = () => {
                 >
                   {link.label}
                 </a>
+              ) : link.id === 'reading-club' ? (
+                <button
+                  key={link.id}
+                  onClick={handleReadingClubClick}
+                  className={cn(
+                    "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
+                    isActiveLink(link)
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  )}
+                >
+                  {link.label}
+                </button>
               ) : link.isRoute && link.route ? (
                 <Link 
                   key={link.id}
