@@ -1,5 +1,6 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { type StripeEnv, createStripeClient } from "../_shared/stripe.ts";
+import { enforceSandboxIsAdmin } from "../_shared/adminGuard.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
