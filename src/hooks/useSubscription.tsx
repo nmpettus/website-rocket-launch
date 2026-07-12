@@ -19,13 +19,14 @@ export function useSubscription() {
 
   const fetchSub = async () => {
     if (!user) { setSubscription(null); setLoading(false); return; }
-    let env: 'sandbox' | 'live' = 'sandbox';
-    try { env = getStripeEnvironment(); } catch { /* leave default */ }
+    // Intentionally NOT filtering by environment here — a user may have a
+    // subscription row in either 'sandbox' or 'live' and we don't want to
+    // "lose" their access when the client build swaps modes. Take the
+    // most-recent row and let the isActive check below decide.
     const { data } = await supabase
       .from("subscriptions")
       .select("id,status,price_id,current_period_end,cancel_at_period_end,stripe_customer_id")
       .eq("user_id", user.id)
-      .eq("environment", env)
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
