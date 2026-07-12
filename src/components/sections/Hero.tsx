@@ -1,15 +1,51 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { BookOpen, Mail, MessageCircle, ArrowRight } from "lucide-react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { BookOpen, Mail, MessageCircle, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { useSubscription } from "@/hooks/useSubscription";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Hero = () => {
+  const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
+  const { isActive, loading: subLoading } = useSubscription();
+  const [showReadingClubModal, setShowReadingClubModal] = useState(false);
+
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  const handleReadingClubClick = () => {
+    setShowReadingClubModal(true);
+  };
+
+  const handleSignIn = () => {
+    setShowReadingClubModal(false);
+    navigate("/auth");
+  };
+
+  const handleGoToLibrary = () => {
+    setShowReadingClubModal(false);
+    navigate("/members");
+  };
+
+  const handleStartTrial = () => {
+    setShowReadingClubModal(false);
+    navigate("/join");
+  };
+
+  const isChecking = authLoading || subLoading;
 
   return (
     <section id="home" className="relative min-h-screen pt-24 pb-16 overflow-hidden bg-gradient-to-b from-muted/50 to-background">
@@ -75,8 +111,8 @@ const Hero = () => {
                 <p className="font-bold text-foreground text-lg">📚 Join Maggie's Reading Club</p>
                 <p className="text-sm text-muted-foreground">Read every book online with read-aloud — 7-day free trial.</p>
               </div>
-              <Button asChild size="lg" className="font-bold whitespace-nowrap">
-                <Link to="/join">Try Free</Link>
+              <Button size="lg" className="font-bold whitespace-nowrap" onClick={handleReadingClubClick}>
+                Try Free
               </Button>
             </div>
 
@@ -194,6 +230,60 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
+      {/* Reading Club subscription check modal */}
+      <Dialog open={showReadingClubModal} onOpenChange={setShowReadingClubModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Maggie's Reading Club</DialogTitle>
+            <DialogDescription>
+              Let's check your account so we can get you to the right place.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="py-4">
+            {isChecking ? (
+              <div className="flex items-center gap-3 text-muted-foreground">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <span>Checking your account...</span>
+              </div>
+            ) : !user ? (
+              <div className="space-y-3">
+                <p className="text-foreground font-medium">
+                  Sign in first and we'll check whether you already have a Reading Club subscription.
+                </p>
+              </div>
+            ) : isActive ? (
+              <div className="space-y-3">
+                <p className="text-foreground font-medium">
+                  You already have an active subscription. Enjoy the library!
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-foreground font-medium">
+                  You don't have an active subscription yet. Start your 7-day free trial today.
+                </p>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter>
+            {isChecking ? (
+              <Button disabled>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </Button>
+            ) : !user ? (
+              <Button onClick={handleSignIn}>Sign In</Button>
+            ) : isActive ? (
+              <Button onClick={handleGoToLibrary}>Go to Library</Button>
+            ) : (
+              <Button onClick={handleStartTrial}>Start Free Trial</Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
