@@ -24,6 +24,9 @@ Deno.serve(async (req) => {
     const { returnUrl, environment } = await req.json();
     if (environment !== "sandbox" && environment !== "live") throw new Error("Invalid environment");
 
+    await enforceSandboxIsAdmin(req, environment);
+
+
     const { data: sub } = await supabase
       .from("subscriptions")
       .select("stripe_customer_id")
