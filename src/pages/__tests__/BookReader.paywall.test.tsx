@@ -39,6 +39,7 @@ const TEST_PAGES = Array.from({ length: 10 }, (_, i) => ({
   narration_text: null,
   updated_at: null,
 }));
+let mockPages = TEST_PAGES;
 
 function makeBooksQuery() {
   const chain: any = {};
@@ -52,7 +53,7 @@ function makePagesQuery() {
   chain.select = () => chain;
   chain.eq = () => chain;
   chain.lte = () => chain;
-  chain.order = async () => ({ data: TEST_PAGES, error: null });
+  chain.order = async () => ({ data: mockPages, error: null });
   chain.upsert = () => ({ then: (cb: any) => cb({ error: null }) });
   return chain;
 }
@@ -97,7 +98,10 @@ function renderReader() {
 }
 
 describe("BookReader paywall gating", () => {
-  beforeEach(() => { mockIsActive = false; });
+  beforeEach(() => {
+    mockIsActive = false;
+    mockPages = TEST_PAGES;
+  });
 
   it("shows only the first 3 pages to an unsubscribed user", async () => {
     renderReader();
@@ -128,6 +132,21 @@ describe("BookReader paywall gating", () => {
 
     // Next button is disabled — cannot advance to page 4
     expect(nextBtn).toBeDisabled();
+    expect(screen.queryByText(/Page 4 of 10/i)).not.toBeInTheDocument();
+  });
+
+  it("does not render page 4 if an unsubscribed query incorrectly returns pages starting at page 4", async () => {
+    mockPages = TEST_PAGES.slice(3, 6);
+
+    renderReader();
+
+    await waitFor(() =>
+      expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument(),
+    );
+
+    expect(screen.queryByAltText(/Page 4/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Page 4 of 10/i)).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Next/i })).toBeDisabled();
   });
 
   it("allows subscribed users to advance past page 3", async () => {
