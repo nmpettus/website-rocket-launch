@@ -14,12 +14,38 @@ import {
 } from "@/components/ui/dialog";
 
 const Hero = () => {
+  const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
+  const { isActive, loading: subLoading } = useSubscription();
+  const [showReadingClubModal, setShowReadingClubModal] = useState(false);
+
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  const handleReadingClubClick = () => {
+    setShowReadingClubModal(true);
+  };
+
+  const handleSignIn = () => {
+    setShowReadingClubModal(false);
+    navigate("/auth");
+  };
+
+  const handleGoToLibrary = () => {
+    setShowReadingClubModal(false);
+    navigate("/members");
+  };
+
+  const handleStartTrial = () => {
+    setShowReadingClubModal(false);
+    navigate("/join");
+  };
+
+  const isChecking = authLoading || subLoading;
 
   return (
     <section id="home" className="relative min-h-screen pt-24 pb-16 overflow-hidden bg-gradient-to-b from-muted/50 to-background">
