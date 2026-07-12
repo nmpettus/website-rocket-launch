@@ -35,6 +35,31 @@ const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAdmin } = useIsAdmin();
+  const { user, loading: authLoading } = useAuth();
+  const { isActive, loading: subLoading } = useSubscription();
+  const [showReadingClubModal, setShowReadingClubModal] = useState(false);
+
+  const handleReadingClubClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowReadingClubModal(true);
+  };
+
+  const handleSignIn = () => {
+    setShowReadingClubModal(false);
+    navigate("/auth");
+  };
+
+  const handleGoToLibrary = () => {
+    setShowReadingClubModal(false);
+    navigate("/members");
+  };
+
+  const handleStartTrial = () => {
+    setShowReadingClubModal(false);
+    navigate("/join");
+  };
+
+  const isChecking = authLoading || subLoading;
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof NAV_LINKS[0]) => {
     if (link.isRoute) {
