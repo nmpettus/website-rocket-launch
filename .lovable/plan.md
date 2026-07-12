@@ -1,20 +1,49 @@
-## Plan
+## Goal
+Ship the app in **live mode** for all users, while allowing **admins** to flip a toggle into **test mode** for their own session (so they can run test-card checkouts without touching the live account).
 
-1. **Correct the preview page rule**
-   - Update the backend page-access rule so non-subscribers can read pages **1, 2, and 3**, not pages 4–6.
-   - Keep free books fully readable.
-   - Keep active subscribers fully readable.
+## Approach
 
-2. **Harden the reader UI**
-   - Make `BookReader` use the already-computed preview list for display/navigation so an unsubscribed user cannot render page 4 even if the backend returns extra rows.
-   - If a non-subscriber lands on or is restored to a page past page 3, automatically clamp them back to page 3 and show the paywall.
-   - Ensure image preloading/offline caching only targets the allowed preview pages for non-subscribers.
+Ship the test publishable key in code as a constant (publishable keys are safe to expose). The site defaults to the live key. Admins get a UI toggle that stores an override in `localStorage`, which the Stripe helpers read at runtime.
 
-3. **Update the existing paywall test**
-   - Add coverage for the regression where the backend returns pages starting at 4.
-   - Verify an unsubscribed user sees only pages 1–3 and cannot advance past page 3.
+### 1. `src/lib/publicConfig.ts`
+- Add exported constant `STRIPE_TEST_PUBLISHABLE_KEY = "pk_test_51TmZCn..."` (the key you pasted).
+- Keep `stripeClientToken` as the build-time env value (this becomes the live token in prod).
 
-## Technical notes
+### 2. `src/lib/stripe.ts` (rewrite of environment resolution)
+- Add helper `getAdminTestModeEnabled()` reading `localStorage.getItem("admin_stripe_test_mode") === "true"`.
+- Add setter `setAdminTestModeEnabled(bool)` that writes localStorage and resets the cached `stripePromise` so `loadStripe` re-initializes.
+- `getStripeEnvironment()`: return `'sandbox'` when admin override is on, else derive from `stripeClientToken` prefix (existing logic).
+- `getStripe()`: when override is on, `loadStripe(STRIPE_TEST_PUBLISHABLE_KEY)`; otherwise use `stripeClientToken`.
 
-- The current access policy contains `page_number = ANY (ARRAY[4, 5, 6])`, which matches the reported behavior.
-- The UI also calculates `visiblePagesArr` but still renders from the full `pages` array, so it needs to consistently render from the gated page list.
+### 3. Admin toggle UI — new `src/components/AdminStripeModeToggle.tsx`
+- Uses `useIsAdmin()`; renders nothing for non-admins.
+- Small pill/switch fixed near the test-mode banner area (or inside Members admin section — see question below).
+- Toggling calls `setAdminTestModeEnabled` and reloads the page so `useSubscription`, checkout, and portal all re-read env consistently.
+
+### 4. `src/components/PaymentTestModeBanner.tsx`
+- Continue showing the orange "Test mode" banner whenever `getStripeEnvironment() === 'sandbox'` (now also true for admins who flipped the switch), so admins have a clear visual reminder they're in test mode.
+- Remove the "production not configured" red state (no longer possible — live key is present in prod build).
+
+### 5. No backend changes required
+`create-checkout`, `create-portal-session`, `cancel-subscription`, and `payments-webhook` already accept `environment: 'sandbox' | 'live'` from the client / webhook query. Because `useSubscription` and every server call read `getStripeEnvironment()`, an admin in test mode will:
+- create checkout sessions against `STRIPE_SANDBOX_API_KEY`
+- read from `subscriptions` rows where `environment = 'sandbox'`
+- receive webhooks on the sandbox secret (already wired)
+
+Regular users never see the toggle and always run against live.
+
+## Where the toggle lives — need your input
+
+**Question:** Where should the admin test-mode switch appear?
+- **A.** Inside the existing Members/Admin area only (cleanest, out of the way).
+- **B.** A small floating pill in the corner on every page (fastest to reach while testing checkout on `/join`).
+- **C.** Both — pill visible on `/join` and `/members` only.
+
+My recommendation: **C** — you're most likely to want it exactly when testing subscribe/portal flows.
+
+## Files touched
+- `src/lib/publicConfig.ts` (add test key constant)
+- `src/lib/stripe.ts` (admin override logic)
+- `src/components/PaymentTestModeBanner.tsx` (simplify)
+- `src/components/AdminStripeModeToggle.tsx` (new)
+- `src/pages/Join.tsx` + `src/pages/Members.tsx` (mount the toggle per chosen option)
