@@ -39,21 +39,66 @@ async function resolveOrCreateCustomer(
   return created.id;
 }
 
+const READING_CLUB_PRICES: Record<string, { amount: number; interval: "month" | "year" }> = {
+  reading_club_monthly: { amount: 499, interval: "month" },
+  reading_club_yearly: { amount: 4900, interval: "year" },
+};
+
+async function getOrCreateReadingClubPrice(
+  stripe: ReturnType<typeof createStripeClient>,
+  priceId: string,
+) {
+  const prices = await stripe.prices.list({ lookup_keys: [priceId], active: true, limit: 1 });
+  if (prices.data.length) return prices.data[0];
+
+  const priceConfig = READING_CLUB_PRICES[priceId];
+  if (!priceConfig) throw new Error("Price not found");
+
+  console.warn(`Price lookup_key ${priceId} missing; creating managed Reading Club price.`);
+  const product = await stripe.products.create({
+    name: "Maggie's Reading Club",
+    description: "Unlimited online access to Maggie's library with narration",
+    tax_code: "txcd_10103001",
+    metadata: {
+      lovable_external_id: "reading_club",
+      lovable_managed: "true",
+    },
+  });
+
+  const createdPrice = await stripe.prices.create({
+    product: product.id,
+    unit_amount: priceConfig.amount,
+    currency: "usd",
+    recurring: { interval: priceConfig.interval },
+    lookup_key: priceId,
+    metadata: {
+      lovable_external_id: priceId,
+      lovable_managed: "true",
+    },
+  });
+
+  return createdPrice;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405, headers: corsHeaders });
 
   try {
     const { priceId, customerEmail, userId, returnUrl, environment } = await req.json();
+    console.log("create-checkout request", {
+      priceId,
+      environment,
+      hasUserId: Boolean(userId),
+      hasCustomerEmail: Boolean(customerEmail),
+    });
     if (!priceId || !/^[a-zA-Z0-9_-]+$/.test(priceId)) throw new Error("Invalid priceId");
     if (environment !== "sandbox" && environment !== "live") throw new Error("Invalid environment");
 
     await enforceSandboxIsAdmin(req, environment);
 
     const stripe = createStripeClient(environment as StripeEnv);
-    const prices = await stripe.prices.list({ lookup_keys: [priceId] });
-    if (!prices.data.length) throw new Error("Price not found");
-    const stripePrice = prices.data[0];
+    const stripePrice = await getOrCreateReadingClubPrice(stripe, priceId);
 
     const customerId = await resolveOrCreateCustomer(stripe, { email: customerEmail, userId });
 
