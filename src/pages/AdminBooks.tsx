@@ -569,6 +569,8 @@ export default function AdminBooks() {
             </div>
           ))}
         </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
