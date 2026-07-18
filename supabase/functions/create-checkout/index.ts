@@ -1,5 +1,6 @@
 import { type StripeEnv, createStripeClient } from "../_shared/stripe.ts";
 import { enforceSandboxIsAdmin } from "../_shared/adminGuard.ts";
+import { createClient } from "npm:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -37,6 +38,21 @@ async function resolveOrCreateCustomer(
     ...(options.userId && { metadata: { userId: options.userId } }),
   });
   return created.id;
+}
+
+async function getAuthenticatedUser(req: Request): Promise<{ id: string; email?: string }> {
+  const token = req.headers.get("Authorization")?.replace("Bearer ", "");
+  if (!token) throw new Error("You must be signed in to start checkout");
+
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+  );
+
+  const { data: { user }, error } = await supabase.auth.getUser(token);
+  if (error || !user) throw new Error("You must be signed in to start checkout");
+
+  return { id: user.id, email: user.email ?? undefined };
 }
 
 const READING_CLUB_PRICES: Record<string, { amount: number; interval: "month" | "year" }> = {
@@ -85,22 +101,22 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405, headers: corsHeaders });
 
   try {
-    const { priceId, customerEmail, userId, returnUrl, environment } = await req.json();
+    const { priceId, returnUrl, environment } = await req.json();
     console.log("create-checkout request", {
       priceId,
       environment,
-      hasUserId: Boolean(userId),
-      hasCustomerEmail: Boolean(customerEmail),
+      hasAuthHeader: Boolean(req.headers.get("Authorization")),
     });
     if (!priceId || !/^[a-zA-Z0-9_-]+$/.test(priceId)) throw new Error("Invalid priceId");
     if (environment !== "sandbox" && environment !== "live") throw new Error("Invalid environment");
 
     await enforceSandboxIsAdmin(req, environment);
+    const user = await getAuthenticatedUser(req);
 
     const stripe = createStripeClient(environment as StripeEnv);
     const stripePrice = await getOrCreateReadingClubPrice(stripe, priceId);
 
-    const customerId = await resolveOrCreateCustomer(stripe, { email: customerEmail, userId });
+    const customerId = await resolveOrCreateCustomer(stripe, { email: user.email, userId: user.id });
 
     const session = await stripe.checkout.sessions.create({
       line_items: [{ price: stripePrice.id, quantity: 1 }],
@@ -110,9 +126,9 @@ Deno.serve(async (req) => {
       customer: customerId,
       subscription_data: {
         trial_period_days: 7,
-        ...(userId && { metadata: { userId } }),
+        metadata: { userId: user.id },
       },
-      ...(userId && { metadata: { userId } }),
+      metadata: { userId: user.id },
     });
 
     return new Response(JSON.stringify({ clientSecret: session.client_secret }), {
