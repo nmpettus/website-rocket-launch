@@ -227,6 +227,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_list_members: {
+        Args: never
+        Returns: {
+          cancel_at_period_end: boolean
+          created_at: string
+          current_period_end: string
+          email: string
+          environment: string
+          price_id: string
+          status: string
+          subscription_id: string
+          user_id: string
+        }[]
+      }
       has_active_subscription: {
         Args: { check_env?: string; user_uuid: string }
         Returns: boolean
