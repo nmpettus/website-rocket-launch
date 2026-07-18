@@ -40,9 +40,9 @@ async function resolveOrCreateCustomer(
   return created.id;
 }
 
-async function getAuthenticatedUser(req: Request): Promise<{ id: string; email?: string }> {
+async function getOptionalAuthenticatedUser(req: Request): Promise<{ id: string; email?: string } | null> {
   const token = req.headers.get("Authorization")?.replace("Bearer ", "");
-  if (!token) throw new Error("You must be signed in to start checkout");
+  if (!token) return null;
 
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
@@ -101,7 +101,7 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405, headers: corsHeaders });
 
   try {
-    const { priceId, returnUrl, environment } = await req.json();
+    const { priceId, returnUrl, environment, customerEmail, userId } = await req.json();
     console.log("create-checkout request", {
       priceId,
       environment,
@@ -109,26 +109,33 @@ Deno.serve(async (req) => {
     });
     if (!priceId || !/^[a-zA-Z0-9_-]+$/.test(priceId)) throw new Error("Invalid priceId");
     if (environment !== "sandbox" && environment !== "live") throw new Error("Invalid environment");
+    if (!returnUrl || typeof returnUrl !== "string") throw new Error("Invalid returnUrl");
+    if (customerEmail && typeof customerEmail !== "string") throw new Error("Invalid customerEmail");
+    if (userId && !/^[a-zA-Z0-9_-]+$/.test(userId)) throw new Error("Invalid userId");
 
     await enforceSandboxIsAdmin(req, environment);
-    const user = await getAuthenticatedUser(req);
+    const user = await getOptionalAuthenticatedUser(req);
+    const checkoutUserId = user?.id ?? userId;
+    const checkoutEmail = user?.email ?? customerEmail;
 
     const stripe = createStripeClient(environment as StripeEnv);
     const stripePrice = await getOrCreateReadingClubPrice(stripe, priceId);
 
-    const customerId = await resolveOrCreateCustomer(stripe, { email: user.email, userId: user.id });
+    const customerId = (checkoutEmail || checkoutUserId)
+      ? await resolveOrCreateCustomer(stripe, { email: checkoutEmail, userId: checkoutUserId })
+      : undefined;
 
     const session = await stripe.checkout.sessions.create({
       line_items: [{ price: stripePrice.id, quantity: 1 }],
       mode: "subscription",
       ui_mode: "embedded_page",
       return_url: returnUrl,
-      customer: customerId,
+      ...(customerId && { customer: customerId }),
       subscription_data: {
         trial_period_days: 7,
-        metadata: { userId: user.id },
+        ...(checkoutUserId && { metadata: { userId: checkoutUserId } }),
       },
-      metadata: { userId: user.id },
+      ...(checkoutUserId && { metadata: { userId: checkoutUserId } }),
     });
 
     return new Response(JSON.stringify({ clientSecret: session.client_secret }), {
