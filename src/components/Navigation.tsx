@@ -211,7 +211,7 @@ const Navigation = () => {
                   className={cn(
                     "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
                     isActiveLink(link)
-                      ? "text-primary bg-primary/10"
+                      ? "text-accent bg-accent/15"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
@@ -224,7 +224,7 @@ const Navigation = () => {
                   className={cn(
                     "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
                     isActiveLink(link)
-                      ? "text-primary bg-primary/10"
+                      ? "text-accent bg-accent/15"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
@@ -238,7 +238,7 @@ const Navigation = () => {
                   className={cn(
                     "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
                     isActiveLink(link)
-                      ? "text-primary bg-primary/10"
+                      ? "text-accent bg-accent/15"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
@@ -253,7 +253,7 @@ const Navigation = () => {
                 className={cn(
                   "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
                   location.pathname === '/admin/books'
-                    ? "text-primary bg-primary/10"
+                    ? "text-accent bg-accent/15"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 )}
               >
