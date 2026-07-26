@@ -173,9 +173,10 @@ const Navigation = () => {
     <nav className={cn(
       "fixed top-10 left-0 right-0 z-40 transition-all duration-300",
       isScrolled 
-        ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border" 
-        : "bg-transparent"
+        ? "bg-background/80 backdrop-blur-xl shadow-magazine border-b border-border" 
+        : "bg-background/40 backdrop-blur-sm"
     )}>
+
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center gap-8">
           {/* Logo */}
@@ -210,7 +211,7 @@ const Navigation = () => {
                   className={cn(
                     "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
                     isActiveLink(link)
-                      ? "text-primary bg-primary/10"
+                      ? "text-accent bg-accent/15"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
@@ -223,7 +224,7 @@ const Navigation = () => {
                   className={cn(
                     "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
                     isActiveLink(link)
-                      ? "text-primary bg-primary/10"
+                      ? "text-accent bg-accent/15"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
@@ -237,7 +238,7 @@ const Navigation = () => {
                   className={cn(
                     "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
                     isActiveLink(link)
-                      ? "text-primary bg-primary/10"
+                      ? "text-accent bg-accent/15"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
@@ -252,7 +253,7 @@ const Navigation = () => {
                 className={cn(
                   "px-2 py-1.5 text-xs font-medium transition-colors duration-200 rounded-lg",
                   location.pathname === '/admin/books'
-                    ? "text-primary bg-primary/10"
+                    ? "text-accent bg-accent/15"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 )}
               >
