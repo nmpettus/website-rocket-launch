@@ -403,7 +403,34 @@
   .shadow-book {
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
-  
+
+  /* Ocean Explorer Magazine surfaces */
+  .magazine-card {
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 24px 60px -24px hsl(196 100% 2% / 0.8);
+  }
+
+  .magazine-surface {
+    background-color: hsl(var(--muted));
+    border: 1px solid hsl(var(--border));
+  }
+
+  .magazine-rule {
+    border-top: 1px solid hsl(var(--border));
+  }
+
+  .magazine-eyebrow {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 700;
+  }
+
+  .shadow-magazine {
+    box-shadow: 0 30px 80px -30px hsl(196 100% 2% / 0.85);
+  }
+
   /* Clean gradient backgrounds */
   .gradient-hero {
     background: linear-gradient(180deg, hsl(var(--muted)) 0%, hsl(var(--background)) 100%);
@@ -412,6 +439,7 @@
   .gradient-section-alt {
     background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
   }
+
   
   /* Professional Button Styles */
   .btn-primary {
