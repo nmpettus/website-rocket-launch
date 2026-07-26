@@ -25,11 +25,12 @@ const themes = [
   },
   {
     id: 'ocean',
-    name: 'Ocean Adventure',
-    description: 'Bold display font, deep sea blue & coral',
-    colors: ['#F0F9FF', '#0EA5E9', '#FF6B35', '#14B8A6'],
-    fontPreview: 'Abril Fatface',
+    name: 'Ocean Explorer Magazine',
+    description: 'Deep navy editorial, teal & amber accents',
+    colors: ['#001219', '#0a9396', '#94d2bd', '#ee9b00'],
+    fontPreview: 'Syne',
   },
+
   {
     id: 'forest',
     name: 'Enchanted Forest',
