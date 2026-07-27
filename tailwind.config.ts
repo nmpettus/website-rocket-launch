@@ -35,6 +35,7 @@ const config = {
         charcoal: "hsl(var(--charcoal))",
         lavender: "hsl(var(--lavender))",
         sky: "hsl(var(--sky))",
+        softgreen: "hsl(var(--softgreen))",
         
         /* Semantic tokens */
         border: "hsl(var(--border))",
@@ -86,10 +87,10 @@ const config = {
         },
       },
       fontFamily: {
-        sans: ["Quicksand", ...fontFamily.sans],
-        display: ["Fredoka", "sans-serif"],
+        sans: ["Nunito", "Quicksand", ...fontFamily.sans],
+        display: ["Fredoka", "Baloo 2", "sans-serif"],
         heading: ["Fredoka", "sans-serif"],
-        body: ["Quicksand", "sans-serif"],
+        body: ["Nunito", "Quicksand", "sans-serif"],
         playful: ["Fredoka", "sans-serif"],
         fredoka: ["Fredoka", "sans-serif"],
         quicksand: ["Quicksand", "sans-serif"],
