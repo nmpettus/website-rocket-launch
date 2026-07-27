@@ -86,15 +86,14 @@ const config = {
         },
       },
       fontFamily: {
-        sans: ["Plus Jakarta Sans", ...fontFamily.sans],
-        display: ["Syne", "sans-serif"],
-        heading: ["Syne", "sans-serif"],
-        body: ["Plus Jakarta Sans", "sans-serif"],
+        sans: ["Quicksand", ...fontFamily.sans],
+        display: ["Fredoka", "sans-serif"],
+        heading: ["Fredoka", "sans-serif"],
+        body: ["Quicksand", "sans-serif"],
         playful: ["Fredoka", "sans-serif"],
         fredoka: ["Fredoka", "sans-serif"],
         quicksand: ["Quicksand", "sans-serif"],
       },
-
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

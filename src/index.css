@@ -103,57 +103,50 @@
   }
 
   /* ============================================
-     THEME 3: Ocean Explorer Magazine (dark editorial)
-     Deep navy #001219 / surface #002b3d / teal #0a9396
-     seafoam #94d2bd / amber #ee9b00
+     THEME 3: Ocean Adventure
      ============================================ */
   [data-theme="ocean"] {
-    --background: 196 100% 5%;
-    --foreground: 180 25% 95%;
-
-    --card: 197 100% 12%;
-    --card-foreground: 180 25% 95%;
-
-    --popover: 197 100% 12%;
-    --popover-foreground: 180 25% 95%;
-
-    --primary: 181 87% 31%;
-    --primary-foreground: 196 100% 6%;
-
-    --secondary: 168 43% 70%;
-    --secondary-foreground: 196 100% 6%;
-
-    --accent: 39 100% 47%;
-    --accent-foreground: 196 100% 6%;
-
-    --muted: 197 70% 14%;
-    --muted-foreground: 170 30% 78%;
-
-    --destructive: 0 72% 55%;
+    --background: 200 30% 97%;
+    --foreground: 210 50% 15%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 210 50% 15%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 50% 15%;
+    
+    --primary: 200 80% 45%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 15 90% 60%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --accent: 170 60% 45%;
+    --accent-foreground: 0 0% 100%;
+    
+    --muted: 200 20% 92%;
+    --muted-foreground: 210 30% 45%;
+    
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-
-    --border: 190 55% 22%;
-    --input: 190 55% 22%;
-    --ring: 181 87% 42%;
-
-    --radius: 0.5rem;
-
-    --cream: 197 100% 12%;
-    --sage: 168 43% 70%;
-    --sage-light: 197 70% 18%;
-    --sage-dark: 181 87% 31%;
-    --rose: 39 100% 47%;
-    --rose-light: 197 70% 18%;
-    --gold: 39 100% 47%;
-    --gold-light: 197 70% 18%;
-    --lavender: 197 70% 16%;
-    --sky: 197 70% 16%;
-    --charcoal: 180 25% 95%;
-
-    --font-heading: 'Syne', system-ui, sans-serif;
-    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    
+    --border: 200 25% 85%;
+    --input: 200 25% 85%;
+    --ring: 200 80% 45%;
+    
+    --cream: 200 30% 97%;
+    --sage: 170 60% 45%;
+    --sage-light: 170 60% 92%;
+    --rose: 15 90% 65%;
+    --rose-light: 15 90% 93%;
+    --gold: 45 85% 55%;
+    --gold-light: 45 85% 92%;
+    --lavender: 200 50% 92%;
+    --sky: 195 100% 94%;
+    
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
   }
-
 
   /* ============================================
      THEME 4: Forest
@@ -403,34 +396,7 @@
   .shadow-book {
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
-
-  /* Ocean Explorer Magazine surfaces */
-  .magazine-card {
-    background-color: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    box-shadow: 0 24px 60px -24px hsl(196 100% 2% / 0.8);
-  }
-
-  .magazine-surface {
-    background-color: hsl(var(--muted));
-    border: 1px solid hsl(var(--border));
-  }
-
-  .magazine-rule {
-    border-top: 1px solid hsl(var(--border));
-  }
-
-  .magazine-eyebrow {
-    font-family: var(--font-heading);
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-weight: 700;
-  }
-
-  .shadow-magazine {
-    box-shadow: 0 30px 80px -30px hsl(196 100% 2% / 0.85);
-  }
-
+  
   /* Clean gradient backgrounds */
   .gradient-hero {
     background: linear-gradient(180deg, hsl(var(--muted)) 0%, hsl(var(--background)) 100%);
@@ -439,7 +405,6 @@
   .gradient-section-alt {
     background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
   }
-
   
   /* Professional Button Styles */
   .btn-primary {
