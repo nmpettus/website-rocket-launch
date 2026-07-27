@@ -5,56 +5,61 @@
 
 @layer base {
   /* ============================================
-     PROFESSIONAL THEME: Clean & Elegant
-     Refined colors, sophisticated typography
+     BOOKS BY MAGGIE — Premium Storybook Theme
+     Teal / Sky / Warm Gold + Coral, Lavender, Soft Green
      ============================================ */
   :root,
   [data-theme="storybook"] {
-    --background: 0 0% 99%;
-    --foreground: 220 20% 20%;
-    
+    --background: 40 60% 98%;
+    --foreground: 200 40% 16%;
+
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 20%;
-    
+    --card-foreground: 200 40% 16%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 20%;
-    
-    --primary: 250 60% 50%;
+    --popover-foreground: 200 40% 16%;
+
+    /* Teal */
+    --primary: 184 62% 36%;
     --primary-foreground: 0 0% 100%;
-    
-    --secondary: 340 55% 55%;
+
+    /* Coral */
+    --secondary: 12 82% 62%;
     --secondary-foreground: 0 0% 100%;
-    
-    --accent: 35 90% 55%;
-    --accent-foreground: 220 20% 15%;
-    
-    --muted: 220 15% 96%;
-    --muted-foreground: 220 15% 45%;
-    
-    --destructive: 0 72% 55%;
+
+    /* Warm gold */
+    --accent: 40 92% 56%;
+    --accent-foreground: 200 45% 14%;
+
+    --muted: 196 45% 95%;
+    --muted-foreground: 200 22% 34%;
+
+    --destructive: 0 72% 52%;
     --destructive-foreground: 0 0% 100%;
-    
-    --border: 220 15% 90%;
-    --input: 220 15% 90%;
-    --ring: 250 60% 50%;
-    
-    --radius: 0.75rem;
-    
-    --cream: 40 30% 97%;
-    --sage: 250 60% 50%;
-    --sage-light: 250 40% 95%;
-    --sage-dark: 250 65% 40%;
-    --rose: 340 55% 55%;
-    --rose-light: 340 55% 95%;
-    --gold: 35 90% 55%;
-    --gold-light: 35 80% 94%;
-    --lavender: 250 35% 95%;
-    --sky: 200 50% 95%;
-    --charcoal: 220 20% 20%;
-    
-    --font-heading: 'Inter', 'Fredoka', system-ui, sans-serif;
-    --font-body: 'Inter', 'Quicksand', system-ui, sans-serif;
+
+    --border: 196 35% 88%;
+    --input: 196 35% 88%;
+    --ring: 184 62% 36%;
+
+    --radius: 1.25rem;
+
+    --cream: 40 60% 98%;
+    --sage: 184 62% 36%;
+    --sage-light: 184 55% 93%;
+    --sage-dark: 186 68% 26%;
+    --rose: 12 82% 62%;
+    --rose-light: 12 85% 95%;
+    --gold: 40 92% 56%;
+    --gold-light: 42 95% 93%;
+    --lavender: 260 60% 92%;
+    --sky: 199 85% 92%;
+    --softgreen: 145 45% 88%;
+    --charcoal: 200 40% 16%;
+
+    --font-heading: 'Fredoka', 'Baloo 2', system-ui, sans-serif;
+    --font-body: 'Nunito', 'Quicksand', system-ui, sans-serif;
   }
+
 
   /* ============================================
      THEME 2: Playful (Legacy)
