@@ -17,7 +17,7 @@ const MeetMaggie = () => {
   };
 
   return (
-    <section id="maggie" className="py-24 bg-muted/50 scroll-mt-24">
+    <section id="maggie" className="py-24 bg-muted/50">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-12">

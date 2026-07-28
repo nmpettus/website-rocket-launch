@@ -18,16 +18,14 @@ import {
 
 const NAV_LINKS = [
   { id: 'home', label: 'Home', isRoute: false },
-  { id: 'books', label: 'Books', isRoute: false },
-  { id: 'activities', label: 'Activities', isRoute: false },
-  { id: 'videos', label: 'Videos', isRoute: true, route: '/videos' },
-  { id: 'maggie', label: 'Meet Maggie', isRoute: false },
-  { id: 'about', label: 'About Maggie', isRoute: true, route: '/about' },
+  { id: 'about', label: 'About', isRoute: true, route: '/about' },
+  
   { id: 'online-library', label: 'Online Library', isRoute: true, route: '/online-library' },
-  { id: 'reading-club', label: 'Reading Club', isRoute: true, route: '/join' },
-  { id: 'contact', label: 'Contact', isRoute: false },
+  { id: 'videos', label: 'Videos', isRoute: true, route: '/videos' },
+  { id: 'activities', label: 'Activities', isRoute: false },
+  { id: 'games', label: 'Games', isRoute: false },
+  { id: 'reading-club', label: "Reading Club", isRoute: true, route: '/join' },
 ];
-
 
 
 const Navigation = () => {

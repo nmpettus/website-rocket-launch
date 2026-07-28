@@ -8,7 +8,7 @@ import VideoVoting from "@/components/VideoVoting";
 
 const Videos = () => {
   return (
-    <section id="videos" className="py-24 bg-muted/30 scroll-mt-24">
+    <section id="videos" className="py-24 bg-muted/30">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-12">
