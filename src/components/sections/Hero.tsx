@@ -182,11 +182,11 @@ const Hero = () => {
           <div className="relative flex justify-center lg:justify-start order-1 lg:order-2 pt-4 lg:pt-12">
             <div className="relative">
                 {/* Main image container */}
-                <div className="relative w-72 h-72 md:w-96 md:h-96">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20" />
+                <div className="relative w-72 h-72 md:w-96 md:h-96 motion-safe:animate-float">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 motion-safe:animate-pulse-slow" />
                   <a
                     href="#maggie"
-                    className="absolute inset-4 rounded-full overflow-hidden border-4 border-background shadow-2xl block group"
+                    className="absolute inset-4 rounded-full overflow-hidden border-4 border-background shadow-2xl block group transition-transform duration-500 hover:scale-105 hover:-rotate-1"
                     onClick={(e) => {
                       e.preventDefault();
                       scrollToSection('maggie');
@@ -195,7 +195,7 @@ const Hero = () => {
                     <img
                       src="/lovable-uploads/MaggieNewNBP.png"
                       alt="Maggie the dog - Your faith adventure guide"
-                      className="w-full h-full object-cover object-top"
+                      className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
                       loading="eager"
                       decoding="async"
                     />
@@ -208,14 +208,14 @@ const Hero = () => {
                 <Link
                   to="/matteo"
                   aria-label="Meet Matteo the Yorkie puppy"
-                  className="absolute -bottom-6 -right-6 md:-bottom-8 md:-right-8 w-40 h-40 md:w-52 md:h-52 block group"
+                  className="absolute -bottom-6 -right-6 md:-bottom-8 md:-right-8 w-40 h-40 md:w-52 md:h-52 block group motion-safe:animate-float [animation-delay:1.2s]"
                 >
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/30 to-primary/20 transition-transform group-hover:scale-105" />
-                  <div className="absolute inset-2 rounded-full overflow-hidden border-4 border-background shadow-xl bg-background flex items-center justify-center">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/30 to-primary/20 transition-transform duration-500 group-hover:scale-110" />
+                  <div className="absolute inset-2 rounded-full overflow-hidden border-4 border-background shadow-xl bg-background flex items-center justify-center transition-transform duration-500 group-hover:scale-105 group-hover:rotate-2">
                     <img
                       src="/lovable-uploads/MatteoFront.png"
                       alt="Matteo the puppy - Maggie's successor"
-                      className="w-[85%] h-[85%] object-contain"
+                      className="w-[85%] h-[85%] object-contain transition-transform duration-700 group-hover:scale-110 motion-safe:group-hover:animate-wiggle"
                       loading="eager"
                       decoding="async"
                     />
@@ -225,6 +225,7 @@ const Hero = () => {
                   </div>
                 </Link>
               </div>
+
               
             </div>
           </div>
