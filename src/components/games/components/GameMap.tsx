@@ -33,7 +33,7 @@ const GameMap: React.FC<GameMapProps> = ({
     const cells = [];
     for (let x = vX; x < vX + VIEWPORT_W; x++) {
       const terrain = getTerrainStyle(map[y][x]);
-      let cellStyle = `w-8 h-8 inline-block align-top text-center text-sm ${terrain.bg}`;
+      let cellStyle = `w-10 h-10 inline-block align-top text-center text-sm ${terrain.bg}`;
       const tIdx = treasureSpots.findIndex(t => t.x === x && t.y === y && !t.found);
       if (tIdx !== -1) {
         cellStyle += ' border-2 border-purple-500';
