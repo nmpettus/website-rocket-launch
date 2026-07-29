@@ -14,7 +14,6 @@ import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
 
-
 import { useSEO } from "@/hooks/useSEO";
 import { homeSEOData } from "@/data/seoData";
 
