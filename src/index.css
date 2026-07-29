@@ -344,10 +344,13 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    background-image: var(--gradient-page);
+    background-attachment: fixed;
     font-family: var(--font-body);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     letter-spacing: -0.01em;
   }
+
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
