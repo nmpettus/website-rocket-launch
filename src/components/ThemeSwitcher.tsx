@@ -10,6 +10,34 @@ import {
 
 const themes = [
   {
+    id: 'ocean-deep',
+    name: 'Ocean Deep',
+    description: 'Deep navy & teal — the current look',
+    colors: ['#0c2340', '#1a4a6e', '#2d8a9e', '#5cbdb9'],
+    fontPreview: 'Inter',
+  },
+  {
+    id: 'warm-sand',
+    name: 'Warm Sand',
+    description: 'Warm neutrals, sandy & welcoming',
+    colors: ['#faf8f5', '#f0ebe3', '#c9b99a', '#8b7355'],
+    fontPreview: 'Inter',
+  },
+  {
+    id: 'sky-peach',
+    name: 'Sky & Peach',
+    description: 'Light blue & soft peach, cheerful',
+    colors: ['#e0f2fe', '#7dd3fc', '#fecaca', '#f9a8a8'],
+    fontPreview: 'Inter',
+  },
+  {
+    id: 'sage-cream',
+    name: 'Sage & Cream',
+    description: 'Muted sage & warm cream, serene',
+    colors: ['#f5f0e8', '#dce5d4', '#a8c0a0', '#7d9b76'],
+    fontPreview: 'Inter',
+  },
+  {
     id: 'storybook',
     name: '✨ Purple Magic',
     description: 'Magical purple, gold sparkles & pink accents',
@@ -26,7 +54,7 @@ const themes = [
   {
     id: 'ocean',
     name: 'Ocean Adventure',
-    description: 'Bold display font, deep sea blue & coral',
+    description: 'Bold display font, bright sea blue & coral',
     colors: ['#F0F9FF', '#0EA5E9', '#FF6B35', '#14B8A6'],
     fontPreview: 'Abril Fatface',
   },
@@ -61,10 +89,10 @@ const themes = [
 ];
 
 export const ThemeSwitcher = () => {
-  const [currentTheme, setCurrentTheme] = useState('ocean');
+  const [currentTheme, setCurrentTheme] = useState('ocean-deep');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('maggie-theme') || 'ocean';
+    const savedTheme = localStorage.getItem('maggie-theme') || 'ocean-deep';
     setCurrentTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
   }, []);
@@ -87,13 +115,13 @@ export const ThemeSwitcher = () => {
           <span className="hidden sm:inline text-foreground">✨ Themes</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80 p-2">
+      <DropdownMenuContent align="end" className="w-80 p-2 max-h-[70vh] overflow-y-auto">
         <div className="px-2 py-1.5 mb-2">
           <p className="text-sm font-medium text-foreground flex items-center gap-2">
             <Palette className="h-4 w-4" />
-            Choose a Style
+            Choose a Color Palette
           </p>
-          <p className="text-xs text-muted-foreground">Each theme has unique fonts & colors</p>
+          <p className="text-xs text-muted-foreground">Applies site-wide instantly</p>
         </div>
         {themes.map((theme) => (
           <DropdownMenuItem
