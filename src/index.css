@@ -419,3 +419,24 @@
     @apply border border-border bg-transparent hover:bg-muted text-foreground font-medium transition-colors duration-200;
   }
 }
+
+/* GPU-friendly animation helpers (hero mascots) */
+@layer utilities {
+  .gpu-layer {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+  }
+
+  .gpu-layer-opacity {
+    will-change: opacity;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gpu-layer,
+    .gpu-layer-opacity {
+      will-change: auto;
+    }
+  }
+}
