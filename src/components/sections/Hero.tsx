@@ -209,18 +209,19 @@ const Hero = () => {
                 <Link
                   to="/matteo"
                   aria-label="Meet Matteo the Yorkie puppy"
-                  className="absolute -bottom-6 -right-6 md:-bottom-8 md:-right-8 w-40 h-40 md:w-52 md:h-52 block group motion-safe:animate-float [animation-delay:1.2s]"
+                  className="absolute -bottom-6 -right-6 md:-bottom-8 md:-right-8 w-40 h-40 md:w-52 md:h-52 block group motion-safe:animate-float [animation-delay:1.2s] gpu-layer"
                 >
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/30 to-primary/20 transition-transform duration-500 group-hover:scale-110" />
-                  <div className="absolute inset-2 rounded-full overflow-hidden border-4 border-background shadow-xl bg-background flex items-center justify-center transition-transform duration-500 group-hover:scale-105 group-hover:rotate-2">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent/30 to-primary/20 transform-gpu transition-transform duration-500 ease-out group-hover:scale-110" />
+                  <div className="absolute inset-2 rounded-full overflow-hidden border-4 border-background shadow-xl bg-background flex items-center justify-center transform-gpu transition-transform duration-500 ease-out group-hover:scale-105 group-hover:rotate-2">
                     <img
                       src="/lovable-uploads/MatteoFront.png"
                       alt="Matteo the puppy - Maggie's successor"
-                      className="w-[85%] h-[85%] object-contain transition-transform duration-700 group-hover:scale-110 motion-safe:group-hover:animate-wiggle"
+                      className="w-[85%] h-[85%] object-contain transform-gpu transition-transform duration-700 ease-out group-hover:scale-110 motion-safe:group-hover:animate-wiggle"
                       loading="eager"
                       decoding="async"
                     />
                   </div>
+
                   <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full shadow-md whitespace-nowrap">
                     Meet Matteo!
                   </div>
