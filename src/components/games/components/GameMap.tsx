@@ -64,7 +64,7 @@ const GameMap: React.FC<GameMapProps> = ({
         <div 
           key={x} 
           className={cellStyle} 
-          style={{lineHeight:'2rem', fontSize:'12px'}}
+          style={{lineHeight:'2.5rem', fontSize:'14px'}}
           onClick={() => onCellClick(x, y)}
         >
           {content}
