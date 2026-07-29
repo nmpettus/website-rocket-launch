@@ -1,8 +1,8 @@
 
 export const MAP_WIDTH = 30;
 export const MAP_HEIGHT = 20;
-export const VIEWPORT_W = 10;
-export const VIEWPORT_H = 8;
+export const VIEWPORT_W = 14;
+export const VIEWPORT_H = 10;
 
 export const TERRAIN_TYPES = [
   { code: 0, label: 'Grass', emoji: '🌱', bg: 'bg-green-300' },
