@@ -9,6 +9,7 @@
      Deep navy + teal, soft gradient backgrounds
      ============================================ */
   :root,
+  [data-theme="ocean-deep"],
   [data-theme="storybook"] {
     --background: 200 45% 98%;
     --foreground: 212 60% 16%;
