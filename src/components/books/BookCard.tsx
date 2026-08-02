@@ -76,9 +76,9 @@ const BookCard = ({
   // Map language names to their respective badge colors
   const languageColors: Record<string, string> = {
     English: "bg-sage text-white",
-    Spanish: "bg-gold text-charcoal",
+    Spanish: "bg-gold text-white",
     Italian: "bg-rose text-white",
-    Kindle: "bg-charcoal text-white",
+    Kindle: "bg-muted-foreground text-white",
   };
 
   const formattedTitle = title.replace(/MAGGIE/g, "Maggie");
