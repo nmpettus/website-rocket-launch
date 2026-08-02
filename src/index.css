@@ -5,59 +5,60 @@
 
 @layer base {
   /* ============================================
-     DEFAULT THEME: Ocean Deep
-     Deep navy + teal, soft gradient backgrounds
+     DEFAULT THEME: Sunset Blaze
+     Warm orange, amber, rose, and purple
      ============================================ */
   :root {
-    --background: 200 45% 98%;
-    --foreground: 212 60% 16%;
+    --background: 30 100% 97%;
+    --foreground: 20 40% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 212 60% 16%;
+    --card-foreground: 20 40% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 212 60% 16%;
+    --popover-foreground: 20 40% 15%;
 
-    --primary: 205 62% 27%;
-    --primary-foreground: 195 60% 97%;
+    --primary: 17 100% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 191 56% 40%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 32 93% 55%;
+    --secondary-foreground: 20 40% 15%;
 
-    --accent: 177 45% 52%;
-    --accent-foreground: 212 60% 14%;
+    --accent: 252 75% 63%;
+    --accent-foreground: 0 0% 100%;
 
-    --muted: 200 35% 93%;
-    --muted-foreground: 208 32% 34%;
+    --muted: 30 80% 92%;
+    --muted-foreground: 20 30% 35%;
 
     --destructive: 0 72% 48%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 200 30% 86%;
-    --input: 200 30% 86%;
-    --ring: 191 56% 40%;
+    --border: 30 60% 85%;
+    --input: 30 60% 85%;
+    --ring: 32 93% 55%;
 
     --radius: 0.75rem;
 
-    --cream: 195 45% 97%;
-    --sage: 191 56% 40%;
-    --sage-light: 191 45% 92%;
-    --sage-dark: 205 62% 24%;
-    --rose: 177 45% 52%;
-    --rose-light: 177 45% 93%;
-    --gold: 38 85% 52%;
-    --gold-light: 38 80% 93%;
-    --lavender: 205 45% 93%;
-    --sky: 195 60% 94%;
-    --charcoal: 212 60% 16%;
+    --cream: 30 100% 97%;
+    --sage: 32 93% 55%;
+    --sage-light: 32 80% 92%;
+    --sage-dark: 22 80% 45%;
+    --rose: 337 80% 58%;
+    --rose-light: 337 80% 92%;
+    --gold: 38 95% 55%;
+    --gold-light: 38 90% 92%;
+    --lavender: 25 80% 92%;
+    --sky: 30 90% 94%;
+    --charcoal: 20 40% 15%;
 
-    /* Soft gradient backgrounds */
-    --gradient-page: linear-gradient(180deg, hsl(195 60% 96%) 0%, hsl(200 45% 98%) 45%, hsl(191 40% 96%) 100%);
-    --gradient-primary: linear-gradient(135deg, hsl(205 62% 27%), hsl(191 56% 40%));
-    --gradient-accent: linear-gradient(135deg, hsl(191 56% 40%), hsl(177 45% 62%));
+    /* Warm gradient backgrounds */
+    --gradient-page: linear-gradient(180deg, hsl(30 100% 96%) 0%, hsl(30 100% 97%) 45%, hsl(25 80% 94%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(17 100% 60%), hsl(32 93% 55%));
+    --gradient-accent: linear-gradient(135deg, hsl(32 93% 55%), hsl(337 80% 58%));
+    --gradient-sunset: linear-gradient(135deg, hsl(38 95% 55%) 0%, hsl(17 100% 60%) 35%, hsl(337 80% 58%) 70%, hsl(252 75% 63%) 100%);
 
-    --font-heading: 'Inter', 'Fredoka', system-ui, sans-serif;
-    --font-body: 'Inter', 'Quicksand', system-ui, sans-serif;
+    --font-heading: 'Fredoka', system-ui, sans-serif;
+    --font-body: 'Quicksand', system-ui, sans-serif;
   }
 
 
@@ -114,6 +115,10 @@
   
   .bg-sky {
     background-color: hsl(var(--sky));
+  }
+
+  .bg-sunset {
+    background: var(--gradient-sunset);
   }
   
   /* Professional shadows */
