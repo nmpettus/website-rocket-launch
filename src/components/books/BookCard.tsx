@@ -183,9 +183,9 @@ const BookCard = ({
           <div className="flex text-gold">
             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
           </div>
-          <button 
+          <button
             onClick={() => onOpenReviews(bookId, formattedTitle)}
-            className="text-sm text-charcoal/60 hover:text-sage transition-colors"
+            className="text-sm text-muted-foreground hover:text-primary transition-colors"
           >
             ({reviewCount} reviews)
           </button>
@@ -195,7 +195,7 @@ const BookCard = ({
         <div className="space-y-2 mt-auto">
           {bookId === 'bible-heroes' ? (
             <a href="https://booksbymaggie.com/heroes" target="_blank" rel="noopener noreferrer" className="block">
-              <Button 
+              <Button
                 size="sm"
                 className="w-full bg-sage hover:bg-sage-dark text-white font-medium rounded-full"
               >
@@ -205,7 +205,7 @@ const BookCard = ({
             </a>
           ) : bookRoute ? (
             <Link to={bookRoute} className="block">
-              <Button 
+              <Button
                 size="sm"
                 className="w-full bg-sage hover:bg-sage-dark text-white font-medium rounded-full"
               >
@@ -214,9 +214,9 @@ const BookCard = ({
               </Button>
             </Link>
           ) : null}
-          
+
           {isFree && pdfDownloadUrl ? (
-            <Button 
+            <Button
               asChild
               size="sm"
               className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-full"
@@ -229,7 +229,7 @@ const BookCard = ({
           ) : bookId !== 'bible-heroes' && (
             <div className="space-y-2">
               <div className={`grid ${kindleLink ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
-                <Button 
+                <Button
                   size="sm"
                   className="bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-full text-xs"
                   onClick={() => window.open(amazonLink, "_blank")}
@@ -237,12 +237,12 @@ const BookCard = ({
                   <ShoppingCart className="w-3 h-3 mr-1" />
                   Amazon
                 </Button>
-                
+
                 {kindleLink && (
-                  <Button 
+                  <Button
                     size="sm"
                     variant="outline"
-                    className="border-charcoal/30 text-charcoal hover:bg-charcoal hover:text-white font-medium rounded-full text-xs"
+                    className="border-border text-foreground hover:bg-foreground hover:text-background font-medium rounded-full text-xs"
                     onClick={() => window.open(kindleLink, "_blank")}
                   >
                     <Book className="w-3 h-3 mr-1" />
@@ -250,11 +250,11 @@ const BookCard = ({
                   </Button>
                 )}
               </div>
-              
+
               {appleBooksLink && (
-                <Button 
+                <Button
                   size="sm"
-                  className="w-full bg-charcoal hover:bg-charcoal/90 text-white font-medium rounded-full text-xs"
+                  className="w-full bg-foreground hover:bg-foreground/90 text-background font-medium rounded-full text-xs"
                   onClick={() => window.open(appleBooksLink, "_blank")}
                 >
                   <ExternalLink className="w-3 h-3 mr-1" />
@@ -263,12 +263,12 @@ const BookCard = ({
               )}
             </div>
           )}
-          
+
           {hasSamples && (
-            <Button 
+            <Button
               size="sm"
-              variant="ghost" 
-              className="w-full text-sage hover:text-sage-dark hover:bg-sage-light font-medium rounded-full"
+              variant="ghost"
+              className="w-full text-primary hover:text-primary/80 hover:bg-primary/10 font-medium rounded-full"
               onClick={() => onOpenSample(bookId, formattedTitle)}
             >
               <Eye className="w-4 h-4 mr-2" />
