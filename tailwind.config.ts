@@ -86,13 +86,15 @@ const config = {
         },
       },
       fontFamily: {
-        sans: ["Quicksand", ...fontFamily.sans],
-        display: ["Fredoka", "sans-serif"],
-        heading: ["Fredoka", "sans-serif"],
-        body: ["Quicksand", "sans-serif"],
+        sans: ["Nunito Sans", ...fontFamily.sans],
+        display: ["Lora", "serif"],
+        heading: ["Lora", "serif"],
+        body: ["Nunito Sans", "sans-serif"],
         playful: ["Fredoka", "sans-serif"],
         fredoka: ["Fredoka", "sans-serif"],
         quicksand: ["Quicksand", "sans-serif"],
+        lora: ["Lora", "serif"],
+        nunito: ["Nunito Sans", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {

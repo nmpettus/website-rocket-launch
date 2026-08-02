@@ -5,60 +5,60 @@
 
 @layer base {
   /* ============================================
-     DEFAULT THEME: Sunset Blaze
-     Warm orange, amber, rose, and purple
+     DEFAULT THEME: Midnight Indigo
+     Deep navy, indigo, and soft silver type
      ============================================ */
   :root {
-    --background: 30 35% 97%;
-    --foreground: 20 30% 20%;
+    --background: 240 33% 5%;
+    --foreground: 240 10% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 20 30% 20%;
+    --card: 240 25% 13%;
+    --card-foreground: 240 10% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 30% 20%;
+    --popover: 240 25% 13%;
+    --popover-foreground: 240 10% 98%;
 
-    --primary: 17 45% 52%;
+    --primary: 239 84% 67%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 32 40% 52%;
-    --secondary-foreground: 20 30% 20%;
+    --secondary: 239 45% 25%;
+    --secondary-foreground: 0 0% 100%;
 
-    --accent: 252 30% 52%;
+    --accent: 239 84% 67%;
     --accent-foreground: 0 0% 100%;
 
-    --muted: 30 25% 93%;
-    --muted-foreground: 20 20% 38%;
+    --muted: 240 25% 15%;
+    --muted-foreground: 240 10% 70%;
 
-    --destructive: 0 50% 45%;
+    --destructive: 0 60% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 30 25% 85%;
-    --input: 30 25% 85%;
-    --ring: 17 45% 52%;
+    --border: 240 20% 20%;
+    --input: 240 20% 20%;
+    --ring: 239 84% 67%;
 
     --radius: 0.75rem;
 
-    --cream: 30 35% 97%;
-    --sage: 32 40% 52%;
-    --sage-light: 32 25% 93%;
-    --sage-dark: 22 30% 45%;
-    --rose: 337 35% 55%;
-    --rose-light: 337 25% 93%;
-    --gold: 38 40% 52%;
-    --gold-light: 38 30% 93%;
-    --lavender: 25 25% 93%;
-    --sky: 30 30% 95%;
-    --charcoal: 20 30% 20%;
+    --cream: 240 33% 8%;
+    --sage: 239 45% 25%;
+    --sage-light: 240 25% 18%;
+    --sage-dark: 240 30% 12%;
+    --rose: 339 55% 60%;
+    --rose-light: 339 30% 18%;
+    --gold: 45 70% 55%;
+    --gold-light: 45 30% 18%;
+    --lavender: 240 20% 18%;
+    --sky: 240 25% 16%;
+    --charcoal: 240 10% 98%;
 
-    /* Warm gradient backgrounds — soft dusty sunset */
-    --gradient-page: linear-gradient(180deg, hsl(30 30% 97%) 0%, hsl(30 35% 97%) 45%, hsl(25 25% 95%) 100%);
-    --gradient-primary: linear-gradient(135deg, hsl(17 45% 52%), hsl(32 40% 52%));
-    --gradient-accent: linear-gradient(135deg, hsl(32 40% 52%), hsl(337 35% 55%));
-    --gradient-sunset: linear-gradient(135deg, hsl(32 30% 78%) 0%, hsl(20 30% 68%) 35%, hsl(340 25% 62%) 70%, hsl(260 22% 52%) 100%);
+    /* Indigo gradient backgrounds */
+    --gradient-page: linear-gradient(180deg, hsl(240 33% 5%) 0%, hsl(240 33% 6%) 50%, hsl(240 30% 8%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(239 84% 67%), hsl(239 45% 25%));
+    --gradient-accent: linear-gradient(135deg, hsl(239 45% 25%), hsl(239 84% 67%));
+    --gradient-sunset: linear-gradient(135deg, hsl(240 25% 18%) 0%, hsl(239 45% 25%) 35%, hsl(239 84% 67%) 70%, hsl(260 60% 60%) 100%);
 
-    --font-heading: 'Fredoka', system-ui, sans-serif;
-    --font-body: 'Quicksand', system-ui, sans-serif;
+    --font-heading: 'Lora', Georgia, serif;
+    --font-body: 'Nunito Sans', system-ui, sans-serif;
   }
 
 

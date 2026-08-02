@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BookOpen, Mail, MessageCircle, ArrowRight, Loader2 } from "lucide-react";
+import { BookOpen, MessageCircle, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
@@ -18,13 +18,6 @@ const Hero = () => {
   const { user, loading: authLoading } = useAuth();
   const { isActive, loading: subLoading } = useSubscription();
   const [showReadingClubModal, setShowReadingClubModal] = useState(false);
-
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
 
   const handleReadingClubClick = () => {
     setShowReadingClubModal(true);
@@ -48,194 +41,159 @@ const Hero = () => {
   const isChecking = authLoading || subLoading;
 
   return (
-    <section id="home" className="relative min-h-screen pt-28 pb-16 overflow-hidden bg-background">
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        {/* Sunset hero card */}
-        <div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-[2.5rem] shadow-2xl shadow-orange-900/15 border-8 border-white/90 bg-sunset">
-          {/* Decorative sunset elements */}
-          <div className="absolute -top-24 -right-24 w-80 h-80 md:w-96 md:h-96 bg-amber-100 rounded-full blur-3xl opacity-30 gpu-layer-opacity" />
-          <div className="absolute top-24 right-1/4 w-32 h-16 bg-white/20 backdrop-blur-md rounded-full motion-safe:animate-float [animation-delay:0.5s] gpu-layer" />
-          <div className="absolute top-12 left-12 w-24 h-12 bg-white/25 backdrop-blur-md rounded-full motion-safe:animate-float [animation-delay:1s] gpu-layer" />
-          <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-purple-950/20 to-transparent pointer-events-none" />
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background py-24 px-4 sm:px-8"
+    >
+      {/* Background ambient glows */}
+      <div className="absolute top-0 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl gpu-layer-opacity" />
+      <div className="absolute bottom-0 -right-20 w-96 h-96 bg-secondary/30 rounded-full blur-3xl gpu-layer-opacity" />
 
-          {/* Ground/hills layer */}
-          <div className="absolute bottom-0 w-full flex items-end justify-between px-4 pointer-events-none">
-            <div className="w-32 h-32 bg-orange-800/12 rounded-t-full blur-xl" />
-            <div className="w-48 h-24 bg-rose-900/10 rounded-t-full blur-lg translate-y-4" />
-            <div className="w-40 h-40 bg-purple-950/10 rounded-t-full blur-2xl" />
-          </div>
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[calc(100vh-10rem)] p-6 sm:p-10 lg:p-16">
-            {/* Content */}
-            <div className="space-y-6 max-w-xl order-2 lg:order-1 text-center lg:text-left">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 bg-orange-50 text-orange-900 px-4 py-2 rounded-full shadow-sm border border-orange-100/60">
-                <span className="text-sm font-bold uppercase tracking-widest">Magical Stories for Kids</span>
+      <div className="container mx-auto relative z-10">
+        {/* Editorial hero card */}
+        <div className="relative max-w-7xl mx-auto bg-card/40 backdrop-blur-sm border border-white/5 rounded-[2.5rem] shadow-2xl p-8 lg:p-16 overflow-hidden">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left content column */}
+            <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
+              {/* Reading Club badge */}
+              <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/40 px-4 py-2 rounded-full">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-300 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+                </span>
+                <span className="text-indigo-200 text-xs font-bold uppercase tracking-widest font-body">
+                  Join Maggie's Reading Club
+                </span>
               </div>
 
-              {/* Main Headline */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-[1.1] tracking-tight drop-shadow-[0_3px_0_rgba(120,40,60,0.35)]">
+              {/* Main headline */}
+              <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-bold text-white leading-[1.1]">
                 Discover Bible Stories with{' '}
-                <span className="text-amber-50">Maggie</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 to-primary italic">
+                  Maggie
+                </span>
               </h1>
 
               {/* Subheadline */}
-              <p className="text-lg md:text-xl text-orange-50/95 leading-relaxed font-medium">
+              <p className="text-lg md:text-xl text-indigo-100/70 max-w-xl leading-relaxed font-body mx-auto lg:mx-0">
                 Beautiful, illustrated Bible stories narrated by Maggie the dog. Perfect for bedtime reading,
                 family devotions, and nurturing faith in young hearts.
               </p>
 
-              {/* Kid-facing greeting + big kid CTAs */}
-              <div className="bg-white/15 backdrop-blur-md border-2 border-white/25 rounded-2xl p-5 space-y-4">
-                <p className="text-lg md:text-xl font-display font-semibold text-white">
-                  Hi! I'm Maggie 🐾 Want to hear a Bible story?
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Button
-                    asChild
-                    size="lg"
-                    className="bg-white hover:bg-orange-50 text-rose-700 font-bold px-6 h-16 text-lg flex-1 rounded-2xl shadow-[0_5px_0_#be123c] hover:shadow-[0_2px_0_#be123c] hover:translate-y-[3px] transition-all"
-                  >
-                    <Link to="/online-library">
-                      <BookOpen className="w-6 h-6 mr-2" />
-                      Read a Story
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    size="lg"
-                    variant="outline"
-                    className="font-bold px-6 h-16 text-lg flex-1 border-2 border-white/40 text-white hover:bg-white/15 hover:text-white rounded-2xl"
-                  >
-                    <Link to="/ask-maggie">
-                      <MessageCircle className="w-6 h-6 mr-2" />
-                      Ask Maggie
-                    </Link>
-                  </Button>
-                </div>
+              {/* Primary CTAs */}
+              <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-white font-bold px-8 h-14 text-base rounded-2xl shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all hover:scale-105"
+                >
+                  <Link to="/online-library">
+                    <BookOpen className="w-5 h-5 mr-2" />
+                    Read a Story
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="font-bold px-8 h-14 text-base rounded-2xl border-white/10 text-white hover:bg-white/5 hover:text-white"
+                >
+                  <Link to="/ask-maggie">
+                    <MessageCircle className="w-5 h-5 mr-2" />
+                    Ask Maggie
+                  </Link>
+                </Button>
               </div>
 
               {/* Reading Club CTA */}
-              <div className="bg-white/15 backdrop-blur-md border-2 border-white/25 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <div className="flex-1">
-                  <p className="font-bold text-white text-lg">📚 Join Maggie's Reading Club</p>
-                  <p className="text-sm text-orange-100/90">Read every book online with read-aloud — 7-day free trial.</p>
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 max-w-xl mx-auto lg:mx-0">
+                <div className="flex-1 text-left">
+                  <p className="font-bold text-white text-lg font-heading">📚 Join Maggie's Reading Club</p>
+                  <p className="text-sm text-indigo-200/60 font-body">
+                    Read every book online with read-aloud — 7-day free trial.
+                  </p>
                 </div>
-                <Button size="lg" className="font-bold whitespace-nowrap bg-purple-700 hover:bg-purple-800 text-white rounded-2xl shadow-[0_5px_0_#4c1d95] hover:shadow-[0_2px_0_#4c1d95] hover:translate-y-[3px] transition-all" onClick={handleReadingClubClick}>
+                <Button
+                  size="lg"
+                  className="font-bold whitespace-nowrap bg-secondary hover:bg-secondary/90 text-white rounded-2xl"
+                  onClick={handleReadingClubClick}
+                >
                   Try Free
                 </Button>
               </div>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="font-medium px-8 h-14 text-base border-2 border-white/40 text-white hover:bg-white/15 hover:text-white rounded-2xl"
-                  onClick={() => scrollToSection('books')}
-                >
-                  <BookOpen className="w-5 h-5 mr-2" />
-                  Browse Our Books
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="font-medium px-8 h-14 text-base border-2 border-white/40 text-white hover:bg-white/15 hover:text-white rounded-2xl"
-                  onClick={() => scrollToSection('write-to-maggie')}
-                >
-                  <Mail className="w-5 h-5 mr-2" />
-                  Write to Maggie
-                </Button>
-              </div>
-
-              {/* Secondary CTA */}
-              <div className="pt-2">
-                <Link
-                  to="/ask-maggie"
-                  className="inline-flex items-center gap-2 text-white hover:text-amber-50 font-medium transition-colors"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  Ask Maggie a Bible Question
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-
               {/* Trust indicators */}
-              <div className="flex items-center justify-center lg:justify-start gap-8 pt-6 border-t border-white/25">
-                <div className="flex flex-col">
-                  <span className="text-2xl font-bold text-white">5.0</span>
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} className="w-4 h-4 text-amber-200 fill-current" viewBox="0 0 20 20">
-                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                      </svg>
-                    ))}
+              <div className="flex items-center justify-center lg:justify-start gap-6 pt-6 border-t border-white/10">
+                <div className="flex -space-x-3">
+                  <div className="w-10 h-10 rounded-full border-2 border-card bg-indigo-900 flex items-center justify-center text-[10px] text-white font-body">
+                    JD
                   </div>
-                  <span className="text-sm text-orange-100/90">Amazon Rating</span>
+                  <div className="w-10 h-10 rounded-full border-2 border-card bg-indigo-700 flex items-center justify-center text-[10px] text-white font-body">
+                    SK
+                  </div>
+                  <div className="w-10 h-10 rounded-full border-2 border-card bg-primary flex items-center justify-center text-[10px] text-white font-body">
+                    MR
+                  </div>
                 </div>
-                <div className="h-12 w-px bg-white/25" />
-                <div className="flex flex-col">
-                  <span className="text-2xl font-bold text-white">6+</span>
-                  <span className="text-sm text-orange-100/90">Books Published</span>
-                </div>
-                <div className="h-12 w-px bg-white/25 hidden sm:block" />
-                <div className="flex-col hidden sm:flex">
-                  <span className="text-2xl font-bold text-white">3</span>
-                  <span className="text-sm text-orange-100/90">Languages</span>
+                <div className="text-sm text-indigo-200/60 font-body text-left">
+                  <strong className="text-white block">Loved by 5,000+ families</strong>
+                  Rated 5.0/5 stars for Bible storytelling
                 </div>
               </div>
             </div>
 
-            {/* Hero Image */}
-            <div className="relative flex justify-center lg:justify-start order-1 lg:order-2 pt-4 lg:pt-12">
-              <div className="relative">
-                {/* Main image container */}
-                <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 motion-safe:animate-float gpu-layer">
-                  <div className="absolute inset-0 rounded-full bg-white/20 motion-safe:animate-pulse-slow gpu-layer-opacity" />
-                  <a
-                    href="#maggie"
-                    className="absolute inset-4 rounded-full overflow-hidden border-4 border-white shadow-2xl block group transform-gpu transition-transform duration-500 ease-out hover:scale-105 hover:-rotate-1"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection('maggie');
-                    }}
-                  >
-                    <img
-                      src="/lovable-uploads/MaggieNewNBP.png"
-                      alt="Maggie the dog - Your faith adventure guide"
-                      className="w-full h-full object-cover object-top transform-gpu transition-transform duration-700 ease-out group-hover:scale-110"
-                      loading="eager"
-                      decoding="async"
-                    />
+            {/* Right visual column */}
+            <div className="lg:col-span-5 relative flex justify-center items-center">
+              <div className="relative w-full max-w-md aspect-square">
+                {/* Magazine-style backdrop card */}
+                <div className="absolute inset-0 bg-gradient-to-br from-secondary to-background rounded-3xl rotate-3 shadow-2xl border border-white/5" />
 
-                    <div className="absolute top-3 left-1/2 -translate-x-1/2 bg-orange-50 text-orange-900 text-xs font-bold px-3 py-1 rounded-full shadow-md whitespace-nowrap border border-orange-100/60">
-                      Meet Maggie!
-                    </div>
-                  </a>
+                {/* Maggie card */}
+                <a
+                  href="#maggie"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const section = document.getElementById('maggie');
+                    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
+                  className="absolute -top-6 -left-6 w-48 h-64 bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform -rotate-6 block group transition-transform duration-500 hover:-rotate-3 hover:scale-105"
+                >
+                  <img
+                    src="/lovable-uploads/MaggieNewNBP.png"
+                    alt="Maggie the dog - Your faith adventure guide"
+                    className="w-full h-full object-cover object-top transform-gpu transition-transform duration-700 group-hover:scale-110"
+                    loading="eager"
+                    decoding="async"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                    <span className="text-white font-bold text-xs uppercase tracking-tighter font-body">
+                      Meet Maggie
+                    </span>
+                  </div>
+                </a>
 
-                  {/* Matteo - puppy successor */}
-                  <Link
-                    to="/matteo"
-                    aria-label="Meet Matteo the Yorkie puppy"
-                    className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 w-32 h-32 md:w-44 md:h-44 block group motion-safe:animate-float [animation-delay:1.2s] gpu-layer"
-                  >
-                    <div className="absolute inset-0 rounded-full bg-white/30 transform-gpu transition-transform duration-500 ease-out group-hover:scale-110" />
-                    <div className="absolute inset-2 rounded-full overflow-hidden border-4 border-white shadow-xl bg-white flex items-center justify-center transform-gpu transition-transform duration-500 ease-out group-hover:scale-105 group-hover:rotate-2">
-                      <img
-                        src="/lovable-uploads/MatteoFront.png"
-                        alt="Matteo the puppy - Maggie's successor"
-                        className="w-[85%] h-[85%] object-contain transform-gpu transition-transform duration-700 ease-out group-hover:scale-110 motion-safe:group-hover:animate-wiggle"
-                        loading="eager"
-                        decoding="async"
-                      />
-                    </div>
+                {/* Matteo card */}
+                <Link
+                  to="/matteo"
+                  aria-label="Meet Matteo the Yorkie puppy"
+                  className="absolute bottom-10 -right-4 w-56 h-72 bg-secondary rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-6 z-20 block group transition-transform duration-500 hover:rotate-3 hover:scale-105"
+                >
+                  <img
+                    src="/lovable-uploads/MatteoFront.png"
+                    alt="Matteo the puppy - Maggie's successor"
+                    className="w-full h-full object-cover object-top transform-gpu transition-transform duration-700 group-hover:scale-110"
+                    loading="eager"
+                    decoding="async"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                    <span className="text-white font-bold text-sm uppercase tracking-tighter font-body">
+                      Adventures with Matteo
+                    </span>
+                  </div>
+                </Link>
 
-                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md whitespace-nowrap">
-                      Meet Matteo!
-                    </div>
-                  </Link>
-                </div>
+                {/* Central glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary opacity-20 blur-[80px] gpu-layer-opacity" />
               </div>
             </div>
           </div>
@@ -244,35 +202,35 @@ const Hero = () => {
 
       {/* Reading Club subscription check modal */}
       <Dialog open={showReadingClubModal} onOpenChange={setShowReadingClubModal}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-card border-border">
           <DialogHeader>
-            <DialogTitle>Maggie's Reading Club</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="font-heading text-white">Maggie's Reading Club</DialogTitle>
+            <DialogDescription className="text-indigo-200/60 font-body">
               Let's check your account so we can get you to the right place.
             </DialogDescription>
           </DialogHeader>
 
           <div className="py-4">
             {isChecking ? (
-              <div className="flex items-center gap-3 text-muted-foreground">
+              <div className="flex items-center gap-3 text-muted-foreground font-body">
                 <Loader2 className="h-5 w-5 animate-spin" />
                 <span>Checking your account...</span>
               </div>
             ) : !user ? (
               <div className="space-y-3">
-                <p className="text-foreground font-medium">
+                <p className="text-foreground font-medium font-body">
                   Sign in first and we'll check whether you already have a Reading Club subscription.
                 </p>
               </div>
             ) : isActive ? (
               <div className="space-y-3">
-                <p className="text-foreground font-medium">
+                <p className="text-foreground font-medium font-body">
                   You already have an active subscription. Enjoy the library!
                 </p>
               </div>
             ) : (
               <div className="space-y-3">
-                <p className="text-foreground font-medium">
+                <p className="text-foreground font-medium font-body">
                   You don't have an active subscription yet. Start your 7-day free trial today.
                 </p>
               </div>
