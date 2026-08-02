@@ -37,29 +37,27 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   className 
 }) => {
   const items = category?.items || [];
-  const firstActivityItem = items.length > 0 ? items[0] : null;
 
   return (
     <Card className={`transition-all duration-300 hover:shadow-lg flex flex-col h-full ${className}`}>
-      <CardHeader className="flex items-center">
+      <CardHeader className="flex items-center pb-3">
         <div className="p-3 rounded-full bg-muted mb-4">
           {category.icon}
         </div>
         <CardTitle className="text-lg font-display text-center min-h-[3.5rem] flex items-center justify-center text-card-foreground">{category.title}</CardTitle>
         <CardDescription className="text-center min-h-[2.5rem] text-foreground/80">{category.description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-grow flex px-4 pb-4 pt-0">
-        {firstActivityItem && (
-          <div className="mt-2 w-full flex">
+      <CardContent className="flex-grow flex flex-col gap-4 px-4 pb-4 pt-0">
+        {items.map((activity) => (
+          <div key={activity.id} className="mt-2 w-full flex">
             <ActivityItemCard 
-              key={firstActivityItem.id}
-              activity={firstActivityItem}
-              isViewed={viewedActivities.includes(firstActivityItem.id)}
-              onView={() => onView(firstActivityItem.id)}
-              onPrint={() => onPrint(firstActivityItem.imagePath)}
+              activity={activity}
+              isViewed={viewedActivities.includes(activity.id)}
+              onView={() => onView(activity.id)}
+              onPrint={() => onPrint(activity.imagePath)}
             />
           </div>
-        )}
+        ))}
       </CardContent>
     </Card>
   );
