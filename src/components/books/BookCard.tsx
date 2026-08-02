@@ -76,9 +76,9 @@ const BookCard = ({
   // Map language names to their respective badge colors
   const languageColors: Record<string, string> = {
     English: "bg-sage text-white",
-    Spanish: "bg-gold text-charcoal",
+    Spanish: "bg-gold text-white",
     Italian: "bg-rose text-white",
-    Kindle: "bg-charcoal text-white",
+    Kindle: "bg-muted-foreground text-white",
   };
 
   const formattedTitle = title.replace(/MAGGIE/g, "Maggie");
@@ -111,8 +111,8 @@ const BookCard = ({
   const bookRoute = getBookRoute(bookId);
 
   return (
-    <Card 
-      className="group overflow-hidden bg-white border-0 shadow-elegant hover:shadow-lg transition-all duration-500 flex flex-col h-full relative rounded-2xl"
+    <Card
+      className="group overflow-hidden bg-card border border-border shadow-elegant hover:shadow-lg transition-all duration-500 flex flex-col h-full relative rounded-2xl"
       onMouseEnter={handleMouseEnter}
     >
       {/* Badge - positioned to not overlap with cover image */}
@@ -121,7 +121,7 @@ const BookCard = ({
           Free Download
         </Badge>
       ) : comingSoon ? (
-        <Badge className="absolute top-3 left-4 z-20 bg-gold hover:bg-gold-dark text-charcoal font-medium px-3 py-1 shadow-md">
+        <Badge className="absolute top-3 left-4 z-20 bg-gold hover:bg-gold-dark text-white font-medium px-3 py-1 shadow-md">
           Coming Soon
         </Badge>
       ) : isNew ? (
@@ -129,11 +129,11 @@ const BookCard = ({
           New Release
         </Badge>
       ) : null}
-      
+
       {/* Book Cover with elegant presentation */}
-      <div className="p-6 pb-4 bg-gradient-to-b from-sage-light/30 to-transparent">
+      <div className="p-6 pb-4 bg-gradient-to-b from-secondary/30 to-transparent">
         <div className="relative mx-auto flex justify-center">
-          <img 
+          <img
             src={coverImage}
             alt={`${formattedTitle} Book Cover`}
             className={`max-h-72 w-auto rounded-lg object-contain cursor-pointer shadow-book transition-transform duration-300 group-hover:scale-[1.02] ${isJumping ? 'animate-maggie-jump' : ''}`}
@@ -147,21 +147,21 @@ const BookCard = ({
           )}
         </div>
       </div>
-      
+
       <CardContent className="p-6 pt-2 flex-grow flex flex-col">
         {/* Title */}
-        <h3 className="text-xl font-display font-semibold text-charcoal mb-3 text-center">
+        <h3 className="text-xl font-display font-semibold text-card-foreground mb-3 text-center">
           {formattedTitle}
         </h3>
-        
+
         {/* Language badges */}
         <div className="flex flex-wrap justify-center gap-2 mb-4">
           {languages.map((language) => {
             const hasLink = languageLinks.some(l => l.language === language);
             return (
-              <span 
+              <span
                 key={language}
-                className={`${languageColors[language] || 'bg-muted text-charcoal'} text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 font-medium ${hasLink ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''}`}
+                className={`${languageColors[language] || 'bg-muted text-muted-foreground'} text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 font-medium ${hasLink ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''}`}
                 onClick={() => hasLink && handleLanguageClick(language)}
                 role={hasLink ? "button" : undefined}
                 title={hasLink ? `Open ${language} version` : undefined}
@@ -172,9 +172,9 @@ const BookCard = ({
             );
           })}
         </div>
-        
+
         {/* Description */}
-        <p className="text-charcoal/70 text-sm text-center mb-4 flex-grow line-clamp-3">
+        <p className="text-muted-foreground text-sm text-center mb-4 flex-grow line-clamp-3">
           {description}
         </p>
         
@@ -183,9 +183,9 @@ const BookCard = ({
           <div className="flex text-gold">
             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
           </div>
-          <button 
+          <button
             onClick={() => onOpenReviews(bookId, formattedTitle)}
-            className="text-sm text-charcoal/60 hover:text-sage transition-colors"
+            className="text-sm text-muted-foreground hover:text-primary transition-colors"
           >
             ({reviewCount} reviews)
           </button>
@@ -195,7 +195,7 @@ const BookCard = ({
         <div className="space-y-2 mt-auto">
           {bookId === 'bible-heroes' ? (
             <a href="https://booksbymaggie.com/heroes" target="_blank" rel="noopener noreferrer" className="block">
-              <Button 
+              <Button
                 size="sm"
                 className="w-full bg-sage hover:bg-sage-dark text-white font-medium rounded-full"
               >
@@ -205,7 +205,7 @@ const BookCard = ({
             </a>
           ) : bookRoute ? (
             <Link to={bookRoute} className="block">
-              <Button 
+              <Button
                 size="sm"
                 className="w-full bg-sage hover:bg-sage-dark text-white font-medium rounded-full"
               >
@@ -214,9 +214,9 @@ const BookCard = ({
               </Button>
             </Link>
           ) : null}
-          
+
           {isFree && pdfDownloadUrl ? (
-            <Button 
+            <Button
               asChild
               size="sm"
               className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-full"
@@ -229,7 +229,7 @@ const BookCard = ({
           ) : bookId !== 'bible-heroes' && (
             <div className="space-y-2">
               <div className={`grid ${kindleLink ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}>
-                <Button 
+                <Button
                   size="sm"
                   className="bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-full text-xs"
                   onClick={() => window.open(amazonLink, "_blank")}
@@ -237,12 +237,12 @@ const BookCard = ({
                   <ShoppingCart className="w-3 h-3 mr-1" />
                   Amazon
                 </Button>
-                
+
                 {kindleLink && (
-                  <Button 
+                  <Button
                     size="sm"
                     variant="outline"
-                    className="border-charcoal/30 text-charcoal hover:bg-charcoal hover:text-white font-medium rounded-full text-xs"
+                    className="border-border text-foreground hover:bg-foreground hover:text-background font-medium rounded-full text-xs"
                     onClick={() => window.open(kindleLink, "_blank")}
                   >
                     <Book className="w-3 h-3 mr-1" />
@@ -250,11 +250,11 @@ const BookCard = ({
                   </Button>
                 )}
               </div>
-              
+
               {appleBooksLink && (
-                <Button 
+                <Button
                   size="sm"
-                  className="w-full bg-charcoal hover:bg-charcoal/90 text-white font-medium rounded-full text-xs"
+                  className="w-full bg-foreground hover:bg-foreground/90 text-background font-medium rounded-full text-xs"
                   onClick={() => window.open(appleBooksLink, "_blank")}
                 >
                   <ExternalLink className="w-3 h-3 mr-1" />
@@ -263,12 +263,12 @@ const BookCard = ({
               )}
             </div>
           )}
-          
+
           {hasSamples && (
-            <Button 
+            <Button
               size="sm"
-              variant="ghost" 
-              className="w-full text-sage hover:text-sage-dark hover:bg-sage-light font-medium rounded-full"
+              variant="ghost"
+              className="w-full text-primary hover:text-primary/80 hover:bg-primary/10 font-medium rounded-full"
               onClick={() => onOpenSample(bookId, formattedTitle)}
             >
               <Eye className="w-4 h-4 mr-2" />
