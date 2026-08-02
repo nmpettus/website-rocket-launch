@@ -42,11 +42,11 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
   return (
     <Card className={`transition-all duration-300 hover:shadow-lg flex flex-col h-full ${className}`}>
       <CardHeader className="flex items-center">
-        <div className="p-3 rounded-full bg-gray-100 mb-4">
+        <div className="p-3 rounded-full bg-muted mb-4">
           {category.icon}
         </div>
-        <CardTitle className="text-lg font-['Comic_Neue'] text-center min-h-[3.5rem] flex items-center justify-center">{category.title}</CardTitle>
-        <CardDescription className="text-center min-h-[2.5rem]">{category.description}</CardDescription>
+        <CardTitle className="text-lg font-display text-center min-h-[3.5rem] flex items-center justify-center text-card-foreground">{category.title}</CardTitle>
+        <CardDescription className="text-center min-h-[2.5rem] text-foreground/80">{category.description}</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow flex px-4 pb-4 pt-0">
         {firstActivityItem && (
@@ -87,16 +87,16 @@ const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed,
   const handleFitToScreen = () => setZoom(1);
 
   return (
-    <Card className="overflow-hidden border border-gray-200 bg-white flex flex-col w-full h-full">
+    <Card className="overflow-hidden border border-border bg-card flex flex-col w-full h-full">
       <CardHeader className="p-3">
-        <CardTitle className="text-base font-medium min-h-[2.5rem]">{activity.title}</CardTitle>
-        <CardDescription className="text-xs min-h-[2rem]">{activity.description}</CardDescription>
+        <CardTitle className="text-base font-medium min-h-[2.5rem] text-card-foreground">{activity.title}</CardTitle>
+        <CardDescription className="text-xs min-h-[2rem] text-foreground/80">{activity.description}</CardDescription>
       </CardHeader>
       <CardContent className="p-3 pt-0 flex-grow">
 
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <div className="h-28 bg-gray-200 rounded-md flex items-center justify-center mb-3 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity">
+            <div className="h-28 bg-muted rounded-md flex items-center justify-center mb-3 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity">
               <img 
                 src={activity.imagePath} 
                 alt={`${activity.title} preview`}
@@ -175,7 +175,7 @@ const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed,
       <CardFooter className="flex flex-col gap-2 p-3 pt-0">
         <Button 
           size="sm"
-          className={`w-full flex items-center justify-center gap-2 ${isViewed ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-indigo-500 hover:bg-indigo-600 text-white'}`}
+          className={`w-full flex items-center justify-center gap-2 ${isViewed ? 'bg-emerald-600 hover:bg-emerald-700 text-primary-foreground' : 'bg-primary hover:bg-primary/90 text-primary-foreground'}`}
           onClick={handleViewClick}
         >
           {isViewed ? (
@@ -193,7 +193,7 @@ const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed,
         <Button 
           variant="outline"
           size="sm"
-          className="w-full flex items-center justify-center gap-2"
+          className="w-full flex items-center justify-center gap-2 border-border text-foreground hover:bg-muted"
           onClick={onPrint}
         >
           <Printer size={14} />
