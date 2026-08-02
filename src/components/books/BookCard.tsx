@@ -121,7 +121,7 @@ const BookCard = ({
           Free Download
         </Badge>
       ) : comingSoon ? (
-        <Badge className="absolute top-3 left-4 z-20 bg-gold hover:bg-gold-dark text-charcoal font-medium px-3 py-1 shadow-md">
+        <Badge className="absolute top-3 left-4 z-20 bg-gold hover:bg-gold-dark text-white font-medium px-3 py-1 shadow-md">
           Coming Soon
         </Badge>
       ) : isNew ? (
