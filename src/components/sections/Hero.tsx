@@ -148,7 +148,7 @@ const Hero = () => {
                 {/* Magazine-style backdrop card */}
                 <div className="absolute inset-0 bg-gradient-to-br from-secondary to-background rounded-3xl rotate-3 shadow-2xl border border-white/5" />
 
-                {/* Maggie card */}
+                {/* Maggie card — larger, dominant */}
                 <a
                   href="#maggie"
                   onClick={(e) => {
@@ -156,7 +156,7 @@ const Hero = () => {
                     const section = document.getElementById('maggie');
                     if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }}
-                  className="absolute -top-6 -left-6 w-48 h-64 bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform -rotate-6 block group transition-transform duration-500 hover:-rotate-3 hover:scale-105"
+                  className="absolute -top-8 -left-8 w-60 h-80 bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform -rotate-6 block group transition-transform duration-500 hover:-rotate-3 hover:scale-105 z-20"
                 >
                   <img
                     src="/lovable-uploads/MaggieNewNBP.png"
@@ -165,18 +165,18 @@ const Hero = () => {
                     loading="eager"
                     decoding="async"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                    <span className="text-white font-bold text-xs uppercase tracking-tighter font-body">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-5">
+                    <span className="text-white font-bold text-sm uppercase tracking-tighter font-body">
                       Meet Maggie
                     </span>
                   </div>
                 </a>
 
-                {/* Matteo card */}
+                {/* Matteo card — smaller, supporting */}
                 <Link
                   to="/matteo"
                   aria-label="Meet Matteo the Yorkie puppy"
-                  className="absolute bottom-10 -right-4 w-56 h-72 bg-secondary rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-6 z-20 block group transition-transform duration-500 hover:rotate-3 hover:scale-105"
+                  className="absolute bottom-10 -right-4 w-48 h-64 bg-secondary rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-6 z-10 block group transition-transform duration-500 hover:rotate-3 hover:scale-105"
                 >
                   <img
                     src="/lovable-uploads/MatteoFront.png"
@@ -185,8 +185,8 @@ const Hero = () => {
                     loading="eager"
                     decoding="async"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                    <span className="text-white font-bold text-sm uppercase tracking-tighter font-body">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                    <span className="text-white font-bold text-xs uppercase tracking-tighter font-body">
                       Adventures with Matteo
                     </span>
                   </div>
