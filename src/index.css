@@ -9,53 +9,53 @@
      Warm orange, amber, rose, and purple
      ============================================ */
   :root {
-    --background: 30 55% 96%;
-    --foreground: 20 35% 18%;
+    --background: 30 35% 97%;
+    --foreground: 20 30% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 20 35% 18%;
+    --card-foreground: 20 30% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 20 35% 18%;
+    --popover-foreground: 20 30% 20%;
 
-    --primary: 17 60% 52%;
+    --primary: 17 45% 52%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 32 55% 52%;
-    --secondary-foreground: 20 35% 18%;
+    --secondary: 32 40% 52%;
+    --secondary-foreground: 20 30% 20%;
 
-    --accent: 252 45% 55%;
+    --accent: 252 30% 52%;
     --accent-foreground: 0 0% 100%;
 
-    --muted: 30 40% 92%;
-    --muted-foreground: 20 25% 35%;
+    --muted: 30 25% 93%;
+    --muted-foreground: 20 20% 38%;
 
-    --destructive: 0 60% 45%;
+    --destructive: 0 50% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 30 40% 82%;
-    --input: 30 40% 82%;
-    --ring: 17 60% 52%;
+    --border: 30 25% 85%;
+    --input: 30 25% 85%;
+    --ring: 17 45% 52%;
 
     --radius: 0.75rem;
 
-    --cream: 30 55% 96%;
-    --sage: 32 55% 52%;
-    --sage-light: 32 40% 92%;
-    --sage-dark: 22 45% 42%;
-    --rose: 337 50% 55%;
-    --rose-light: 337 40% 92%;
-    --gold: 38 60% 52%;
-    --gold-light: 38 50% 92%;
-    --lavender: 25 40% 92%;
-    --sky: 30 45% 94%;
-    --charcoal: 20 35% 18%;
+    --cream: 30 35% 97%;
+    --sage: 32 40% 52%;
+    --sage-light: 32 25% 93%;
+    --sage-dark: 22 30% 45%;
+    --rose: 337 35% 55%;
+    --rose-light: 337 25% 93%;
+    --gold: 38 40% 52%;
+    --gold-light: 38 30% 93%;
+    --lavender: 25 25% 93%;
+    --sky: 30 30% 95%;
+    --charcoal: 20 30% 20%;
 
-    /* Warm gradient backgrounds — muted sunset */
-    --gradient-page: linear-gradient(180deg, hsl(30 50% 96%) 0%, hsl(30 55% 97%) 45%, hsl(25 45% 94%) 100%);
-    --gradient-primary: linear-gradient(135deg, hsl(17 60% 52%), hsl(32 55% 52%));
-    --gradient-accent: linear-gradient(135deg, hsl(32 55% 52%), hsl(337 50% 55%));
-    --gradient-sunset: linear-gradient(135deg, hsl(32 50% 68%) 0%, hsl(17 55% 58%) 35%, hsl(337 45% 55%) 70%, hsl(252 40% 52%) 100%);
+    /* Warm gradient backgrounds — soft dusty sunset */
+    --gradient-page: linear-gradient(180deg, hsl(30 30% 97%) 0%, hsl(30 35% 97%) 45%, hsl(25 25% 95%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(17 45% 52%), hsl(32 40% 52%));
+    --gradient-accent: linear-gradient(135deg, hsl(32 40% 52%), hsl(337 35% 55%));
+    --gradient-sunset: linear-gradient(135deg, hsl(32 30% 78%) 0%, hsl(20 30% 68%) 35%, hsl(340 25% 62%) 70%, hsl(260 22% 52%) 100%);
 
     --font-heading: 'Fredoka', system-ui, sans-serif;
     --font-body: 'Quicksand', system-ui, sans-serif;

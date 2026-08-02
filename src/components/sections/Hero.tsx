@@ -53,16 +53,16 @@ const Hero = () => {
         {/* Sunset hero card */}
         <div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-[2.5rem] shadow-2xl shadow-orange-900/15 border-8 border-white/90 bg-sunset">
           {/* Decorative sunset elements */}
-          <div className="absolute -top-24 -right-24 w-80 h-80 md:w-96 md:h-96 bg-amber-200 rounded-full blur-3xl opacity-40 gpu-layer-opacity" />
-          <div className="absolute top-24 right-1/4 w-32 h-16 bg-white/25 backdrop-blur-md rounded-full motion-safe:animate-float [animation-delay:0.5s] gpu-layer" />
-          <div className="absolute top-12 left-12 w-24 h-12 bg-white/30 backdrop-blur-md rounded-full motion-safe:animate-float [animation-delay:1s] gpu-layer" />
-          <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-purple-950/30 to-transparent pointer-events-none" />
+          <div className="absolute -top-24 -right-24 w-80 h-80 md:w-96 md:h-96 bg-amber-100 rounded-full blur-3xl opacity-30 gpu-layer-opacity" />
+          <div className="absolute top-24 right-1/4 w-32 h-16 bg-white/20 backdrop-blur-md rounded-full motion-safe:animate-float [animation-delay:0.5s] gpu-layer" />
+          <div className="absolute top-12 left-12 w-24 h-12 bg-white/25 backdrop-blur-md rounded-full motion-safe:animate-float [animation-delay:1s] gpu-layer" />
+          <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-purple-950/20 to-transparent pointer-events-none" />
 
           {/* Ground/hills layer */}
           <div className="absolute bottom-0 w-full flex items-end justify-between px-4 pointer-events-none">
-            <div className="w-32 h-32 bg-orange-700/20 rounded-t-full blur-xl" />
-            <div className="w-48 h-24 bg-rose-800/15 rounded-t-full blur-lg translate-y-4" />
-            <div className="w-40 h-40 bg-purple-900/15 rounded-t-full blur-2xl" />
+            <div className="w-32 h-32 bg-orange-800/12 rounded-t-full blur-xl" />
+            <div className="w-48 h-24 bg-rose-900/10 rounded-t-full blur-lg translate-y-4" />
+            <div className="w-40 h-40 bg-purple-950/10 rounded-t-full blur-2xl" />
           </div>
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[calc(100vh-10rem)] p-6 sm:p-10 lg:p-16">
