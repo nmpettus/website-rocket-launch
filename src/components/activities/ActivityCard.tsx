@@ -94,11 +94,12 @@ const ActivityItemCard: React.FC<ActivityItemCardProps> = ({ activity, isViewed,
 
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <div className="h-28 bg-muted rounded-md flex items-center justify-center mb-3 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity">
+            <div className="h-44 bg-muted rounded-md flex items-center justify-center mb-3 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity p-2">
               <img 
                 src={activity.imagePath} 
                 alt={`${activity.title} preview`}
-                className="w-full h-full object-cover"
+                loading="lazy"
+                className="max-w-full max-h-full object-contain"
               />
             </div>
           </DialogTrigger>
