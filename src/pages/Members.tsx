@@ -167,6 +167,29 @@ export default function Members() {
     }
   };
 
+  const requestRefund = async () => {
+    if (!user || !subscription || !refundInfo) return;
+    setRequestingRefund(true);
+    try {
+      const { getStripeEnvironment } = await import("@/lib/stripe");
+      const { data, error } = await supabase.functions.invoke("process-refund", {
+        body: {
+          environment: getStripeEnvironment(),
+          subscriptionId: subscription.id,
+        },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      toast.success(`Refund of $${(data.refunded_cents / 100).toFixed(2)} has been processed.`);
+      await refetch();
+      await fetchRefundInfo();
+    } catch (e: any) {
+      toast.error(e.message || "Could not process refund");
+    } finally {
+      setRequestingRefund(false);
+    }
+  };
+
   if (authLoading || !user) return null;
 
   const showCancelButton = isActive && !subscription?.cancel_at_period_end;
