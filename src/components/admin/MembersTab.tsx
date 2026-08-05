@@ -54,6 +54,8 @@ export function MembersTab() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hideTest, setHideTest] = useState(true);
+  const [adjusting, setAdjusting] = useState<Record<string, boolean>>({});
+  const [adjustValues, setAdjustValues] = useState<Record<string, string>>({});
 
   const load = async () => {
     setLoading(true);
