@@ -101,6 +101,41 @@ export default function Members() {
     navigate("/");
   };
 
+  const fetchCreditBalance = async () => {
+    if (!user) return;
+    const { getStripeEnvironment } = await import("@/lib/stripe");
+    const env = getStripeEnvironment();
+    const { data, error } = await supabase.rpc("ensure_and_get_credit_balance", {
+      _user_id: user.id,
+      _environment: env,
+    });
+    if (!error) setCreditBalance(data ?? 0);
+  };
+
+  const fetchRefundInfo = async () => {
+    if (!user || !subscription || subscription.price_id !== "reading_club_yearly") {
+      setRefundInfo(null);
+      return;
+    }
+    const { getStripeEnvironment } = await import("@/lib/stripe");
+    const { data, error } = await supabase.rpc("get_refundable_amount", {
+      _user_id: user.id,
+      _environment: getStripeEnvironment(),
+    });
+    if (error || !data) {
+      setRefundInfo(null);
+      return;
+    }
+    const info = data as { amount_cents: number; months_remaining: number };
+    setRefundInfo(info.months_remaining > 0 ? info : null);
+  };
+
+  useEffect(() => {
+    fetchCreditBalance();
+    fetchRefundInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, subscription?.id]);
+
   const openPortal = async () => {
     try {
       const { getStripeEnvironment } = await import("@/lib/stripe");
