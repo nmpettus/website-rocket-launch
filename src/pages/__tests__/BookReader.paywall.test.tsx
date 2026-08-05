@@ -57,6 +57,13 @@ function makePagesQuery() {
   chain.upsert = () => ({ then: (cb: any) => cb({ error: null }) });
   return chain;
 }
+function makeUnlocksQuery() {
+  const chain: any = {};
+  chain.select = () => chain;
+  chain.eq = () => chain;
+  chain.maybeSingle = async () => ({ data: null, error: null });
+  return chain;
+}
 
 vi.mock("@/integrations/supabase/client", () => ({
   isSupabaseConfigured: true,
@@ -65,8 +72,10 @@ vi.mock("@/integrations/supabase/client", () => ({
       if (table === "books") return makeBooksQuery();
       if (table === "book_pages") return makePagesQuery();
       if (table === "reading_history") return makePagesQuery();
+      if (table === "unlocks") return makeUnlocksQuery();
       return makePagesQuery();
     },
+    rpc: async () => ({ data: 7, error: null }),
     storage: {
       from: () => ({
         createSignedUrl: async (path: string) => ({
