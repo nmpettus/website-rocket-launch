@@ -11,7 +11,7 @@ import { toast } from "@/hooks/use-toast";
 import { getCachedImageUrl, prefetchImages, hasCachedImage, cacheAllImages } from "@/lib/imageCache";
 import { CloudDownload, CheckCircle2 } from "lucide-react";
 
-interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; }
+interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; content_type?: string; credit_cost?: number; }
 interface Page { id: string; page_number: number; image_url: string; narration_text: string | null; updated_at?: string | null; }
 
 const PREVIEW_LIMIT = 3;
@@ -31,10 +31,13 @@ export default function BookReader() {
   const [fit, setFit] = useState<"contain" | "cover">("contain");
   const [aspects, setAspects] = useState<Record<string, number>>({});
   const [pairs, setPairs] = useState<Record<string, boolean>>({});
+  const [unlocked, setUnlocked] = useState(false);
+  const [unlocking, setUnlocking] = useState(false);
+  const [creditBalance, setCreditBalance] = useState<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCacheRef = useRef<Map<string, (string | null)[]>>(new Map());
   const inflightAudioRef = useRef<Map<string, Promise<string | null>[]>>(new Map());
-  const gated = !!book && !isActive && !book.is_free;
+  const gated = !!book && !isActive && !book.is_free && !unlocked;
   const readablePages = useMemo(
     () => gated
       ? pages.filter((p) => p.page_number >= 1 && p.page_number <= PREVIEW_LIMIT)
@@ -331,6 +334,24 @@ export default function BookReader() {
       const { data: b } = await supabase.from("books").select("*").eq("slug", slug).maybeSingle();
       if (!b) { setLoading(false); return; }
       setBook(b as Book);
+
+      if (user) {
+        const { data: unlock } = await supabase
+          .from("unlocks")
+          .select("id")
+          .eq("user_id", user.id)
+          .eq("book_id", b.id)
+          .maybeSingle();
+        setUnlocked(!!unlock);
+
+        const { getStripeEnvironment } = await import("@/lib/stripe");
+        const { data: bal } = await supabase.rpc("ensure_and_get_credit_balance", {
+          _user_id: user.id,
+          _environment: getStripeEnvironment(),
+        });
+        setCreditBalance(bal ?? 0);
+      }
+
       const { data: p } = await supabase
         .from("book_pages")
         .select("*")
@@ -560,6 +581,24 @@ export default function BookReader() {
     setCurrent(Math.max(0, Math.min(visiblePages - 1, n)));
   };
 
+  const spendCredits = async () => {
+    if (!user || !book) return;
+    setUnlocking(true);
+    try {
+      const { data, error } = await supabase.rpc("spend_credits", { _book_id: book.id });
+      if (error) throw error;
+      const result = data as { success: boolean; error?: string; credits_remaining?: number };
+      if (!result.success) throw new Error(result.error || "Could not unlock book");
+      setUnlocked(true);
+      setCreditBalance(result.credits_remaining ?? null);
+      toast({ title: "Unlocked!", description: `You now have full access to ${book.title}.` });
+    } catch (e: any) {
+      toast({ title: "Unlock failed", description: e.message || "Not enough credits or an error occurred.", variant: "destructive" });
+    } finally {
+      setUnlocking(false);
+    }
+  };
+
   const previousPageIndex = () => {
     if (layoutMode === "auto") {
       if (current > 0 && canAutoPairAt(current - 1)) return current - 1;
@@ -666,10 +705,28 @@ export default function BookReader() {
             <div className="mt-4 bg-primary text-primary-foreground rounded-xl p-6 text-center">
               <Lock className="w-8 h-8 mx-auto mb-2" />
               <h3 className="text-xl font-bold mb-1">Keep reading with Maggie's Reading Club</h3>
-              <p className="text-sm opacity-90 mb-4">Start your 7-day free trial to unlock the full story and the entire library.</p>
-              <Button variant="secondary" onClick={() => navigate(user ? "/join" : "/auth")}>
-                {user ? "Start Free Trial" : "Sign In to Subscribe"}
-              </Button>
+              <p className="text-sm opacity-90 mb-4">
+                {user
+                  ? `Unlock this ${book?.credit_cost ?? 3}-credit book with your reading credits, or subscribe for unlimited access.`
+                  : "Sign in to unlock the full story and the entire library."}
+              </p>
+              <div className="flex items-center justify-center gap-3 flex-wrap">
+                {user && (
+                  <Button
+                    variant="secondary"
+                    onClick={spendCredits}
+                    disabled={unlocking || (creditBalance !== null && creditBalance < (book?.credit_cost ?? 3))}
+                  >
+                    {unlocking ? "Unlocking…" : `Unlock for ${book?.credit_cost ?? 3} credits`}
+                    {creditBalance !== null && (
+                      <span className="ml-2 text-xs opacity-80">({creditBalance} left)</span>
+                    )}
+                  </Button>
+                )}
+                <Button variant="secondary" onClick={() => navigate(user ? "/join" : "/auth")}>
+                  {user ? "Start Free Trial" : "Sign In to Subscribe"}
+                </Button>
+              </div>
             </div>
           )}
 

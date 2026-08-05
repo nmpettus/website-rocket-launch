@@ -3,7 +3,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Loader2, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
 
 interface MemberRow {
   user_id: string;
@@ -15,6 +17,7 @@ interface MemberRow {
   current_period_end: string | null;
   cancel_at_period_end: boolean;
   created_at: string;
+  credit_balance: number;
 }
 
 const PLAN_LABELS: Record<string, string> = {
@@ -51,6 +54,8 @@ export function MembersTab() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hideTest, setHideTest] = useState(true);
+  const [adjusting, setAdjusting] = useState<Record<string, boolean>>({});
+  const [adjustValues, setAdjustValues] = useState<Record<string, string>>({});
 
   const load = async () => {
     setLoading(true);
@@ -62,6 +67,32 @@ export function MembersTab() {
   };
 
   useEffect(() => { load(); }, []);
+
+  const adjustCredits = async (row: MemberRow) => {
+    const raw = adjustValues[row.user_id]?.trim();
+    if (!raw) return;
+    const delta = parseInt(raw, 10);
+    if (Number.isNaN(delta)) return toast.error("Enter a number");
+    setAdjusting((prev) => ({ ...prev, [row.user_id]: true }));
+    try {
+      const { error } = await supabase.from("credit_ledger").insert({
+        user_id: row.user_id,
+        delta,
+        reason: "Manual admin adjustment",
+        source_ref: "admin",
+        period_start: new Date().toISOString().split("T")[0],
+        environment: row.environment,
+      });
+      if (error) throw error;
+      toast.success(`Credits adjusted by ${delta > 0 ? "+" : ""}${delta}`);
+      setAdjustValues((prev) => ({ ...prev, [row.user_id]: "" }));
+      await load();
+    } catch (e: any) {
+      toast.error(e.message || "Adjustment failed");
+    } finally {
+      setAdjusting((prev) => ({ ...prev, [row.user_id]: false }));
+    }
+  };
 
   const filtered = useMemo(
     () => hideTest ? rows.filter(r => !r.email.toLowerCase().endsWith("@example.com")) : rows,
@@ -126,6 +157,7 @@ export function MembersTab() {
                 <th className="px-3 py-2 font-semibold">Status</th>
                 <th className="px-3 py-2 font-semibold">Env</th>
                 <th className="px-3 py-2 font-semibold">Trial ends / Renews</th>
+                <th className="px-3 py-2 font-semibold">Credits</th>
                 <th className="px-3 py-2 font-semibold">Joined</th>
               </tr>
             </thead>
@@ -142,6 +174,28 @@ export function MembersTab() {
                   </td>
                   <td className="px-3 py-2 text-xs uppercase text-muted-foreground">{r.environment}</td>
                   <td className="px-3 py-2">{fmt(r.current_period_end)}</td>
+                  <td className="px-3 py-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold tabular-nums">{r.credit_balance ?? 0}</span>
+                      <Input
+                        type="number"
+                        placeholder="±"
+                        className="w-20 h-7 text-xs"
+                        value={adjustValues[r.user_id] ?? ""}
+                        onChange={(e) => setAdjustValues((prev) => ({ ...prev, [r.user_id]: e.target.value }))}
+                        onKeyDown={(e) => e.key === "Enter" && adjustCredits(r)}
+                      />
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-7 px-2 text-xs"
+                        disabled={adjusting[r.user_id]}
+                        onClick={() => adjustCredits(r)}
+                      >
+                        {adjusting[r.user_id] ? <Loader2 className="w-3 h-3 animate-spin" /> : "Adjust"}
+                      </Button>
+                    </div>
+                  </td>
                   <td className="px-3 py-2 text-muted-foreground">{fmt(r.created_at)}</td>
                 </tr>
               ))}

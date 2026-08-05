@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { ArrowLeft, Loader2, Upload, Trash2, FileUp, Pencil, X, ShieldAlert } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MembersTab } from "@/components/admin/MembersTab";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface PendingPage {
   file: File;
@@ -33,6 +34,8 @@ export default function AdminBooks() {
   const [description, setDescription] = useState("");
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [isFree, setIsFree] = useState(false);
+  const [contentType, setContentType] = useState<"picture_book" | "downloadable" | "short_story" | "coloring_book">("picture_book");
+  const [creditCost, setCreditCost] = useState<number>(3);
   const [pages, setPages] = useState<PendingPage[]>([]);
   const [working, setWorking] = useState(false);
   const [importProgress, setImportProgress] = useState<string | null>(null);
@@ -50,7 +53,7 @@ export default function AdminBooks() {
   const loadExistingBooks = async () => {
     const { data } = await supabase
       .from("books")
-      .select("id, slug, title, page_count, is_free, created_at")
+      .select("id, slug, title, page_count, is_free, content_type, credit_cost, created_at")
       .order("created_at", { ascending: false });
     setExistingBooks(data || []);
   };
@@ -72,6 +75,8 @@ export default function AdminBooks() {
     setDescription("");
     setCoverFile(null);
     setIsFree(false);
+    setContentType("picture_book");
+    setCreditCost(3);
     setPages([]);
     setSaveState("unsaved");
   };
@@ -81,7 +86,7 @@ export default function AdminBooks() {
     try {
       const { data: book, error } = await supabase
         .from("books")
-        .select("id, slug, title, description, cover_image_url, is_free, page_count")
+        .select("id, slug, title, description, cover_image_url, is_free, page_count, content_type, credit_cost")
         .eq("id", bookId)
         .single();
       if (error) throw error;
@@ -91,6 +96,8 @@ export default function AdminBooks() {
       setSlug(book.slug ?? "");
       setDescription(book.description ?? "");
       setIsFree(!!book.is_free);
+      setContentType((book.content_type as typeof contentType) ?? "picture_book");
+      setCreditCost(book.credit_cost ?? 3);
       setExistingCoverUrl(book.cover_image_url ?? null);
       setCoverFile(null);
       setPages([]);
@@ -234,8 +241,16 @@ export default function AdminBooks() {
         if (error) throw error;
         coverUrl = path;
       }
+      const base = {
+        slug,
+        title,
+        description,
+        is_free: isFree,
+        content_type: contentType,
+        credit_cost: creditCost,
+      };
       if (editingId) {
-        const patch: any = { slug, title, description, is_free: isFree };
+        const patch: any = { ...base };
         if (coverUrl) patch.cover_image_url = coverUrl;
         const { error: bookErr } = await supabase.from("books").update(patch).eq("id", editingId);
         if (bookErr) throw bookErr;
@@ -245,12 +260,9 @@ export default function AdminBooks() {
         const { data: bookRow, error: bookErr } = await supabase
           .from("books")
           .insert({
-            slug,
-            title,
-            description,
+            ...base,
             ...(coverUrl ? { cover_image_url: coverUrl } : {}),
             page_count: pages.length,
-            is_free: isFree,
           })
           .select("id, slug, cover_image_url")
           .single();
@@ -286,9 +298,17 @@ export default function AdminBooks() {
         coverUrl = path; // stored as path; reader will sign
       }
 
+      const base = {
+        slug,
+        title,
+        description,
+        is_free: isFree,
+        content_type: contentType,
+        credit_cost: creditCost,
+      };
       let bookRow: { id: string; slug: string };
       if (editingId) {
-        const patch: any = { slug, title, description, is_free: isFree };
+        const patch: any = { ...base };
         if (coverUrl) patch.cover_image_url = coverUrl;
         if (pages.length) patch.page_count = pages.length;
         const { data, error: bookErr } = await supabase
@@ -303,12 +323,9 @@ export default function AdminBooks() {
         const { data, error: bookErr } = await supabase
           .from("books")
           .insert({
-            slug,
-            title,
-            description,
+            ...base,
             cover_image_url: coverUrl,
             page_count: pages.length,
-            is_free: isFree,
           })
           .select()
           .single();
@@ -456,6 +473,8 @@ export default function AdminBooks() {
                     <div className="font-medium truncate">{b.title}</div>
                     <div className="text-xs text-muted-foreground">
                       /read/{b.slug} · {b.page_count ?? 0} pages {b.is_free ? "· free" : ""}
+                      {b.content_type ? ` · ${b.content_type.replace(/_/g, " ")}` : ""}
+                      {b.credit_cost != null ? ` · ${b.credit_cost} credit${b.credit_cost === 1 ? "" : "s"}` : ""}
                     </div>
                   </div>
                   <Link to={`/read/${b.slug}`} className="text-xs text-primary hover:underline">Open</Link>
@@ -508,6 +527,37 @@ export default function AdminBooks() {
           <div className="flex items-center gap-3">
             <Switch id="free" checked={isFree} onCheckedChange={setIsFree} />
             <Label htmlFor="free">Free book (all pages public, no paywall)</Label>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="content-type">Content type</Label>
+              <Select value={contentType} onValueChange={(v) => {
+                setContentType(v as typeof contentType);
+                if (v === "picture_book") setCreditCost(3);
+                if (v === "downloadable" || v === "coloring_book") setCreditCost(2);
+                if (v === "short_story") setCreditCost(1);
+              }}>
+                <SelectTrigger id="content-type">
+                  <SelectValue placeholder="Choose content type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="picture_book">Picture book (3 credits)</SelectItem>
+                  <SelectItem value="downloadable">Downloadable / Activity (2 credits)</SelectItem>
+                  <SelectItem value="coloring_book">Coloring book (2 credits)</SelectItem>
+                  <SelectItem value="short_story">Short story (1 credit)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="credit-cost">Credit cost</Label>
+              <Input
+                id="credit-cost"
+                type="number"
+                min={0}
+                value={creditCost}
+                onChange={(e) => setCreditCost(Math.max(0, parseInt(e.target.value || "0", 10)))}
+              />
+            </div>
           </div>
         </div>
 

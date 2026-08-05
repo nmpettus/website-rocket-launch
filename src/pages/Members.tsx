@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck, ShoppingCart } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck, ShoppingCart, Coins } from "lucide-react";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 import { AdminStripeModeToggle } from "@/components/AdminStripeModeToggle";
 
@@ -52,6 +53,9 @@ export default function Members() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [canceling, setCanceling] = useState(false);
+  const [creditBalance, setCreditBalance] = useState<number | null>(null);
+  const [refundInfo, setRefundInfo] = useState<{ amount_cents: number; months_remaining: number } | null>(null);
+  const [requestingRefund, setRequestingRefund] = useState(false);
   const checkoutHandledRef = useRef(false);
 
   useEffect(() => {
@@ -97,6 +101,41 @@ export default function Members() {
     navigate("/");
   };
 
+  const fetchCreditBalance = async () => {
+    if (!user) return;
+    const { getStripeEnvironment } = await import("@/lib/stripe");
+    const env = getStripeEnvironment();
+    const { data, error } = await supabase.rpc("ensure_and_get_credit_balance", {
+      _user_id: user.id,
+      _environment: env,
+    });
+    if (!error) setCreditBalance(data ?? 0);
+  };
+
+  const fetchRefundInfo = async () => {
+    if (!user || !subscription || subscription.price_id !== "reading_club_yearly") {
+      setRefundInfo(null);
+      return;
+    }
+    const { getStripeEnvironment } = await import("@/lib/stripe");
+    const { data, error } = await supabase.rpc("get_refundable_amount", {
+      _user_id: user.id,
+      _environment: getStripeEnvironment(),
+    });
+    if (error || !data) {
+      setRefundInfo(null);
+      return;
+    }
+    const info = data as { amount_cents: number; months_remaining: number };
+    setRefundInfo(info.months_remaining > 0 ? info : null);
+  };
+
+  useEffect(() => {
+    fetchCreditBalance();
+    fetchRefundInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, subscription?.id]);
+
   const openPortal = async () => {
     try {
       const { getStripeEnvironment } = await import("@/lib/stripe");
@@ -125,6 +164,29 @@ export default function Members() {
       toast.error(e.message || "Could not cancel subscription");
     } finally {
       setCanceling(false);
+    }
+  };
+
+  const requestRefund = async () => {
+    if (!user || !subscription || !refundInfo) return;
+    setRequestingRefund(true);
+    try {
+      const { getStripeEnvironment } = await import("@/lib/stripe");
+      const { data, error } = await supabase.functions.invoke("process-refund", {
+        body: {
+          environment: getStripeEnvironment(),
+          subscriptionId: subscription.id,
+        },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      toast.success(`Refund of $${(data.refunded_cents / 100).toFixed(2)} has been processed.`);
+      await refetch();
+      await fetchRefundInfo();
+    } catch (e: any) {
+      toast.error(e.message || "Could not process refund");
+    } finally {
+      setRequestingRefund(false);
     }
   };
 
@@ -205,6 +267,14 @@ export default function Members() {
                     <p className="text-sm text-muted-foreground">Preview the first 3 pages of any book free. Subscribe to read everything.</p>
                   </div>
                   <Button onClick={() => navigate("/join")}>Start Free Trial</Button>
+                </div>
+              )}
+              {isActive && creditBalance !== null && (
+                <div className="mt-4 flex items-center gap-2">
+                  <Badge variant="secondary" className="text-sm px-3 py-1">
+                    <Coins className="w-4 h-4 mr-1 text-primary" />
+                    {creditBalance} reading credit{creditBalance === 1 ? "" : "s"} this month
+                  </Badge>
                 </div>
               )}
               {isActive && subscription?.cancel_at_period_end && subscription.current_period_end && (
@@ -290,38 +360,59 @@ export default function Members() {
             </div>
             {statusPanel}
             {isActive && (
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Button variant="outline" onClick={openPortal}>
-                  <Settings className="w-4 h-4 mr-2" /> Manage Subscription
-                </Button>
-                {showCancelButton && (
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant="outline" className="text-destructive hover:text-destructive">
-                        <XCircle className="w-4 h-4 mr-2" /> Cancel Subscription
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          You'll keep full access to the library until the end of your current billing period
-                          {subscription?.current_period_end
-                            ? ` (${new Date(subscription.current_period_end).toLocaleDateString()})`
-                            : ""}
-                          . After that your subscription will end and you won't be charged again. You can resubscribe anytime.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Keep subscription</AlertDialogCancel>
-                        <AlertDialogAction onClick={cancelSubscription} disabled={canceling}>
-                          {canceling ? "Canceling..." : "Yes, cancel"}
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+              <>
+                {refundInfo && (
+                  <div className="mt-6 rounded-xl border bg-card p-5">
+                    <h3 className="font-semibold text-lg mb-2">Yearly refund available</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      You have {refundInfo.months_remaining} whole month{refundInfo.months_remaining === 1 ? "" : "s"} left on your yearly plan.
+                      Canceling now will end your subscription at the close of this billing period and refund
+                      <strong> ${(refundInfo.amount_cents / 100).toFixed(2)}</strong> for the remaining months.
+                      Any unused credits will be lost.
+                    </p>
+                    <Button
+                      variant="outline"
+                      disabled={requestingRefund}
+                      onClick={requestRefund}
+                      className="text-destructive hover:text-destructive"
+                    >
+                      {requestingRefund ? "Processing…" : "Cancel & Refund Remaining Months"}
+                    </Button>
+                  </div>
                 )}
-              </div>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Button variant="outline" onClick={openPortal}>
+                    <Settings className="w-4 h-4 mr-2" /> Manage Subscription
+                  </Button>
+                  {showCancelButton && !refundInfo && (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="outline" className="text-destructive hover:text-destructive">
+                          <XCircle className="w-4 h-4 mr-2" /> Cancel Subscription
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            You'll keep full access to the library until the end of your current billing period
+                            {subscription?.current_period_end
+                              ? ` (${new Date(subscription.current_period_end).toLocaleDateString()})`
+                              : ""}
+                            . After that your subscription will end and you won't be charged again. Any unused credits will be lost. You can resubscribe anytime.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Keep subscription</AlertDialogCancel>
+                          <AlertDialogAction onClick={cancelSubscription} disabled={canceling}>
+                            {canceling ? "Canceling..." : "Yes, cancel"}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  )}
+                </div>
+              </>
             )}
             {!isActive && (
               <div className="mt-6">
