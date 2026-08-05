@@ -96,6 +96,25 @@ async function grantCreditsForInvoice(invoice: any, env: StripeEnv) {
   });
 }
 
+async function grantCreditsForSubscription(subscription: any, env: StripeEnv) {
+  const userId = subscription.metadata?.userId;
+  const item = subscription.items?.data?.[0];
+  const priceId = item?.price?.lookup_key || item?.price?.metadata?.lovable_external_id || item?.price?.id;
+  const periodStart = item?.current_period_start ?? subscription.current_period_start;
+  if (!userId || !priceId) return;
+
+  const date = periodStart ? new Date(periodStart * 1000).toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
+  const sourceRef = `subscription:${subscription.id}:${date}`;
+
+  await getSupabase().rpc("grant_monthly_credits", {
+    _user_id: userId,
+    _price_id: priceId,
+    _period_start: date,
+    _source_ref: sourceRef,
+    _environment: env,
+  });
+}
+
 Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405 });
   const rawEnv = new URL(req.url).searchParams.get("env");
