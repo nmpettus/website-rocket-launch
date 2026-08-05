@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck, ShoppingCart } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck, ShoppingCart, Coins } from "lucide-react";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 import { AdminStripeModeToggle } from "@/components/AdminStripeModeToggle";
 
