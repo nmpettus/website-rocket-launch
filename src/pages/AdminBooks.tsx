@@ -34,7 +34,7 @@ export default function AdminBooks() {
   const [description, setDescription] = useState("");
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [isFree, setIsFree] = useState(false);
-  const [contentType, setContentType] = useState<"picture_book" | "downloadable" | "short_story" | "coloring_book">("picture_book");
+  const [contentType, setContentType] = useState<"picture_book" | "downloadable" | "short_story" | "coloring_book" | "devotional_package">("picture_book");
   const [creditCost, setCreditCost] = useState<number>(3);
   const [pages, setPages] = useState<PendingPage[]>([]);
   const [working, setWorking] = useState(false);
@@ -534,7 +534,7 @@ export default function AdminBooks() {
               <Select value={contentType} onValueChange={(v) => {
                 setContentType(v as typeof contentType);
                 if (v === "picture_book") setCreditCost(3);
-                if (v === "downloadable" || v === "coloring_book") setCreditCost(2);
+                if (v === "downloadable" || v === "coloring_book" || v === "devotional_package") setCreditCost(2);
                 if (v === "short_story") setCreditCost(1);
               }}>
                 <SelectTrigger id="content-type">
@@ -544,9 +544,11 @@ export default function AdminBooks() {
                   <SelectItem value="picture_book">Picture book (3 credits)</SelectItem>
                   <SelectItem value="downloadable">Downloadable / Activity (2 credits)</SelectItem>
                   <SelectItem value="coloring_book">Coloring book (2 credits)</SelectItem>
+                  <SelectItem value="devotional_package">Devotional package (2 credits)</SelectItem>
                   <SelectItem value="short_story">Short story (1 credit)</SelectItem>
                 </SelectContent>
               </Select>
+
             </div>
             <div className="space-y-2">
               <Label htmlFor="credit-cost">Credit cost</Label>
