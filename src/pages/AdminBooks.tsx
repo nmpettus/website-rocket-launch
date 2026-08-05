@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { ArrowLeft, Loader2, Upload, Trash2, FileUp, Pencil, X, ShieldAlert } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MembersTab } from "@/components/admin/MembersTab";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface PendingPage {
   file: File;
