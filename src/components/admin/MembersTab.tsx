@@ -68,6 +68,32 @@ export function MembersTab() {
 
   useEffect(() => { load(); }, []);
 
+  const adjustCredits = async (row: MemberRow) => {
+    const raw = adjustValues[row.user_id]?.trim();
+    if (!raw) return;
+    const delta = parseInt(raw, 10);
+    if (Number.isNaN(delta)) return toast.error("Enter a number");
+    setAdjusting((prev) => ({ ...prev, [row.user_id]: true }));
+    try {
+      const { error } = await supabase.from("credit_ledger").insert({
+        user_id: row.user_id,
+        delta,
+        reason: "Manual admin adjustment",
+        source_ref: "admin",
+        period_start: new Date().toISOString().split("T")[0],
+        environment: row.environment,
+      });
+      if (error) throw error;
+      toast.success(`Credits adjusted by ${delta > 0 ? "+" : ""}${delta}`);
+      setAdjustValues((prev) => ({ ...prev, [row.user_id]: "" }));
+      await load();
+    } catch (e: any) {
+      toast.error(e.message || "Adjustment failed");
+    } finally {
+      setAdjusting((prev) => ({ ...prev, [row.user_id]: false }));
+    }
+  };
+
   const filtered = useMemo(
     () => hideTest ? rows.filter(r => !r.email.toLowerCase().endsWith("@example.com")) : rows,
     [rows, hideTest]
