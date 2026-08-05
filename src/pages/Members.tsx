@@ -43,6 +43,8 @@ interface Book {
   cover_image_url: string | null;
   page_count: number;
   is_free: boolean;
+  content_type?: string | null;
+  credit_cost?: number | null;
 }
 
 export default function Members() {
