@@ -85,7 +85,7 @@ export default function AdminBooks() {
     try {
       const { data: book, error } = await supabase
         .from("books")
-        .select("id, slug, title, description, cover_image_url, is_free, page_count")
+        .select("id, slug, title, description, cover_image_url, is_free, page_count, content_type, credit_cost")
         .eq("id", bookId)
         .single();
       if (error) throw error;
@@ -95,6 +95,8 @@ export default function AdminBooks() {
       setSlug(book.slug ?? "");
       setDescription(book.description ?? "");
       setIsFree(!!book.is_free);
+      setContentType(book.content_type ?? "picture_book");
+      setCreditCost(book.credit_cost ?? 3);
       setExistingCoverUrl(book.cover_image_url ?? null);
       setCoverFile(null);
       setPages([]);
