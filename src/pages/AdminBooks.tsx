@@ -297,9 +297,17 @@ export default function AdminBooks() {
         coverUrl = path; // stored as path; reader will sign
       }
 
+      const base = {
+        slug,
+        title,
+        description,
+        is_free: isFree,
+        content_type: contentType,
+        credit_cost: creditCost,
+      };
       let bookRow: { id: string; slug: string };
       if (editingId) {
-        const patch: any = { slug, title, description, is_free: isFree };
+        const patch: any = { ...base };
         if (coverUrl) patch.cover_image_url = coverUrl;
         if (pages.length) patch.page_count = pages.length;
         const { data, error: bookErr } = await supabase
@@ -314,12 +322,9 @@ export default function AdminBooks() {
         const { data, error: bookErr } = await supabase
           .from("books")
           .insert({
-            slug,
-            title,
-            description,
+            ...base,
             cover_image_url: coverUrl,
             page_count: pages.length,
-            is_free: isFree,
           })
           .select()
           .single();
