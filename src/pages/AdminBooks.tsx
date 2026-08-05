@@ -526,6 +526,37 @@ export default function AdminBooks() {
             <Switch id="free" checked={isFree} onCheckedChange={setIsFree} />
             <Label htmlFor="free">Free book (all pages public, no paywall)</Label>
           </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="content-type">Content type</Label>
+              <Select value={contentType} onValueChange={(v) => {
+                setContentType(v as typeof contentType);
+                if (v === "picture_book") setCreditCost(3);
+                if (v === "downloadable" || v === "coloring_book") setCreditCost(2);
+                if (v === "short_story") setCreditCost(1);
+              }}>
+                <SelectTrigger id="content-type">
+                  <SelectValue placeholder="Choose content type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="picture_book">Picture book (3 credits)</SelectItem>
+                  <SelectItem value="downloadable">Downloadable / Activity (2 credits)</SelectItem>
+                  <SelectItem value="coloring_book">Coloring book (2 credits)</SelectItem>
+                  <SelectItem value="short_story">Short story (1 credit)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="credit-cost">Credit cost</Label>
+              <Input
+                id="credit-cost"
+                type="number"
+                min={0}
+                value={creditCost}
+                onChange={(e) => setCreditCost(Math.max(0, parseInt(e.target.value || "0", 10)))}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="bg-card border rounded-xl p-6 mb-6 space-y-5">
