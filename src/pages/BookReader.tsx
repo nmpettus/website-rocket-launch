@@ -11,7 +11,7 @@ import { toast } from "@/hooks/use-toast";
 import { getCachedImageUrl, prefetchImages, hasCachedImage, cacheAllImages } from "@/lib/imageCache";
 import { CloudDownload, CheckCircle2 } from "lucide-react";
 
-interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; }
+interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; content_type?: string; credit_cost?: number; }
 interface Page { id: string; page_number: number; image_url: string; narration_text: string | null; updated_at?: string | null; }
 
 const PREVIEW_LIMIT = 3;
