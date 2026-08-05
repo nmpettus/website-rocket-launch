@@ -70,6 +70,32 @@ async function handleSubscriptionDeleted(subscription: any, env: StripeEnv) {
   }).eq("stripe_subscription_id", subscription.id).eq("environment", env);
 }
 
+async function grantCreditsForInvoice(invoice: any, env: StripeEnv) {
+  const subscriptionId = invoice.subscription;
+  if (!subscriptionId) return;
+
+  const { data: sub } = await getSupabase()
+    .from("subscriptions")
+    .select("id, user_id, price_id, current_period_start")
+    .eq("stripe_subscription_id", subscriptionId)
+    .eq("environment", env)
+    .maybeSingle();
+  if (!sub?.user_id || !sub?.price_id) return;
+
+  const periodStart = invoice.period_start
+    ? new Date(invoice.period_start * 1000).toISOString().split("T")[0]
+    : (sub.current_period_start ? new Date(sub.current_period_start).toISOString().split("T")[0] : new Date().toISOString().split("T")[0]);
+  const sourceRef = `invoice:${invoice.id}:${periodStart}`;
+
+  await getSupabase().rpc("grant_monthly_credits", {
+    _user_id: sub.user_id,
+    _price_id: sub.price_id,
+    _period_start: periodStart,
+    _source_ref: sourceRef,
+    _environment: env,
+  });
+}
+
 Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405 });
   const rawEnv = new URL(req.url).searchParams.get("env");
