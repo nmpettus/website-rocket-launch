@@ -53,6 +53,9 @@ export default function Members() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [canceling, setCanceling] = useState(false);
+  const [creditBalance, setCreditBalance] = useState<number | null>(null);
+  const [refundInfo, setRefundInfo] = useState<{ amount_cents: number; months_remaining: number } | null>(null);
+  const [requestingRefund, setRequestingRefund] = useState(false);
   const checkoutHandledRef = useRef(false);
 
   useEffect(() => {
