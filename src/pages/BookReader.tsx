@@ -334,6 +334,24 @@ export default function BookReader() {
       const { data: b } = await supabase.from("books").select("*").eq("slug", slug).maybeSingle();
       if (!b) { setLoading(false); return; }
       setBook(b as Book);
+
+      if (user) {
+        const { data: unlock } = await supabase
+          .from("unlocks")
+          .select("id")
+          .eq("user_id", user.id)
+          .eq("book_id", b.id)
+          .maybeSingle();
+        setUnlocked(!!unlock);
+
+        const { getStripeEnvironment } = await import("@/lib/stripe");
+        const { data: bal } = await supabase.rpc("ensure_and_get_credit_balance", {
+          _user_id: user.id,
+          _environment: getStripeEnvironment(),
+        });
+        setCreditBalance(bal ?? 0);
+      }
+
       const { data: p } = await supabase
         .from("book_pages")
         .select("*")
