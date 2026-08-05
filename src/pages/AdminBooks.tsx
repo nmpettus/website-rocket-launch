@@ -95,7 +95,7 @@ export default function AdminBooks() {
       setSlug(book.slug ?? "");
       setDescription(book.description ?? "");
       setIsFree(!!book.is_free);
-      setContentType(book.content_type ?? "picture_book");
+      setContentType((book.content_type as typeof contentType) ?? "picture_book");
       setCreditCost(book.credit_cost ?? 3);
       setExistingCoverUrl(book.cover_image_url ?? null);
       setCoverFile(null);
