@@ -240,8 +240,16 @@ export default function AdminBooks() {
         if (error) throw error;
         coverUrl = path;
       }
+      const base = {
+        slug,
+        title,
+        description,
+        is_free: isFree,
+        content_type: contentType,
+        credit_cost: creditCost,
+      };
       if (editingId) {
-        const patch: any = { slug, title, description, is_free: isFree };
+        const patch: any = { ...base };
         if (coverUrl) patch.cover_image_url = coverUrl;
         const { error: bookErr } = await supabase.from("books").update(patch).eq("id", editingId);
         if (bookErr) throw bookErr;
@@ -251,12 +259,9 @@ export default function AdminBooks() {
         const { data: bookRow, error: bookErr } = await supabase
           .from("books")
           .insert({
-            slug,
-            title,
-            description,
+            ...base,
             ...(coverUrl ? { cover_image_url: coverUrl } : {}),
             page_count: pages.length,
-            is_free: isFree,
           })
           .select("id, slug, cover_image_url")
           .single();
