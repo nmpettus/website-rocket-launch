@@ -33,6 +33,8 @@ export default function AdminBooks() {
   const [description, setDescription] = useState("");
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [isFree, setIsFree] = useState(false);
+  const [contentType, setContentType] = useState<"picture_book" | "downloadable" | "short_story" | "coloring_book">("picture_book");
+  const [creditCost, setCreditCost] = useState<number>(3);
   const [pages, setPages] = useState<PendingPage[]>([]);
   const [working, setWorking] = useState(false);
   const [importProgress, setImportProgress] = useState<string | null>(null);
