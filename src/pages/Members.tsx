@@ -360,38 +360,59 @@ export default function Members() {
             </div>
             {statusPanel}
             {isActive && (
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Button variant="outline" onClick={openPortal}>
-                  <Settings className="w-4 h-4 mr-2" /> Manage Subscription
-                </Button>
-                {showCancelButton && (
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant="outline" className="text-destructive hover:text-destructive">
-                        <XCircle className="w-4 h-4 mr-2" /> Cancel Subscription
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          You'll keep full access to the library until the end of your current billing period
-                          {subscription?.current_period_end
-                            ? ` (${new Date(subscription.current_period_end).toLocaleDateString()})`
-                            : ""}
-                          . After that your subscription will end and you won't be charged again. You can resubscribe anytime.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Keep subscription</AlertDialogCancel>
-                        <AlertDialogAction onClick={cancelSubscription} disabled={canceling}>
-                          {canceling ? "Canceling..." : "Yes, cancel"}
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+              <>
+                {refundInfo && (
+                  <div className="mt-6 rounded-xl border bg-card p-5">
+                    <h3 className="font-semibold text-lg mb-2">Yearly refund available</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      You have {refundInfo.months_remaining} whole month{refundInfo.months_remaining === 1 ? "" : "s"} left on your yearly plan.
+                      Canceling now will end your subscription at the close of this billing period and refund
+                      <strong> ${(refundInfo.amount_cents / 100).toFixed(2)}</strong> for the remaining months.
+                      Any unused credits will be lost.
+                    </p>
+                    <Button
+                      variant="outline"
+                      disabled={requestingRefund}
+                      onClick={requestRefund}
+                      className="text-destructive hover:text-destructive"
+                    >
+                      {requestingRefund ? "Processing…" : "Cancel & Refund Remaining Months"}
+                    </Button>
+                  </div>
                 )}
-              </div>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Button variant="outline" onClick={openPortal}>
+                    <Settings className="w-4 h-4 mr-2" /> Manage Subscription
+                  </Button>
+                  {showCancelButton && !refundInfo && (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="outline" className="text-destructive hover:text-destructive">
+                          <XCircle className="w-4 h-4 mr-2" /> Cancel Subscription
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            You'll keep full access to the library until the end of your current billing period
+                            {subscription?.current_period_end
+                              ? ` (${new Date(subscription.current_period_end).toLocaleDateString()})`
+                              : ""}
+                            . After that your subscription will end and you won't be charged again. Any unused credits will be lost. You can resubscribe anytime.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Keep subscription</AlertDialogCancel>
+                          <AlertDialogAction onClick={cancelSubscription} disabled={canceling}>
+                            {canceling ? "Canceling..." : "Yes, cancel"}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  )}
+                </div>
+              </>
             )}
             {!isActive && (
               <div className="mt-6">
