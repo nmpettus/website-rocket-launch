@@ -17,6 +17,7 @@ interface MemberRow {
   current_period_end: string | null;
   cancel_at_period_end: boolean;
   created_at: string;
+  credit_balance: number;
 }
 
 const PLAN_LABELS: Record<string, string> = {
