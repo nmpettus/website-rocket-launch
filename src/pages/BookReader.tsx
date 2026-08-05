@@ -31,10 +31,13 @@ export default function BookReader() {
   const [fit, setFit] = useState<"contain" | "cover">("contain");
   const [aspects, setAspects] = useState<Record<string, number>>({});
   const [pairs, setPairs] = useState<Record<string, boolean>>({});
+  const [unlocked, setUnlocked] = useState(false);
+  const [unlocking, setUnlocking] = useState(false);
+  const [creditBalance, setCreditBalance] = useState<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCacheRef = useRef<Map<string, (string | null)[]>>(new Map());
   const inflightAudioRef = useRef<Map<string, Promise<string | null>[]>>(new Map());
-  const gated = !!book && !isActive && !book.is_free;
+  const gated = !!book && !isActive && !book.is_free && !unlocked;
   const readablePages = useMemo(
     () => gated
       ? pages.filter((p) => p.page_number >= 1 && p.page_number <= PREVIEW_LIMIT)
