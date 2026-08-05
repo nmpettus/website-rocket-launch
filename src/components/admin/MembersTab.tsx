@@ -157,6 +157,7 @@ export function MembersTab() {
                 <th className="px-3 py-2 font-semibold">Status</th>
                 <th className="px-3 py-2 font-semibold">Env</th>
                 <th className="px-3 py-2 font-semibold">Trial ends / Renews</th>
+                <th className="px-3 py-2 font-semibold">Credits</th>
                 <th className="px-3 py-2 font-semibold">Joined</th>
               </tr>
             </thead>
@@ -173,6 +174,28 @@ export function MembersTab() {
                   </td>
                   <td className="px-3 py-2 text-xs uppercase text-muted-foreground">{r.environment}</td>
                   <td className="px-3 py-2">{fmt(r.current_period_end)}</td>
+                  <td className="px-3 py-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold tabular-nums">{r.credit_balance ?? 0}</span>
+                      <Input
+                        type="number"
+                        placeholder="±"
+                        className="w-20 h-7 text-xs"
+                        value={adjustValues[r.user_id] ?? ""}
+                        onChange={(e) => setAdjustValues((prev) => ({ ...prev, [r.user_id]: e.target.value }))}
+                        onKeyDown={(e) => e.key === "Enter" && adjustCredits(r)}
+                      />
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="h-7 px-2 text-xs"
+                        disabled={adjusting[r.user_id]}
+                        onClick={() => adjustCredits(r)}
+                      >
+                        {adjusting[r.user_id] ? <Loader2 className="w-3 h-3 animate-spin" /> : "Adjust"}
+                      </Button>
+                    </div>
+                  </td>
                   <td className="px-3 py-2 text-muted-foreground">{fmt(r.created_at)}</td>
                 </tr>
               ))}
