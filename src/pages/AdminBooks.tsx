@@ -473,6 +473,8 @@ export default function AdminBooks() {
                     <div className="font-medium truncate">{b.title}</div>
                     <div className="text-xs text-muted-foreground">
                       /read/{b.slug} · {b.page_count ?? 0} pages {b.is_free ? "· free" : ""}
+                      {b.content_type ? ` · ${b.content_type.replace(/_/g, " ")}` : ""}
+                      {b.credit_cost != null ? ` · ${b.credit_cost} credit${b.credit_cost === 1 ? "" : "s"}` : ""}
                     </div>
                   </div>
                   <Link to={`/read/${b.slug}`} className="text-xs text-primary hover:underline">Open</Link>
