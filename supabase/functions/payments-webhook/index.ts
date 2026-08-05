@@ -107,11 +107,15 @@ Deno.serve(async (req) => {
     const event = await verifyWebhook(req, env);
     switch (event.type) {
       case "customer.subscription.created":
-        await handleSubscriptionCreated(event.data.object, env); break;
+        await handleSubscriptionCreated(event.data.object, env);
+        await grantCreditsForSubscription(event.data.object, env);
+        break;
       case "customer.subscription.updated":
         await handleSubscriptionUpdated(event.data.object, env); break;
       case "customer.subscription.deleted":
         await handleSubscriptionDeleted(event.data.object, env); break;
+      case "invoice.paid":
+        await grantCreditsForInvoice(event.data.object, env); break;
       default:
         console.log("Unhandled event:", event.type);
     }
