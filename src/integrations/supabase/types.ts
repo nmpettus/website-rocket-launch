@@ -355,6 +355,10 @@ export type Database = {
         Args: { _current_period_start: string }
         Returns: string
       }
+      ensure_and_get_credit_balance: {
+        Args: { _environment: string; _user_id: string }
+        Returns: number
+      }
       get_credit_balance: {
         Args: { _environment: string; _user_id: string }
         Returns: number
