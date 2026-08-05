@@ -246,6 +246,14 @@ export default function Members() {
                   <Button onClick={() => navigate("/join")}>Start Free Trial</Button>
                 </div>
               )}
+              {isActive && creditBalance !== null && (
+                <div className="mt-4 flex items-center gap-2">
+                  <Badge variant="secondary" className="text-sm px-3 py-1">
+                    <Coins className="w-4 h-4 mr-1 text-primary" />
+                    {creditBalance} reading credit{creditBalance === 1 ? "" : "s"} this month
+                  </Badge>
+                </div>
+              )}
               {isActive && subscription?.cancel_at_period_end && subscription.current_period_end && (
                 <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-xl p-4">
                   <p className="text-sm text-yellow-900">
