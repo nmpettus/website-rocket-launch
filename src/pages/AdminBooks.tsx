@@ -74,6 +74,8 @@ export default function AdminBooks() {
     setDescription("");
     setCoverFile(null);
     setIsFree(false);
+    setContentType("picture_book");
+    setCreditCost(3);
     setPages([]);
     setSaveState("unsaved");
   };
