@@ -581,6 +581,24 @@ export default function BookReader() {
     setCurrent(Math.max(0, Math.min(visiblePages - 1, n)));
   };
 
+  const spendCredits = async () => {
+    if (!user || !book) return;
+    setUnlocking(true);
+    try {
+      const { data, error } = await supabase.rpc("spend_credits", { _book_id: book.id });
+      if (error) throw error;
+      const result = data as { success: boolean; error?: string; credits_remaining?: number };
+      if (!result.success) throw new Error(result.error || "Could not unlock book");
+      setUnlocked(true);
+      setCreditBalance(result.credits_remaining ?? null);
+      toast({ title: "Unlocked!", description: `You now have full access to ${book.title}.` });
+    } catch (e: any) {
+      toast({ title: "Unlock failed", description: e.message || "Not enough credits or an error occurred.", variant: "destructive" });
+    } finally {
+      setUnlocking(false);
+    }
+  };
+
   const previousPageIndex = () => {
     if (layoutMode === "auto") {
       if (current > 0 && canAutoPairAt(current - 1)) return current - 1;
