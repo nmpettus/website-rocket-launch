@@ -43,6 +43,8 @@ interface Book {
   cover_image_url: string | null;
   page_count: number;
   is_free: boolean;
+  content_type?: string | null;
+  credit_cost?: number | null;
 }
 
 export default function Members() {
@@ -319,13 +321,26 @@ export default function Members() {
                               </div>
                             </div>
                           )}
+                          {(() => {
+                            const cost = book.is_free ? 0 : book.credit_cost ?? 3;
+                            return (
+                              <div className="absolute top-2 right-2 rounded-full bg-background/95 border px-2.5 py-1 text-xs font-bold shadow-sm">
+                                {cost === 0 ? "Free" : `${cost} credit${cost === 1 ? "" : "s"}`}
+                              </div>
+                            );
+                          })()}
                         </div>
                         <div className="p-4">
                           <h3 className="font-bold mb-1 line-clamp-1">{book.title}</h3>
                           <p className="text-xs text-muted-foreground">
-                            {book.page_count} pages {locked && "• Preview only"}
+                            {book.page_count} pages
+                            {book.content_type ? ` • ${book.content_type.replace(/_/g, " ")}` : ""}
+                            {" • "}
+                            {book.is_free ? "Free" : `${book.credit_cost ?? 3} credit${(book.credit_cost ?? 3) === 1 ? "" : "s"}`}
+                            {locked && " • Preview only"}
                           </p>
                         </div>
+
                       </Link>
                       {amazonUrl && (
                         <div className="px-4 pb-4 mt-auto">
