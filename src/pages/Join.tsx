@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Check, BookOpen, Volume2, Sparkles, ArrowLeft, CheckCircle2, AlertCircle, Info } from "lucide-react";
+import { Check, BookOpen, Volume2, Sparkles, ArrowLeft, CheckCircle2, AlertCircle, Info, Coins } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
