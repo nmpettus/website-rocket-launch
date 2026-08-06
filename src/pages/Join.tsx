@@ -169,11 +169,15 @@ export default function Join() {
                   <span className="text-5xl font-bold">$4.99</span>
                   <span className="text-lg text-foreground font-semibold">/month</span>
                 </div>
+                <div className="bg-primary/10 rounded-xl p-4 mb-5">
+                  <p className="text-base font-bold text-primary mb-1">7 credits every month</p>
+                  <p className="text-base text-foreground font-semibold">Use them to unlock books, downloads, and short stories.</p>
+                </div>
                 <ul className="space-y-2 mb-6 text-base text-foreground font-semibold">
                   <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> 7-day free trial</li>
                   <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Cancel anytime</li>
-                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> 3 new books at a time from the library</li>
-                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Keep access to every book you've read in past months</li>
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Keep access to every book you've unlocked</li>
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Read-aloud narration included</li>
                 </ul>
 
                 <Button onClick={() => handleJoin("reading_club_monthly")} className="w-full" size="lg">
@@ -190,17 +194,42 @@ export default function Join() {
                   <span className="text-5xl font-bold">$49</span>
                   <span className="text-lg text-foreground font-semibold">/year</span>
                 </div>
+                <div className="bg-primary/10 rounded-xl p-4 mb-5">
+                  <p className="text-base font-bold text-primary mb-1">12 credits every month</p>
+                  <p className="text-base text-foreground font-semibold">10 monthly credits + 2 bonus credits. Use them to unlock books, downloads, and short stories.</p>
+                </div>
                 <ul className="space-y-2 mb-6 text-base text-foreground font-semibold">
                   <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> 7-day free trial</li>
                   <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Two months free</li>
-                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Unlimited access to every book in Maggie's library</li>
-                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> All future book releases included</li>
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Keep access to every book you've unlocked</li>
+                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Read-aloud narration included</li>
                 </ul>
 
                 <Button onClick={() => handleJoin("reading_club_yearly")} className="w-full" size="lg">
                   Start Free Trial
                 </Button>
               </div>
+            </div>
+
+            <div className="max-w-3xl mx-auto mt-8 bg-card border rounded-2xl p-6">
+              <h3 className="text-xl font-bold mb-4 text-center">How credits work</h3>
+              <div className="grid sm:grid-cols-3 gap-4 text-center">
+                <div className="bg-secondary/30 rounded-xl p-4">
+                  <p className="text-2xl font-bold text-primary mb-1">3 credits</p>
+                  <p className="text-base text-foreground font-semibold">Picture books</p>
+                </div>
+                <div className="bg-secondary/30 rounded-xl p-4">
+                  <p className="text-2xl font-bold text-primary mb-1">2 credits</p>
+                  <p className="text-base text-foreground font-semibold">Coloring books, devotionals & downloads</p>
+                </div>
+                <div className="bg-secondary/30 rounded-xl p-4">
+                  <p className="text-2xl font-bold text-primary mb-1">1 credit</p>
+                  <p className="text-base text-foreground font-semibold">Short stories</p>
+                </div>
+              </div>
+              <p className="text-center text-base text-foreground font-semibold mt-4">
+                Credits refresh each month and do not roll over. Once you unlock a book, it stays unlocked for as long as you are subscribed.
+              </p>
             </div>
 
             <p className="text-center text-sm text-foreground font-semibold mt-8">
