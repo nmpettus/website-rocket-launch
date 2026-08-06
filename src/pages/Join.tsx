@@ -32,8 +32,8 @@ export default function Join() {
 
   const features = [
     { icon: BookOpen, title: "Maggie's full book library", desc: "Read every Maggie story online, anytime." },
-    { icon: Volume2, title: "Read-aloud narration", desc: "Built-in voice narration for early readers." },
-    { icon: Sparkles, title: "New books every month", desc: "Fresh stories added to the library regularly." },
+    { icon: Volume2, title: "Read-aloud narration", desc: "Built-in voice narration so kids can listen along." },
+    { icon: Coins, title: "Reading Credits included", desc: "Use credits to unlock books, downloads, and short stories." },
   ];
 
   return (
