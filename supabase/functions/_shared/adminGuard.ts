@@ -5,11 +5,29 @@ import { createClient } from "npm:@supabase/supabase-js@2";
  * Live requests pass through unchanged (public checkout must work signed-out).
  * Throws on any violation so callers can return 4xx via their catch block.
  */
+const PRODUCTION_HOSTS = [
+  "booksbymaggie.com",
+  "www.booksbymaggie.com",
+  "website-rocket-launch.lovable.app",
+];
+
+function isProductionOrigin(req: Request): boolean {
+  const origin = req.headers.get("Origin") ?? req.headers.get("Referer") ?? "";
+  try {
+    return PRODUCTION_HOSTS.includes(new URL(origin).hostname);
+  } catch {
+    return false;
+  }
+}
+
 export async function enforceSandboxIsAdmin(
   req: Request,
   environment: "sandbox" | "live",
 ): Promise<void> {
   if (environment !== "sandbox") return;
+  // Preview/localhost run on the test token by design — only lock sandbox
+  // mode down on the real production domains.
+  if (!isProductionOrigin(req)) return;
 
   const token = req.headers.get("Authorization")?.replace("Bearer ", "");
   if (!token) throw new Error("Sandbox mode requires admin authentication");
