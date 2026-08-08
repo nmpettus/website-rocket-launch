@@ -429,9 +429,10 @@ export default function AdminBooks() {
       </Button>
       <Button
         onClick={publish}
-        disabled={working || (!editingId && !pages.length) || !title || !slug}
-        title={!editingId && !pages.length ? "Add pages first" : undefined}
+        disabled={working || (!editingId && !pages.length && !downloadFile) || !title || !slug}
+        title={!editingId && !pages.length && !downloadFile ? "Add pages or a downloadable file first" : undefined}
       >
+
         <Upload className="w-4 h-4 mr-2" />
         {working
           ? `${editingId ? "Updating" : "Publishing"} ${progress}…`
