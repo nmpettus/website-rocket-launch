@@ -60,6 +60,10 @@ export default function Members() {
   const [creditBalance, setCreditBalance] = useState<number | null>(null);
   const [refundInfo, setRefundInfo] = useState<{ amount_cents: number; months_remaining: number } | null>(null);
   const [requestingRefund, setRequestingRefund] = useState(false);
+  const [unlockedIds, setUnlockedIds] = useState<Set<string>>(new Set());
+  const [pendingUnlock, setPendingUnlock] = useState<Book | null>(null);
+  const [downloadBusyId, setDownloadBusyId] = useState<string | null>(null);
+
   const checkoutHandledRef = useRef(false);
 
   useEffect(() => {
