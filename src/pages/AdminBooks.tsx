@@ -237,6 +237,18 @@ export default function AdminBooks() {
     toast.success("OCR complete. Review and edit narration text.");
   };
 
+  /** Uploads the original downloadable file (e.g. an Etsy PDF) as-is. Returns its storage path. */
+  const uploadDownloadIfAny = async (): Promise<string | null> => {
+    if (!downloadFile) return null;
+    const ext = downloadFile.name.split(".").pop()?.toLowerCase() || "pdf";
+    const path = `${slug}/download.${ext}`;
+    const { error } = await supabase.storage
+      .from("book-pages")
+      .upload(path, downloadFile, { upsert: true, contentType: downloadFile.type || "application/pdf" });
+    if (error) throw error;
+    return path;
+  };
+
   const saveDraft = async () => {
     if (!title || !slug) return toast.error("Title and slug are required");
     setWorking(true);
@@ -250,6 +262,7 @@ export default function AdminBooks() {
         if (error) throw error;
         coverUrl = path;
       }
+      const downloadPath = await uploadDownloadIfAny();
       const base = {
         slug,
         title,
@@ -257,7 +270,9 @@ export default function AdminBooks() {
         is_free: isFree,
         content_type: contentType,
         credit_cost: creditCost,
+        ...(downloadPath ? { download_path: downloadPath } : {}),
       };
+
       if (editingId) {
         const patch: any = { ...base };
         if (coverUrl) patch.cover_image_url = coverUrl;
