@@ -336,9 +336,10 @@ export default function AdminBooks() {
         description,
         is_free: isFree,
         content_type: contentType,
-
         credit_cost: creditCost,
+        ...(downloadPath ? { download_path: downloadPath } : {}),
       };
+
       let bookRow: { id: string; slug: string };
       if (editingId) {
         const patch: any = { ...base };
