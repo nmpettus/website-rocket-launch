@@ -631,7 +631,36 @@ export default function AdminBooks() {
             <p className="text-sm text-muted-foreground mb-3">Select all PNGs at once. They sort by filename — name them <code>01.png, 02.png, …</code></p>
             <Input id="pages" type="file" accept="image/*" multiple onChange={(e) => handlePageFiles(e.target.files)} />
           </div>
+
+          <div className="border-t pt-5">
+            <Label htmlFor="download" className="text-lg font-semibold flex items-center gap-2">
+              <Download className="w-4 h-4" /> …or sell it as a downloadable file
+            </Label>
+            <p className="text-sm text-muted-foreground mb-3">
+              Upload the finished PDF exactly as you sell it. It is <strong>not</strong> split into reader pages —
+              members unlock it with credits and download the original file. Add a cover image above so it looks
+              right in the library.
+            </p>
+            <Input
+              id="download"
+              type="file"
+              accept=".pdf,application/pdf"
+              onChange={(e) => setDownloadFile(e.target.files?.[0] ?? null)}
+              disabled={working}
+            />
+            {downloadFile && (
+              <p className="text-xs text-primary mt-2">
+                Will upload: {downloadFile.name} ({(downloadFile.size / 1024 / 1024).toFixed(1)} MB)
+              </p>
+            )}
+            {!downloadFile && existingDownloadPath && (
+              <p className="text-xs text-muted-foreground mt-2">
+                Current download file will be kept: <code>{existingDownloadPath}</code>
+              </p>
+            )}
+          </div>
         </div>
+
 
         <ActionBar />
 
