@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Upload, Trash2, FileUp, Pencil, X, ShieldAlert } from "lucide-react";
+import { ArrowLeft, Loader2, Upload, Trash2, FileUp, Pencil, X, ShieldAlert, Download } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MembersTab } from "@/components/admin/MembersTab";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
