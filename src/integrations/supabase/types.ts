@@ -56,6 +56,7 @@ export type Database = {
           created_at: string
           credit_cost: number
           description: string | null
+          download_path: string | null
           id: string
           is_free: boolean
           page_count: number
@@ -70,6 +71,7 @@ export type Database = {
           created_at?: string
           credit_cost?: number
           description?: string | null
+          download_path?: string | null
           id?: string
           is_free?: boolean
           page_count?: number
@@ -84,6 +86,7 @@ export type Database = {
           created_at?: string
           credit_cost?: number
           description?: string | null
+          download_path?: string | null
           id?: string
           is_free?: boolean
           page_count?: number
