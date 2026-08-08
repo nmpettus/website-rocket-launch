@@ -516,7 +516,30 @@ export default function Members() {
             )}
           </TabsContent>
         </Tabs>
+
+        <AlertDialog open={!!pendingUnlock} onOpenChange={(open) => !open && setPendingUnlock(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Unlock "{pendingUnlock?.title}"?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This will use {pendingUnlock?.credit_cost ?? 2} credit
+                {(pendingUnlock?.credit_cost ?? 2) === 1 ? "" : "s"}
+                {creditBalance !== null
+                  ? ` — you'll have ${Math.max(0, creditBalance - (pendingUnlock?.credit_cost ?? 2))} left this month.`
+                  : "."}{" "}
+                Once unlocked, the PDF is yours to download and keep forever.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Not now</AlertDialogCancel>
+              <AlertDialogAction onClick={confirmUnlockDownload} disabled={!!downloadBusyId}>
+                {downloadBusyId ? "Unlocking…" : "Unlock & Download"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
+
     </div>
   );
 }
