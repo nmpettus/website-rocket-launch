@@ -138,11 +138,56 @@ export default function Members() {
     setRefundInfo(info.months_remaining > 0 ? info : null);
   };
 
+  const fetchUnlocks = async () => {
+    if (!user) return;
+    const { data } = await supabase.from("unlocks").select("book_id").eq("user_id", user.id);
+    setUnlockedIds(new Set((data || []).map((u: { book_id: string }) => u.book_id)));
+  };
+
+  const startDownload = async (book: Book) => {
+    setDownloadBusyId(book.id);
+    try {
+      const { data, error } = await supabase.functions.invoke("get-download-url", {
+        body: { bookId: book.id },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      window.open(data.url as string, "_blank", "noopener");
+    } catch (e: any) {
+      toast.error(e.message || "Could not start the download");
+    } finally {
+      setDownloadBusyId(null);
+    }
+  };
+
+  const confirmUnlockDownload = async () => {
+    const book = pendingUnlock;
+    if (!book) return;
+    setDownloadBusyId(book.id);
+    try {
+      const { data, error } = await supabase.rpc("spend_credits", { _book_id: book.id });
+      if (error) throw error;
+      const result = data as { success: boolean; error?: string; balance?: number };
+      if (!result?.success) throw new Error(result?.error || "Could not unlock this item");
+      setUnlockedIds((prev) => new Set(prev).add(book.id));
+      await fetchCreditBalance();
+      setPendingUnlock(null);
+      toast.success(`Unlocked "${book.title}" — it's yours to keep.`);
+      await startDownload(book);
+    } catch (e: any) {
+      toast.error(e.message || "Could not unlock this item");
+    } finally {
+      setDownloadBusyId(null);
+    }
+  };
+
   useEffect(() => {
     fetchCreditBalance();
     fetchRefundInfo();
+    fetchUnlocks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, subscription?.id]);
+
 
   const openPortal = async () => {
     try {
