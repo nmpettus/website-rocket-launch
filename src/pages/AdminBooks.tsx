@@ -44,6 +44,9 @@ export default function AdminBooks() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [existingCoverUrl, setExistingCoverUrl] = useState<string | null>(null);
   const [originalSlug, setOriginalSlug] = useState<string | null>(null);
+  const [downloadFile, setDownloadFile] = useState<File | null>(null);
+  const [existingDownloadPath, setExistingDownloadPath] = useState<string | null>(null);
+
 
 
   useEffect(() => {
