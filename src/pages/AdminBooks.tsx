@@ -92,7 +92,7 @@ export default function AdminBooks() {
     try {
       const { data: book, error } = await supabase
         .from("books")
-        .select("id, slug, title, description, cover_image_url, is_free, page_count, content_type, credit_cost")
+        .select("id, slug, title, description, cover_image_url, is_free, page_count, content_type, credit_cost, download_path")
         .eq("id", bookId)
         .single();
       if (error) throw error;
@@ -105,8 +105,11 @@ export default function AdminBooks() {
       setContentType((book.content_type as typeof contentType) ?? "picture_book");
       setCreditCost(book.credit_cost ?? 3);
       setExistingCoverUrl(book.cover_image_url ?? null);
+      setExistingDownloadPath((book as any).download_path ?? null);
+      setDownloadFile(null);
       setCoverFile(null);
       setPages([]);
+
       setSaveState("draft");
       window.scrollTo({ top: 0, behavior: "smooth" });
       toast.success(`Editing "${book.title}". Upload a new cover or manuscript to replace — leave empty to keep existing.`);
