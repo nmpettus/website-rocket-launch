@@ -81,8 +81,11 @@ export default function AdminBooks() {
     setContentType("picture_book");
     setCreditCost(3);
     setPages([]);
+    setDownloadFile(null);
+    setExistingDownloadPath(null);
     setSaveState("unsaved");
   };
+
 
   const startEdit = async (bookId: string) => {
     setWorking(true);
