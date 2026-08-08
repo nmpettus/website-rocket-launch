@@ -45,6 +45,8 @@ interface Book {
   is_free: boolean;
   content_type?: string | null;
   credit_cost?: number | null;
+  download_path?: string | null;
+
 }
 
 export default function Members() {
