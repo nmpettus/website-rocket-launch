@@ -56,7 +56,7 @@ export default function AdminBooks() {
   const loadExistingBooks = async () => {
     const { data } = await supabase
       .from("books")
-      .select("id, slug, title, page_count, is_free, content_type, credit_cost, created_at")
+      .select("id, slug, title, page_count, is_free, content_type, credit_cost, download_path, created_at")
       .order("created_at", { ascending: false });
     setExistingBooks(data || []);
   };
