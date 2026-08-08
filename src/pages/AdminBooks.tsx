@@ -295,6 +295,10 @@ export default function AdminBooks() {
         setOriginalSlug(bookRow.slug);
         if (bookRow.cover_image_url) setExistingCoverUrl(bookRow.cover_image_url);
       }
+      if (downloadPath) {
+        setExistingDownloadPath(downloadPath);
+        setDownloadFile(null);
+      }
       setSaveState("draft");
       toast.success("Draft saved");
       await loadExistingBooks();
@@ -308,7 +312,9 @@ export default function AdminBooks() {
 
   const publish = async () => {
     if (!title || !slug) return toast.error("Title and slug are required");
-    if (!editingId && !pages.length) return toast.error("Add at least one page");
+    if (!editingId && !pages.length && !downloadFile) {
+      return toast.error("Add at least one page, or attach a downloadable file");
+    }
     setWorking(true);
     try {
       await ensureSlugCanBeSaved();
@@ -322,12 +328,15 @@ export default function AdminBooks() {
         coverUrl = path; // stored as path; reader will sign
       }
 
+      const downloadPath = await uploadDownloadIfAny();
+
       const base = {
         slug,
         title,
         description,
         is_free: isFree,
         content_type: contentType,
+
         credit_cost: creditCost,
       };
       let bookRow: { id: string; slug: string };
