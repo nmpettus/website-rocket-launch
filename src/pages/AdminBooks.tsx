@@ -397,13 +397,19 @@ export default function AdminBooks() {
       }
 
       setSaveState("published");
+      if (downloadPath) {
+        setExistingDownloadPath(downloadPath);
+        setDownloadFile(null);
+      }
       toast.success(
         editingId
-          ? `"${title}" updated${pages.length ? ` — ${pages.length} pages replaced` : coverFile ? " — cover replaced" : ""}`
+          ? `"${title}" updated${pages.length ? ` — ${pages.length} pages replaced` : downloadPath ? " — download file replaced" : coverFile ? " — cover replaced" : ""}`
           : `"${title}" published to the library!`
       );
       await loadExistingBooks();
-      navigate(`/read/${slug}`);
+      const hasPages = pages.length > 0 || (editingId && !downloadPath);
+      navigate(hasPages ? `/read/${slug}` : "/members");
+
     } catch (e) {
       console.error(e);
       toast.error("Publish failed: " + String(e));
