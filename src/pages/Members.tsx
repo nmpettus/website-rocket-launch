@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck, ShoppingCart, Coins } from "lucide-react";
+import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck, ShoppingCart, Coins, Download } from "lucide-react";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 import { AdminStripeModeToggle } from "@/components/AdminStripeModeToggle";
 
@@ -45,6 +45,8 @@ interface Book {
   is_free: boolean;
   content_type?: string | null;
   credit_cost?: number | null;
+  download_path?: string | null;
+
 }
 
 export default function Members() {
@@ -58,6 +60,10 @@ export default function Members() {
   const [creditBalance, setCreditBalance] = useState<number | null>(null);
   const [refundInfo, setRefundInfo] = useState<{ amount_cents: number; months_remaining: number } | null>(null);
   const [requestingRefund, setRequestingRefund] = useState(false);
+  const [unlockedIds, setUnlockedIds] = useState<Set<string>>(new Set());
+  const [pendingUnlock, setPendingUnlock] = useState<Book | null>(null);
+  const [downloadBusyId, setDownloadBusyId] = useState<string | null>(null);
+
   const checkoutHandledRef = useRef(false);
 
   useEffect(() => {
@@ -132,11 +138,56 @@ export default function Members() {
     setRefundInfo(info.months_remaining > 0 ? info : null);
   };
 
+  const fetchUnlocks = async () => {
+    if (!user) return;
+    const { data } = await supabase.from("unlocks").select("book_id").eq("user_id", user.id);
+    setUnlockedIds(new Set((data || []).map((u: { book_id: string }) => u.book_id)));
+  };
+
+  const startDownload = async (book: Book) => {
+    setDownloadBusyId(book.id);
+    try {
+      const { data, error } = await supabase.functions.invoke("get-download-url", {
+        body: { bookId: book.id },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      window.open(data.url as string, "_blank", "noopener");
+    } catch (e: any) {
+      toast.error(e.message || "Could not start the download");
+    } finally {
+      setDownloadBusyId(null);
+    }
+  };
+
+  const confirmUnlockDownload = async () => {
+    const book = pendingUnlock;
+    if (!book) return;
+    setDownloadBusyId(book.id);
+    try {
+      const { data, error } = await supabase.rpc("spend_credits", { _book_id: book.id });
+      if (error) throw error;
+      const result = data as { success: boolean; error?: string; balance?: number };
+      if (!result?.success) throw new Error(result?.error || "Could not unlock this item");
+      setUnlockedIds((prev) => new Set(prev).add(book.id));
+      await fetchCreditBalance();
+      setPendingUnlock(null);
+      toast.success(`Unlocked "${book.title}" — it's yours to keep.`);
+      await startDownload(book);
+    } catch (e: any) {
+      toast.error(e.message || "Could not unlock this item");
+    } finally {
+      setDownloadBusyId(null);
+    }
+  };
+
   useEffect(() => {
     fetchCreditBalance();
     fetchRefundInfo();
+    fetchUnlocks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, subscription?.id]);
+
 
   const openPortal = async () => {
     try {
@@ -304,44 +355,72 @@ export default function Members() {
                 {books.map((book) => {
                   const locked = !isActive && !book.is_free;
                   const amazonUrl = AMAZON_PAPERBACK_LINKS[book.slug];
+                  const isDownload = !!book.download_path;
+                  const cost = book.is_free ? 0 : book.credit_cost ?? 3;
+                  const unlocked = unlockedIds.has(book.id);
+
+                  const cardBody = (
+                    <>
+                      <div className="aspect-square bg-muted relative border border-black">
+                        {book.cover_image_url && (
+                          <img src={book.cover_image_url} alt={book.title} className="w-full h-full object-cover" />
+                        )}
+                        {(locked || (isDownload && !unlocked)) && (
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <div className="bg-white/90 rounded-full p-3">
+                              <Lock className="w-6 h-6 text-foreground" />
+                            </div>
+                          </div>
+                        )}
+                        <div className="absolute top-2 right-2 rounded-full bg-background/95 border px-2.5 py-1 text-xs font-bold shadow-sm">
+                          {cost === 0 ? "Free" : `${cost} credit${cost === 1 ? "" : "s"}`}
+                        </div>
+                      </div>
+                      <div className="p-4">
+                        <h3 className="font-bold mb-1 line-clamp-1">{book.title}</h3>
+                        <p className="text-xs text-muted-foreground">
+                          {isDownload ? "PDF download" : `${book.page_count} pages`}
+                          {book.content_type ? ` • ${book.content_type.replace(/_/g, " ")}` : ""}
+                          {" • "}
+                          {book.is_free ? "Free" : `${cost} credit${cost === 1 ? "" : "s"}`}
+                          {isDownload && unlocked && " • Unlocked"}
+                          {!isDownload && locked && " • Preview only"}
+                        </p>
+                      </div>
+                    </>
+                  );
+
                   return (
                     <div
                       key={book.id}
                       className="group bg-card border rounded-xl overflow-hidden hover:shadow-lg transition-all flex flex-col"
                     >
-                      <Link to={`/read/${book.slug}`} className="block">
-                        <div className="aspect-square bg-muted relative border border-black">
-                          {book.cover_image_url && (
-                            <img src={book.cover_image_url} alt={book.title} className="w-full h-full object-cover" />
-                          )}
-                          {locked && (
-                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                              <div className="bg-white/90 rounded-full p-3">
-                                <Lock className="w-6 h-6 text-foreground" />
-                              </div>
-                            </div>
-                          )}
-                          {(() => {
-                            const cost = book.is_free ? 0 : book.credit_cost ?? 3;
-                            return (
-                              <div className="absolute top-2 right-2 rounded-full bg-background/95 border px-2.5 py-1 text-xs font-bold shadow-sm">
-                                {cost === 0 ? "Free" : `${cost} credit${cost === 1 ? "" : "s"}`}
-                              </div>
-                            );
-                          })()}
-                        </div>
-                        <div className="p-4">
-                          <h3 className="font-bold mb-1 line-clamp-1">{book.title}</h3>
-                          <p className="text-xs text-muted-foreground">
-                            {book.page_count} pages
-                            {book.content_type ? ` • ${book.content_type.replace(/_/g, " ")}` : ""}
-                            {" • "}
-                            {book.is_free ? "Free" : `${book.credit_cost ?? 3} credit${(book.credit_cost ?? 3) === 1 ? "" : "s"}`}
-                            {locked && " • Preview only"}
-                          </p>
-                        </div>
+                      {isDownload ? (
+                        <div className="block">{cardBody}</div>
+                      ) : (
+                        <Link to={`/read/${book.slug}`} className="block">{cardBody}</Link>
+                      )}
 
-                      </Link>
+                      {isDownload && (
+                        <div className="px-4 pb-4 mt-auto">
+                          <Button
+                            size="sm"
+                            className="w-full rounded-full font-medium"
+                            disabled={downloadBusyId === book.id || (!unlocked && !isActive)}
+                            onClick={() => (unlocked ? startDownload(book) : setPendingUnlock(book))}
+                          >
+                            <Download className="w-3.5 h-3.5 mr-1.5" />
+                            {downloadBusyId === book.id
+                              ? "Working…"
+                              : unlocked
+                                ? "Download PDF"
+                                : !isActive
+                                  ? "Members only"
+                                  : `Unlock & Download (${cost} credit${cost === 1 ? "" : "s"})`}
+                          </Button>
+                        </div>
+                      )}
+
                       {amazonUrl && (
                         <div className="px-4 pb-4 mt-auto">
                           <Button
@@ -361,6 +440,7 @@ export default function Members() {
                           </Button>
                         </div>
                       )}
+
                     </div>
                   );
                 })}
@@ -436,7 +516,30 @@ export default function Members() {
             )}
           </TabsContent>
         </Tabs>
+
+        <AlertDialog open={!!pendingUnlock} onOpenChange={(open) => !open && setPendingUnlock(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Unlock "{pendingUnlock?.title}"?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This will use {pendingUnlock?.credit_cost ?? 2} credit
+                {(pendingUnlock?.credit_cost ?? 2) === 1 ? "" : "s"}
+                {creditBalance !== null
+                  ? ` — you'll have ${Math.max(0, creditBalance - (pendingUnlock?.credit_cost ?? 2))} left this month.`
+                  : "."}{" "}
+                Once unlocked, the PDF is yours to download and keep forever.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Not now</AlertDialogCancel>
+              <AlertDialogAction onClick={confirmUnlockDownload} disabled={!!downloadBusyId}>
+                {downloadBusyId ? "Unlocking…" : "Unlock & Download"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
+
     </div>
   );
 }

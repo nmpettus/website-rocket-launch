@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Upload, Trash2, FileUp, Pencil, X, ShieldAlert } from "lucide-react";
+import { ArrowLeft, Loader2, Upload, Trash2, FileUp, Pencil, X, ShieldAlert, Download } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MembersTab } from "@/components/admin/MembersTab";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -44,6 +44,9 @@ export default function AdminBooks() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [existingCoverUrl, setExistingCoverUrl] = useState<string | null>(null);
   const [originalSlug, setOriginalSlug] = useState<string | null>(null);
+  const [downloadFile, setDownloadFile] = useState<File | null>(null);
+  const [existingDownloadPath, setExistingDownloadPath] = useState<string | null>(null);
+
 
 
   useEffect(() => {
@@ -53,7 +56,7 @@ export default function AdminBooks() {
   const loadExistingBooks = async () => {
     const { data } = await supabase
       .from("books")
-      .select("id, slug, title, page_count, is_free, content_type, credit_cost, created_at")
+      .select("id, slug, title, page_count, is_free, content_type, credit_cost, download_path, created_at")
       .order("created_at", { ascending: false });
     setExistingBooks(data || []);
   };
@@ -78,15 +81,18 @@ export default function AdminBooks() {
     setContentType("picture_book");
     setCreditCost(3);
     setPages([]);
+    setDownloadFile(null);
+    setExistingDownloadPath(null);
     setSaveState("unsaved");
   };
+
 
   const startEdit = async (bookId: string) => {
     setWorking(true);
     try {
       const { data: book, error } = await supabase
         .from("books")
-        .select("id, slug, title, description, cover_image_url, is_free, page_count, content_type, credit_cost")
+        .select("id, slug, title, description, cover_image_url, is_free, page_count, content_type, credit_cost, download_path")
         .eq("id", bookId)
         .single();
       if (error) throw error;
@@ -99,8 +105,11 @@ export default function AdminBooks() {
       setContentType((book.content_type as typeof contentType) ?? "picture_book");
       setCreditCost(book.credit_cost ?? 3);
       setExistingCoverUrl(book.cover_image_url ?? null);
+      setExistingDownloadPath((book as any).download_path ?? null);
+      setDownloadFile(null);
       setCoverFile(null);
       setPages([]);
+
       setSaveState("draft");
       window.scrollTo({ top: 0, behavior: "smooth" });
       toast.success(`Editing "${book.title}". Upload a new cover or manuscript to replace — leave empty to keep existing.`);
@@ -228,6 +237,18 @@ export default function AdminBooks() {
     toast.success("OCR complete. Review and edit narration text.");
   };
 
+  /** Uploads the original downloadable file (e.g. an Etsy PDF) as-is. Returns its storage path. */
+  const uploadDownloadIfAny = async (): Promise<string | null> => {
+    if (!downloadFile) return null;
+    const ext = downloadFile.name.split(".").pop()?.toLowerCase() || "pdf";
+    const path = `${slug}/download.${ext}`;
+    const { error } = await supabase.storage
+      .from("book-pages")
+      .upload(path, downloadFile, { upsert: true, contentType: downloadFile.type || "application/pdf" });
+    if (error) throw error;
+    return path;
+  };
+
   const saveDraft = async () => {
     if (!title || !slug) return toast.error("Title and slug are required");
     setWorking(true);
@@ -241,6 +262,7 @@ export default function AdminBooks() {
         if (error) throw error;
         coverUrl = path;
       }
+      const downloadPath = await uploadDownloadIfAny();
       const base = {
         slug,
         title,
@@ -248,7 +270,9 @@ export default function AdminBooks() {
         is_free: isFree,
         content_type: contentType,
         credit_cost: creditCost,
+        ...(downloadPath ? { download_path: downloadPath } : {}),
       };
+
       if (editingId) {
         const patch: any = { ...base };
         if (coverUrl) patch.cover_image_url = coverUrl;
@@ -271,6 +295,10 @@ export default function AdminBooks() {
         setOriginalSlug(bookRow.slug);
         if (bookRow.cover_image_url) setExistingCoverUrl(bookRow.cover_image_url);
       }
+      if (downloadPath) {
+        setExistingDownloadPath(downloadPath);
+        setDownloadFile(null);
+      }
       setSaveState("draft");
       toast.success("Draft saved");
       await loadExistingBooks();
@@ -284,7 +312,9 @@ export default function AdminBooks() {
 
   const publish = async () => {
     if (!title || !slug) return toast.error("Title and slug are required");
-    if (!editingId && !pages.length) return toast.error("Add at least one page");
+    if (!editingId && !pages.length && !downloadFile) {
+      return toast.error("Add at least one page, or attach a downloadable file");
+    }
     setWorking(true);
     try {
       await ensureSlugCanBeSaved();
@@ -298,6 +328,8 @@ export default function AdminBooks() {
         coverUrl = path; // stored as path; reader will sign
       }
 
+      const downloadPath = await uploadDownloadIfAny();
+
       const base = {
         slug,
         title,
@@ -305,7 +337,9 @@ export default function AdminBooks() {
         is_free: isFree,
         content_type: contentType,
         credit_cost: creditCost,
+        ...(downloadPath ? { download_path: downloadPath } : {}),
       };
+
       let bookRow: { id: string; slug: string };
       if (editingId) {
         const patch: any = { ...base };
@@ -363,13 +397,19 @@ export default function AdminBooks() {
       }
 
       setSaveState("published");
+      if (downloadPath) {
+        setExistingDownloadPath(downloadPath);
+        setDownloadFile(null);
+      }
       toast.success(
         editingId
-          ? `"${title}" updated${pages.length ? ` — ${pages.length} pages replaced` : coverFile ? " — cover replaced" : ""}`
+          ? `"${title}" updated${pages.length ? ` — ${pages.length} pages replaced` : downloadPath ? " — download file replaced" : coverFile ? " — cover replaced" : ""}`
           : `"${title}" published to the library!`
       );
       await loadExistingBooks();
-      navigate(`/read/${slug}`);
+      const hasPages = pages.length > 0 || (editingId && !downloadPath);
+      navigate(hasPages ? `/read/${slug}` : "/members");
+
     } catch (e) {
       console.error(e);
       toast.error("Publish failed: " + String(e));
@@ -389,9 +429,10 @@ export default function AdminBooks() {
       </Button>
       <Button
         onClick={publish}
-        disabled={working || (!editingId && !pages.length) || !title || !slug}
-        title={!editingId && !pages.length ? "Add pages first" : undefined}
+        disabled={working || (!editingId && !pages.length && !downloadFile) || !title || !slug}
+        title={!editingId && !pages.length && !downloadFile ? "Add pages or a downloadable file first" : undefined}
       >
+
         <Upload className="w-4 h-4 mr-2" />
         {working
           ? `${editingId ? "Updating" : "Publishing"} ${progress}…`
@@ -590,7 +631,36 @@ export default function AdminBooks() {
             <p className="text-sm text-muted-foreground mb-3">Select all PNGs at once. They sort by filename — name them <code>01.png, 02.png, …</code></p>
             <Input id="pages" type="file" accept="image/*" multiple onChange={(e) => handlePageFiles(e.target.files)} />
           </div>
+
+          <div className="border-t pt-5">
+            <Label htmlFor="download" className="text-lg font-semibold flex items-center gap-2">
+              <Download className="w-4 h-4" /> …or sell it as a downloadable file
+            </Label>
+            <p className="text-sm text-muted-foreground mb-3">
+              Upload the finished PDF exactly as you sell it. It is <strong>not</strong> split into reader pages —
+              members unlock it with credits and download the original file. Add a cover image above so it looks
+              right in the library.
+            </p>
+            <Input
+              id="download"
+              type="file"
+              accept=".pdf,application/pdf"
+              onChange={(e) => setDownloadFile(e.target.files?.[0] ?? null)}
+              disabled={working}
+            />
+            {downloadFile && (
+              <p className="text-xs text-primary mt-2">
+                Will upload: {downloadFile.name} ({(downloadFile.size / 1024 / 1024).toFixed(1)} MB)
+              </p>
+            )}
+            {!downloadFile && existingDownloadPath && (
+              <p className="text-xs text-muted-foreground mt-2">
+                Current download file will be kept: <code>{existingDownloadPath}</code>
+              </p>
+            )}
+          </div>
         </div>
+
 
         <ActionBar />
 
