@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,15 +17,37 @@ import { toast } from "sonner";
 import { BookOpen, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
+function friendlyAuthError(message: string): string {
+  const m = (message || "").toLowerCase();
+  if (m.includes("already registered") || m.includes("already been registered")) {
+    return "You already have an account — switching you to sign in.";
+  }
+  if (m.includes("invalid login credentials")) {
+    return "That email and password don't match. Try again or use Forgot password.";
+  }
+  if (m.includes("email not confirmed")) {
+    return "Please confirm your email first — check your inbox for the confirmation link.";
+  }
+  return message || "Something went wrong";
+}
+
 export default function Auth() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const location = useLocation();
+  const { user, loading: authLoading } = useAuth();
   const [submitted, setSubmitted] = useState(false);
+
+  const wantsSignup = new URLSearchParams(location.search).get("mode") === "signup";
+  const [mode, setMode] = useState<"signin" | "signup">(wantsSignup ? "signup" : "signin");
+
+  // Already signed in? Go straight to the library.
+  useEffect(() => {
+    if (!authLoading && user) navigate("/members", { replace: true });
+  }, [authLoading, user, navigate]);
 
   useEffect(() => {
     if (submitted && user) navigate("/members", { replace: true });
   }, [submitted, user, navigate]);
-  const [mode, setMode] = useState<"signin" | "signup">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -59,7 +81,15 @@ export default function Auth() {
         setSubmitted(true);
       }
     } catch (err: any) {
-      toast.error(err.message || "Something went wrong");
+      const raw = err?.message ?? "";
+      const friendly = friendlyAuthError(raw);
+      if (/already registered|already been registered/i.test(raw)) {
+        setMode("signin");
+        setPassword("");
+        toast.info(friendly);
+      } else {
+        toast.error(friendly);
+      }
     } finally {
       setLoading(false);
     }
@@ -110,6 +140,35 @@ export default function Auth() {
             </p>
           </div>
 
+          <div className="grid grid-cols-2 gap-2 p-1 mb-6 rounded-xl bg-muted">
+            <button
+              type="button"
+              onClick={() => setMode("signin")}
+              aria-pressed={mode === "signin"}
+              className={`rounded-lg py-2.5 text-base font-bold transition-colors ${
+                mode === "signin"
+                  ? "bg-card text-foreground shadow"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("signup")}
+              aria-pressed={mode === "signup"}
+              className={`rounded-lg py-2.5 text-base font-bold transition-colors ${
+                mode === "signup"
+                  ? "bg-card text-foreground shadow"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Create Account
+            </button>
+          </div>
+
+
+
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "signup" && (
               <div>
@@ -149,17 +208,12 @@ export default function Auth() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-base text-foreground font-semibold">
-            {mode === "signup" ? (
-              <>Already have an account?{" "}
-                <button onClick={() => setMode("signin")} className="text-primary hover:underline font-semibold">Sign in</button>
-              </>
-            ) : (
-              <>New here?{" "}
-                <button onClick={() => setMode("signup")} className="text-primary hover:underline font-semibold">Create account</button>
-              </>
-            )}
-          </div>
+          <p className="mt-6 text-center text-base text-foreground font-semibold">
+            {mode === "signup"
+              ? "Already have an account? Choose Sign In above."
+              : "New here? Choose Create Account above."}
+          </p>
+
         </div>
       </div>
 

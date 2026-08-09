@@ -15,7 +15,7 @@ export default function Join() {
 
   const handleJoin = (priceId: "reading_club_monthly" | "reading_club_yearly") => {
     if (!user) {
-      navigate("/auth");
+      navigate("/auth?mode=signup");
       return;
     }
     if (isActive) {
