@@ -17,15 +17,37 @@ import { toast } from "sonner";
 import { BookOpen, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
+function friendlyAuthError(message: string): string {
+  const m = (message || "").toLowerCase();
+  if (m.includes("already registered") || m.includes("already been registered")) {
+    return "You already have an account — switching you to sign in.";
+  }
+  if (m.includes("invalid login credentials")) {
+    return "That email and password don't match. Try again or use Forgot password.";
+  }
+  if (m.includes("email not confirmed")) {
+    return "Please confirm your email first — check your inbox for the confirmation link.";
+  }
+  return message || "Something went wrong";
+}
+
 export default function Auth() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const location = useLocation();
+  const { user, loading: authLoading } = useAuth();
   const [submitted, setSubmitted] = useState(false);
+
+  const wantsSignup = new URLSearchParams(location.search).get("mode") === "signup";
+  const [mode, setMode] = useState<"signin" | "signup">(wantsSignup ? "signup" : "signin");
+
+  // Already signed in? Go straight to the library.
+  useEffect(() => {
+    if (!authLoading && user) navigate("/members", { replace: true });
+  }, [authLoading, user, navigate]);
 
   useEffect(() => {
     if (submitted && user) navigate("/members", { replace: true });
   }, [submitted, user, navigate]);
-  const [mode, setMode] = useState<"signin" | "signup">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
