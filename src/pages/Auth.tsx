@@ -140,6 +140,35 @@ export default function Auth() {
             </p>
           </div>
 
+          <div className="grid grid-cols-2 gap-2 p-1 mb-6 rounded-xl bg-muted">
+            <button
+              type="button"
+              onClick={() => setMode("signin")}
+              aria-pressed={mode === "signin"}
+              className={`rounded-lg py-2.5 text-base font-bold transition-colors ${
+                mode === "signin"
+                  ? "bg-card text-foreground shadow"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("signup")}
+              aria-pressed={mode === "signup"}
+              className={`rounded-lg py-2.5 text-base font-bold transition-colors ${
+                mode === "signup"
+                  ? "bg-card text-foreground shadow"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Create Account
+            </button>
+          </div>
+
+
+
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "signup" && (
               <div>
