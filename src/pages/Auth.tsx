@@ -81,7 +81,15 @@ export default function Auth() {
         setSubmitted(true);
       }
     } catch (err: any) {
-      toast.error(err.message || "Something went wrong");
+      const raw = err?.message ?? "";
+      const friendly = friendlyAuthError(raw);
+      if (/already registered|already been registered/i.test(raw)) {
+        setMode("signin");
+        setPassword("");
+        toast.info(friendly);
+      } else {
+        toast.error(friendly);
+      }
     } finally {
       setLoading(false);
     }
