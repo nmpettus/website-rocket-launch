@@ -7,6 +7,8 @@ import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, ArrowLeft, Play, Pause, Square, Lock, BookOpen, FileText, LayoutTemplate } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Slider } from "@/components/ui/slider";
+
 import { toast } from "@/hooks/use-toast";
 import { getCachedImageUrl, prefetchImages, hasCachedImage, cacheAllImages } from "@/lib/imageCache";
 import { CloudDownload, CheckCircle2 } from "lucide-react";
@@ -27,6 +29,8 @@ export default function BookReader() {
   const [loading, setLoading] = useState(true);
   const [speaking, setSpeaking] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1);
+
   const [layoutMode, setLayoutMode] = useState<"auto" | "single" | "spread">("single");
   const [fit, setFit] = useState<"contain" | "cover">("contain");
   const [aspects, setAspects] = useState<Record<string, number>>({});
@@ -62,6 +66,14 @@ export default function BookReader() {
   }, []);
   const isLandscape = viewport.w > viewport.h;
   const isSmallScreen = viewport.w < 1024;
+
+  // Keep the active audio element in sync with the playback speed slider.
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = playbackSpeed;
+    }
+  }, [playbackSpeed]);
+
   // On phones/tablets in landscape, prefer a spread automatically.
   const preferLandscapeSpread = isSmallScreen && isLandscape;
 
@@ -567,9 +579,11 @@ export default function BookReader() {
           await new Promise<void>((resolve) => {
             const audio = new Audio(url);
             audioRef.current = audio;
+            audio.playbackRate = playbackSpeed;
             audio.onended = () => resolve();
             audio.onerror = () => resolve();
             audio.play().catch(() => resolve());
+
           });
         }
         if (!cancelled) setSpeaking(false);
@@ -759,6 +773,20 @@ export default function BookReader() {
                   <Square className="w-4 h-4 mr-1" /> Stop
                 </Button>
               )}
+              <div className="flex items-center gap-2 bg-neutral-800 rounded-lg px-3 py-2">
+                <span className="text-xs text-white/80 whitespace-nowrap">Speed: {playbackSpeed.toFixed(1)}x</span>
+                <Slider
+                  value={[playbackSpeed]}
+                  min={0.5}
+                  max={2.0}
+                  step={0.1}
+                  onValueChange={(v) => setPlaybackSpeed(v[0])}
+                  className="w-32"
+                  aria-label="Read-aloud speed"
+                />
+              </div>
+
+
               <ToggleGroup
                 type="single"
                 value={layoutMode}
