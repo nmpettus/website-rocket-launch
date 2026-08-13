@@ -215,7 +215,9 @@ export default function BookReader() {
     const nxt = readablePages[index + 1];
     if (!cur || !nxt) return false;
     if (isWide(cur.id) || isWide(nxt.id)) return false;
-    return pairs[pairKey(cur.id, nxt.id)] === true;
+    const key = pairKey(cur.id, nxt.id);
+    return (pairs[key] ?? pairMemo.get(key)) === true;
+
   };
 
   const autoSpread = canAutoPairAt(current);
