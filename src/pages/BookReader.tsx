@@ -579,9 +579,11 @@ export default function BookReader() {
           await new Promise<void>((resolve) => {
             const audio = new Audio(url);
             audioRef.current = audio;
+            audio.playbackRate = playbackSpeed;
             audio.onended = () => resolve();
             audio.onerror = () => resolve();
             audio.play().catch(() => resolve());
+
           });
         }
         if (!cancelled) setSpeaking(false);
