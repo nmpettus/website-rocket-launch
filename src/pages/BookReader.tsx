@@ -5,7 +5,7 @@ import { supabaseAnonKey, supabaseUrl } from "@/lib/publicConfig";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, ArrowLeft, Play, Pause, Square, Lock, BookOpen, FileText, LayoutTemplate, Settings } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowLeft, Play, Pause, Square, Lock, BookOpen, FileText, LayoutTemplate, Settings, RotateCcw } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
@@ -592,6 +592,13 @@ export default function BookReader() {
 
   const nextPageIndex = () => current + (pairedSpread ? 2 : 1);
 
+  const resetOptions = () => {
+    setPlaybackSpeed(1);
+    setLayoutMode("single");
+    setFit("contain");
+    toast({ title: "Settings reset", description: "Reading options returned to defaults." });
+  };
+
   if (loading || authLoading || subscriptionLoading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   if (!book) return (
     <div className="min-h-screen flex items-center justify-center flex-col gap-4">
@@ -782,6 +789,17 @@ export default function BookReader() {
                         <ToggleGroupItem value="contain" aria-label="Fit page">Fit Page</ToggleGroupItem>
                         <ToggleGroupItem value="cover" aria-label="Fill page">Fill Page</ToggleGroupItem>
                       </ToggleGroup>
+                    </div>
+
+                    <div className="pt-2 border-t">
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={resetOptions}
+                        aria-label="Reset reading options to defaults"
+                      >
+                        <RotateCcw className="w-4 h-4 mr-2" /> Reset to Defaults
+                      </Button>
                     </div>
                   </div>
                 </DialogContent>
