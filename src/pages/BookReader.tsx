@@ -29,6 +29,8 @@ export default function BookReader() {
   const [loading, setLoading] = useState(true);
   const [speaking, setSpeaking] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1);
+
   const [layoutMode, setLayoutMode] = useState<"auto" | "single" | "spread">("single");
   const [fit, setFit] = useState<"contain" | "cover">("contain");
   const [aspects, setAspects] = useState<Record<string, number>>({});
