@@ -610,12 +610,8 @@ export default function BookReader() {
         </Link>
         <div className="text-sm text-white/70 flex items-center gap-3">
           <span>{book.title} — Page {page?.page_number ?? 0} of {book.page_count}</span>
-          {spreadOfflineReady && (
-            <span className="inline-flex items-center gap-1 text-emerald-400" title="Current & next spread cached for offline">
-              <CheckCircle2 className="w-4 h-4" /> Offline ready
-            </span>
-          )}
         </div>
+
         <div className="w-20" />
       </div>
 
