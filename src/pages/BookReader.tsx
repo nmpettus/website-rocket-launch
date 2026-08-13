@@ -677,7 +677,7 @@ export default function BookReader() {
                   </div>
                 )}
                 <div
-                  className={displayAsSpread ? "flex shrink-0" : "flex min-h-0 flex-1 items-center justify-center"}
+                  className={displayAsSpread ? "flex shrink-0" : "flex w-fit items-center justify-center leading-none"}
                   style={{ visibility: spreadReady ? "visible" : "hidden" }}
                 >
                   <img
