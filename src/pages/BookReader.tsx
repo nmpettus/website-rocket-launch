@@ -790,6 +790,17 @@ export default function BookReader() {
                         <ToggleGroupItem value="cover" aria-label="Fill page">Fill Page</ToggleGroupItem>
                       </ToggleGroup>
                     </div>
+
+                    <div className="pt-2 border-t">
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={resetOptions}
+                        aria-label="Reset reading options to defaults"
+                      >
+                        <RotateCcw className="w-4 h-4 mr-2" /> Reset to Defaults
+                      </Button>
+                    </div>
                   </div>
                 </DialogContent>
               </Dialog>
