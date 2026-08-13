@@ -445,8 +445,20 @@ export default function BookReader() {
     return text;
   };
 
+  // Printed pages wrap mid-sentence; keep line breaks from becoming spoken pauses.
+  const normalizeNarration = (text: string): string =>
+    text
+      .replace(/\r\n?/g, "\n")
+      .replace(/(\w)-\n(\w)/g, "$1$2")          // de-hyphenate words split across lines
+      .replace(/\n{2,}/g, "\u0000")              // mark real paragraph breaks
+      .replace(/\n/g, " ")                       // wrapped lines flow together
+      .replace(/\u0000/g, "\n\n")
+      .replace(/[ \t]{2,}/g, " ")
+      .trim();
+
   const splitForTTS = (text: string): string[] => {
-    const sentences = text.match(/[^.!?\n]+[.!?]?\s*/g) ?? [text];
+    // Split only at sentence-ending punctuation, never at a bare line break.
+    const sentences = text.match(/[^.!?]+[.!?]*["'’”)\]]*\s*/g) ?? [text];
     const chunks: string[] = [];
     let buf = "";
     for (const s of sentences) {
@@ -456,6 +468,7 @@ export default function BookReader() {
     if (buf.trim()) chunks.push(buf.trim());
     return chunks.length ? chunks : [text];
   };
+
 
   const fetchOneChunk = async (text: string): Promise<string | null> => {
     try {
@@ -496,15 +509,16 @@ export default function BookReader() {
   const buildSpeech = async (): Promise<{ cacheKey: string; text: string } | null> => {
     const page = readablePages[current];
     if (!page) return null;
-    const leftText = await extractTextForPage(page);
+    const leftText = normalizeNarration(await extractTextForPage(page));
     let combined = leftText;
     let cacheKey = page.id;
     if (spread && readablePages[current + 1]) {
-      const rightText = await extractTextForPage(readablePages[current + 1]);
+      const rightText = normalizeNarration(await extractTextForPage(readablePages[current + 1]));
       if (rightText) combined = leftText ? `${leftText}\n\n${rightText}` : rightText;
       cacheKey = `${page.id}+${readablePages[current + 1].id}`;
     }
     if (!combined) return null;
+
     return { cacheKey, text: combined };
   };
 
