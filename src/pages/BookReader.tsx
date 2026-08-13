@@ -20,6 +20,11 @@ interface Page { id: string; page_number: number; image_url: string; narration_t
 
 const PREVIEW_LIMIT = 3;
 
+// Spread-detection results persist for the browser session so returning to a
+// book (or re-entering Auto mode) is instant instead of re-analyzing images.
+const pairMemo = new Map<string, boolean>();
+
+
 export default function BookReader() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -108,13 +113,18 @@ export default function BookReader() {
     if (existing) return existing;
     const p = (async () => {
       try {
+        // Reuse the persistent cache so sampling never re-downloads an image.
+        let src = url;
+        try { src = await getCachedImageUrl(url); } catch { /* fall back to network URL */ }
         const img = await new Promise<HTMLImageElement>((res, rej) => {
           const im = new Image();
           im.crossOrigin = "anonymous";
+          im.decoding = "async";
           im.onload = () => res(im);
           im.onerror = rej;
-          im.src = url;
+          im.src = src;
         });
+
         const sampleEdge = (side: "left" | "right"): EdgeSample | null => {
           const h = 96, w = 12;
           const c = document.createElement("canvas");
@@ -163,6 +173,11 @@ export default function BookReader() {
 
   const computePairFromCache = (leftId: string, rightId: string, key: string) => {
     if (pairs[key] !== undefined) return;
+    const memo = pairMemo.get(key);
+    if (memo !== undefined) {
+      setPairs((prev) => (prev[key] !== undefined ? prev : { ...prev, [key]: memo }));
+      return;
+    }
     const a = edgeCacheRef.current.get(leftId);
     const b = edgeCacheRef.current.get(rightId);
     if (!a || !b) return;
@@ -178,8 +193,10 @@ export default function BookReader() {
     const blankLeft = a.right.brightness > 240 && a.right.saturation < 14 && a.right.variance < 8;
     const blankRight = b.left.brightness > 240 && b.left.saturation < 14 && b.left.variance < 8;
     const isNaturalSpread = matchPercent > 0.5 && !(blankLeft && blankRight);
+    pairMemo.set(key, isNaturalSpread);
     setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
   };
+
 
   const detectPair = async (leftUrl: string, rightUrl: string, key: string) => {
     if (pairs[key] !== undefined) return;
@@ -198,7 +215,9 @@ export default function BookReader() {
     const nxt = readablePages[index + 1];
     if (!cur || !nxt) return false;
     if (isWide(cur.id) || isWide(nxt.id)) return false;
-    return pairs[pairKey(cur.id, nxt.id)] === true;
+    const key = pairKey(cur.id, nxt.id);
+    return (pairs[key] ?? pairMemo.get(key)) === true;
+
   };
 
   const autoSpread = canAutoPairAt(current);
@@ -214,27 +233,40 @@ export default function BookReader() {
 
 
   // On-demand: only sample pages around the current view when in auto mode.
-  // Avoids downloading all 51 images just to detect spreads.
+  // The current pair is resolved first (in parallel) so the layout settles
+  // immediately; neighbours are then warmed in the background.
   useEffect(() => {
     if (readablePages.length === 0) return;
     if (layoutMode !== "auto") return;
     let cancelled = false;
-    (async () => {
-      const indices = [current - 1, current, current + 1, current + 2].filter(
-        (i) => i >= 0 && i < readablePages.length
-      );
+
+    const resolveAt = async (indices: number[]) => {
+      const pageList = indices
+        .filter((i) => i >= 0 && i < readablePages.length)
+        .map((i) => readablePages[i]);
+      if (pageList.length === 0) return;
+      await Promise.all(pageList.map((p) => samplePage(p.id, p.image_url)));
+      if (cancelled) return;
       for (const i of indices) {
-        if (cancelled) return;
-        await samplePage(readablePages[i].id, readablePages[i].image_url);
         for (const j of [i - 1, i]) {
           const a = readablePages[j], b = readablePages[j + 1];
           if (a && b) computePairFromCache(a.id, b.id, pairKey(a.id, b.id));
         }
       }
+    };
+
+    (async () => {
+      // Priority: the pair being displayed right now.
+      await resolveAt([current, current + 1]);
+      if (cancelled) return;
+      // Then warm the surrounding pages without blocking the view.
+      await resolveAt([current - 1, current + 2, current + 3]);
     })();
+
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [readablePages, current, layoutMode]);
+
 
   // Persistent image cache — resolve each page URL to a cached blob URL from
   // IndexedDB so revisits load instantly with no network fetch.
