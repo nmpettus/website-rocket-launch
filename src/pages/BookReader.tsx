@@ -626,7 +626,7 @@ export default function BookReader() {
 
   const resetOptions = () => {
     setPlaybackSpeed(1);
-    setLayoutMode("single");
+    setLayoutMode("auto");
     setFit("contain");
     toast({ title: "Settings reset", description: "Reading options returned to defaults." });
   };
