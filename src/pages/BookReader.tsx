@@ -66,6 +66,14 @@ export default function BookReader() {
   }, []);
   const isLandscape = viewport.w > viewport.h;
   const isSmallScreen = viewport.w < 1024;
+
+  // Keep the active audio element in sync with the playback speed slider.
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = playbackSpeed;
+    }
+  }, [playbackSpeed]);
+
   // On phones/tablets in landscape, prefer a spread automatically.
   const preferLandscapeSpread = isSmallScreen && isLandscape;
 
