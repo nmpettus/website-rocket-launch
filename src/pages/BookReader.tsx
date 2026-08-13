@@ -168,6 +168,11 @@ export default function BookReader() {
 
   const computePairFromCache = (leftId: string, rightId: string, key: string) => {
     if (pairs[key] !== undefined) return;
+    const memo = pairMemo.get(key);
+    if (memo !== undefined) {
+      setPairs((prev) => (prev[key] !== undefined ? prev : { ...prev, [key]: memo }));
+      return;
+    }
     const a = edgeCacheRef.current.get(leftId);
     const b = edgeCacheRef.current.get(rightId);
     if (!a || !b) return;
@@ -183,8 +188,10 @@ export default function BookReader() {
     const blankLeft = a.right.brightness > 240 && a.right.saturation < 14 && a.right.variance < 8;
     const blankRight = b.left.brightness > 240 && b.left.saturation < 14 && b.left.variance < 8;
     const isNaturalSpread = matchPercent > 0.5 && !(blankLeft && blankRight);
+    pairMemo.set(key, isNaturalSpread);
     setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
   };
+
 
   const detectPair = async (leftUrl: string, rightUrl: string, key: string) => {
     if (pairs[key] !== undefined) return;
