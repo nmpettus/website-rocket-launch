@@ -231,27 +231,40 @@ export default function BookReader() {
 
 
   // On-demand: only sample pages around the current view when in auto mode.
-  // Avoids downloading all 51 images just to detect spreads.
+  // The current pair is resolved first (in parallel) so the layout settles
+  // immediately; neighbours are then warmed in the background.
   useEffect(() => {
     if (readablePages.length === 0) return;
     if (layoutMode !== "auto") return;
     let cancelled = false;
-    (async () => {
-      const indices = [current - 1, current, current + 1, current + 2].filter(
-        (i) => i >= 0 && i < readablePages.length
-      );
+
+    const resolveAt = async (indices: number[]) => {
+      const pageList = indices
+        .filter((i) => i >= 0 && i < readablePages.length)
+        .map((i) => readablePages[i]);
+      if (pageList.length === 0) return;
+      await Promise.all(pageList.map((p) => samplePage(p.id, p.image_url)));
+      if (cancelled) return;
       for (const i of indices) {
-        if (cancelled) return;
-        await samplePage(readablePages[i].id, readablePages[i].image_url);
         for (const j of [i - 1, i]) {
           const a = readablePages[j], b = readablePages[j + 1];
           if (a && b) computePairFromCache(a.id, b.id, pairKey(a.id, b.id));
         }
       }
+    };
+
+    (async () => {
+      // Priority: the pair being displayed right now.
+      await resolveAt([current, current + 1]);
+      if (cancelled) return;
+      // Then warm the surrounding pages without blocking the view.
+      await resolveAt([current - 1, current + 2, current + 3]);
     })();
+
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [readablePages, current, layoutMode]);
+
 
   // Persistent image cache — resolve each page URL to a cached blob URL from
   // IndexedDB so revisits load instantly with no network fetch.
