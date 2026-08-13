@@ -20,6 +20,11 @@ interface Page { id: string; page_number: number; image_url: string; narration_t
 
 const PREVIEW_LIMIT = 3;
 
+// Spread-detection results persist for the browser session so returning to a
+// book (or re-entering Auto mode) is instant instead of re-analyzing images.
+const pairMemo = new Map<string, boolean>();
+
+
 export default function BookReader() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
