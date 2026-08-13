@@ -689,7 +689,7 @@ export default function BookReader() {
                     }}
                     decoding="async"
                     {...({ fetchpriority: "high" } as any)}
-                    className={`block w-auto max-w-full object-contain ${heightClass}`}
+                    className={`block w-auto max-w-full origin-center scale-[1.003] object-contain ${heightClass}`}
                   />
                 </div>
                 {pairedSpread && rightPage && (
@@ -706,7 +706,7 @@ export default function BookReader() {
                       }}
                       decoding="async"
                       {...({ fetchpriority: "high" } as any)}
-                      className={`block w-auto ${halfWidthClass} object-contain ${heightClass}`}
+                      className={`block w-auto ${halfWidthClass} origin-center scale-[1.003] object-contain ${heightClass}`}
                     />
                   </div>
                 )}
