@@ -509,15 +509,16 @@ export default function BookReader() {
   const buildSpeech = async (): Promise<{ cacheKey: string; text: string } | null> => {
     const page = readablePages[current];
     if (!page) return null;
-    const leftText = await extractTextForPage(page);
+    const leftText = normalizeNarration(await extractTextForPage(page));
     let combined = leftText;
     let cacheKey = page.id;
     if (spread && readablePages[current + 1]) {
-      const rightText = await extractTextForPage(readablePages[current + 1]);
+      const rightText = normalizeNarration(await extractTextForPage(readablePages[current + 1]));
       if (rightText) combined = leftText ? `${leftText}\n\n${rightText}` : rightText;
       cacheKey = `${page.id}+${readablePages[current + 1].id}`;
     }
     if (!combined) return null;
+
     return { cacheKey, text: combined };
   };
 
