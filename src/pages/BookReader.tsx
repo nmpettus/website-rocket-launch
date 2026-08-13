@@ -108,13 +108,18 @@ export default function BookReader() {
     if (existing) return existing;
     const p = (async () => {
       try {
+        // Reuse the persistent cache so sampling never re-downloads an image.
+        let src = url;
+        try { src = await getCachedImageUrl(url); } catch { /* fall back to network URL */ }
         const img = await new Promise<HTMLImageElement>((res, rej) => {
           const im = new Image();
           im.crossOrigin = "anonymous";
+          im.decoding = "async";
           im.onload = () => res(im);
           im.onerror = rej;
-          im.src = url;
+          im.src = src;
         });
+
         const sampleEdge = (side: "left" | "right"): EdgeSample | null => {
           const h = 96, w = 12;
           const c = document.createElement("canvas");
