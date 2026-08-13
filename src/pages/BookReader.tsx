@@ -781,10 +781,11 @@ export default function BookReader() {
                   max={2.0}
                   step={0.1}
                   onValueChange={(v) => setPlaybackSpeed(v[0])}
-                  className="w-24"
+                  className="w-32"
                   aria-label="Read-aloud speed"
                 />
               </div>
+
 
               <ToggleGroup
                 type="single"
