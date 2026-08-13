@@ -592,6 +592,13 @@ export default function BookReader() {
 
   const nextPageIndex = () => current + (pairedSpread ? 2 : 1);
 
+  const resetOptions = () => {
+    setPlaybackSpeed(1);
+    setLayoutMode("single");
+    setFit("contain");
+    toast({ title: "Settings reset", description: "Reading options returned to defaults." });
+  };
+
   if (loading || authLoading || subscriptionLoading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   if (!book) return (
     <div className="min-h-screen flex items-center justify-center flex-col gap-4">
