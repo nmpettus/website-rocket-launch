@@ -773,56 +773,71 @@ export default function BookReader() {
                   <Square className="w-4 h-4 mr-1" /> Stop
                 </Button>
               )}
-              <div className="flex items-center gap-2 bg-neutral-800 rounded-lg px-3 py-2">
-                <span className="text-xs text-white/80 whitespace-nowrap">Speed: {playbackSpeed.toFixed(1)}x</span>
-                <Slider
-                  value={[playbackSpeed]}
-                  min={0.5}
-                  max={2.0}
-                  step={0.1}
-                  onValueChange={(v) => setPlaybackSpeed(v[0])}
-                  className="w-32"
-                  aria-label="Read-aloud speed"
-                />
-              </div>
 
+              <Dialog open={optionsOpen} onOpenChange={setOptionsOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="text-foreground">
+                    <Settings className="w-4 h-4 mr-1" /> Options
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Reading Options</DialogTitle>
+                    <DialogDescription>Adjust how this book reads and looks.</DialogDescription>
+                  </DialogHeader>
 
-              <ToggleGroup
-                type="single"
-                value={layoutMode}
-                onValueChange={(v) => { if (v) setLayoutMode(v as "auto" | "single" | "spread"); }}
-                variant="outline"
-                className="flex-wrap justify-center"
-              >
-                <ToggleGroupItem value="auto" aria-label="Auto layout" title="Auto detects spreads from page shape">
-                  <LayoutTemplate className="w-4 h-4 mr-1" /> Auto
-                </ToggleGroupItem>
-                <ToggleGroupItem value="single" aria-label="Single page">
-                  <FileText className="w-4 h-4 mr-1" /> Single Page
-                </ToggleGroupItem>
-                <ToggleGroupItem value="spread" aria-label="Two-page spread">
-                  <BookOpen className="w-4 h-4 mr-1" /> Two-Page Spread
-                </ToggleGroupItem>
-              </ToggleGroup>
-              <Button variant="outline" onClick={() => setFit((f) => (f === "contain" ? "cover" : "contain"))} className="text-foreground">
-                {fit === "contain" ? "Fill Page" : "Fit Page"}
-              </Button>
-              <Button
-                variant="outline"
-                onClick={downloadForOffline}
-                disabled={downloading || bookOfflineReady}
-                className="text-foreground"
-                title="Cache every page in this book for offline reading"
-              >
-                {bookOfflineReady ? (
-                  <><CheckCircle2 className="w-4 h-4 mr-1" /> Saved Offline</>
-                ) : downloading ? (
-                  <><CloudDownload className="w-4 h-4 mr-1 animate-pulse" /> Saving {downloadProgress.done}/{downloadProgress.total}</>
-                ) : (
-                  <><CloudDownload className="w-4 h-4 mr-1" /> Save for Offline</>
-                )}
-              </Button>
+                  <div className="space-y-6 py-2">
+                    <div className="space-y-2">
+                      <Label className="text-base">Read-aloud speed: {playbackSpeed.toFixed(1)}x</Label>
+                      <Slider
+                        value={[playbackSpeed]}
+                        min={0.5}
+                        max={2.0}
+                        step={0.1}
+                        onValueChange={(v) => setPlaybackSpeed(v[0])}
+                        aria-label="Read-aloud speed"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-base">Page layout</Label>
+                      <ToggleGroup
+                        type="single"
+                        value={layoutMode}
+                        onValueChange={(v) => { if (v) setLayoutMode(v as "auto" | "single" | "spread"); }}
+                        variant="outline"
+                        className="flex-wrap justify-start"
+                      >
+                        <ToggleGroupItem value="auto" aria-label="Auto layout" title="Auto detects spreads from page shape">
+                          <LayoutTemplate className="w-4 h-4 mr-1" /> Auto
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="single" aria-label="Single page">
+                          <FileText className="w-4 h-4 mr-1" /> Single
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="spread" aria-label="Two-page spread">
+                          <BookOpen className="w-4 h-4 mr-1" /> Two Pages
+                        </ToggleGroupItem>
+                      </ToggleGroup>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-base">Image size</Label>
+                      <ToggleGroup
+                        type="single"
+                        value={fit}
+                        onValueChange={(v) => { if (v) setFit(v as "contain" | "cover"); }}
+                        variant="outline"
+                        className="flex-wrap justify-start"
+                      >
+                        <ToggleGroupItem value="contain" aria-label="Fit page">Fit Page</ToggleGroupItem>
+                        <ToggleGroupItem value="cover" aria-label="Fill page">Fill Page</ToggleGroupItem>
+                      </ToggleGroup>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
+
 
             <Button variant="secondary" disabled={current >= visiblePages - 1} onClick={() => goPage(nextPageIndex())}>
               Next <ChevronRight className="w-4 h-4 ml-1" />
