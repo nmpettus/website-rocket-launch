@@ -5,13 +5,15 @@ import { supabaseAnonKey, supabaseUrl } from "@/lib/publicConfig";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, ArrowLeft, Play, Pause, Square, Lock, BookOpen, FileText, LayoutTemplate } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowLeft, Play, Pause, Square, Lock, BookOpen, FileText, LayoutTemplate, Settings } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 import { toast } from "@/hooks/use-toast";
-import { getCachedImageUrl, prefetchImages, hasCachedImage, cacheAllImages } from "@/lib/imageCache";
-import { CloudDownload, CheckCircle2 } from "lucide-react";
+import { getCachedImageUrl, prefetchImages } from "@/lib/imageCache";
+
 
 interface Book { id: string; slug: string; title: string; page_count: number; is_free: boolean; content_type?: string; credit_cost?: number; }
 interface Page { id: string; page_number: number; image_url: string; narration_text: string | null; updated_at?: string | null; }
@@ -273,57 +275,9 @@ export default function BookReader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, readablePages, displayAsSpread]);
 
-  // Track whether the current spread + next spread are fully cached in
-  // IndexedDB so the user knows they can safely go offline.
-  const [spreadOfflineReady, setSpreadOfflineReady] = useState(false);
-  useEffect(() => {
-    let cancelled = false;
-    const offsets = displayAsSpread ? [0, 1, 2, 3] : [0, 1];
-    const targets = offsets
-      .map((o) => readablePages[current + o]?.image_url)
-      .filter(Boolean) as string[];
-    if (targets.length === 0) { setSpreadOfflineReady(false); return; }
-    (async () => {
-      // Ensure targets are cached, then re-check status.
-      await cacheAllImages(targets);
-      if (cancelled) return;
-      const results = await Promise.all(targets.map(hasCachedImage));
-      if (!cancelled) setSpreadOfflineReady(results.every(Boolean));
-    })();
-    return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, readablePages, displayAsSpread]);
+  // Reading options dialog.
+  const [optionsOpen, setOptionsOpen] = useState(false);
 
-  // Whole-book offline download state.
-  const [downloading, setDownloading] = useState(false);
-  const [downloadProgress, setDownloadProgress] = useState({ done: 0, total: 0 });
-  const [bookOfflineReady, setBookOfflineReady] = useState(false);
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      if (readablePages.length === 0) { setBookOfflineReady(false); return; }
-      const results = await Promise.all(
-        readablePages.map((p) => (p.image_url ? hasCachedImage(p.image_url) : Promise.resolve(true))),
-      );
-      if (!cancelled) setBookOfflineReady(results.every(Boolean));
-    })();
-    return () => { cancelled = true; };
-  }, [readablePages, downloadProgress.done]);
-
-  const downloadForOffline = async () => {
-    if (downloading || readablePages.length === 0) return;
-    setDownloading(true);
-    const urls = readablePages.map((p) => p.image_url).filter(Boolean) as string[];
-    setDownloadProgress({ done: 0, total: urls.length });
-    try {
-      await cacheAllImages(urls, (done, total) => setDownloadProgress({ done, total }));
-      toast({ title: "Ready offline", description: "This whole book is now saved for offline reading." });
-    } catch {
-      toast({ title: "Download incomplete", description: "Some pages could not be cached. Try again.", variant: "destructive" });
-    } finally {
-      setDownloading(false);
-    }
-  };
 
   // Track which page images have finished loading so a two-page spread can
   // reveal both halves at the same instant instead of popping in one-by-one.
@@ -656,12 +610,8 @@ export default function BookReader() {
         </Link>
         <div className="text-sm text-white/70 flex items-center gap-3">
           <span>{book.title} — Page {page?.page_number ?? 0} of {book.page_count}</span>
-          {spreadOfflineReady && (
-            <span className="inline-flex items-center gap-1 text-emerald-400" title="Current & next spread cached for offline">
-              <CheckCircle2 className="w-4 h-4" /> Offline ready
-            </span>
-          )}
         </div>
+
         <div className="w-20" />
       </div>
 
@@ -773,56 +723,71 @@ export default function BookReader() {
                   <Square className="w-4 h-4 mr-1" /> Stop
                 </Button>
               )}
-              <div className="flex items-center gap-2 bg-neutral-800 rounded-lg px-3 py-2">
-                <span className="text-xs text-white/80 whitespace-nowrap">Speed: {playbackSpeed.toFixed(1)}x</span>
-                <Slider
-                  value={[playbackSpeed]}
-                  min={0.5}
-                  max={2.0}
-                  step={0.1}
-                  onValueChange={(v) => setPlaybackSpeed(v[0])}
-                  className="w-32"
-                  aria-label="Read-aloud speed"
-                />
-              </div>
 
+              <Dialog open={optionsOpen} onOpenChange={setOptionsOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="text-foreground">
+                    <Settings className="w-4 h-4 mr-1" /> Options
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Reading Options</DialogTitle>
+                    <DialogDescription>Adjust how this book reads and looks.</DialogDescription>
+                  </DialogHeader>
 
-              <ToggleGroup
-                type="single"
-                value={layoutMode}
-                onValueChange={(v) => { if (v) setLayoutMode(v as "auto" | "single" | "spread"); }}
-                variant="outline"
-                className="flex-wrap justify-center"
-              >
-                <ToggleGroupItem value="auto" aria-label="Auto layout" title="Auto detects spreads from page shape">
-                  <LayoutTemplate className="w-4 h-4 mr-1" /> Auto
-                </ToggleGroupItem>
-                <ToggleGroupItem value="single" aria-label="Single page">
-                  <FileText className="w-4 h-4 mr-1" /> Single Page
-                </ToggleGroupItem>
-                <ToggleGroupItem value="spread" aria-label="Two-page spread">
-                  <BookOpen className="w-4 h-4 mr-1" /> Two-Page Spread
-                </ToggleGroupItem>
-              </ToggleGroup>
-              <Button variant="outline" onClick={() => setFit((f) => (f === "contain" ? "cover" : "contain"))} className="text-foreground">
-                {fit === "contain" ? "Fill Page" : "Fit Page"}
-              </Button>
-              <Button
-                variant="outline"
-                onClick={downloadForOffline}
-                disabled={downloading || bookOfflineReady}
-                className="text-foreground"
-                title="Cache every page in this book for offline reading"
-              >
-                {bookOfflineReady ? (
-                  <><CheckCircle2 className="w-4 h-4 mr-1" /> Saved Offline</>
-                ) : downloading ? (
-                  <><CloudDownload className="w-4 h-4 mr-1 animate-pulse" /> Saving {downloadProgress.done}/{downloadProgress.total}</>
-                ) : (
-                  <><CloudDownload className="w-4 h-4 mr-1" /> Save for Offline</>
-                )}
-              </Button>
+                  <div className="space-y-6 py-2">
+                    <div className="space-y-2">
+                      <Label className="text-base">Read-aloud speed: {playbackSpeed.toFixed(1)}x</Label>
+                      <Slider
+                        value={[playbackSpeed]}
+                        min={0.5}
+                        max={2.0}
+                        step={0.1}
+                        onValueChange={(v) => setPlaybackSpeed(v[0])}
+                        aria-label="Read-aloud speed"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-base">Page layout</Label>
+                      <ToggleGroup
+                        type="single"
+                        value={layoutMode}
+                        onValueChange={(v) => { if (v) setLayoutMode(v as "auto" | "single" | "spread"); }}
+                        variant="outline"
+                        className="flex-wrap justify-start"
+                      >
+                        <ToggleGroupItem value="auto" aria-label="Auto layout" title="Auto detects spreads from page shape">
+                          <LayoutTemplate className="w-4 h-4 mr-1" /> Auto
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="single" aria-label="Single page">
+                          <FileText className="w-4 h-4 mr-1" /> Single
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="spread" aria-label="Two-page spread">
+                          <BookOpen className="w-4 h-4 mr-1" /> Two Pages
+                        </ToggleGroupItem>
+                      </ToggleGroup>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-base">Image size</Label>
+                      <ToggleGroup
+                        type="single"
+                        value={fit}
+                        onValueChange={(v) => { if (v) setFit(v as "contain" | "cover"); }}
+                        variant="outline"
+                        className="flex-wrap justify-start"
+                      >
+                        <ToggleGroupItem value="contain" aria-label="Fit page">Fit Page</ToggleGroupItem>
+                        <ToggleGroupItem value="cover" aria-label="Fill page">Fill Page</ToggleGroupItem>
+                      </ToggleGroup>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
+
 
             <Button variant="secondary" disabled={current >= visiblePages - 1} onClick={() => goPage(nextPageIndex())}>
               Next <ChevronRight className="w-4 h-4 ml-1" />
