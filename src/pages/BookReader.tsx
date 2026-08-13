@@ -275,57 +275,9 @@ export default function BookReader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, readablePages, displayAsSpread]);
 
-  // Track whether the current spread + next spread are fully cached in
-  // IndexedDB so the user knows they can safely go offline.
-  const [spreadOfflineReady, setSpreadOfflineReady] = useState(false);
-  useEffect(() => {
-    let cancelled = false;
-    const offsets = displayAsSpread ? [0, 1, 2, 3] : [0, 1];
-    const targets = offsets
-      .map((o) => readablePages[current + o]?.image_url)
-      .filter(Boolean) as string[];
-    if (targets.length === 0) { setSpreadOfflineReady(false); return; }
-    (async () => {
-      // Ensure targets are cached, then re-check status.
-      await cacheAllImages(targets);
-      if (cancelled) return;
-      const results = await Promise.all(targets.map(hasCachedImage));
-      if (!cancelled) setSpreadOfflineReady(results.every(Boolean));
-    })();
-    return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, readablePages, displayAsSpread]);
+  // Reading options dialog.
+  const [optionsOpen, setOptionsOpen] = useState(false);
 
-  // Whole-book offline download state.
-  const [downloading, setDownloading] = useState(false);
-  const [downloadProgress, setDownloadProgress] = useState({ done: 0, total: 0 });
-  const [bookOfflineReady, setBookOfflineReady] = useState(false);
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      if (readablePages.length === 0) { setBookOfflineReady(false); return; }
-      const results = await Promise.all(
-        readablePages.map((p) => (p.image_url ? hasCachedImage(p.image_url) : Promise.resolve(true))),
-      );
-      if (!cancelled) setBookOfflineReady(results.every(Boolean));
-    })();
-    return () => { cancelled = true; };
-  }, [readablePages, downloadProgress.done]);
-
-  const downloadForOffline = async () => {
-    if (downloading || readablePages.length === 0) return;
-    setDownloading(true);
-    const urls = readablePages.map((p) => p.image_url).filter(Boolean) as string[];
-    setDownloadProgress({ done: 0, total: urls.length });
-    try {
-      await cacheAllImages(urls, (done, total) => setDownloadProgress({ done, total }));
-      toast({ title: "Ready offline", description: "This whole book is now saved for offline reading." });
-    } catch {
-      toast({ title: "Download incomplete", description: "Some pages could not be cached. Try again.", variant: "destructive" });
-    } finally {
-      setDownloading(false);
-    }
-  };
 
   // Track which page images have finished loading so a two-page spread can
   // reveal both halves at the same instant instead of popping in one-by-one.
