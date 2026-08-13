@@ -773,6 +773,19 @@ export default function BookReader() {
                   <Square className="w-4 h-4 mr-1" /> Stop
                 </Button>
               )}
+              <div className="flex items-center gap-2 bg-neutral-800 rounded-lg px-3 py-2">
+                <span className="text-xs text-white/80 whitespace-nowrap">Speed: {playbackSpeed.toFixed(1)}x</span>
+                <Slider
+                  value={[playbackSpeed]}
+                  min={0.5}
+                  max={2.0}
+                  step={0.1}
+                  onValueChange={(v) => setPlaybackSpeed(v[0])}
+                  className="w-24"
+                  aria-label="Read-aloud speed"
+                />
+              </div>
+
               <ToggleGroup
                 type="single"
                 value={layoutMode}
