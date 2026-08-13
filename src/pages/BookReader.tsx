@@ -668,7 +668,7 @@ export default function BookReader() {
                 className={
                   displayAsSpread
                     ? `mx-auto flex max-w-full overflow-hidden rounded-none bg-transparent shadow-2xl ${heightClass} relative`
-                    : "flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-2xl relative"
+                    : "mx-auto flex w-fit max-w-full items-center justify-center overflow-hidden rounded-xl bg-transparent shadow-2xl relative leading-none"
                 }
               >
                 {(!spreadReady) && (
