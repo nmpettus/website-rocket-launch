@@ -18,6 +18,7 @@ const Hero = () => {
   const { user, loading: authLoading } = useAuth();
   const { isActive, loading: subLoading } = useSubscription();
   const [showReadingClubModal, setShowReadingClubModal] = useState(false);
+  const [matteoFront, setMatteoFront] = useState(false);
 
   const handleReadingClubClick = () => {
     setShowReadingClubModal(true);
@@ -176,7 +177,10 @@ const Hero = () => {
                 <Link
                   to="/matteo"
                   aria-label="Meet Matteo the Yorkie puppy"
-                  className="absolute bottom-10 -right-4 w-48 h-64 bg-secondary rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-6 z-10 block group transition-transform duration-500 hover:rotate-3 hover:scale-105"
+                  onPointerDown={() => setMatteoFront(true)}
+                  onPointerUp={() => setMatteoFront(false)}
+                  onPointerLeave={() => setMatteoFront(false)}
+                  className={`absolute bottom-10 -right-4 w-48 h-64 bg-secondary rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-6 block group transition-transform duration-500 hover:rotate-3 hover:scale-105 ${matteoFront ? 'z-30' : 'z-10'}`}
                 >
                   <img
                     src="/lovable-uploads/MatteoFront.png"
