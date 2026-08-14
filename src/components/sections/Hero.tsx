@@ -18,6 +18,7 @@ const Hero = () => {
   const { user, loading: authLoading } = useAuth();
   const { isActive, loading: subLoading } = useSubscription();
   const [showReadingClubModal, setShowReadingClubModal] = useState(false);
+  const [matteoFront, setMatteoFront] = useState(false);
 
   const handleReadingClubClick = () => {
     setShowReadingClubModal(true);
