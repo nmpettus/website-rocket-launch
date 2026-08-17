@@ -204,7 +204,13 @@ export default function Members() {
     setDownloadBusyId(book.id);
     try {
       const url = await getFileUrl(book, "download");
-      window.open(url, "_blank", "noopener");
+      const a = document.createElement("a");
+      a.href = url;
+      a.rel = "noopener";
+      a.download = "";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
     } catch (e: any) {
       toast.error(e.message || "Could not start the download");
     } finally {
@@ -216,13 +222,25 @@ export default function Members() {
     setDownloadBusyId(book.id);
     try {
       const url = await getFileUrl(book, "read");
-      setReadingPdf({ url, title: book.title });
+      // Load the PDF into a same-origin blob URL — Chrome blocks embedding
+      // remote PDFs from another origin inside an iframe.
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Could not load this PDF");
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(
+        blob.type === "application/pdf" ? blob : new Blob([blob], { type: "application/pdf" })
+      );
+      setReadingPdf((prev) => {
+        if (prev?.url.startsWith("blob:")) URL.revokeObjectURL(prev.url);
+        return { url: blobUrl, title: book.title };
+      });
     } catch (e: any) {
       toast.error(e.message || "Could not open this PDF");
     } finally {
       setDownloadBusyId(null);
     }
   };
+
 
 
   const confirmUnlockDownload = async () => {
