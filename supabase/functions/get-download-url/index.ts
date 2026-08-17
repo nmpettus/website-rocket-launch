@@ -18,14 +18,17 @@ Deno.serve(async (req) => {
     if (!token) return json({ error: 'Not signed in' }, 401);
 
     let bookId: unknown;
+    let mode: unknown;
     try {
-      ({ bookId } = await req.json());
+      ({ bookId, mode } = await req.json());
     } catch {
       return json({ error: 'Invalid JSON body' }, 400);
     }
     if (typeof bookId !== 'string' || !/^[0-9a-f-]{36}$/i.test(bookId)) {
       return json({ error: 'A valid bookId is required' }, 400);
     }
+    const inlineRead = mode === 'read';
+
 
     const url = Deno.env.get('SUPABASE_URL')!;
     const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -58,7 +61,8 @@ Deno.serve(async (req) => {
     const filename = `${book.title.replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '')}.pdf`;
     const { data: signed, error: signErr } = await admin.storage
       .from('book-pages')
-      .createSignedUrl(book.download_path, 300, { download: filename });
+      .createSignedUrl(book.download_path, 300, inlineRead ? {} : { download: filename });
+
     if (signErr || !signed?.signedUrl) throw signErr ?? new Error('Could not sign URL');
 
     return json({ url: signed.signedUrl });

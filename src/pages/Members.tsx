@@ -34,6 +34,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
 
 interface Book {
   id: string;
@@ -63,6 +65,8 @@ export default function Members() {
   const [unlockedIds, setUnlockedIds] = useState<Set<string>>(new Set());
   const [pendingUnlock, setPendingUnlock] = useState<Book | null>(null);
   const [downloadBusyId, setDownloadBusyId] = useState<string | null>(null);
+  const [readingPdf, setReadingPdf] = useState<{ url: string; title: string } | null>(null);
+
 
   const checkoutHandledRef = useRef(false);
 
@@ -187,21 +191,39 @@ export default function Members() {
     setUnlockedIds(new Set((data || []).map((u: { book_id: string }) => u.book_id)));
   };
 
+  const getFileUrl = async (book: Book, mode: "download" | "read") => {
+    const { data, error } = await supabase.functions.invoke("get-download-url", {
+      body: { bookId: book.id, mode },
+    });
+    if (error) throw error;
+    if (data?.error) throw new Error(data.error);
+    return data.url as string;
+  };
+
   const startDownload = async (book: Book) => {
     setDownloadBusyId(book.id);
     try {
-      const { data, error } = await supabase.functions.invoke("get-download-url", {
-        body: { bookId: book.id },
-      });
-      if (error) throw error;
-      if (data?.error) throw new Error(data.error);
-      window.open(data.url as string, "_blank", "noopener");
+      const url = await getFileUrl(book, "download");
+      window.open(url, "_blank", "noopener");
     } catch (e: any) {
       toast.error(e.message || "Could not start the download");
     } finally {
       setDownloadBusyId(null);
     }
   };
+
+  const startReading = async (book: Book) => {
+    setDownloadBusyId(book.id);
+    try {
+      const url = await getFileUrl(book, "read");
+      setReadingPdf({ url, title: book.title });
+    } catch (e: any) {
+      toast.error(e.message || "Could not open this PDF");
+    } finally {
+      setDownloadBusyId(null);
+    }
+  };
+
 
   const confirmUnlockDownload = async () => {
     const book = pendingUnlock;
@@ -216,7 +238,7 @@ export default function Members() {
       await fetchCreditBalance();
       setPendingUnlock(null);
       toast.success(`Unlocked "${book.title}" — it's yours to keep.`);
-      await startDownload(book);
+      await startReading(book);
     } catch (e: any) {
       toast.error(e.message || "Could not unlock this item");
     } finally {
@@ -453,7 +475,19 @@ export default function Members() {
                       )}
 
                       {isDownload && (
-                        <div className="px-4 pb-4 mt-auto">
+                        <div className="px-4 pb-4 mt-auto space-y-2">
+                          {unlocked && (
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              className="w-full rounded-full font-medium"
+                              disabled={downloadBusyId === book.id}
+                              onClick={() => startReading(book)}
+                            >
+                              <BookOpen className="w-3.5 h-3.5 mr-1.5" />
+                              Read Online
+                            </Button>
+                          )}
                           <Button
                             size="sm"
                             className="w-full rounded-full font-medium"
@@ -467,10 +501,11 @@ export default function Members() {
                                 ? "Download PDF"
                                 : !isActive
                                   ? "Members only"
-                                  : `Unlock & Download (${cost} credit${cost === 1 ? "" : "s"})`}
+                                  : `Unlock & Read or Download (${cost} credit${cost === 1 ? "" : "s"})`}
                           </Button>
                         </div>
                       )}
+
 
                       {amazonUrl && (
                         <div className="px-4 pb-4 mt-auto">
@@ -578,17 +613,33 @@ export default function Members() {
                 {creditBalance !== null
                   ? ` — you'll have ${Math.max(0, creditBalance - (pendingUnlock?.credit_cost ?? 2))} left this month.`
                   : "."}{" "}
-                Once unlocked, the PDF is yours to download and keep forever.
+                Once unlocked, you can read it online or download it — yours to keep forever.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Not now</AlertDialogCancel>
               <AlertDialogAction onClick={confirmUnlockDownload} disabled={!!downloadBusyId}>
-                {downloadBusyId ? "Unlocking…" : "Unlock & Download"}
+                {downloadBusyId ? "Unlocking…" : "Unlock & Read"}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+
+        <Dialog open={!!readingPdf} onOpenChange={(open) => !open && setReadingPdf(null)}>
+          <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 gap-0 flex flex-col">
+            <DialogHeader className="px-4 py-3 border-b">
+              <DialogTitle className="text-base">{readingPdf?.title}</DialogTitle>
+            </DialogHeader>
+            {readingPdf && (
+              <iframe
+                src={readingPdf.url}
+                title={readingPdf.title}
+                className="flex-1 w-full rounded-b-lg"
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+
       </div>
 
     </div>
