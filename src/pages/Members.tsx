@@ -91,18 +91,61 @@ export default function Members() {
   }, [authLoading, user, navigate]);
 
   useEffect(() => {
+    const CACHE_KEY = "members:covers:v1";
     (async () => {
+      // Warm from cache instantly so covers paint on first frame.
+      try {
+        const cached = sessionStorage.getItem(CACHE_KEY);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed?.expires > Date.now() && Array.isArray(parsed.books)) {
+            setBooks(parsed.books as Book[]);
+            setLoading(false);
+          }
+        }
+      } catch { /* ignore cache errors */ }
+
       const { data } = await supabase.from("books").select("*").order("sort_order");
       const rows = (data || []) as Book[];
-      const resolved = await Promise.all(rows.map(async (b) => {
-        if (!b.cover_image_url || b.cover_image_url.startsWith("http") || b.cover_image_url.startsWith("/")) return b;
-        const { data: signed } = await supabase.storage.from("book-pages").createSignedUrl(b.cover_image_url, 3600);
-        return { ...b, cover_image_url: signed?.signedUrl ?? b.cover_image_url };
-      }));
+
+      // Sign all storage covers in ONE request instead of N sequential ones.
+      const needSigning = rows.filter(
+        (b) => b.cover_image_url && !b.cover_image_url.startsWith("http") && !b.cover_image_url.startsWith("/")
+      );
+      const signedMap = new Map<string, string>();
+      if (needSigning.length) {
+        const { data: signed } = await supabase.storage
+          .from("book-pages")
+          .createSignedUrls(needSigning.map((b) => b.cover_image_url as string), 3600);
+        signed?.forEach((s) => {
+          if (s.path && s.signedUrl) signedMap.set(s.path, s.signedUrl);
+        });
+      }
+      const resolved = rows.map((b) =>
+        b.cover_image_url && signedMap.has(b.cover_image_url)
+          ? { ...b, cover_image_url: signedMap.get(b.cover_image_url)! }
+          : b
+      );
       setBooks(resolved);
       setLoading(false);
+      try {
+        sessionStorage.setItem(
+          CACHE_KEY,
+          JSON.stringify({ expires: Date.now() + 45 * 60 * 1000, books: resolved })
+        );
+      } catch { /* quota - ignore */ }
+
+      // Decode covers off the main thread so scrolling stays smooth.
+      resolved.forEach((b) => {
+        if (b.cover_image_url) {
+          const img = new Image();
+          img.decoding = "async";
+          img.src = b.cover_image_url;
+        }
+      });
     })();
   }, []);
+
 
   const handleSignOut = async () => {
     await signOut();
@@ -352,7 +395,7 @@ export default function Members() {
               <p className="text-muted-foreground">Books are being added soon!</p>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {books.map((book) => {
+                {books.map((book, bookIndex) => {
                   const locked = !isActive && !book.is_free;
                   const amazonUrl = AMAZON_PAPERBACK_LINKS[book.slug];
                   const isDownload = !!book.download_path;
@@ -363,8 +406,16 @@ export default function Members() {
                     <>
                       <div className="aspect-square bg-muted relative border border-black">
                         {book.cover_image_url && (
-                          <img src={book.cover_image_url} alt={book.title} className="w-full h-full object-cover" />
+                          <img
+                            src={book.cover_image_url}
+                            alt={book.title}
+                            className="w-full h-full object-cover"
+                            loading={bookIndex < 8 ? "eager" : "lazy"}
+                            fetchPriority={bookIndex < 4 ? "high" : "auto"}
+                            decoding="async"
+                          />
                         )}
+
                         {(locked || (isDownload && !unlocked)) && (
                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                             <div className="bg-white/90 rounded-full p-3">
