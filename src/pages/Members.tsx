@@ -204,7 +204,13 @@ export default function Members() {
     setDownloadBusyId(book.id);
     try {
       const url = await getFileUrl(book, "download");
-      window.open(url, "_blank", "noopener");
+      const a = document.createElement("a");
+      a.href = url;
+      a.rel = "noopener";
+      a.download = "";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
     } catch (e: any) {
       toast.error(e.message || "Could not start the download");
     } finally {
@@ -216,13 +222,25 @@ export default function Members() {
     setDownloadBusyId(book.id);
     try {
       const url = await getFileUrl(book, "read");
-      setReadingPdf({ url, title: book.title });
+      // Load the PDF into a same-origin blob URL — Chrome blocks embedding
+      // remote PDFs from another origin inside an iframe.
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Could not load this PDF");
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(
+        blob.type === "application/pdf" ? blob : new Blob([blob], { type: "application/pdf" })
+      );
+      setReadingPdf((prev) => {
+        if (prev?.url.startsWith("blob:")) URL.revokeObjectURL(prev.url);
+        return { url: blobUrl, title: book.title };
+      });
     } catch (e: any) {
       toast.error(e.message || "Could not open this PDF");
     } finally {
       setDownloadBusyId(null);
     }
   };
+
 
 
   const confirmUnlockDownload = async () => {
@@ -625,20 +643,41 @@ export default function Members() {
           </AlertDialogContent>
         </AlertDialog>
 
-        <Dialog open={!!readingPdf} onOpenChange={(open) => !open && setReadingPdf(null)}>
+        <Dialog
+          open={!!readingPdf}
+          onOpenChange={(open) => {
+            if (!open) {
+              if (readingPdf?.url.startsWith("blob:")) URL.revokeObjectURL(readingPdf.url);
+              setReadingPdf(null);
+            }
+          }}
+        >
           <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 gap-0 flex flex-col">
             <DialogHeader className="px-4 py-3 border-b">
               <DialogTitle className="text-base">{readingPdf?.title}</DialogTitle>
             </DialogHeader>
             {readingPdf && (
-              <iframe
-                src={readingPdf.url}
-                title={readingPdf.title}
+              <object
+                data={readingPdf.url}
+                type="application/pdf"
                 className="flex-1 w-full rounded-b-lg"
-              />
+                aria-label={readingPdf.title}
+              >
+                <div className="p-6 text-center space-y-3">
+                  <p className="text-muted-foreground">
+                    Your browser can't display PDFs inline.
+                  </p>
+                  <Button asChild>
+                    <a href={readingPdf.url} target="_blank" rel="noopener noreferrer">
+                      Open PDF in a new tab
+                    </a>
+                  </Button>
+                </div>
+              </object>
             )}
           </DialogContent>
         </Dialog>
+
 
       </div>
 
