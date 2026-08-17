@@ -46,6 +46,9 @@ export default function AdminBooks() {
   const [originalSlug, setOriginalSlug] = useState<string | null>(null);
   const [downloadFile, setDownloadFile] = useState<File | null>(null);
   const [existingDownloadPath, setExistingDownloadPath] = useState<string | null>(null);
+  const [unlockedForDelete, setUnlockedForDelete] = useState<string | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState("");
+
 
 
 
