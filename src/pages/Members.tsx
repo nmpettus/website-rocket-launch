@@ -657,23 +657,7 @@ export default function Members() {
               <DialogTitle className="text-base">{readingPdf?.title}</DialogTitle>
             </DialogHeader>
             {readingPdf && (
-              <object
-                data={readingPdf.url}
-                type="application/pdf"
-                className="flex-1 w-full rounded-b-lg"
-                aria-label={readingPdf.title}
-              >
-                <div className="p-6 text-center space-y-3">
-                  <p className="text-muted-foreground">
-                    Your browser can't display PDFs inline.
-                  </p>
-                  <Button asChild>
-                    <a href={readingPdf.url} target="_blank" rel="noopener noreferrer">
-                      Open PDF in a new tab
-                    </a>
-                  </Button>
-                </div>
-              </object>
+              <PdfCanvasViewer url={readingPdf.url} title={readingPdf.title} />
             )}
           </DialogContent>
         </Dialog>
