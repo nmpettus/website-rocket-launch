@@ -238,7 +238,7 @@ export default function Members() {
       await fetchCreditBalance();
       setPendingUnlock(null);
       toast.success(`Unlocked "${book.title}" — it's yours to keep.`);
-      await startDownload(book);
+      await startReading(book);
     } catch (e: any) {
       toast.error(e.message || "Could not unlock this item");
     } finally {
