@@ -223,23 +223,21 @@ const Hero = () => {
                 <span>Checking your account...</span>
               </div>
             ) : !user ? (
-              <div className="space-y-3">
-                <p className="text-foreground font-medium font-body">
-                  Sign in first and we'll check whether you already have a Reading Club subscription.
-                </p>
-              </div>
+              <p className="text-foreground font-medium font-body">
+                Please sign in first. Once you're signed in we'll check whether you already have a Reading Club subscription.
+              </p>
+            ) : !signInConfirmed ? (
+              <p className="text-foreground font-medium font-body">
+                You're signed in as {user.email}. Continue with this account, or sign in with a different one.
+              </p>
             ) : isActive ? (
-              <div className="space-y-3">
-                <p className="text-foreground font-medium font-body">
-                  You already have an active subscription. Enjoy the library!
-                </p>
-              </div>
+              <p className="text-foreground font-medium font-body">
+                You already have an active subscription. Enjoy the library!
+              </p>
             ) : (
-              <div className="space-y-3">
-                <p className="text-foreground font-medium font-body">
-                  You don't have an active subscription yet. Start your 7-day free trial today.
-                </p>
-              </div>
+              <p className="text-foreground font-medium font-body">
+                You don't have an active subscription yet. Start your 7-day free trial today.
+              </p>
             )}
           </div>
 
@@ -251,6 +249,11 @@ const Hero = () => {
               </Button>
             ) : !user ? (
               <Button onClick={handleSignIn}>Sign In</Button>
+            ) : !signInConfirmed ? (
+              <>
+                <Button variant="outline" onClick={handleSignIn}>Use another account</Button>
+                <Button onClick={() => setSignInConfirmed(true)}>Continue</Button>
+              </>
             ) : isActive ? (
               <Button onClick={handleGoToLibrary}>Go to Library</Button>
             ) : (
