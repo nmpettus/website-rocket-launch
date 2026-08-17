@@ -473,7 +473,19 @@ export default function Members() {
                       )}
 
                       {isDownload && (
-                        <div className="px-4 pb-4 mt-auto">
+                        <div className="px-4 pb-4 mt-auto space-y-2">
+                          {unlocked && (
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              className="w-full rounded-full font-medium"
+                              disabled={downloadBusyId === book.id}
+                              onClick={() => startReading(book)}
+                            >
+                              <BookOpen className="w-3.5 h-3.5 mr-1.5" />
+                              Read Online
+                            </Button>
+                          )}
                           <Button
                             size="sm"
                             className="w-full rounded-full font-medium"
@@ -487,10 +499,11 @@ export default function Members() {
                                 ? "Download PDF"
                                 : !isActive
                                   ? "Members only"
-                                  : `Unlock & Download (${cost} credit${cost === 1 ? "" : "s"})`}
+                                  : `Unlock & Read or Download (${cost} credit${cost === 1 ? "" : "s"})`}
                           </Button>
                         </div>
                       )}
+
 
                       {amazonUrl && (
                         <div className="px-4 pb-4 mt-auto">
