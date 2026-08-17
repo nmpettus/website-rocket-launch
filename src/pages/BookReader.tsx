@@ -5,7 +5,7 @@ import { supabaseAnonKey, supabaseUrl } from "@/lib/publicConfig";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, ArrowLeft, Play, Pause, Square, Lock, BookOpen, FileText, LayoutTemplate, Settings, RotateCcw } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronFirst, ArrowLeft, Play, Pause, Square, Lock, BookOpen, FileText, LayoutTemplate, Settings, RotateCcw } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
@@ -748,9 +748,19 @@ export default function BookReader() {
           )}
 
           <div className="mt-4 flex items-center justify-between gap-3 flex-wrap">
-            <Button variant="secondary" disabled={current === 0} onClick={() => goPage(previousPageIndex())}>
-              <ChevronLeft className="w-4 h-4 mr-1" /> Previous
-            </Button>
+            <div className="flex items-center gap-2 flex-wrap">
+              <Button
+                variant="secondary"
+                disabled={current === 0}
+                onClick={() => goPage(0)}
+                aria-label="Go to first page"
+              >
+                <ChevronFirst className="w-4 h-4 mr-1" /> Start
+              </Button>
+              <Button variant="secondary" disabled={current === 0} onClick={() => goPage(previousPageIndex())}>
+                <ChevronLeft className="w-4 h-4 mr-1" /> Previous
+              </Button>
+            </div>
 
             <div className="flex items-center gap-2 flex-wrap justify-center">
               {!speaking ? (
