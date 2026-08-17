@@ -65,9 +65,29 @@ export default function AdminBooks() {
     if (isAdmin) loadExistingBooks();
   }, [isAdmin]);
 
-  const showDeleteProtected = (title: string) => {
-    toast.error(`"${title}" was not deleted. Library books are protected from accidental removal.`);
+  const deleteBook = async (book: any) => {
+    if (deleteConfirm.trim().toLowerCase() !== book.title.trim().toLowerCase()) {
+      toast.error("Type the exact book title to confirm deletion.");
+      return;
+    }
+    setWorking(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("admin-delete-book", {
+        body: { bookId: book.id, confirmTitle: deleteConfirm.trim() },
+      });
+      if (error) throw error;
+      if ((data as any)?.error) throw new Error((data as any).error);
+      toast.success(`"${book.title}" was permanently deleted.`);
+      setUnlockedForDelete(null);
+      setDeleteConfirm("");
+      await loadExistingBooks();
+    } catch (e: any) {
+      toast.error(e?.message || "Could not delete this book.");
+    } finally {
+      setWorking(false);
+    }
   };
+
 
   const cancelEdit = () => {
     setEditingId(null);
