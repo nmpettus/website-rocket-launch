@@ -187,21 +187,39 @@ export default function Members() {
     setUnlockedIds(new Set((data || []).map((u: { book_id: string }) => u.book_id)));
   };
 
+  const getFileUrl = async (book: Book, mode: "download" | "read") => {
+    const { data, error } = await supabase.functions.invoke("get-download-url", {
+      body: { bookId: book.id, mode },
+    });
+    if (error) throw error;
+    if (data?.error) throw new Error(data.error);
+    return data.url as string;
+  };
+
   const startDownload = async (book: Book) => {
     setDownloadBusyId(book.id);
     try {
-      const { data, error } = await supabase.functions.invoke("get-download-url", {
-        body: { bookId: book.id },
-      });
-      if (error) throw error;
-      if (data?.error) throw new Error(data.error);
-      window.open(data.url as string, "_blank", "noopener");
+      const url = await getFileUrl(book, "download");
+      window.open(url, "_blank", "noopener");
     } catch (e: any) {
       toast.error(e.message || "Could not start the download");
     } finally {
       setDownloadBusyId(null);
     }
   };
+
+  const startReading = async (book: Book) => {
+    setDownloadBusyId(book.id);
+    try {
+      const url = await getFileUrl(book, "read");
+      setReadingPdf({ url, title: book.title });
+    } catch (e: any) {
+      toast.error(e.message || "Could not open this PDF");
+    } finally {
+      setDownloadBusyId(null);
+    }
+  };
+
 
   const confirmUnlockDownload = async () => {
     const book = pendingUnlock;
