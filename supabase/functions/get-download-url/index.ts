@@ -61,7 +61,8 @@ Deno.serve(async (req) => {
     const filename = `${book.title.replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '')}.pdf`;
     const { data: signed, error: signErr } = await admin.storage
       .from('book-pages')
-      .createSignedUrl(book.download_path, 300, { download: filename });
+      .createSignedUrl(book.download_path, 300, inlineRead ? {} : { download: filename });
+
     if (signErr || !signed?.signedUrl) throw signErr ?? new Error('Could not sign URL');
 
     return json({ url: signed.signedUrl });
