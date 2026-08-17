@@ -395,7 +395,7 @@ export default function Members() {
               <p className="text-muted-foreground">Books are being added soon!</p>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {books.map((book) => {
+                {books.map((book, bookIndex) => {
                   const locked = !isActive && !book.is_free;
                   const amazonUrl = AMAZON_PAPERBACK_LINKS[book.slug];
                   const isDownload = !!book.download_path;
@@ -406,8 +406,16 @@ export default function Members() {
                     <>
                       <div className="aspect-square bg-muted relative border border-black">
                         {book.cover_image_url && (
-                          <img src={book.cover_image_url} alt={book.title} className="w-full h-full object-cover" />
+                          <img
+                            src={book.cover_image_url}
+                            alt={book.title}
+                            className="w-full h-full object-cover"
+                            loading={bookIndex < 8 ? "eager" : "lazy"}
+                            fetchPriority={bookIndex < 4 ? "high" : "auto"}
+                            decoding="async"
+                          />
                         )}
+
                         {(locked || (isDownload && !unlocked)) && (
                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                             <div className="bg-white/90 rounded-full p-3">
