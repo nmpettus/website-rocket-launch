@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import * as pdfjsLib from "pdfjs-dist";
 // @ts-ignore - Vite worker import
 import PdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?worker";
-import { Loader2, ZoomIn, ZoomOut } from "lucide-react";
+import { Loader2, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, ChevronFirst, Maximize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 (pdfjsLib as any).GlobalWorkerOptions.workerPort = new PdfWorker();
@@ -12,20 +12,27 @@ interface PdfCanvasViewerProps {
   title: string;
 }
 
+const MIN_ZOOM = 0.5;
+const MAX_ZOOM = 4;
+
 /**
  * Renders a PDF with pdf.js into canvases so it works in every browser,
- * including ones that refuse to embed PDFs inline.
+ * including ones that refuse to display PDFs inline.
  */
 const PdfCanvasViewer = ({ url, title }: PdfCanvasViewerProps) => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const pagesRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
+  const [numPages, setNumPages] = useState(0);
+  const [current, setCurrent] = useState(1);
 
   useEffect(() => {
     let cancelled = false;
-    const container = containerRef.current;
-    if (!container) return;
+    const scroller = scrollRef.current;
+    const container = pagesRef.current;
+    if (!container || !scroller) return;
 
     const render = async () => {
       setLoading(true);
@@ -35,23 +42,30 @@ const PdfCanvasViewer = ({ url, title }: PdfCanvasViewerProps) => {
         const buf = await (await fetch(url)).arrayBuffer();
         if (cancelled) return;
         const pdf = await (pdfjsLib as any).getDocument({ data: buf }).promise;
-        const width = container.clientWidth || 800;
+        if (cancelled) return;
+        setNumPages(pdf.numPages);
+
+        const available = Math.max(240, (scroller.clientWidth || 800) - 32);
 
         for (let i = 1; i <= pdf.numPages; i++) {
           if (cancelled) return;
           const page = await pdf.getPage(i);
           const base = page.getViewport({ scale: 1 });
-          const scale = ((width - 24) / base.width) * zoom;
+          const cssWidth = available * zoom;
+          const scale = cssWidth / base.width;
           const viewport = page.getViewport({ scale });
-          const canvas = document.createElement("canvas");
           const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+          const canvas = document.createElement("canvas");
           canvas.width = Math.floor(viewport.width * dpr);
           canvas.height = Math.floor(viewport.height * dpr);
-          canvas.style.width = "100%";
-          canvas.style.height = "auto";
-          canvas.className = "rounded-md shadow-sm mx-auto block mb-4 bg-white";
+          canvas.style.width = `${Math.floor(viewport.width)}px`;
+          canvas.style.height = `${Math.floor(viewport.height)}px`;
+          canvas.className = "rounded-md shadow-sm mx-auto block mb-4 bg-white max-w-none";
+          canvas.dataset.page = String(i);
           canvas.setAttribute("aria-label", `${title} page ${i}`);
           container.appendChild(canvas);
+
           const ctx = canvas.getContext("2d")!;
           ctx.scale(dpr, dpr);
           await page.render({ canvasContext: ctx, viewport }).promise;
@@ -73,32 +87,61 @@ const PdfCanvasViewer = ({ url, title }: PdfCanvasViewerProps) => {
     };
   }, [url, title, zoom]);
 
+  // Track which page is in view
+  useEffect(() => {
+    const scroller = scrollRef.current;
+    const container = pagesRef.current;
+    if (!scroller || !container) return;
+    const onScroll = () => {
+      const mid = scroller.scrollTop + scroller.clientHeight / 2;
+      const canvases = Array.from(container.children) as HTMLElement[];
+      for (let i = 0; i < canvases.length; i++) {
+        const el = canvases[i];
+        if (el.offsetTop <= mid && el.offsetTop + el.offsetHeight >= mid) {
+          setCurrent(i + 1);
+          return;
+        }
+      }
+    };
+    scroller.addEventListener("scroll", onScroll, { passive: true });
+    return () => scroller.removeEventListener("scroll", onScroll);
+  }, [numPages, zoom]);
+
+  const goToPage = useCallback((n: number) => {
+    const container = pagesRef.current;
+    const scroller = scrollRef.current;
+    if (!container || !scroller) return;
+    const target = container.children[n - 1] as HTMLElement | undefined;
+    if (!target) return;
+    scroller.scrollTo({ top: target.offsetTop - 8, behavior: "smooth" });
+    setCurrent(n);
+  }, []);
+
+  const zoomBy = (delta: number) =>
+    setZoom((z) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, +(z + delta).toFixed(2))));
+
   return (
     <div className="flex-1 flex flex-col min-h-0">
-      <div className="flex items-center justify-end gap-2 px-4 py-2 border-b">
-        <Button
-          size="icon"
-          variant="outline"
-          aria-label="Zoom out"
-          onClick={() => setZoom((z) => Math.max(0.6, +(z - 0.2).toFixed(2)))}
-        >
+      {/* Top bar: zoom */}
+      <div className="flex items-center justify-end gap-2 px-4 py-2 border-b shrink-0">
+        <Button size="icon" variant="outline" aria-label="Zoom out" onClick={() => zoomBy(-0.25)} disabled={zoom <= MIN_ZOOM}>
           <ZoomOut className="w-4 h-4" />
         </Button>
-        <span className="text-sm text-muted-foreground w-12 text-center">
+        <span className="text-sm text-muted-foreground w-14 text-center tabular-nums">
           {Math.round(zoom * 100)}%
         </span>
-        <Button
-          size="icon"
-          variant="outline"
-          aria-label="Zoom in"
-          onClick={() => setZoom((z) => Math.min(2.5, +(z + 0.2).toFixed(2)))}
-        >
+        <Button size="icon" variant="outline" aria-label="Zoom in" onClick={() => zoomBy(0.25)} disabled={zoom >= MAX_ZOOM}>
           <ZoomIn className="w-4 h-4" />
         </Button>
+        <Button size="sm" variant="outline" onClick={() => setZoom(1)} aria-label="Fit to width">
+          <Maximize2 className="w-4 h-4 mr-1" /> Fit
+        </Button>
       </div>
-      <div className="flex-1 overflow-auto p-3 bg-muted/30 relative">
+
+      {/* Pages */}
+      <div ref={scrollRef} className="flex-1 overflow-auto p-4 bg-muted/30 relative">
         {loading && (
-          <div className="absolute inset-0 flex items-center justify-center gap-2 text-muted-foreground">
+          <div className="absolute inset-0 flex items-center justify-center gap-2 text-muted-foreground z-10 bg-muted/40">
             <Loader2 className="w-5 h-5 animate-spin" /> Loading pages…
           </div>
         )}
@@ -112,8 +155,26 @@ const PdfCanvasViewer = ({ url, title }: PdfCanvasViewerProps) => {
             </Button>
           </div>
         )}
-        <div ref={containerRef} />
+        <div ref={pagesRef} />
       </div>
+
+      {/* Bottom bar: page navigation */}
+      {!error && (
+        <div className="flex items-center justify-center gap-2 px-4 py-3 border-t bg-background shrink-0">
+          <Button size="sm" variant="outline" onClick={() => goToPage(1)} disabled={current <= 1}>
+            <ChevronFirst className="w-4 h-4 mr-1" /> Start
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => goToPage(current - 1)} disabled={current <= 1}>
+            <ChevronLeft className="w-4 h-4 mr-1" /> Previous
+          </Button>
+          <span className="text-sm text-foreground font-medium px-2 tabular-nums">
+            Page {current}{numPages ? ` of ${numPages}` : ""}
+          </span>
+          <Button size="sm" variant="outline" onClick={() => goToPage(current + 1)} disabled={!numPages || current >= numPages}>
+            Next <ChevronRight className="w-4 h-4 ml-1" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
