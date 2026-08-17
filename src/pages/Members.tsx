@@ -643,20 +643,41 @@ export default function Members() {
           </AlertDialogContent>
         </AlertDialog>
 
-        <Dialog open={!!readingPdf} onOpenChange={(open) => !open && setReadingPdf(null)}>
+        <Dialog
+          open={!!readingPdf}
+          onOpenChange={(open) => {
+            if (!open) {
+              if (readingPdf?.url.startsWith("blob:")) URL.revokeObjectURL(readingPdf.url);
+              setReadingPdf(null);
+            }
+          }}
+        >
           <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 gap-0 flex flex-col">
             <DialogHeader className="px-4 py-3 border-b">
               <DialogTitle className="text-base">{readingPdf?.title}</DialogTitle>
             </DialogHeader>
             {readingPdf && (
-              <iframe
-                src={readingPdf.url}
-                title={readingPdf.title}
+              <object
+                data={readingPdf.url}
+                type="application/pdf"
                 className="flex-1 w-full rounded-b-lg"
-              />
+                aria-label={readingPdf.title}
+              >
+                <div className="p-6 text-center space-y-3">
+                  <p className="text-muted-foreground">
+                    Your browser can't display PDFs inline.
+                  </p>
+                  <Button asChild>
+                    <a href={readingPdf.url} target="_blank" rel="noopener noreferrer">
+                      Open PDF in a new tab
+                    </a>
+                  </Button>
+                </div>
+              </object>
             )}
           </DialogContent>
         </Dialog>
+
 
       </div>
 
