@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { BookOpen, Lock, ArrowLeft, Settings, LogOut, XCircle, CreditCard, Calendar, BadgeCheck, ShoppingCart, Coins, Download } from "lucide-react";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 import { AdminStripeModeToggle } from "@/components/AdminStripeModeToggle";
+import PdfCanvasViewer from "@/components/PdfCanvasViewer";
 
 // Amazon paperback links for library books (keyed by Supabase book slug)
 const AMAZON_PAPERBACK_LINKS: Record<string, string> = {
