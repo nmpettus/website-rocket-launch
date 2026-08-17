@@ -63,6 +63,8 @@ export default function Members() {
   const [unlockedIds, setUnlockedIds] = useState<Set<string>>(new Set());
   const [pendingUnlock, setPendingUnlock] = useState<Book | null>(null);
   const [downloadBusyId, setDownloadBusyId] = useState<string | null>(null);
+  const [readingPdf, setReadingPdf] = useState<{ url: string; title: string } | null>(null);
+
 
   const checkoutHandledRef = useRef(false);
 
