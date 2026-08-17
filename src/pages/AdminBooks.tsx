@@ -532,35 +532,71 @@ export default function AdminBooks() {
           ) : (
             <ul className="divide-y">
               {existingBooks.map((b) => (
-                <li key={b.id} className="py-2 flex items-center gap-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium truncate">{b.title}</div>
-                    <div className="text-xs text-muted-foreground">
-                      /read/{b.slug} · {b.page_count ?? 0} pages {b.is_free ? "· free" : ""}
-                      {b.content_type ? ` · ${b.content_type.replace(/_/g, " ")}` : ""}
-                      {b.credit_cost != null ? ` · ${b.credit_cost} credit${b.credit_cost === 1 ? "" : "s"}` : ""}
+                <li key={b.id} className="py-2">
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium truncate">{b.title}</div>
+                      <div className="text-xs text-muted-foreground">
+                        /read/{b.slug} · {b.page_count ?? 0} pages {b.is_free ? "· free" : ""}
+                        {b.content_type ? ` · ${b.content_type.replace(/_/g, " ")}` : ""}
+                        {b.credit_cost != null ? ` · ${b.credit_cost} credit${b.credit_cost === 1 ? "" : "s"}` : ""}
+                      </div>
                     </div>
+                    <Link to={`/read/${b.slug}`} className="text-xs text-primary hover:underline">Open</Link>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => startEdit(b.id)}
+                      disabled={working || editingId === b.id}
+                      title="Edit this book — replace cover, metadata, or manuscript"
+                    >
+                      <Pencil className="w-4 h-4 mr-1" /> {editingId === b.id ? "Editing" : "Edit"}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant={unlockedForDelete === b.id ? "destructive" : "outline"}
+                      onClick={() => {
+                        setDeleteConfirm("");
+                        setUnlockedForDelete(unlockedForDelete === b.id ? null : b.id);
+                      }}
+                      disabled={working}
+                      title={unlockedForDelete === b.id ? "Cancel delete" : "Unlock delete for this book"}
+                    >
+                      {unlockedForDelete === b.id ? <X className="w-4 h-4" /> : <ShieldAlert className="w-4 h-4" />}
+                    </Button>
                   </div>
-                  <Link to={`/read/${b.slug}`} className="text-xs text-primary hover:underline">Open</Link>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => startEdit(b.id)}
-                    disabled={working || editingId === b.id}
-                    title="Edit this book — replace cover, metadata, or manuscript"
-                  >
-                    <Pencil className="w-4 h-4 mr-1" /> {editingId === b.id ? "Editing" : "Edit"}
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => showDeleteProtected(b.title)}
-                    title="Protected: books cannot be deleted from this uploader"
-                  >
-                    <ShieldAlert className="w-4 h-4" />
-                  </Button>
+
+                  {unlockedForDelete === b.id && (
+                    <div className="mt-3 rounded-lg border border-destructive/40 bg-destructive/5 p-3 space-y-2">
+                      <p className="text-xs text-foreground">
+                        This permanently deletes <strong>{b.title}</strong>, all of its pages, and its stored files.
+                        This cannot be undone. Type the exact title to unlock the delete button.
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <Input
+                          value={deleteConfirm}
+                          onChange={(e) => setDeleteConfirm(e.target.value)}
+                          placeholder={b.title}
+                          className="h-9"
+                        />
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          disabled={
+                            working ||
+                            deleteConfirm.trim().toLowerCase() !== b.title.trim().toLowerCase()
+                          }
+                          onClick={() => deleteBook(b)}
+                        >
+                          {working ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4 mr-1" />}
+                          Delete forever
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </li>
               ))}
+
             </ul>
           )}
         </div>
