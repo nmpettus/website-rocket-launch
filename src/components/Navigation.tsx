@@ -38,9 +38,11 @@ const Navigation = () => {
   const { user, loading: authLoading } = useAuth();
   const { isActive, loading: subLoading } = useSubscription();
   const [showReadingClubModal, setShowReadingClubModal] = useState(false);
+  const [signInConfirmed, setSignInConfirmed] = useState(false);
 
   const handleReadingClubClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    setSignInConfirmed(false);
     setShowReadingClubModal(true);
   };
 
