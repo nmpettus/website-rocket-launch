@@ -611,17 +611,33 @@ export default function Members() {
                 {creditBalance !== null
                   ? ` — you'll have ${Math.max(0, creditBalance - (pendingUnlock?.credit_cost ?? 2))} left this month.`
                   : "."}{" "}
-                Once unlocked, the PDF is yours to download and keep forever.
+                Once unlocked, you can read it online or download it — yours to keep forever.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Not now</AlertDialogCancel>
               <AlertDialogAction onClick={confirmUnlockDownload} disabled={!!downloadBusyId}>
-                {downloadBusyId ? "Unlocking…" : "Unlock & Download"}
+                {downloadBusyId ? "Unlocking…" : "Unlock & Read"}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+
+        <Dialog open={!!readingPdf} onOpenChange={(open) => !open && setReadingPdf(null)}>
+          <DialogContent className="max-w-5xl w-[95vw] h-[90vh] p-0 gap-0 flex flex-col">
+            <DialogHeader className="px-4 py-3 border-b">
+              <DialogTitle className="text-base">{readingPdf?.title}</DialogTitle>
+            </DialogHeader>
+            {readingPdf && (
+              <iframe
+                src={readingPdf.url}
+                title={readingPdf.title}
+                className="flex-1 w-full rounded-b-lg"
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+
       </div>
 
     </div>
