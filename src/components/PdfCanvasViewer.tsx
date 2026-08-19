@@ -217,7 +217,10 @@ const PdfCanvasViewer = ({ url, title }: PdfCanvasViewerProps) => {
 
       {/* Bottom bar: page navigation */}
       {!error && (
-        <div className="flex items-center justify-center gap-2 px-4 py-3 border-t bg-background shrink-0">
+        <div className="flex flex-wrap items-center justify-center gap-2 px-4 py-3 border-t bg-background shrink-0">
+          <span className="w-full text-center text-xs text-muted-foreground">
+            Tip: swipe left or right — or tap the left/right edge — to turn pages
+          </span>
           <Button size="sm" variant="outline" onClick={() => goToPage(1)} disabled={current <= 1}>
             <ChevronFirst className="w-4 h-4 mr-1" /> Start
           </Button>
