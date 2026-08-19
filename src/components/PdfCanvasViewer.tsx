@@ -120,6 +120,58 @@ const PdfCanvasViewer = ({ url, title }: PdfCanvasViewerProps) => {
   const zoomBy = (delta: number) =>
     setZoom((z) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, +(z + delta).toFixed(2))));
 
+  // Tap / swipe navigation
+  const gesture = useRef<{ x: number; y: number; t: number; scroll: number } | null>(null);
+
+  const nextPage = useCallback(() => {
+    setCurrent((c) => {
+      const n = Math.min(numPages || 1, c + 1);
+      goToPage(n);
+      return c;
+    });
+  }, [numPages, goToPage]);
+
+  const prevPage = useCallback(() => {
+    setCurrent((c) => {
+      const n = Math.max(1, c - 1);
+      goToPage(n);
+      return c;
+    });
+  }, [goToPage]);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    gesture.current = {
+      x: e.clientX,
+      y: e.clientY,
+      t: Date.now(),
+      scroll: scrollRef.current?.scrollTop ?? 0,
+    };
+  };
+
+  const onPointerUp = (e: React.PointerEvent) => {
+    const g = gesture.current;
+    gesture.current = null;
+    if (!g || !scrollRef.current) return;
+    const dx = e.clientX - g.x;
+    const dy = e.clientY - g.y;
+    const dt = Date.now() - g.t;
+    const scrolled = Math.abs((scrollRef.current.scrollTop ?? 0) - g.scroll) > 4;
+
+    // Horizontal swipe
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      dx < 0 ? nextPage() : prevPage();
+      return;
+    }
+
+    // Tap on left/right edge zone
+    if (!scrolled && dt < 350 && Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+      const rect = scrollRef.current.getBoundingClientRect();
+      const rel = (e.clientX - rect.left) / rect.width;
+      if (rel > 0.75) nextPage();
+      else if (rel < 0.25) prevPage();
+    }
+  };
+
   return (
     <div className="flex-1 flex flex-col min-h-0">
       {/* Top bar: zoom */}
@@ -139,7 +191,12 @@ const PdfCanvasViewer = ({ url, title }: PdfCanvasViewerProps) => {
       </div>
 
       {/* Pages */}
-      <div ref={scrollRef} className="flex-1 overflow-auto p-4 bg-muted/30 relative">
+      <div
+        ref={scrollRef}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        className="flex-1 overflow-auto p-4 bg-muted/30 relative touch-pan-y select-none"
+      >
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center gap-2 text-muted-foreground z-10 bg-muted/40">
             <Loader2 className="w-5 h-5 animate-spin" /> Loading pages…
