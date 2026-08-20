@@ -157,6 +157,10 @@ const PdfCanvasViewer = ({ url, title }: PdfCanvasViewerProps) => {
     const dt = Date.now() - g.t;
     const scrolled = Math.abs((scrollRef.current.scrollTop ?? 0) - g.scroll) > 4;
 
+    // When the page is wider than the viewport (zoomed in), horizontal drags pan instead of navigating
+    const canPanX = (scrollRef.current.scrollWidth || 0) > (scrollRef.current.clientWidth || 0) + 1;
+    if (canPanX) return;
+
     // Horizontal swipe
     if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
       dx < 0 ? nextPage() : prevPage();
@@ -195,7 +199,9 @@ const PdfCanvasViewer = ({ url, title }: PdfCanvasViewerProps) => {
         ref={scrollRef}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
-        className="flex-1 overflow-auto p-4 bg-muted/30 relative touch-pan-y select-none"
+        className={`flex-1 overflow-auto p-4 bg-muted/30 relative select-none ${
+          zoom > 1 ? "touch-pan-x touch-pan-y" : "touch-pan-y"
+        }`}
       >
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center gap-2 text-muted-foreground z-10 bg-muted/40">
