@@ -22,7 +22,7 @@ export const getActivities = (): ActivityCategory[] => [
         id: "jonah-maze",
         title: "Jonah and the Whale Maze",
         description: "Help Jonah find his way to Nineveh",
-        imagePath: "/lovable-uploads/jonah-whale-maze.png",
+        imagePath: jonahMazeAsset.url,
         viewText: "View Maze"
       }
     ]
