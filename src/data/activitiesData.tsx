@@ -2,6 +2,7 @@
 import React from "react";
 import { Puzzle, BookText, PenSquare, Search, Map, FileText } from "lucide-react";
 import { ActivityCategory } from "@/components/activities/ActivityCard";
+import jonahMazeAsset from "@/assets/JonahMaze.png.asset.json";
 
 export const getActivities = (): ActivityCategory[] => [
   {
