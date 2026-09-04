@@ -435,6 +435,18 @@ export const booksData: BookData[] = [
     ]
   },
   {
+    id: "why-am-i-here",
+    coverImage: "/images/why-am-i-here-cover.jpg",
+    title: "Why Am I Here? Who Am I? God Given Identity, Love, and Purpose",
+    languages: ["English"],
+    description: "Every child wonders it sooner or later: Why am I here? Who am I? Join Maggie, Matteo, and a curious little girl as they discover the beautiful answer God has already given — that each of us is known, deeply loved, and made on purpose for a purpose. A warm, faith-filled picture book about God-given identity, love, and purpose for children and the families who read with them.",
+    reviewCount: 0,
+    amazonLink: "https://a.co/d/0fhNMHVL",
+    kindleLink: "",
+    isNew: true,
+    samplePages: []
+  },
+  {
     id: "independence-day",
     coverImage: "/lovable-uploads/independence-day-cover.jpg",
     title: "Independence Day as told by Maggie to Matteo: A Patriotic Fourth of July Story for Kids | America's 250th Anniversary Edition",
