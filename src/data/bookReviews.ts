@@ -1,4 +1,11 @@
 import { Review } from "@/components/ReviewsModal";
+import book2Sample1 from "@/assets/ai-adventure-book2-sample-1.jpg.asset.json";
+import book2Sample2 from "@/assets/ai-adventure-book2-sample-2.jpg.asset.json";
+import book2Sample3 from "@/assets/ai-adventure-book2-sample-3.jpg.asset.json";
+import book2Sample4 from "@/assets/ai-adventure-book2-sample-4.jpg.asset.json";
+import book2Sample5 from "@/assets/ai-adventure-book2-sample-5.jpg.asset.json";
+import book2Sample6 from "@/assets/ai-adventure-book2-sample-6.jpg.asset.json";
+import book2Sample7 from "@/assets/ai-adventure-book2-sample-7.jpg.asset.json";
 
 // Book reviews data
 const bookReviews: Record<string, Review[]> = {
@@ -424,7 +431,15 @@ export const booksData: BookData[] = [
     amazonLink: "https://a.co/d/058bbbN3",
     kindleLink: "",
     isNew: true,
-    samplePages: []
+    samplePages: [
+      { src: book2Sample1.url, pageNumber: 1, alt: "Maggie's AI Adventure Book 2 - Cover Page" },
+      { src: book2Sample2.url, pageNumber: 2, alt: "Maggie's AI Adventure Book 2 - Copyright Page" },
+      { src: book2Sample3.url, pageNumber: 3, alt: "Maggie's AI Adventure Book 2 - Dedication Page" },
+      { src: book2Sample4.url, pageNumber: 4, alt: "Maggie's AI Adventure Book 2 - Contributors" },
+      { src: book2Sample5.url, pageNumber: 5, alt: "Maggie's AI Adventure Book 2 - Table of Contents" },
+      { src: book2Sample6.url, pageNumber: 6, alt: "Maggie's AI Adventure Book 2 - Story Page" },
+      { src: book2Sample7.url, pageNumber: 7, alt: "Maggie's AI Adventure Book 2 - Story Page" }
+    ]
   },
   {
     id: "independence-day",
