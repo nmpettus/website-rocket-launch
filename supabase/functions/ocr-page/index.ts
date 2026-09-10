@@ -35,7 +35,7 @@ Deno.serve(async (req) => {
           {
             role: 'system',
             content:
-              'You are a transcription helper for a children\'s picture-book page. Extract ONLY the story text that appears on the page (the narration the reader would read aloud). Ignore page numbers, the author name, the publisher, watermarks, and decorative text. If there is no readable story text on the page, return an empty string. Return plain text only, no quotation marks, no commentary.',
+              'You are a transcription helper for a children\'s picture-book page. Extract ALL readable text a grown-up would read aloud: the main story narration AND any text inside boxes, panels, banners, callouts, or side notes — for example a "God\'s Word" box, a Bible verse and its reference, a prayer, a question, or an activity prompt. Include the box heading (e.g. "God\'s Word") followed by its contents, in the order they appear on the page (main story first, then boxed text). Ignore only page numbers, the author name, the publisher, and watermarks. If there is no readable text on the page, return an empty string. Return plain text only, no quotation marks, no commentary.',
           },
           {
             role: 'user',
