@@ -234,6 +234,8 @@ const config = {
         "pulse-slow": "pulse-slow 3s ease-in-out infinite",
         "maggie-jump": "maggie-jump 0.6s ease-out",
         "tail-wag": "tail-wag 0.4s ease-in-out infinite",
+        "hero-maggie-jump": "hero-maggie-jump 0.8s ease-in-out infinite",
+        "hero-matteo-fetch": "hero-matteo-fetch 0.7s ease-in-out infinite",
       },
       borderRadius: {
         "xl": "1rem",
