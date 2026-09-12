@@ -199,6 +199,19 @@ const config = {
           "0%": { opacity: "0.6" },
           "100%": { opacity: "0" }
         },
+        "hero-maggie-jump": {
+          "0%, 100%": { transform: "translateY(0) rotate(-6deg) scale(1)" },
+          "25%": { transform: "translateY(-18px) rotate(-8deg) scale(1.03)" },
+          "50%": { transform: "translateY(-28px) rotate(-4deg) scale(1.03)" },
+          "75%": { transform: "translateY(-12px) rotate(-7deg) scale(1.02)" }
+        },
+        "hero-matteo-fetch": {
+          "0%, 100%": { transform: "translateX(0) translateY(0) rotate(6deg)" },
+          "20%": { transform: "translateX(8px) translateY(-6px) rotate(8deg)" },
+          "40%": { transform: "translateX(-6px) translateY(-10px) rotate(4deg)" },
+          "60%": { transform: "translateX(10px) translateY(-4px) rotate(9deg)" },
+          "80%": { transform: "translateX(-4px) translateY(-8px) rotate(5deg)" }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
