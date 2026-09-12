@@ -159,7 +159,7 @@ const Hero = () => {
                     const section = document.getElementById('maggie');
                     if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }}
-                  className="absolute -top-8 -left-8 w-60 h-80 bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform -rotate-6 block group transition-transform duration-500 hover:-rotate-3 hover:scale-105 z-20"
+                  className="absolute -top-8 -left-8 w-60 h-80 bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform -rotate-6 block transition-transform duration-500 hover:animate-hero-maggie-jump hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] z-20 motion-reduce:hover:animate-none"
                 >
                   <img
                     src="/lovable-uploads/MaggieNewNBP.png"
@@ -182,7 +182,7 @@ const Hero = () => {
                   onPointerDown={() => setMatteoFront(true)}
                   onPointerUp={() => setMatteoFront(false)}
                   onPointerLeave={() => setMatteoFront(false)}
-                  className={`absolute bottom-10 -right-4 w-48 h-64 bg-secondary rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-6 block group transition-transform duration-500 hover:rotate-3 hover:scale-105 ${matteoFront ? 'z-30' : 'z-10'}`}
+                  className={`absolute bottom-10 -right-4 w-48 h-64 bg-secondary rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-6 block transition-transform duration-500 hover:animate-hero-matteo-fetch hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] ${matteoFront ? 'z-30' : 'z-10'} motion-reduce:hover:animate-none`}
                 >
                   <img
                     src="/lovable-uploads/MatteoFront.png"

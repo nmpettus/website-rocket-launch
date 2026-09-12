@@ -199,6 +199,22 @@ const config = {
           "0%": { opacity: "0.6" },
           "100%": { opacity: "0" }
         },
+        "hero-maggie-jump": {
+          "0%, 100%": { transform: "translateY(0) rotate(-6deg) scale(1)" },
+          "15%": { transform: "translateY(-32px) rotate(-10deg) scale(1.05)" },
+          "30%": { transform: "translateY(-48px) rotate(-3deg) scale(1.06)" },
+          "45%": { transform: "translateY(-26px) rotate(-8deg) scale(1.04)" },
+          "60%": { transform: "translateY(-44px) rotate(-4deg) scale(1.05)" },
+          "75%": { transform: "translateY(-18px) rotate(-7deg) scale(1.03)" }
+        },
+        "hero-matteo-fetch": {
+          "0%, 100%": { transform: "translateX(0) translateY(0) rotate(6deg) scale(1)" },
+          "15%": { transform: "translateX(18px) translateY(-14px) rotate(10deg) scale(1.04)" },
+          "30%": { transform: "translateX(-12px) translateY(-22px) rotate(2deg) scale(1.05)" },
+          "45%": { transform: "translateX(22px) translateY(-10px) rotate(12deg) scale(1.04)" },
+          "60%": { transform: "translateX(-8px) translateY(-26px) rotate(4deg) scale(1.05)" },
+          "75%": { transform: "translateX(14px) translateY(-12px) rotate(8deg) scale(1.03)" }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -221,6 +237,8 @@ const config = {
         "pulse-slow": "pulse-slow 3s ease-in-out infinite",
         "maggie-jump": "maggie-jump 0.6s ease-out",
         "tail-wag": "tail-wag 0.4s ease-in-out infinite",
+        "hero-maggie-jump": "hero-maggie-jump 0.8s ease-in-out infinite",
+        "hero-matteo-fetch": "hero-matteo-fetch 0.7s ease-in-out infinite",
       },
       borderRadius: {
         "xl": "1rem",
