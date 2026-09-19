@@ -202,7 +202,7 @@ const Hero = () => {
 
                 {/* Artie card — small, top right */}
                 <Link
-                  to="/maggies-ai-adventures"
+                  to="/artie"
                   aria-label="Meet Artie the AI robot"
                   className="group absolute top-0 right-0 w-[36%] h-[36%] bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-3 block transition-transform duration-500 hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] z-10"
                 >
@@ -222,7 +222,7 @@ const Hero = () => {
 
                 {/* Riley card — small, bottom left */}
                 <Link
-                  to="/maggies-ai-adventures"
+                  to="/riley"
                   aria-label="Meet Riley the tech-curious kid"
                   className="group absolute bottom-[2%] left-0 w-[36%] h-[36%] bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform -rotate-3 block transition-transform duration-500 hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] z-10"
                 >
