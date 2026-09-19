@@ -12,6 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import rileyImg from "@/assets/riley.png";
+import artieImg from "@/assets/artie.png";
 
 const Hero = () => {
   const navigate = useNavigate();
