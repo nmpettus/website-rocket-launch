@@ -159,12 +159,12 @@ const Hero = () => {
                     const section = document.getElementById('maggie');
                     if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }}
-                  className="group absolute -top-8 -left-8 w-60 h-80 bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform -rotate-6 block transition-transform duration-500 hover:animate-hero-maggie-jump hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] z-20 motion-reduce:hover:animate-none"
+                  className="group absolute -top-8 -left-8 w-72 h-72 bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform -rotate-6 block transition-transform duration-500 hover:animate-hero-maggie-jump hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] z-20 motion-reduce:hover:animate-none"
                 >
                   <img
                     src="/lovable-uploads/MaggieNewNBP.png"
                     alt="Maggie the dog - Your faith adventure guide"
-                    className="w-full h-full object-cover object-top transform-gpu transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transform-gpu transition-transform duration-700 group-hover:scale-110"
                     loading="eager"
                     decoding="async"
                   />
@@ -182,12 +182,12 @@ const Hero = () => {
                   onPointerDown={() => setMatteoFront(true)}
                   onPointerUp={() => setMatteoFront(false)}
                   onPointerLeave={() => setMatteoFront(false)}
-                  className={`group absolute bottom-10 -right-4 w-48 h-64 bg-secondary rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-6 block transition-transform duration-500 hover:animate-hero-matteo-fetch hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] ${matteoFront ? 'z-30' : 'z-10'} motion-reduce:hover:animate-none`}
+                  className={`group absolute bottom-10 -right-4 w-56 h-56 bg-secondary rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-6 block transition-transform duration-500 hover:animate-hero-matteo-fetch hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] ${matteoFront ? 'z-30' : 'z-10'} motion-reduce:hover:animate-none`}
                 >
                   <img
                     src="/lovable-uploads/MatteoFront.png"
                     alt="Matteo the puppy - Maggie's successor"
-                    className="w-full h-full object-cover object-top transform-gpu transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transform-gpu transition-transform duration-700 group-hover:scale-110"
                     loading="eager"
                     decoding="async"
                   />
