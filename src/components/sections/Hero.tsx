@@ -147,7 +147,7 @@ const Hero = () => {
 
             {/* Right visual column */}
             <div className="lg:col-span-5 relative flex justify-center items-center">
-              <div className="relative w-full max-w-md aspect-square">
+              <div className="relative w-full max-w-lg aspect-square">
                 {/* Magazine-style backdrop card */}
                 <div className="absolute inset-0 bg-gradient-to-br from-secondary to-background rounded-3xl rotate-3 shadow-2xl border border-white/5" />
 
@@ -159,7 +159,7 @@ const Hero = () => {
                     const section = document.getElementById('maggie');
                     if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }}
-                  className="group absolute -top-8 -left-8 w-72 h-72 bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform -rotate-6 block transition-transform duration-500 hover:animate-hero-maggie-jump hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] z-20 motion-reduce:hover:animate-none"
+                  className="group absolute -top-4 -left-4 w-[52%] h-[52%] bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform -rotate-6 block transition-transform duration-500 hover:animate-hero-maggie-jump hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] z-20 motion-reduce:hover:animate-none"
                 >
                   <img
                     src="/lovable-uploads/MaggieNewNBP.png"
@@ -182,7 +182,7 @@ const Hero = () => {
                   onPointerDown={() => setMatteoFront(true)}
                   onPointerUp={() => setMatteoFront(false)}
                   onPointerLeave={() => setMatteoFront(false)}
-                  className={`group absolute bottom-10 -right-4 w-56 h-56 bg-secondary rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-6 block transition-transform duration-500 hover:animate-hero-matteo-fetch hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] ${matteoFront ? 'z-30' : 'z-10'} motion-reduce:hover:animate-none`}
+                  className={`group absolute bottom-0 -right-4 w-[44%] h-[44%] bg-secondary rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-6 block transition-transform duration-500 hover:animate-hero-matteo-fetch hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] ${matteoFront ? 'z-30' : 'z-10'} motion-reduce:hover:animate-none`}
                 >
                   <img
                     src="/lovable-uploads/MatteoFront.png"
