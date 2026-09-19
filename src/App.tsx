@@ -25,6 +25,8 @@ import About from "./pages/About";
 import OnlineLibrary from "./pages/OnlineLibrary";
 import BibleVersesGodsLove from "./pages/BibleVersesGodsLove";
 import Matteo from "./pages/Matteo";
+import Riley from "./pages/Riley";
+import Artie from "./pages/Artie";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import Join from "./pages/Join";
@@ -78,6 +80,8 @@ const App = () => (
         <Route path="/online-library" element={<OnlineLibrary />} />
         <Route path="/resources/bible-verses-gods-love" element={<BibleVersesGodsLove />} />
         <Route path="/matteo" element={<Matteo />} />
+        <Route path="/riley" element={<Riley />} />
+        <Route path="/artie" element={<Artie />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/join" element={<Join />} />
