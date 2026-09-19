@@ -12,6 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import rileyImg from "@/assets/riley.png";
+import artieImg from "@/assets/artie.png";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -194,6 +196,46 @@ const Hero = () => {
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                     <span className="text-white font-bold text-xs uppercase tracking-tighter font-body">
                       Adventures with Matteo
+                    </span>
+                  </div>
+                </Link>
+
+                {/* Artie card — small, top right */}
+                <Link
+                  to="/maggies-ai-adventures"
+                  aria-label="Meet Artie the AI robot"
+                  className="group absolute top-0 right-0 w-[36%] h-[36%] bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform rotate-3 block transition-transform duration-500 hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] z-10"
+                >
+                  <img
+                    src={artieImg}
+                    alt="Artie the AI robot"
+                    className="w-full h-full object-cover transform-gpu transition-transform duration-700 group-hover:scale-110"
+                    loading="eager"
+                    decoding="async"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
+                    <span className="text-white font-bold text-[10px] uppercase tracking-tighter font-body">
+                      Meet Artie
+                    </span>
+                  </div>
+                </Link>
+
+                {/* Riley card — small, bottom left */}
+                <Link
+                  to="/maggies-ai-adventures"
+                  aria-label="Meet Riley the tech-curious kid"
+                  className="group absolute bottom-[2%] left-0 w-[36%] h-[36%] bg-card rounded-2xl border border-white/10 shadow-2xl overflow-hidden transform -rotate-3 block transition-transform duration-500 hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] z-10"
+                >
+                  <img
+                    src={rileyImg}
+                    alt="Riley the tech-curious kid"
+                    className="w-full h-full object-cover transform-gpu transition-transform duration-700 group-hover:scale-110"
+                    loading="eager"
+                    decoding="async"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
+                    <span className="text-white font-bold text-[10px] uppercase tracking-tighter font-body">
+                      Meet Riley
                     </span>
                   </div>
                 </Link>
