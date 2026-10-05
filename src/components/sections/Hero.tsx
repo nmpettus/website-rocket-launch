@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BookOpen, MessageCircle, ArrowRight, Loader2 } from "lucide-react";
+import { BookOpen, MessageCircle, ArrowRight, Loader2, Compass, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
@@ -55,6 +55,39 @@ const Hero = () => {
       <div className="absolute bottom-0 -right-20 w-96 h-96 bg-secondary/30 rounded-full blur-3xl gpu-layer-opacity" />
 
       <div className="container mx-auto relative z-10">
+        {/* Compact New Game invite strip */}
+        <a
+          href="https://booksbymaggie.com/pilgrim"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative mb-6 flex overflow-hidden rounded-2xl bg-gradient-to-r from-gold via-rose to-primary p-[2px] shadow-book transition-transform duration-300 hover:-translate-y-0.5"
+        >
+          <div className="relative flex w-full items-center gap-3 overflow-hidden rounded-2xl bg-sage-dark px-4 py-2.5 sm:gap-4 sm:px-5">
+            <div
+              className="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-gold/20 blur-2xl"
+              aria-hidden="true"
+            />
+            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-gold to-rose text-background shadow-elegant">
+              <Compass className="h-5 w-5" />
+            </div>
+            <div className="relative flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
+              <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-gold/15 px-2 py-0.5">
+                <Sparkles className="h-3 w-3 animate-sparkle text-gold motion-reduce:animate-none" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-gold">
+                  New Game!
+                </span>
+              </span>
+              <span className="truncate font-display text-sm font-bold text-foreground sm:text-base">
+                Maggie's Pilgrim's Progress Adventure — Journey to the Celestial City!
+              </span>
+            </div>
+            <span className="relative inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-gold to-rose px-3 py-1.5 text-xs font-bold text-background shadow-elegant transition-transform duration-200 group-hover:scale-105 motion-reduce:transition-none sm:px-4 sm:text-sm">
+              Play Now
+              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" />
+            </span>
+          </div>
+        </a>
+
         {/* Editorial hero card */}
         <div className="relative max-w-7xl mx-auto bg-card/40 backdrop-blur-sm border border-white/5 rounded-[2.5rem] shadow-2xl p-8 lg:p-16 overflow-hidden">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
