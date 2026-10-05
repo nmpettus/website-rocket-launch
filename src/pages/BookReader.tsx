@@ -745,7 +745,7 @@ export default function BookReader() {
                   </Button>
                 )}
                 <Button variant="secondary" onClick={() => navigate(user ? "/join" : "/auth")}>
-                  {user ? "Start Free Trial" : "Sign In to Subscribe"}
+                  {user ? "Subscribe Now" : "Sign In to Subscribe"}
                 </Button>
               </div>
             </div>

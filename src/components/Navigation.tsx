@@ -474,7 +474,7 @@ const Navigation = () => {
               </p>
             ) : (
               <p className="text-foreground font-medium">
-                You don't have an active subscription yet. Start your 7-day free trial today.
+                You don't have an active subscription yet. Join the Reading Club today.
               </p>
             )}
           </div>
@@ -495,7 +495,7 @@ const Navigation = () => {
             ) : isActive ? (
               <Button onClick={handleGoToLibrary}>Go to Library</Button>
             ) : (
-              <Button onClick={handleStartTrial}>Start Free Trial</Button>
+              <Button onClick={handleStartTrial}>Join the Reading Club</Button>
             )}
           </DialogFooter>
         </DialogContent>
