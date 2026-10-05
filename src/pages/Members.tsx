@@ -55,7 +55,7 @@ interface Book {
 
 export default function Members() {
   const { user, loading: authLoading, signOut } = useAuth();
-  const { isActive, subscription, refetch } = useSubscription();
+  const { isActive, isAdmin, subscription, refetch } = useSubscription();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [books, setBooks] = useState<Book[]>([]);
@@ -442,7 +442,7 @@ export default function Members() {
                   const amazonUrl = AMAZON_PAPERBACK_LINKS[book.slug];
                   const isDownload = !!book.download_path;
                   const cost = book.is_free ? 0 : book.credit_cost ?? 3;
-                  const unlocked = unlockedIds.has(book.id);
+                  const unlocked = isAdmin || unlockedIds.has(book.id);
 
                   const cardBody = (
                     <>
