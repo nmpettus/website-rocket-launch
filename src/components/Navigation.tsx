@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { Menu, BookOpen, Loader2 } from "lucide-react";
+import { Menu, BookOpen, Loader2, User as UserIcon, LogOut } from "lucide-react";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
+  DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -35,7 +39,11 @@ const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAdmin } = useIsAdmin();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, signOut } = useAuth();
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
   const { isActive, loading: subLoading } = useSubscription();
   const [showReadingClubModal, setShowReadingClubModal] = useState(false);
   const [signInConfirmed, setSignInConfirmed] = useState(false);
@@ -261,7 +269,25 @@ const Navigation = () => {
                 Admin
               </Link>
             )}
-            
+
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="px-2 py-1.5 text-xs font-medium rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted flex items-center gap-1">
+                    <UserIcon className="w-3.5 h-3.5" /> Account
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel className="font-normal text-xs">Signed in as<br /><span className="font-semibold">{user.email}</span></DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/members")}>My Library</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleSignOut}><LogOut className="w-4 h-4 mr-2" />Sign Out</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/auth" className="px-2 py-1.5 text-xs font-medium rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted">Sign In</Link>
+            )}
+
             {/* Shop Books CTA */}
             <Button 
               className="ml-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-4 py-1.5 text-xs rounded-lg transition-colors duration-200"
@@ -376,6 +402,18 @@ const Navigation = () => {
                         >
                           Admin
                         </Link>
+                      </SheetClose>
+                    )}
+                    {user ? (
+                      <>
+                        <p className="px-4 pt-3 text-xs text-muted-foreground">Signed in as <span className="font-semibold text-foreground">{user.email}</span></p>
+                        <SheetClose asChild>
+                          <button onClick={handleSignOut} className="block text-left text-base py-3 px-4 rounded-lg font-medium text-muted-foreground hover:bg-muted hover:text-foreground">Sign Out</button>
+                        </SheetClose>
+                      </>
+                    ) : (
+                      <SheetClose asChild>
+                        <Link to="/auth" className="block text-base py-3 px-4 rounded-lg font-medium text-muted-foreground hover:bg-muted hover:text-foreground">Sign In</Link>
                       </SheetClose>
                     )}
                   </nav>
