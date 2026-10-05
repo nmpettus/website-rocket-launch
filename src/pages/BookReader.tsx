@@ -131,7 +131,7 @@ export default function BookReader() {
           c.width = w; c.height = h;
           const ctx = c.getContext("2d");
           if (!ctx) return null;
-          const stripW = Math.max(2, Math.floor(img.naturalWidth * 0.04));
+          const stripW = Math.max(2, Math.floor(img.naturalWidth * 0.008));
           const sx = side === "right" ? img.naturalWidth - stripW : 0;
           ctx.drawImage(img, sx, 0, stripW, img.naturalHeight, 0, 0, w, h);
           const data = ctx.getImageData(0, 0, w, h).data;
@@ -183,16 +183,20 @@ export default function BookReader() {
     if (!a || !b) return;
     const MAX_DIST = Math.sqrt(255 * 255 * 3);
     const ar = a.right.rows, br = b.left.rows;
-    let sum = 0;
+    // Strict: the left page's right edge must match the right page's left
+    // edge row-by-row, so only true continuous illustrations pair up.
+    let sum = 0, closeRows = 0;
     for (let i = 0; i < ar.length; i++) {
       const ra = ar[i], rb = br[i];
       const d = Math.sqrt((ra.r - rb.r) ** 2 + (ra.g - rb.g) ** 2 + (ra.b - rb.b) ** 2);
       sum += 1 - d / MAX_DIST;
+      if (d < 28) closeRows++;
     }
     const matchPercent = sum / ar.length;
+    const closeRatio = closeRows / ar.length;
     const blankLeft = a.right.brightness > 240 && a.right.saturation < 14 && a.right.variance < 8;
     const blankRight = b.left.brightness > 240 && b.left.saturation < 14 && b.left.variance < 8;
-    const isNaturalSpread = matchPercent > 0.5 && !(blankLeft && blankRight);
+    const isNaturalSpread = matchPercent > 0.95 && closeRatio >= 0.9 && !(blankLeft || blankRight);
     pairMemo.set(key, isNaturalSpread);
     setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
   };
@@ -226,7 +230,7 @@ export default function BookReader() {
   const currentIsWide = isWide(page?.id);
   const manualSpread = layoutMode === "spread" && !!readablePages[current + 1] && !currentIsWide;
   const landscapeAutoSpread =
-    preferLandscapeSpread && layoutMode === "auto" && !!readablePages[current + 1] && !currentIsWide;
+    false; // Auto only pairs pages whose touching edges truly match.
   const spread = manualSpread || landscapeAutoSpread || (layoutMode === "auto" && autoSpread);
   const pairedSpread = spread && !!readablePages[current + 1] && !currentIsWide;
   const displayAsSpread = pairedSpread || currentIsWide;
