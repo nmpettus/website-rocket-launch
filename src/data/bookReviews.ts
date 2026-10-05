@@ -447,6 +447,18 @@ export const booksData: BookData[] = [
     samplePages: []
   },
   {
+    id: "gllh",
+    coverImage: "/images/gllh-cover.jpg",
+    title: "God's Love for Little Hearts: as told by Maggie",
+    languages: ["English"],
+    description: "How do you explain God's love to a little heart? Start with a story you can share. Join Maggie, a curious little Yorkie, as she takes young readers from the wonder of creation to the hope of Easter. With warm illustrations and simple language, children explore God's promises, meet Jesus, and learn about forgiveness and His love for them. Written for ages 3–7, with \"Maggie Asks\" questions, \"Maggie's Big Truth\" reminders, Scripture references, a prayer, a coloring page, and a parent discussion guide. God made you. God knows you. God loves you.",
+    reviewCount: 0,
+    amazonLink: "https://a.co/d/04VDSUkx",
+    kindleLink: "",
+    isNew: true,
+    samplePages: []
+  },
+  {
     id: "independence-day",
     coverImage: "/lovable-uploads/independence-day-cover.jpg",
     title: "Independence Day as told by Maggie to Matteo: A Patriotic Fourth of July Story for Kids | America's 250th Anniversary Edition",
