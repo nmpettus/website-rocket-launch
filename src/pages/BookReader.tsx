@@ -29,7 +29,7 @@ export default function BookReader() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-  const { isActive, loading: subscriptionLoading } = useSubscription();
+  const { isActive, isAdmin, loading: subscriptionLoading } = useSubscription();
   const [book, setBook] = useState<Book | null>(null);
   const [pages, setPages] = useState<Page[]>([]);
   const [current, setCurrent] = useState(0);
@@ -48,7 +48,7 @@ export default function BookReader() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioCacheRef = useRef<Map<string, (string | null)[]>>(new Map());
   const inflightAudioRef = useRef<Map<string, Promise<string | null>[]>>(new Map());
-  const gated = !!book && !isActive && !book.is_free && !unlocked;
+  const gated = !!book && !isAdmin && !isActive && !book.is_free && !unlocked;
   const readablePages = useMemo(
     () => gated
       ? pages.filter((p) => p.page_number >= 1 && p.page_number <= PREVIEW_LIMIT)

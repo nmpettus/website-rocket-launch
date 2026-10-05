@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
 import { getStripeEnvironment } from "@/lib/stripe";
+import { useIsAdmin } from "./useIsAdmin";
 
 export interface SubscriptionRow {
   id: string;
@@ -14,6 +15,7 @@ export interface SubscriptionRow {
 
 export function useSubscription() {
   const { user } = useAuth();
+  const { isAdmin, loading: adminLoading } = useIsAdmin();
   const [subscription, setSubscription] = useState<SubscriptionRow | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -46,7 +48,7 @@ export function useSubscription() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
-  const isActive = !!subscription && (() => {
+  const subActive = !!subscription && (() => {
     const end = subscription.current_period_end ? new Date(subscription.current_period_end).getTime() : null;
     const future = end === null || end > Date.now();
     if (["active", "trialing", "past_due"].includes(subscription.status) && future) return true;
@@ -54,5 +56,7 @@ export function useSubscription() {
     return false;
   })();
 
-  return { subscription, loading, isActive, refetch: fetchSub };
+  // Admins always have full subscriber privileges.
+  const isActive = isAdmin || subActive;
+  return { subscription, loading: loading || adminLoading, isActive, isAdmin, refetch: fetchSub };
 }
