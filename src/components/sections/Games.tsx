@@ -1,6 +1,6 @@
 import React from "react";
 import MaggiesBibleAdventure from "@/components/games/MaggiesBibleAdventure";
-import { Gamepad2 } from "lucide-react";
+import { Gamepad2, Compass, Sparkles, ArrowRight } from "lucide-react";
 
 const Games = () => {
   return (
