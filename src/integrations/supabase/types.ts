@@ -393,6 +393,7 @@ export type Database = {
       }
       plan_monthly_credits: { Args: { _price_id: string }; Returns: number }
       spend_credits: { Args: { _book_id: string }; Returns: Json }
+      trial_credits: { Args: never; Returns: number }
     }
     Enums: {
       app_role: "admin" | "user"
