@@ -22,6 +22,7 @@ const AMAZON_PAPERBACK_LINKS: Record<string, string> = {
   "christmas-as-told-by-maggie-discovering-the-christmas-story-through-god-s-promises-maggie-s-story-library": "https://a.co/d/6Xkd4Ut",
   "maggie-s-ai-adventures-book-2-8-75-x-8-75-in": "https://a.co/d/058bbbN3",
   who: "https://a.co/d/0fhNMHVL",
+  gllh: "https://a.co/d/04VDSUkx",
 };
 import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
