@@ -118,7 +118,7 @@ const Hero = () => {
                 <div className="flex-1 text-left">
                   <p className="font-bold text-white text-lg font-heading">📚 Join Maggie's Reading Club</p>
                   <p className="text-sm text-indigo-200/60 font-body">
-                    Read every book online with read-aloud — 7-day free trial.
+                    Read every book online with read-aloud narration.
                   </p>
                 </div>
                 <Button
@@ -126,7 +126,7 @@ const Hero = () => {
                   className="font-bold whitespace-nowrap bg-secondary hover:bg-secondary/90 text-white rounded-2xl"
                   onClick={handleReadingClubClick}
                 >
-                  Try Free
+                  Join Now
                 </Button>
               </div>
 
@@ -281,7 +281,7 @@ const Hero = () => {
               </p>
             ) : (
               <p className="text-foreground font-medium font-body">
-                You don't have an active subscription yet. Start your 7-day free trial today.
+                You don't have an active subscription yet. Join the Reading Club today.
               </p>
             )}
           </div>
@@ -302,7 +302,7 @@ const Hero = () => {
             ) : isActive ? (
               <Button onClick={handleGoToLibrary}>Go to Library</Button>
             ) : (
-              <Button onClick={handleStartTrial}>Start Free Trial</Button>
+              <Button onClick={handleStartTrial}>Join the Reading Club</Button>
             )}
           </DialogFooter>
         </DialogContent>

@@ -132,7 +132,6 @@ Deno.serve(async (req) => {
       return_url: returnUrl,
       ...(customerId && { customer: customerId }),
       subscription_data: {
-        trial_period_days: 7,
         ...(checkoutUserId && { metadata: { userId: checkoutUserId } }),
       },
       ...(checkoutUserId && { metadata: { userId: checkoutUserId } }),

@@ -405,7 +405,7 @@ export default function Members() {
                     <p className="font-semibold">You're not subscribed yet</p>
                     <p className="text-sm text-muted-foreground">Preview the first 3 pages of any book free. Subscribe to read everything.</p>
                   </div>
-                  <Button onClick={() => navigate("/join")}>Start Free Trial</Button>
+                  <Button onClick={() => navigate("/join")}>Subscribe Now</Button>
                 </div>
               )}
               {isActive && creditBalance !== null && (
@@ -618,7 +618,7 @@ export default function Members() {
             )}
             {!isActive && (
               <div className="mt-6">
-                <Button onClick={() => navigate("/join")}>Start Free Trial</Button>
+                <Button onClick={() => navigate("/join")}>Subscribe Now</Button>
               </div>
             )}
           </TabsContent>

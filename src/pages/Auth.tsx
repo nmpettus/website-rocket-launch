@@ -135,7 +135,7 @@ export default function Auth() {
             </h1>
             <p className="text-foreground text-base font-semibold mt-2">
               {mode === "signup"
-                ? "Create your free account to start your 7-day trial."
+                ? "Create your free account to join the Reading Club."
                 : "Sign in to access your library."}
             </p>
           </div>

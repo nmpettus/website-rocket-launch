@@ -122,7 +122,7 @@ export default function Join() {
               <div className="flex-1">
                 <p className="text-base font-semibold">Ready when you are</p>
                 <p className="text-base text-foreground font-semibold">
-                  You don't have an active subscription yet. Start your 7-day free trial below — cancel anytime.
+                  You don't have an active subscription yet. Pick a plan below — cancel anytime.
                 </p>
               </div>
             </div>
@@ -142,7 +142,7 @@ export default function Join() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 bg-primary/10 px-5 py-3 rounded-full mb-4">
                 <Sparkles className="w-5 h-5 text-primary" />
-                <span className="text-xl font-extrabold text-primary">7-Day Free Trial</span>
+                <span className="text-xl font-extrabold text-primary">Join the Reading Club</span>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-4">Maggie's Reading Club</h1>
               <p className="text-xl text-foreground font-semibold max-w-2xl mx-auto">
@@ -174,14 +174,13 @@ export default function Join() {
                   <p className="text-base text-foreground font-semibold">Use them to unlock books, downloads, and short stories.</p>
                 </div>
                 <ul className="space-y-2 mb-6 text-base text-foreground font-semibold">
-                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> 7-day free trial</li>
                   <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Cancel anytime</li>
                   <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Keep access to every book you've unlocked</li>
                   <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Read-aloud narration included</li>
                 </ul>
 
                 <Button onClick={() => handleJoin("reading_club_monthly")} className="w-full" size="lg">
-                  Start Free Trial
+                  Subscribe Monthly
                 </Button>
               </div>
 
@@ -199,14 +198,13 @@ export default function Join() {
                   <p className="text-base text-foreground font-semibold">10 monthly credits + 2 bonus credits. Use them to unlock books, downloads, and short stories.</p>
                 </div>
                 <ul className="space-y-2 mb-6 text-base text-foreground font-semibold">
-                  <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> 7-day free trial</li>
                   <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Two months free</li>
                   <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Keep access to every book you've unlocked</li>
                   <li className="flex gap-2"><Check className="w-5 h-5 text-primary mt-0.5" /> Read-aloud narration included</li>
                 </ul>
 
                 <Button onClick={() => handleJoin("reading_club_yearly")} className="w-full" size="lg">
-                  Start Free Trial
+                  Subscribe Yearly
                 </Button>
               </div>
             </div>
@@ -233,7 +231,7 @@ export default function Join() {
             </div>
 
             <p className="text-center text-sm text-foreground font-semibold mt-8">
-              You won't be charged until your 7-day trial ends. Cancel anytime from your account page.
+              Cancel anytime from your account page.
             </p>
           </>
         )}
