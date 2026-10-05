@@ -61,7 +61,10 @@ const Hero = () => {
             {/* Left content column */}
             <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
               {/* Reading Club badge */}
-              <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/40 px-4 py-2 rounded-full">
+              <Link
+                to="/join"
+                className="inline-flex items-center gap-2 bg-primary/20 border border-primary/40 px-4 py-2 rounded-full hover:bg-primary/30 hover:border-primary/60 transition-colors cursor-pointer"
+              >
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-300 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
@@ -69,7 +72,7 @@ const Hero = () => {
                 <span className="text-indigo-200 text-xs font-bold uppercase tracking-widest font-body">
                   Join Maggie's Reading Club
                 </span>
-              </div>
+              </Link>
 
               {/* Main headline */}
               <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-bold text-white leading-[1.1]">
