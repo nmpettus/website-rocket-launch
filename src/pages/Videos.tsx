@@ -77,7 +77,7 @@ const Videos = () => {
 
             {/* Search and Filter Bar */}
             <div className="flex flex-col md:flex-row items-start gap-4 mb-8 max-w-4xl mx-auto">
-              <div className="relative w-full md:flex-1">
+              <div className="relative w-full md:flex-1 md:min-w-[320px]">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <Input
                   type="text"
