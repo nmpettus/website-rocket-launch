@@ -128,7 +128,7 @@ const Hero = () => {
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-white font-bold px-8 h-14 text-base rounded-2xl shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all hover:scale-105"
                 >
-                  <Link to="/join">
+                  <Link to="/online-library">
                     <BookOpen className="w-5 h-5 mr-2" />
                     Read a Story
                   </Link>
