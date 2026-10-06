@@ -77,7 +77,7 @@ const Videos = () => {
 
             {/* Search and Filter Bar */}
             <div className="flex flex-col md:flex-row gap-4 mb-8 max-w-4xl mx-auto">
-              <div className="relative flex-1">
+              <div className="relative flex-1 min-w-[240px]">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <Input
                   type="text"
@@ -94,11 +94,10 @@ const Videos = () => {
                   <Button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    variant={selectedCategory === category.id ? "default" : "outline"}
-                    className={`rounded-full px-6 py-2 transition-all duration-300 ${
-                      selectedCategory === category.id 
-                        ? "bg-indigo-600 text-white shadow-lg" 
-                        : "text-indigo-600 border-indigo-300 hover:bg-indigo-50"
+                    className={`rounded-full px-6 py-2 font-semibold transition-all duration-300 ${
+                      selectedCategory === category.id
+                        ? "bg-indigo-600 text-white shadow-lg hover:bg-indigo-700"
+                        : "bg-amber-400 text-amber-950 shadow hover:bg-amber-300"
                     }`}
                   >
                     <Filter className="w-4 h-4 mr-2" />
@@ -202,8 +201,8 @@ const Videos = () => {
                 Have a video idea for Maggie? We're always creating new content and would love to hear your suggestions!
               </p>
               <a href="mailto:maggie@booksbymaggie.com?subject=Video Suggestion for Maggie">
-                <Button 
-                  className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105"
+                <Button
+                  className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   Suggest a Video
                 </Button>
