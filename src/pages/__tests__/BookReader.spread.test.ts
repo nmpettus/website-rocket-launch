@@ -37,3 +37,14 @@ describe("spread matching level", () => {
     expect(edgesMatch(a, b, 1)).toBe(false);
   });
 });
+
+import { bandsMatch } from "../BookReader";
+describe("scene band matching", () => {
+  const band = (o = 0) => Array.from({ length: 16 }, (_, i) => ({ r: 60 + i * 8 + o, g: 80 + i * 6 + o, b: 50 + i * 5 + o }));
+  it("pairs the same scene shape with a brightness shift", () => {
+    expect(bandsMatch(band(), band(15))).toBe(true);
+  });
+  it("does not pair opposite scenes", () => {
+    expect(bandsMatch(band(), [...band()].reverse())).toBe(false);
+  });
+});
