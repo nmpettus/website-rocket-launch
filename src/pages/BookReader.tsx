@@ -184,14 +184,17 @@ export default function BookReader() {
         });
 
         const sampleEdge = (side: "left" | "right"): EdgeSample | null => {
-          // Only the outermost 1px column — the pixels that actually touch the gutter.
+          // A thin strip just inside the gutter. The outermost pixel column is
+          // often a light trim/anti-alias line, so skip the first 3px.
           const h = 192, w = 1;
+          const inset = Math.min(3, Math.max(0, img.naturalWidth - 4));
+          const strip = Math.min(3, img.naturalWidth - inset);
           const c = document.createElement("canvas");
           c.width = w; c.height = h;
           const ctx = c.getContext("2d");
           if (!ctx) return null;
-          const sx = side === "right" ? img.naturalWidth - 1 : 0;
-          ctx.drawImage(img, sx, 0, 1, img.naturalHeight, 0, 0, w, h);
+          const sx = side === "right" ? img.naturalWidth - inset - strip : inset;
+          ctx.drawImage(img, sx, 0, strip, img.naturalHeight, 0, 0, w, h);
           let data: Uint8ClampedArray;
           try {
             data = ctx.getImageData(0, 0, w, h).data;
@@ -262,7 +265,7 @@ export default function BookReader() {
     computePairFromCache(leftId, rightId, key);
   };
 
-  const pairKey = (a?: string, b?: string) => (a && b ? `L${spreadLevel}|${a}|${b}` : "");
+  const pairKey = (a?: string, b?: string) => (a && b ? `v3|L${spreadLevel}|${a}|${b}` : "");
 
   const canAutoPairAt = (index: number) => {
     const cur = readablePages[index];
@@ -724,7 +727,7 @@ export default function BookReader() {
             const heightClass = preferLandscapeSpread
               ? (fit === "cover" ? "max-h-[92svh]" : "max-h-[88svh]")
               : (fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]");
-            const halfWidthClass = preferLandscapeSpread ? "max-w-[50vw]" : "max-w-[50vw]";
+            const halfWidthClass = "max-w-[calc(50vw-0.5rem)]";
             return (
               <div
                 className={
@@ -751,7 +754,7 @@ export default function BookReader() {
                     }}
                     decoding="async"
                     {...({ fetchpriority: "high" } as any)}
-                    className={`block w-auto max-w-full origin-center scale-[1.003] object-contain ${heightClass}`}
+                    className={`block w-auto ${pairedSpread && rightPage ? halfWidthClass : "max-w-full"} origin-center scale-[1.003] object-contain ${heightClass}`}
                   />
                 </div>
                 {pairedSpread && rightPage && (
