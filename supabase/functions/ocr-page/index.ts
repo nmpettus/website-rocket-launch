@@ -1,6 +1,7 @@
 // OCR / narration extraction for a book page image via Lovable AI Gateway
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { encodeBase64 } from 'jsr:@std/encoding@1/base64';
+import { createClient } from 'npm:@supabase/supabase-js@2';
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
@@ -26,14 +27,30 @@ Deno.serve(async (req) => {
     if (imageBase64) {
       url = `data:${mimeType || 'image/png'};base64,${imageBase64}`;
     } else {
-      const imgRes = await fetch(imageUrl);
-      if (!imgRes.ok) {
-        return new Response(JSON.stringify({ error: `Could not download page image (${imgRes.status})` }), {
-          status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      let bytes: Uint8Array | null = null;
+      let type = mimeType || 'image/png';
+      const imgRes = await fetch(imageUrl).catch(() => null);
+      if (imgRes && imgRes.ok) {
+        type = (imgRes.headers.get('content-type') || type).split(';')[0];
+        bytes = new Uint8Array(await imgRes.arrayBuffer());
+      } else {
+        // Signed links expire; fall back to reading the file straight from storage.
+        const m = String(imageUrl).match(/\/storage\/v1\/object\/(?:sign|public|authenticated)\/([^/]+)\/([^?]+)/);
+        if (m) {
+          const admin = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
+          const { data: blob } = await admin.storage.from(m[1]).download(decodeURIComponent(m[2]));
+          if (blob) {
+            type = blob.type || type;
+            bytes = new Uint8Array(await blob.arrayBuffer());
+          }
+        }
+      }
+      if (!bytes) {
+        // Don't fail the reader — just return no text.
+        return new Response(JSON.stringify({ text: '', warning: 'Could not download page image' }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
-      const type = (imgRes.headers.get('content-type') || mimeType || 'image/png').split(';')[0];
-      const bytes = new Uint8Array(await imgRes.arrayBuffer());
       url = `data:${type};base64,${encodeBase64(bytes)}`;
     }
 
