@@ -283,9 +283,15 @@ export default function BookReader() {
     const b = edgeCacheRef.current.get(rightId);
     if (!a || !b) return;
     const ar = a.right.rows, br = b.left.rows;
-    const isNaturalSpread = (edgesMatch(ar, br, spreadLevel) || bandsMatch(a.right.band, b.left.band, spreadLevel)) && !isBlankEdge(a.right) && !isBlankEdge(b.left);
+    const notBlank = !isBlankEdge(a.right) && !isBlankEdge(b.left);
+    const isNaturalSpread = (edgesMatch(ar, br, spreadLevel) || bandsMatch(a.right.band, b.left.band, spreadLevel)) && notBlank;
     pairMemo.set(key, isNaturalSpread);
-    setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
+    // The book's rhythm is always judged at the default level so a relaxed
+    // slider can't drown it in coincidental matches.
+    const baseKey = rhythmKey(leftId, rightId);
+    const baseMatch = pairMemo.get(baseKey) ?? ((edgesMatch(ar, br) || bandsMatch(a.right.band, b.left.band)) && notBlank);
+    pairMemo.set(baseKey, baseMatch);
+    setPairs((prev) => ({ ...prev, [key]: isNaturalSpread, [baseKey]: baseMatch }));
   };
 
 
@@ -300,6 +306,7 @@ export default function BookReader() {
   };
 
   const pairKey = (a?: string, b?: string) => (a && b ? `v4|L${spreadLevel}|${a}|${b}` : "");
+  const rhythmKey = (a?: string, b?: string) => (a && b ? `v4|L${DEFAULT_SPREAD_LEVEL}|${a}|${b}` : "");
 
   const canAutoPairAt = (index: number) => {
     const cur = readablePages[index];
@@ -309,7 +316,7 @@ export default function BookReader() {
     const key = pairKey(cur.id, nxt.id);
     const measured = pairs[key] ?? pairMemo.get(key);
     // Once the book's rhythm is clear, off-rhythm pairs are coincidences.
-    if (spreadParity !== null && index % 2 !== spreadParity.parity) return false;
+    if (spreadParity !== null && (index % 2 !== spreadParity.parity || index < spreadParity.firstIndex)) return false;
     if (measured !== true) {
       // Picture books lay spreads out on a fixed rhythm. When the book's
       // confirmed spreads clearly follow one rhythm, pages on that rhythm pair
@@ -332,7 +339,7 @@ export default function BookReader() {
     const counts = [0, 0];
     const first = [Infinity, Infinity];
     for (let i = 0; i + 1 < readablePages.length; i++) {
-      const k = pairKey(readablePages[i].id, readablePages[i + 1].id);
+      const k = rhythmKey(readablePages[i].id, readablePages[i + 1].id);
       if ((pairs[k] ?? pairMemo.get(k)) === true) {
         counts[i % 2]++;
         first[i % 2] = Math.min(first[i % 2], i);
