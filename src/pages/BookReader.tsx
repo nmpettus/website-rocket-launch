@@ -24,6 +24,43 @@ const PREVIEW_LIMIT = 3;
 // book (or re-entering Auto mode) is instant instead of re-analyzing images.
 const pairMemo = new Map<string, boolean>();
 
+type Rgb = { r: number; g: number; b: number };
+
+// Two touching edges match when their brightness follows the same shape
+// (high correlation) and their colours are close, allowing a small vertical
+// offset. Thresholds were tuned on real split illustrations: true spreads
+// scored corr >= 0.85 / median distance <= 21; non-spreads corr <= 0.57.
+export function edgesMatch(a: Rgb[], b: Rgb[]): boolean {
+  const n = Math.min(a.length, b.length);
+  for (let s = -3; s <= 3; s++) {
+    const xs: Rgb[] = [], ys: Rgb[] = [];
+    for (let i = 0; i < n; i++) {
+      const j = i + s;
+      if (j < 0 || j >= n) continue;
+      xs.push(a[j]); ys.push(b[i]);
+    }
+    const la = xs.map((p) => (p.r + p.g + p.b) / 3);
+    const lb = ys.map((p) => (p.r + p.g + p.b) / 3);
+    const m = la.length;
+    const ma = la.reduce((x, y) => x + y, 0) / m, mb = lb.reduce((x, y) => x + y, 0) / m;
+    let cov = 0, va = 0, vb = 0;
+    for (let i = 0; i < m; i++) {
+      cov += (la[i] - ma) * (lb[i] - mb); va += (la[i] - ma) ** 2; vb += (lb[i] - mb) ** 2;
+    }
+    const sa = Math.sqrt(va / m), sb = Math.sqrt(vb / m);
+    if (sa <= 1 || sb <= 1) continue; // flat edges carry no evidence
+    const corr = cov / Math.sqrt(va * vb);
+    const d = xs.map((p, i) => Math.hypot(p.r - ys[i].r, p.g - ys[i].g, p.b - ys[i].b)).sort((x, y) => x - y);
+    const median = d[Math.floor(d.length / 2)];
+    if (corr >= 0.8 && median <= 25) return true;
+  }
+  return false;
+}
+
+function isBlankEdge(e: { brightness: number; saturation: number; variance: number }) {
+  return e.brightness > 240 && e.saturation < 14 && e.variance < 8;
+}
+
 
 export default function BookReader() {
   const { slug } = useParams<{ slug: string }>();
