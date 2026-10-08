@@ -126,15 +126,21 @@ export default function BookReader() {
         });
 
         const sampleEdge = (side: "left" | "right"): EdgeSample | null => {
-          const h = 96, w = 12;
+          // Only the outermost 1px column — the pixels that actually touch the gutter.
+          const h = 192, w = 1;
           const c = document.createElement("canvas");
           c.width = w; c.height = h;
           const ctx = c.getContext("2d");
           if (!ctx) return null;
-          const stripW = Math.max(2, Math.floor(img.naturalWidth * 0.008));
-          const sx = side === "right" ? img.naturalWidth - stripW : 0;
-          ctx.drawImage(img, sx, 0, stripW, img.naturalHeight, 0, 0, w, h);
-          const data = ctx.getImageData(0, 0, w, h).data;
+          const sx = side === "right" ? img.naturalWidth - 1 : 0;
+          ctx.drawImage(img, sx, 0, 1, img.naturalHeight, 0, 0, w, h);
+          let data: Uint8ClampedArray;
+          try {
+            data = ctx.getImageData(0, 0, w, h).data;
+          } catch (err) {
+            console.warn("Spread detection: cannot read page pixels", err);
+            return null;
+          }
           const rows: Array<{ r: number; g: number; b: number }> = [];
           let rr = 0, gg = 0, bb = 0;
           for (let y = 0; y < h; y++) {
@@ -181,22 +187,8 @@ export default function BookReader() {
     const a = edgeCacheRef.current.get(leftId);
     const b = edgeCacheRef.current.get(rightId);
     if (!a || !b) return;
-    const MAX_DIST = Math.sqrt(255 * 255 * 3);
     const ar = a.right.rows, br = b.left.rows;
-    // Strict: the left page's right edge must match the right page's left
-    // edge row-by-row, so only true continuous illustrations pair up.
-    let sum = 0, closeRows = 0;
-    for (let i = 0; i < ar.length; i++) {
-      const ra = ar[i], rb = br[i];
-      const d = Math.sqrt((ra.r - rb.r) ** 2 + (ra.g - rb.g) ** 2 + (ra.b - rb.b) ** 2);
-      sum += 1 - d / MAX_DIST;
-      if (d < 28) closeRows++;
-    }
-    const matchPercent = sum / ar.length;
-    const closeRatio = closeRows / ar.length;
-    const blankLeft = a.right.brightness > 240 && a.right.saturation < 14 && a.right.variance < 8;
-    const blankRight = b.left.brightness > 240 && b.left.saturation < 14 && b.left.variance < 8;
-    const isNaturalSpread = matchPercent > 0.95 && closeRatio >= 0.9 && !(blankLeft || blankRight);
+    const isNaturalSpread = edgesMatch(ar, br) && !isBlankEdge(a.right) && !isBlankEdge(b.left);
     pairMemo.set(key, isNaturalSpread);
     setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
   };
@@ -220,7 +212,14 @@ export default function BookReader() {
     if (!cur || !nxt) return false;
     if (isWide(cur.id) || isWide(nxt.id)) return false;
     const key = pairKey(cur.id, nxt.id);
-    return (pairs[key] ?? pairMemo.get(key)) === true;
+    if ((pairs[key] ?? pairMemo.get(key)) !== true) return false;
+    // If this page actually belongs with the page before it, don't pair it forward.
+    const prv = readablePages[index - 1];
+    if (prv) {
+      const pk = pairKey(prv.id, cur.id);
+      if ((pairs[pk] ?? pairMemo.get(pk)) === true) return false;
+    }
+    return true;
 
   };
 
