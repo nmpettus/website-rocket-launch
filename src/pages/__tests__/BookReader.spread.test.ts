@@ -32,7 +32,7 @@ describe("spread matching level", () => {
   });
   it("relaxed matches a borderline pair that strict rejects", () => {
     const a = Array.from({ length: 192 }, (_, i) => ({ r: i, g: i, b: i }));
-    const b = a.map((p) => ({ r: p.r + 30, g: p.g + 30, b: p.b + 30 }));
+    const b = a.map((p) => ({ r: p.r + 20, g: p.g + 20, b: p.b + 20 }));
     expect(edgesMatch(a, b, 10)).toBe(true);
     expect(edgesMatch(a, b, 1)).toBe(false);
   });
