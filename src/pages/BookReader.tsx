@@ -317,8 +317,9 @@ export default function BookReader() {
       if (spreadParity === null || index % 2 !== spreadParity.parity || index < spreadParity.firstIndex) return false;
     }
     // If this page actually belongs with the page before it, don't pair it forward.
+    // Once the rhythm is known, the page before is off-rhythm, so skip this.
     const prv = readablePages[index - 1];
-    if (prv) {
+    if (prv && spreadParity === null) {
       const pk = pairKey(prv.id, cur.id);
       if ((pairs[pk] ?? pairMemo.get(pk)) === true) return false;
     }
@@ -338,7 +339,7 @@ export default function BookReader() {
       }
     }
     const parity = counts[0] >= counts[1] ? 0 : 1;
-    if (counts[parity] < 3 || counts[parity] < counts[1 - parity] * 3) return null;
+    if (counts[parity] < 3 || counts[parity] < counts[1 - parity] * 2) return null;
     return { parity, firstIndex: first[parity] };
   })();
 
