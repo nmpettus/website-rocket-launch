@@ -308,6 +308,8 @@ export default function BookReader() {
     if (isWide(cur.id) || isWide(nxt.id)) return false;
     const key = pairKey(cur.id, nxt.id);
     const measured = pairs[key] ?? pairMemo.get(key);
+    // Once the book's rhythm is clear, off-rhythm pairs are coincidences.
+    if (spreadParity !== null && index % 2 !== spreadParity.parity) return false;
     if (measured !== true) {
       // Picture books lay spreads out on a fixed rhythm. When the book's
       // confirmed spreads clearly follow one rhythm, pages on that rhythm pair
