@@ -43,6 +43,23 @@ export function spreadThresholds(level: number) {
   return { corr: 0.8 - t * 0.2, median: 25 + t * 20 };
 }
 
+export function bandsMatch(a: Rgb[], b: Rgb[], level: number = DEFAULT_SPREAD_LEVEL): boolean {
+  const n = Math.min(a.length, b.length);
+  if (n < 8) return false;
+  const l = Math.min(10, Math.max(1, level));
+  const corrMin = l <= 5 ? 0.65 + ((5 - l) / 4) * 0.2 : 0.65 - ((l - 5) / 5) * 0.15;
+  const medMax = l <= 5 ? 60 - ((5 - l) / 4) * 30 : 60 + ((l - 5) / 5) * 30;
+  const la = a.slice(0, n).map((p) => (p.r + p.g + p.b) / 3);
+  const lb = b.slice(0, n).map((p) => (p.r + p.g + p.b) / 3);
+  const ma = la.reduce((x, y) => x + y, 0) / n, mb = lb.reduce((x, y) => x + y, 0) / n;
+  let cov = 0, va = 0, vb = 0;
+  for (let i = 0; i < n; i++) { cov += (la[i] - ma) * (lb[i] - mb); va += (la[i] - ma) ** 2; vb += (lb[i] - mb) ** 2; }
+  if (va === 0 || vb === 0) return false;
+  const corr = cov / Math.sqrt(va * vb);
+  const d = a.slice(0, n).map((p, i) => Math.hypot(p.r - b[i].r, p.g - b[i].g, p.b - b[i].b)).sort((x, y) => x - y);
+  return corr >= corrMin && d[Math.floor(n / 2)] <= medMax;
+}
+
 export function edgesMatch(a: Rgb[], b: Rgb[], level: number = DEFAULT_SPREAD_LEVEL): boolean {
   const th = spreadThresholds(level);
   const n = Math.min(a.length, b.length);
@@ -144,7 +161,7 @@ export default function BookReader() {
 
 
   // Per-page edge samples — sampled once, reused for every adjacency check.
-  type EdgeSample = { rows: Array<{ r: number; g: number; b: number }>; brightness: number; saturation: number; variance: number };
+  type EdgeSample = { rows: Array<{ r: number; g: number; b: number }>; band: Rgb[]; brightness: number; saturation: number; variance: number };
   const edgeCacheRef = useRef<Map<string, { left: EdgeSample; right: EdgeSample; aspect: number }>>(new Map());
   const samplingRef = useRef<Map<string, Promise<void>>>(new Map());
 
@@ -220,7 +237,24 @@ export default function BookReader() {
           let variance = 0;
           for (const row of rows) variance += Math.abs(row.r - avg.r) + Math.abs(row.g - avg.g) + Math.abs(row.b - avg.b);
           variance /= rows.length;
-          return { rows, brightness, saturation, variance };
+          // Coarse band: the outer 12% of the page averaged into 16 rows. Split
+          // illustrations whose seams don't line up pixel-for-pixel still share
+          // the same scene shape here.
+          const bh = 16, bw = Math.max(1, Math.floor(img.naturalWidth * 0.12));
+          const bc = document.createElement("canvas");
+          bc.width = 1; bc.height = bh;
+          const bctx = bc.getContext("2d");
+          const band: Rgb[] = [];
+          if (bctx) {
+            bctx.imageSmoothingQuality = "high";
+            const bx = side === "right" ? img.naturalWidth - bw : 0;
+            bctx.drawImage(img, bx, 0, bw, img.naturalHeight, 0, 0, 1, bh);
+            try {
+              const bd = bctx.getImageData(0, 0, 1, bh).data;
+              for (let y = 0; y < bh; y++) band.push({ r: bd[y * 4], g: bd[y * 4 + 1], b: bd[y * 4 + 2] });
+            } catch { /* ignore */ }
+          }
+          return { rows, band, brightness, saturation, variance };
         };
         const left = sampleEdge("left");
         const right = sampleEdge("right");
@@ -249,7 +283,7 @@ export default function BookReader() {
     const b = edgeCacheRef.current.get(rightId);
     if (!a || !b) return;
     const ar = a.right.rows, br = b.left.rows;
-    const isNaturalSpread = edgesMatch(ar, br, spreadLevel) && !isBlankEdge(a.right) && !isBlankEdge(b.left);
+    const isNaturalSpread = (edgesMatch(ar, br, spreadLevel) || bandsMatch(a.right.band, b.left.band, spreadLevel)) && !isBlankEdge(a.right) && !isBlankEdge(b.left);
     pairMemo.set(key, isNaturalSpread);
     setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
   };
@@ -265,7 +299,7 @@ export default function BookReader() {
     computePairFromCache(leftId, rightId, key);
   };
 
-  const pairKey = (a?: string, b?: string) => (a && b ? `v3|L${spreadLevel}|${a}|${b}` : "");
+  const pairKey = (a?: string, b?: string) => (a && b ? `v4|L${spreadLevel}|${a}|${b}` : "");
 
   const canAutoPairAt = (index: number) => {
     const cur = readablePages[index];
@@ -273,7 +307,13 @@ export default function BookReader() {
     if (!cur || !nxt) return false;
     if (isWide(cur.id) || isWide(nxt.id)) return false;
     const key = pairKey(cur.id, nxt.id);
-    if ((pairs[key] ?? pairMemo.get(key)) !== true) return false;
+    const measured = pairs[key] ?? pairMemo.get(key);
+    if (measured !== true) {
+      // Picture books lay spreads out on a fixed rhythm. When the book's
+      // confirmed spreads clearly follow one rhythm, pages on that rhythm pair
+      // even if their seam is hidden behind a text box.
+      if (spreadParity === null || index % 2 !== spreadParity.parity || index < spreadParity.firstIndex) return false;
+    }
     // If this page actually belongs with the page before it, don't pair it forward.
     const prv = readablePages[index - 1];
     if (prv) {
@@ -283,6 +323,22 @@ export default function BookReader() {
     return true;
 
   };
+
+  const spreadParity = (() => {
+    if (spreadLevel < 4) return null;
+    const counts = [0, 0];
+    const first = [Infinity, Infinity];
+    for (let i = 0; i + 1 < readablePages.length; i++) {
+      const k = pairKey(readablePages[i].id, readablePages[i + 1].id);
+      if ((pairs[k] ?? pairMemo.get(k)) === true) {
+        counts[i % 2]++;
+        first[i % 2] = Math.min(first[i % 2], i);
+      }
+    }
+    const parity = counts[0] >= counts[1] ? 0 : 1;
+    if (counts[parity] < 3 || counts[parity] < counts[1 - parity] * 3) return null;
+    return { parity, firstIndex: first[parity] };
+  })();
 
   const autoSpread = canAutoPairAt(current);
 
@@ -325,6 +381,10 @@ export default function BookReader() {
       if (cancelled) return;
       // Then warm the surrounding pages without blocking the view.
       await resolveAt([current - 1, current + 2, current + 3]);
+      // Finally scan the rest of the book quietly so the spread rhythm is known.
+      for (let i = 0; i < readablePages.length && !cancelled; i += 2) {
+        await resolveAt([i, i + 1]);
+      }
     })();
 
     return () => { cancelled = true; };
