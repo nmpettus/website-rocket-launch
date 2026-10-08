@@ -326,7 +326,7 @@ export default function BookReader() {
 
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [readablePages, current, layoutMode]);
+  }, [readablePages, current, layoutMode, spreadLevel]);
 
 
   // Persistent image cache — resolve each page URL to a cached blob URL from
