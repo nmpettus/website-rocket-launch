@@ -727,7 +727,7 @@ export default function BookReader() {
             const heightClass = preferLandscapeSpread
               ? (fit === "cover" ? "max-h-[92svh]" : "max-h-[88svh]")
               : (fit === "cover" ? "max-h-[85vh]" : "max-h-[70vh]");
-            const halfWidthClass = preferLandscapeSpread ? "max-w-[50vw]" : "max-w-[50vw]";
+            const halfWidthClass = "max-w-[calc(50vw-0.5rem)]";
             return (
               <div
                 className={
@@ -754,7 +754,7 @@ export default function BookReader() {
                     }}
                     decoding="async"
                     {...({ fetchpriority: "high" } as any)}
-                    className={`block w-auto max-w-full origin-center scale-[1.003] object-contain ${heightClass}`}
+                    className={`block w-auto ${pairedSpread && rightPage ? halfWidthClass : "max-w-full"} origin-center scale-[1.003] object-contain ${heightClass}`}
                   />
                 </div>
                 {pairedSpread && rightPage && (
