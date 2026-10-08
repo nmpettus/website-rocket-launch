@@ -1,5 +1,6 @@
 // OCR / narration extraction for a book page image via Lovable AI Gateway
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors';
+import { encodeBase64 } from 'jsr:@std/encoding@1/base64';
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
@@ -19,9 +20,22 @@ Deno.serve(async (req) => {
       });
     }
 
-    const url = imageUrl
-      ? imageUrl
-      : `data:${mimeType || 'image/png'};base64,${imageBase64}`;
+    // The AI provider can't always fetch storage URLs itself (it times out),
+    // so download the image here and send the bytes inline.
+    let url: string;
+    if (imageBase64) {
+      url = `data:${mimeType || 'image/png'};base64,${imageBase64}`;
+    } else {
+      const imgRes = await fetch(imageUrl);
+      if (!imgRes.ok) {
+        return new Response(JSON.stringify({ error: `Could not download page image (${imgRes.status})` }), {
+          status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      const type = (imgRes.headers.get('content-type') || mimeType || 'image/png').split(';')[0];
+      const bytes = new Uint8Array(await imgRes.arrayBuffer());
+      url = `data:${type};base64,${encodeBase64(bytes)}`;
+    }
 
     const aiRes = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
