@@ -30,7 +30,21 @@ type Rgb = { r: number; g: number; b: number };
 // (high correlation) and their colours are close, allowing a small vertical
 // offset. Thresholds were tuned on real split illustrations: true spreads
 // scored corr >= 0.85 / median distance <= 21; non-spreads corr <= 0.57.
-export function edgesMatch(a: Rgb[], b: Rgb[]): boolean {
+export const DEFAULT_SPREAD_LEVEL = 5;
+
+// Level 1 = strict, 10 = relaxed; level 5 keeps the tuned defaults (0.80 / 25).
+export function spreadThresholds(level: number) {
+  const l = Math.min(10, Math.max(1, level));
+  if (l <= 5) {
+    const t = (5 - l) / 4;
+    return { corr: 0.8 + t * 0.12, median: 25 - t * 13 };
+  }
+  const t = (l - 5) / 5;
+  return { corr: 0.8 - t * 0.2, median: 25 + t * 20 };
+}
+
+export function edgesMatch(a: Rgb[], b: Rgb[], level: number = DEFAULT_SPREAD_LEVEL): boolean {
+  const th = spreadThresholds(level);
   const n = Math.min(a.length, b.length);
   for (let s = -3; s <= 3; s++) {
     const xs: Rgb[] = [], ys: Rgb[] = [];
@@ -52,7 +66,7 @@ export function edgesMatch(a: Rgb[], b: Rgb[]): boolean {
     const corr = cov / Math.sqrt(va * vb);
     const d = xs.map((p, i) => Math.hypot(p.r - ys[i].r, p.g - ys[i].g, p.b - ys[i].b)).sort((x, y) => x - y);
     const median = d[Math.floor(d.length / 2)];
-    if (corr >= 0.8 && median <= 25) return true;
+    if (corr >= th.corr && median <= th.median) return true;
   }
   return false;
 }
@@ -76,6 +90,13 @@ export default function BookReader() {
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
 
   const [layoutMode, setLayoutMode] = useState<"auto" | "single" | "spread">("auto");
+  const [spreadLevel, setSpreadLevel] = useState<number>(() => {
+    const v = Number(typeof localStorage !== "undefined" ? localStorage.getItem("reader-spread-level") : NaN);
+    return v >= 1 && v <= 10 ? v : DEFAULT_SPREAD_LEVEL;
+  });
+  useEffect(() => {
+    try { localStorage.setItem("reader-spread-level", String(spreadLevel)); } catch { /* ignore */ }
+  }, [spreadLevel]);
   const [fit, setFit] = useState<"contain" | "cover">("contain");
   const [aspects, setAspects] = useState<Record<string, number>>({});
   const [pairs, setPairs] = useState<Record<string, boolean>>({});
@@ -225,7 +246,7 @@ export default function BookReader() {
     const b = edgeCacheRef.current.get(rightId);
     if (!a || !b) return;
     const ar = a.right.rows, br = b.left.rows;
-    const isNaturalSpread = edgesMatch(ar, br) && !isBlankEdge(a.right) && !isBlankEdge(b.left);
+    const isNaturalSpread = edgesMatch(ar, br, spreadLevel) && !isBlankEdge(a.right) && !isBlankEdge(b.left);
     pairMemo.set(key, isNaturalSpread);
     setPairs((prev) => ({ ...prev, [key]: isNaturalSpread }));
   };
@@ -241,7 +262,7 @@ export default function BookReader() {
     computePairFromCache(leftId, rightId, key);
   };
 
-  const pairKey = (a?: string, b?: string) => (a && b ? `${a}|${b}` : "");
+  const pairKey = (a?: string, b?: string) => (a && b ? `L${spreadLevel}|${a}|${b}` : "");
 
   const canAutoPairAt = (index: number) => {
     const cur = readablePages[index];
@@ -305,7 +326,7 @@ export default function BookReader() {
 
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [readablePages, current, layoutMode]);
+  }, [readablePages, current, layoutMode, spreadLevel]);
 
 
   // Persistent image cache — resolve each page URL to a cached blob URL from
@@ -667,6 +688,7 @@ export default function BookReader() {
   const resetOptions = () => {
     setPlaybackSpeed(1);
     setLayoutMode("auto");
+    setSpreadLevel(DEFAULT_SPREAD_LEVEL);
     setFit("contain");
     toast({ title: "Settings reset", description: "Reading options returned to defaults." });
   };
@@ -858,6 +880,24 @@ export default function BookReader() {
                         </ToggleGroupItem>
                       </ToggleGroup>
                     </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-base">Spread matching: {spreadLevel} of 10</Label>
+                      <Slider
+                        value={[spreadLevel]}
+                        min={1}
+                        max={10}
+                        step={1}
+                        onValueChange={(v) => setSpreadLevel(v[0])}
+                        aria-label="Spread matching strictness"
+                        disabled={layoutMode !== "auto"}
+                      />
+                      <div className="flex justify-between text-sm text-muted-foreground">
+                        <span>Strict</span><span>Relaxed</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">Used by Auto. Relaxed shows more pages side by side.</p>
+                    </div>
+
 
                     <div className="space-y-2">
                       <Label className="text-base">Image size</Label>

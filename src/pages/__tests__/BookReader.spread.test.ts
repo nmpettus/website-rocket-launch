@@ -24,3 +24,16 @@ describe("spread edge matching", () => {
     expect(edgesMatch(flat, flat)).toBe(false);
   });
 });
+
+import { spreadThresholds } from "../BookReader";
+describe("spread matching level", () => {
+  it("level 5 keeps the default cutoffs", () => {
+    expect(spreadThresholds(5)).toEqual({ corr: 0.8, median: 25 });
+  });
+  it("relaxed matches a borderline pair that strict rejects", () => {
+    const a = Array.from({ length: 192 }, (_, i) => ({ r: i, g: i, b: i }));
+    const b = a.map((p) => ({ r: p.r + 20, g: p.g + 20, b: p.b + 20 }));
+    expect(edgesMatch(a, b, 10)).toBe(true);
+    expect(edgesMatch(a, b, 1)).toBe(false);
+  });
+});
